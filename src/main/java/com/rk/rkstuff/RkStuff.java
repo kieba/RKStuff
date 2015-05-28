@@ -4,7 +4,6 @@ import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.item.BucketBase;
-import com.rk.rkstuff.item.BucketHotCoolant;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -94,7 +93,7 @@ public class RkStuff {
         hotCoolantBlock = new BlockHotCoolantFluid(hotCoolant).setBlockName("hotCoolantBlock");
         GameRegistry.registerBlock(hotCoolantBlock, MODID + "_" + hotCoolantBlock.getUnlocalizedName().substring(5));
         hotCoolant.setUnlocalizedName(hotCoolantBlock.getUnlocalizedName());
-        hotCoolantBucket = new BucketBase(hotCoolantBlock, "BucketHotCoolantBlock");
+        hotCoolantBucket = new BucketBase(hotCoolantBlock, "BucketHotCoolant");
         GameRegistry.registerItem(hotCoolantBucket, "hotCoolantBucket");
         FluidContainerRegistry.registerFluidContainer(hotCoolant, new ItemStack(hotCoolantBucket), new ItemStack(Items.bucket));
         BucketHandler.INSTANCE.buckets.put(hotCoolantBlock, hotCoolantBucket);

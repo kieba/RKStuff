@@ -25,9 +25,7 @@ public abstract class BlockRK extends Block {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        String str = getUnwrappedUnlocalizedName(this.getUnlocalizedName());
-        RKLog.info("===================================================================================" + str);
-        blockIcon = iconRegister.registerIcon(str);
+        blockIcon = iconRegister.registerIcon(getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
     }
 
     protected String getUnwrappedUnlocalizedName(String unlocalizedName) {

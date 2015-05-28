@@ -1,6 +1,7 @@
 package com.rk.rkstuff;
 
 import com.rk.rkstuff.block.BlockMultiBlockTest;
+import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
 import com.rk.rkstuff.tile.TileMultiBlockTest;
 import com.rk.rkstuff.util.Reference;
@@ -27,6 +28,9 @@ public class RkStuff {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+
+        PacketHandler.init();
+
         //Blocks
         GameRegistry.registerBlock(multiBlockTest, Reference.BLOCK_MULTI_BLOCK_TEST_NAME);
 
@@ -36,7 +40,6 @@ public class RkStuff {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-
     }
 
     @Mod.EventHandler

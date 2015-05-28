@@ -1,5 +1,6 @@
 package com.rk.rkstuff.tile;
 
+import com.rk.rkstuff.helper.RKLog;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
@@ -28,18 +29,19 @@ public class TileMultiBlockTest extends TileMultiBlock {
 
     @Override
     public void setupStructure() {
-        for (int x = xCoord - 1; x < xCoord + 2; x++)
-            for (int y = yCoord; y < yCoord + 3; y++)
+        for (int x = xCoord - 1; x < xCoord + 2; x++) {
+            for (int y = yCoord; y < yCoord + 3; y++) {
                 for (int z = zCoord - 1; z < zCoord + 2; z++) {
                     TileEntity tile = worldObj.getTileEntity(x, y, z);
                     // Check if block is bottom center block
                     boolean master = (x == xCoord && y == yCoord && z == zCoord);
                     if (tile != null && (tile instanceof TileMultiBlock)) {
-                        ((TileMultiBlock) tile).setMasterCoords(xCoord, yCoord, zCoord);
-                        ((TileMultiBlock) tile).setHasMaster(true);
-                        ((TileMultiBlock) tile).setIsMaster(master);
+                        ((TileMultiBlock) tile).setMultiBlock(xCoord, yCoord, zCoord, master);
                     }
                 }
+            }
+        }
+        RKLog.info("setupStructure!");
     }
 
     @Override
@@ -48,11 +50,13 @@ public class TileMultiBlockTest extends TileMultiBlock {
             for (int y = yCoord; y < yCoord + 3; y++) {
                 for (int z = zCoord - 1; z < zCoord + 2; z++) {
                     TileEntity tile = worldObj.getTileEntity(x, y, z);
-                    if (tile != null && (tile instanceof TileMultiBlock))
-                        ((TileMultiBlock) tile).reset();
+                    if (tile != null && (tile instanceof TileMultiBlock)) {
+                        ((TileMultiBlock) tile).resetMultiBlock();
+                    }
                 }
             }
         }
+        RKLog.info("resetStructure!");
     }
 
     @Override

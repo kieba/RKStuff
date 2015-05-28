@@ -1,14 +1,38 @@
 package com.rk.rkstuff.tile;
 
+import com.rk.rkstuff.network.PacketHandler;
+import com.rk.rkstuff.network.message.ICustomMessage;
+import com.rk.rkstuff.network.message.MessageCustom;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import rk.com.core.io.IOStream;
 
-public abstract class TileMultiBlock extends TileRK {
+import java.io.IOException;
 
-    private int interval = 40; //check every 40 ticks (2 seconds)
+public abstract class TileMultiBlock extends TileRK implements ICustomMessage {
+
+    private int interval = 40; //check structure every 40 ticks (2 seconds)
     private int tick;
     private boolean hasMaster, isMaster;
     private int masterX, masterY, masterZ;
+
+    /** Check that structure is properly formed (master only) */
+    protected abstract boolean checkMultiBlockForm();
+
+    /** Setup all the blocks in the structure*/
+    protected abstract void setupStructure();
+
+    /** Reset all the parts of the structure */
+    public abstract void resetStructure();
+
+    protected abstract void updateMaster();
+
+    protected abstract void writeToNBTMaster(NBTTagCompound data);
+
+    protected abstract void readFromNBTMaster(NBTTagCompound data);
 
     @Override
     public void updateEntity() {
@@ -16,15 +40,15 @@ public abstract class TileMultiBlock extends TileRK {
         if (!worldObj.isRemote) {
             if (hasMaster()) {
                 if (isMaster()) {
-                    // Put stuff you want the multiblock to do here!
                     updateMaster();
                 }
             } else {
+                // Constantly check if structure is formed until it is.
                 if(tick >= interval) {
-                    tick = 0;
-                    // Constantly check if structure is formed until it is.
-                    if (checkMultiBlockForm())
+                    if (checkMultiBlockForm()) {
                         setupStructure();
+                    }
+                    tick = 0;
                 } else {
                     tick++;
                 }
@@ -32,37 +56,18 @@ public abstract class TileMultiBlock extends TileRK {
         }
     }
 
-
-
-    /** Check that structure is properly formed */
-    public abstract boolean checkMultiBlockForm();
-
-    /** Setup all the blocks in the structure*/
-    public abstract void setupStructure();
-
-    /** Reset method to be run when the master is gone or tells them to */
-    public void reset() {
-        masterX = 0;
-        masterY = 0;
-        masterZ = 0;
-        hasMaster = false;
-        isMaster = false;
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        if(isMaster) {
+            resetStructure();
+        } else {
+            TileMultiBlock master = getMaster();
+            if(master != null) {
+                master.resetStructure();
+            }
+        }
     }
-
-    /** Check that the master exists */
-    public boolean checkForMaster() {
-        TileEntity tile = worldObj.getTileEntity(masterX, masterY, masterZ);
-        return (tile != null && (tile instanceof TileMultiBlock));
-    }
-
-    /** Reset all the parts of the structure */
-    public abstract void resetStructure();
-
-    protected abstract void writeToNBTMaster(NBTTagCompound data);
-
-    protected abstract void readFromNBTMaster(NBTTagCompound data);
-
-    protected abstract void updateMaster();
 
     @Override
     public void writeToNBT(NBTTagCompound data) {
@@ -73,7 +78,6 @@ public abstract class TileMultiBlock extends TileRK {
         data.setBoolean("hasMaster", hasMaster);
         data.setBoolean("isMaster", isMaster);
         if (hasMaster() && isMaster()) {
-            // Any other values should ONLY BE SAVED TO THE MASTER
             writeToNBTMaster(data);
         }
     }
@@ -87,7 +91,6 @@ public abstract class TileMultiBlock extends TileRK {
         hasMaster = data.getBoolean("hasMaster");
         isMaster = data.getBoolean("isMaster");
         if (hasMaster() && isMaster()) {
-            // Any other values should ONLY BE READ BY THE MASTER
             readFromNBTMaster(data);
         }
     }
@@ -100,29 +103,45 @@ public abstract class TileMultiBlock extends TileRK {
         return isMaster;
     }
 
-    public int getMasterX() {
-        return masterX;
+    public TileMultiBlock getMaster() {
+        if(!hasMaster) return null;
+        TileEntity tile = worldObj.getTileEntity(masterX, masterY, masterZ);
+        if(tile == null || !(tile instanceof TileMultiBlock)) return null;
+        return (TileMultiBlock)tile;
     }
 
-    public int getMasterY() {
-        return masterY;
+    public void setMultiBlock(int x, int y, int z, boolean isMaster) {
+        this.masterX = x;
+        this.masterY = y;
+        this.masterZ = z;
+        this.isMaster = isMaster;
+        this.hasMaster = true;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
-    public int getMasterZ() {
-        return masterZ;
+    public void resetMultiBlock() {
+        masterX = 0;
+        masterY = 0;
+        masterZ = 0;
+        hasMaster = false;
+        isMaster = false;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
-    public void setHasMaster(boolean bool) {
-        hasMaster = bool;
+    @Override
+    public void readData(IOStream data) throws IOException {
+        hasMaster = data.readFirstBoolean();
+
     }
 
-    public void setIsMaster(boolean bool) {
-        isMaster = bool;
+    @Override
+    public void writeData(IOStream data) {
+        data.writeLast(hasMaster);
     }
 
-    public void setMasterCoords(int x, int y, int z) {
-        masterX = x;
-        masterY = y;
-        masterZ = z;
+    @Override
+    public Packet getDescriptionPacket() {
+        return PacketHandler.INSTANCE.getPacketFrom(new MessageCustom(this));
     }
+
 }

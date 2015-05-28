@@ -9,7 +9,9 @@ public class Reference {
     public static final String CLIENT_PROXY_CLASS = "com.rk.rkstuff.proxy.ClientProxy";
     public static final String SERVER_PROXY_CLASS = "com.rk.rkstuff.proxy.ServerProxy";
 
-    public static final String BLOCK_MULTI_BLOCK_TEST_NAME = "MultiBlockTest";
+    public static final String BLOCK_SOLAR = "Solar";
+
+
 
     public static final String FLUID_COOL_COOLANT_NAME = "CoolCoolant";
     public static final String FLUID_HOT_COOLANT_NAME = "HotCoolant";

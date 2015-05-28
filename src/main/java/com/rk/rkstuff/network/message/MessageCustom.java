@@ -1,5 +1,6 @@
 package com.rk.rkstuff.network.message;
 
+import com.rk.rkstuff.helper.RKLog;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -64,7 +65,7 @@ public class MessageCustom implements IMessage, IMessageHandler<MessageCustom, I
             try {
                 ((ICustomMessage) tileEntity).readData(message.msg);
             } catch (IOException e) {
-                e.printStackTrace();
+                RKLog.error(e);
             }
         }
         return null;

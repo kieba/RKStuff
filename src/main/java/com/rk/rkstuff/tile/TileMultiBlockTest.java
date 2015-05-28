@@ -41,7 +41,6 @@ public class TileMultiBlockTest extends TileMultiBlock {
                 }
             }
         }
-        RKLog.info("setupStructure!");
     }
 
     @Override
@@ -56,7 +55,6 @@ public class TileMultiBlockTest extends TileMultiBlock {
                 }
             }
         }
-        RKLog.info("resetStructure!");
     }
 
     @Override

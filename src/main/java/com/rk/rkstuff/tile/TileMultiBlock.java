@@ -1,5 +1,6 @@
 package com.rk.rkstuff.tile;
 
+import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.ICustomMessage;
 import com.rk.rkstuff.network.message.MessageCustom;
@@ -131,7 +132,9 @@ public abstract class TileMultiBlock extends TileRK implements ICustomMessage {
     @Override
     public void readData(IOStream data) throws IOException {
         hasMaster = data.readFirstBoolean();
-
+        if(worldObj.isRemote) { //re-renders the block
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        }
     }
 
     @Override

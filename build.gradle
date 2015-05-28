@@ -18,8 +18,8 @@ buildscript {
 apply plugin: 'forge'
 
 version = "1.0"
-group= "com.rk.RKStuff" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "RKStuff"
+group= "com.rk.rkstuff" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "rkstuff"
 
 minecraft {
     version = "1.7.10-10.13.3.1408-1.7.10"

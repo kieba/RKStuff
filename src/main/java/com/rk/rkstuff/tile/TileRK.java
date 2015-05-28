@@ -2,5 +2,5 @@ package com.rk.rkstuff.tile;
 
 import net.minecraft.tileentity.TileEntity;
 
-public class TileRK extends TileEntity {
+public abstract class TileRK extends TileEntity {
 }

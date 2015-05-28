@@ -1,6 +1,7 @@
 package com.rk.rkstuff.block.fluid;
 
 import com.rk.rkstuff.RkStuff;
+import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -25,9 +26,20 @@ public class BlockFluid extends BlockFluidClassic {
         this.name = name;
     }
 
+
+
     @Override
     public IIcon getIcon(int side, int meta) {
         return (side == 0 || side == 1)? stillIcon : flowingIcon;
+    }
+
+    @Override
+    public String getUnlocalizedName() {
+        return String.format("tile.%s:%s", Reference.MOD_ID, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+    }
+
+    protected String getUnwrappedUnlocalizedName(String unlocalizedName) {
+        return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
     }
 
     @SideOnly(Side.CLIENT)
@@ -35,6 +47,7 @@ public class BlockFluid extends BlockFluidClassic {
     public void registerBlockIcons(IIconRegister register) {
         stillIcon = register.registerIcon(RkStuff.MODID + ":fluid/Fluid_" + name +"_Still");
         flowingIcon = register.registerIcon(RkStuff.MODID + ":fluid/Fluid_" + name + "_Flow");
+        getFluid().setIcons(stillIcon, flowingIcon);
     }
 
     @Override

@@ -1,11 +1,14 @@
 package com.rk.rkstuff;
 
+import com.rk.rkstuff.block.BlockSolarOutput;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
+import com.rk.rkstuff.block.fluid.BlockFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.item.BucketBase;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
+import com.rk.rkstuff.tile.TileSolarOutput;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -33,6 +36,8 @@ public class RkStuff {
     public static Block hotCoolantBlock;
     public static ItemBucket hotCoolantBucket;
 
+    public static Block blockSolarOutput = new BlockSolarOutput();
+
     @Mod.Instance(Reference.MOD_ID)
     public static RkStuff INSTANCE;
 
@@ -46,8 +51,10 @@ public class RkStuff {
         PacketHandler.init();
 
         //Blocks
+        GameRegistry.registerBlock(blockSolarOutput, Reference.BLOCK_SOLAR_OUTPUT);
 
         //TileEntities
+        GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
 
         //Fluids
         registerFluids();

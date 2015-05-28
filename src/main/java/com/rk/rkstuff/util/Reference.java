@@ -10,6 +10,8 @@ public class Reference {
     public static final String SERVER_PROXY_CLASS = "com.rk.rkstuff.proxy.ServerProxy";
 
     public static final String BLOCK_SOLAR = "Solar";
+    public static final String BLOCK_SOLAR_OUTPUT = "SolarOutput";
+    public static final String TILE_SOLAR_OUTPUT = "TileSolar";
 
 
 

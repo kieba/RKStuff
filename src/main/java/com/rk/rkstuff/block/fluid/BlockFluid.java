@@ -45,8 +45,8 @@ public class BlockFluid extends BlockFluidClassic {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister register) {
-        stillIcon = register.registerIcon(RkStuff.MODID + ":fluid/Fluid_" + name +"_Still");
-        flowingIcon = register.registerIcon(RkStuff.MODID + ":fluid/Fluid_" + name + "_Flow");
+        stillIcon = register.registerIcon(Reference.MOD_ID + ":fluid/Fluid_" + name +"_Still");
+        flowingIcon = register.registerIcon(Reference.MOD_ID  + ":fluid/Fluid_" + name + "_Flow");
         getFluid().setIcons(stillIcon, flowingIcon);
     }
 

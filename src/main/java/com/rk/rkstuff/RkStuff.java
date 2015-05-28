@@ -1,6 +1,11 @@
 package com.rk.rkstuff;
 
 import com.rk.rkstuff.block.BlockMultiBlockTest;
+import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
+import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
+import com.rk.rkstuff.handler.BucketHandler;
+import com.rk.rkstuff.item.BucketBase;
+import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
 import com.rk.rkstuff.tile.TileMultiBlockTest;
 import com.rk.rkstuff.util.Reference;
@@ -13,6 +18,13 @@ import net.minecraft.init.Blocks;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 
 @Mod(modid = Reference.MOD_ID, version = Reference.VERSION, name = Reference.MOD_NAME)
 public class RkStuff {
@@ -66,7 +78,7 @@ public class RkStuff {
 
         FluidRegistry.registerFluid(coolCoolant);
         coolCoolantBlock = new BlockCoolCoolantFluid(coolCoolant);
-        GameRegistry.registerBlock(coolCoolantBlock, MODID + "_" + coolCoolantBlock.getUnlocalizedName().substring(5));
+        GameRegistry.registerBlock(coolCoolantBlock, Reference.MOD_ID + "_" + coolCoolantBlock.getUnlocalizedName().substring(5));
         coolCoolant.setUnlocalizedName(coolCoolantBlock.getUnlocalizedName());
         coolCoolantBucket = new BucketBase(coolCoolantBlock, "BucketCoolCoolant");
         GameRegistry.registerItem(coolCoolantBucket, "coolCoolantBucket");
@@ -78,7 +90,7 @@ public class RkStuff {
         hotCoolant = new Fluid("hotCoolant");
         FluidRegistry.registerFluid(hotCoolant);
         hotCoolantBlock = new BlockHotCoolantFluid(hotCoolant).setBlockName("hotCoolantBlock");
-        GameRegistry.registerBlock(hotCoolantBlock, MODID + "_" + hotCoolantBlock.getUnlocalizedName().substring(5));
+        GameRegistry.registerBlock(hotCoolantBlock, Reference.MOD_ID + "_" + hotCoolantBlock.getUnlocalizedName().substring(5));
         hotCoolant.setUnlocalizedName(hotCoolantBlock.getUnlocalizedName());
         hotCoolantBucket = new BucketBase(hotCoolantBlock, "BucketHotCoolant");
         GameRegistry.registerItem(hotCoolantBucket, "hotCoolantBucket");

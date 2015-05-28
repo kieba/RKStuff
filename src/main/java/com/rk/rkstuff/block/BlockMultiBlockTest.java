@@ -31,8 +31,8 @@ public class BlockMultiBlockTest extends BlockRK implements ITileEntityProvider 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
-        icons[1] = iconRegister.registerIcon(getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + "2");
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + "2");
         blockIcon = icons[0];
     }
 

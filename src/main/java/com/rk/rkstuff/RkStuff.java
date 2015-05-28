@@ -74,26 +74,25 @@ public class RkStuff {
     private void registerFluids(){
         MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 
-        coolCoolant = new Fluid("coolCoolant");
-
+        coolCoolant = new Fluid(Reference.FLUID_COOL_COOLANT_NAME);
         FluidRegistry.registerFluid(coolCoolant);
         coolCoolantBlock = new BlockCoolCoolantFluid(coolCoolant);
-        GameRegistry.registerBlock(coolCoolantBlock, Reference.MOD_ID + "_" + coolCoolantBlock.getUnlocalizedName().substring(5));
+        GameRegistry.registerBlock(coolCoolantBlock, coolCoolantBlock.getUnlocalizedName().substring(5));
         coolCoolant.setUnlocalizedName(coolCoolantBlock.getUnlocalizedName());
-        coolCoolantBucket = new BucketBase(coolCoolantBlock, "BucketCoolCoolant");
-        GameRegistry.registerItem(coolCoolantBucket, "coolCoolantBucket");
+        coolCoolantBucket = new BucketBase(coolCoolantBlock, "Bucket" + Reference.FLUID_COOL_COOLANT_NAME);
+        GameRegistry.registerItem(coolCoolantBucket, "Bucket" + Reference.FLUID_COOL_COOLANT_NAME);
         FluidContainerRegistry.registerFluidContainer(coolCoolant, new ItemStack(coolCoolantBucket), new ItemStack(Items.bucket));
         BucketHandler.INSTANCE.buckets.put(coolCoolantBlock, coolCoolantBucket);
 
 
 
-        hotCoolant = new Fluid("hotCoolant");
+        hotCoolant = new Fluid(Reference.FLUID_HOT_COOLANT_NAME);
         FluidRegistry.registerFluid(hotCoolant);
-        hotCoolantBlock = new BlockHotCoolantFluid(hotCoolant).setBlockName("hotCoolantBlock");
-        GameRegistry.registerBlock(hotCoolantBlock, Reference.MOD_ID + "_" + hotCoolantBlock.getUnlocalizedName().substring(5));
+        hotCoolantBlock = new BlockHotCoolantFluid(hotCoolant);
+        GameRegistry.registerBlock(hotCoolantBlock, hotCoolantBlock.getUnlocalizedName().substring(5));
         hotCoolant.setUnlocalizedName(hotCoolantBlock.getUnlocalizedName());
-        hotCoolantBucket = new BucketBase(hotCoolantBlock, "BucketHotCoolant");
-        GameRegistry.registerItem(hotCoolantBucket, "hotCoolantBucket");
+        hotCoolantBucket = new BucketBase(hotCoolantBlock, "Bucket" + Reference.FLUID_HOT_COOLANT_NAME);
+        GameRegistry.registerItem(hotCoolantBucket, "Bucket" + Reference.FLUID_HOT_COOLANT_NAME);
         FluidContainerRegistry.registerFluidContainer(hotCoolant, new ItemStack(hotCoolantBucket), new ItemStack(Items.bucket));
         BucketHandler.INSTANCE.buckets.put(hotCoolantBlock, hotCoolantBucket);
     }

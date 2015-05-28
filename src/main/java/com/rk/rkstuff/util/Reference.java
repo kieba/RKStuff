@@ -11,5 +11,8 @@ public class Reference {
 
     public static final String BLOCK_MULTI_BLOCK_TEST_NAME = "MultiBlockTest";
 
+    public static final String FLUID_COOL_COOLANT_NAME = "CoolCoolant";
+    public static final String FLUID_HOT_COOLANT_NAME = "HotCoolant";
+
 
 }

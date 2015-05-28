@@ -19,11 +19,10 @@ public class BlockFluid extends BlockFluidClassic {
     @SideOnly(Side.CLIENT)
     protected IIcon flowingIcon;
 
-    private String name;
 
     public BlockFluid(Fluid fluid,Material material, String name) {
         super(fluid, material);
-        this.name = name;
+        setBlockName(name);
     }
 
 
@@ -33,10 +32,6 @@ public class BlockFluid extends BlockFluidClassic {
         return (side == 0 || side == 1)? stillIcon : flowingIcon;
     }
 
-    @Override
-    public String getUnlocalizedName() {
-        return String.format("tile.%s:%s", Reference.MOD_ID, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
-    }
 
     protected String getUnwrappedUnlocalizedName(String unlocalizedName) {
         return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
@@ -45,8 +40,8 @@ public class BlockFluid extends BlockFluidClassic {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister register) {
-        stillIcon = register.registerIcon(Reference.MOD_ID + ":fluid/Fluid_" + name +"_Still");
-        flowingIcon = register.registerIcon(Reference.MOD_ID  + ":fluid/Fluid_" + name + "_Flow");
+        stillIcon = register.registerIcon(Reference.MOD_ID + ":fluid/Fluid_" + getFluid().getName() +"_Still");
+        flowingIcon = register.registerIcon(Reference.MOD_ID  + ":fluid/Fluid_" + getFluid().getName() + "_Flow");
         getFluid().setIcons(stillIcon, flowingIcon);
     }
 

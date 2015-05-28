@@ -1,4 +1,6 @@
-tile.rkstuff:coolCoolantBlock.name=Cool Coolant
-tile.rkstuff:hotCoolantBlock.name=Hot Coolant
+tile.CoolCoolant.name=Cool Coolant
+tile.HotCoolant.name=Hot Coolant
 item.BucketHotCoolant.name=Hot Coolant Bucket
 item.BucketCoolCoolant.name=Cool Coolant Bucket
+
+tile.MultiBlockTest.name=Multiplexus

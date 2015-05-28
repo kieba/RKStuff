@@ -18,16 +18,9 @@ public abstract class BlockRK extends Block {
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return String.format("tile.%s:%s", Reference.MOD_ID, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        String str = getUnwrappedUnlocalizedName(this.getUnlocalizedName());
-        RKLog.info("===================================================================================" + str);
-        blockIcon = iconRegister.registerIcon(str);
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
     }
 
     protected String getUnwrappedUnlocalizedName(String unlocalizedName) {

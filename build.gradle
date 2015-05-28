@@ -61,3 +61,6 @@ processResources
         exclude 'mcmod.info'
     }
 }
+dependencies {
+    compile files('libs/RKCore.jar')
+}

@@ -25,7 +25,7 @@ public class BucketBase extends ItemBucket {
 
     @Override
     public void registerIcons(IIconRegister register) {
-        image = register.registerIcon(RkStuff.MODID + ":bucket/" + name);
+        image = register.registerIcon(Reference.MOD_ID + ":bucket/" + name);
     }
 
     @Override

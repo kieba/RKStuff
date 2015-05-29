@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -22,7 +23,7 @@ public class BlockSolarOutput extends BlockRK implements ISolarBlock{
 
     public BlockSolarOutput() {
         super(Material.iron);
-        setBlockName("BlockSolarOutput");
+        setBlockName(Reference.BLOCK_SOLAR_OUTPUT);
     }
 
     @Override
@@ -32,6 +33,11 @@ public class BlockSolarOutput extends BlockRK implements ISolarBlock{
             icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + (i+1));
         }
 
+    }
+
+    @Override
+    public boolean hasTileEntity(int metadata) {
+        return true;
     }
 
     @Override

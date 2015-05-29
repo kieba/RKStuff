@@ -13,23 +13,24 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockSolar extends BlockRK implements ISolarBlock{
     private IIcon[] icons = new IIcon[18];
 
-    protected BlockSolar() {
+    public BlockSolar() {
         super(Material.iron);
+        setBlockName(Reference.BLOCK_SOLAR);
+
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         for (int i = 0; i < 18; i++) {
-            icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + (i+1));
+            icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":solar/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + (i+1));
         }
 
     }
 
     @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        int meta = world.getBlockMetadata(x,y,z);
-
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta) {
         if(ForgeDirection.UP.ordinal() == side){
             return icons[2+meta];
         }else if(ForgeDirection.DOWN.ordinal() == side){

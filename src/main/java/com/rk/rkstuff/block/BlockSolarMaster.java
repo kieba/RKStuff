@@ -12,8 +12,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockSolarMaster extends BlockRK implements ISolarBlock{
     private IIcon[] icons = new IIcon[18];
 
-    protected BlockSolarMaster() {
+    public BlockSolarMaster() {
         super(Material.iron);
+        setBlockName(Reference.BLOCK_SOLAR_MASTER);
     }
 
     @Override

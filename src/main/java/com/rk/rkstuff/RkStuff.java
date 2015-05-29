@@ -1,8 +1,10 @@
 package com.rk.rkstuff;
 
+import com.rk.rkstuff.block.BlockSolar;
+import com.rk.rkstuff.block.BlockSolarInput;
+import com.rk.rkstuff.block.BlockSolarMaster;
 import com.rk.rkstuff.block.BlockSolarOutput;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
-import com.rk.rkstuff.block.fluid.BlockFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.item.BucketBase;
@@ -37,6 +39,9 @@ public class RkStuff {
     public static ItemBucket hotCoolantBucket;
 
     public static Block blockSolarOutput = new BlockSolarOutput();
+    public static Block blockSolarInput = new BlockSolarInput();
+    public static Block blockSolarMaster = new BlockSolarMaster();
+    public static Block blockSolar = new BlockSolar();
 
     @Mod.Instance(Reference.MOD_ID)
     public static RkStuff INSTANCE;
@@ -52,6 +57,9 @@ public class RkStuff {
 
         //Blocks
         GameRegistry.registerBlock(blockSolarOutput, Reference.BLOCK_SOLAR_OUTPUT);
+        GameRegistry.registerBlock(blockSolarInput, Reference.BLOCK_SOLAR_INPUT);
+        GameRegistry.registerBlock(blockSolarMaster, Reference.BLOCK_SOLAR_MASTER);
+        GameRegistry.registerBlock(blockSolar, Reference.BLOCK_SOLAR);
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);

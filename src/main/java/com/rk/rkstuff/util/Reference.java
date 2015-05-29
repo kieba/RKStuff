@@ -11,7 +11,15 @@ public class Reference {
 
     public static final String BLOCK_SOLAR = "Solar";
     public static final String BLOCK_SOLAR_OUTPUT = "SolarOutput";
-    public static final String TILE_SOLAR_OUTPUT = "TileSolar";
+    public static final String BLOCK_SOLAR_MASTER = "SolarMaster";
+    public static final String BLOCK_SOLAR_INPUT = "SolarInput";
+
+
+
+
+    public static final String TILE_SOLAR_OUTPUT = "TileSolarOutput";
+    public static final String TILE_SOLAR_MASTER = "TileSolarMaster";
+    public static final String TILE_SOLAR_INPUT = "TileSolarInput";
 
 
 

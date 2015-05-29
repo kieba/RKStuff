@@ -1,12 +1,19 @@
 package com.rk.rkstuff.helper;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
+import scala.collection.*;
+
+import java.lang.Iterable;
+import java.util.*;
+import java.util.Iterator;
 
 public class MultiBlockHelper {
 
 
 
-    public static class Bounds{
+    public static class Bounds implements Iterable<Bounds.BlockIterator.BoundsPos>{
         private int minX;
         private int minY;
         private int minZ;
@@ -41,11 +48,11 @@ public class MultiBlockHelper {
             }
 
             if(maxY < y){
-                maxY = x;
+                maxY = y;
             }
 
             if(maxZ < z){
-                maxZ = x;
+                maxZ = z;
             }
         }
 
@@ -93,18 +100,67 @@ public class MultiBlockHelper {
         }
 
         public int getHeight(){
-            return maxY - minY;
+            return Math.abs(maxY - minY);
         }
 
         public int getWidthX(){
-            return maxX - minX;
+            return Math.abs(maxX - minX);
         }
 
         public int getWidthZ(){
-            return maxZ - minZ;
+            return Math.abs(maxZ - minZ);
+        }
+
+        public boolean isInBounds(Pos pos){
+            return pos.x >= minX && pos.x <= maxX
+                    && pos.y >= minY && pos.y <= maxY
+                    && pos.z >= minZ && pos.z <= maxZ;
         }
 
 
+        @Override
+        public Iterator<BlockIterator.BoundsPos> iterator() {
+            return new BlockIterator();
+        }
+
+        public class BlockIterator implements Iterator<BlockIterator.BoundsPos> {
+            private int xOffset, yOffset, zOffset;
+
+            private BlockIterator() {
+            }
+
+            @Override
+            public boolean hasNext() {
+                return isInBounds(new Pos(minX + xOffset, minY + yOffset, minZ + zOffset));
+            }
+
+            @Override
+            public BoundsPos next() {
+                BoundsPos tmp = new BoundsPos(minX + xOffset, minY + yOffset, minZ + zOffset);
+
+                xOffset++;
+                if(xOffset > getWidthX()){
+                    xOffset = 0;
+                    yOffset++;
+                }
+                if(yOffset > getHeight()){
+                    yOffset = 0;
+                    zOffset++;
+                }
+                return tmp;
+            }
+
+            public class BoundsPos extends Pos{
+                private BoundsPos(int x, int y, int z) {
+                    super(x, y, z);
+                }
+
+                public boolean hasBlock(ForgeDirection direction){
+                    return isInBounds(new Pos(direction.offsetX + x, direction.offsetY + y, direction.offsetZ + z));
+                }
+
+            }
+        }
     }
 
 }

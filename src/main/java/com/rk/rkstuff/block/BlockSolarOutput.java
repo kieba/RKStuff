@@ -29,10 +29,11 @@ public class BlockSolarOutput extends BlockRK implements ISolarBlock{
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        for (int i = 0; i < 18; i++) {
-            icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + (i+1));
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":solar/" + Reference.BLOCK_SOLAR + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":solar/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+        for (int i = 2; i < 18; i++) {
+            icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":solar/" + Reference.BLOCK_SOLAR + (i+1));
         }
-
     }
 
     @Override
@@ -46,9 +47,8 @@ public class BlockSolarOutput extends BlockRK implements ISolarBlock{
     }
 
     @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        int meta = world.getBlockMetadata(x,y,z);
-
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta) {
         if(ForgeDirection.UP.ordinal() == side){
             return icons[2+meta];
         }else if(ForgeDirection.DOWN.ordinal() == side){

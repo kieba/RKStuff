@@ -10,6 +10,9 @@ import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.item.BucketBase;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
+import com.rk.rkstuff.tile.TileMultiBlockMaster;
+import com.rk.rkstuff.tile.TileSolarInput;
+import com.rk.rkstuff.tile.TileSolarMaster;
 import com.rk.rkstuff.tile.TileSolarOutput;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.SidedProxy;
@@ -63,6 +66,8 @@ public class RkStuff {
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
+        GameRegistry.registerTileEntity(TileSolarInput.class, Reference.TILE_SOLAR_INPUT);
+        GameRegistry.registerTileEntity(TileSolarMaster.class, Reference.TILE_SOLAR_MASTER);
 
         //Fluids
         registerFluids();

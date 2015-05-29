@@ -2,6 +2,7 @@ package com.rk.rkstuff.tile;
 
 import com.rk.rkstuff.block.ISolarBlock;
 import com.rk.rkstuff.helper.MultiBlockHelper;
+import com.rk.rkstuff.helper.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -18,17 +19,26 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     @Override
     protected MultiBlockHelper.Bounds setupStructure() {
         MultiBlockHelper.Bounds tmpBounds = computeMultiStructureBounds();
-        for(int x = bounds.getMinX(); x <= bounds.getMaxX(); x++){
-            for(int z = bounds.getMinZ(); z <= bounds.getMaxZ(); z++){
-                //TODO: Set Metadata
-            }
+        for(MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : tmpBounds){
+            boolean hasNorth = pos.hasBlock(ForgeDirection.NORTH);
+            boolean hasEast = pos.hasBlock(ForgeDirection.EAST);
+            boolean hasSouth = pos.hasBlock(ForgeDirection.SOUTH);
+            boolean hasWest = pos.hasBlock(ForgeDirection.WEST);
+
+            int meta = 0;
+            meta |= ((hasNorth ? 1 : 0) << (ForgeDirection.NORTH.ordinal() - 2));
+            meta |= ((hasEast ? 1 : 0) << (ForgeDirection.EAST.ordinal() - 2));
+            meta |= ((hasSouth ? 1 : 0) << (ForgeDirection.SOUTH.ordinal() - 2));
+            meta |= ((hasWest ? 1 : 0) << (ForgeDirection.WEST.ordinal() - 2));
+
+            worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, meta, 3);
         }
         return tmpBounds;
     }
 
     private MultiBlockHelper.Bounds computeMultiStructureBounds(){
         MultiBlockHelper.Bounds tmpBounds = new MultiBlockHelper.Bounds(xCoord, yCoord, zCoord);
-        for(ForgeDirection direction : ForgeDirection.values()){
+        for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
             if(direction == ForgeDirection.UP) continue;
             if(direction == ForgeDirection.DOWN) continue;
 
@@ -36,12 +46,13 @@ public class TileSolarMaster extends TileMultiBlockMaster {
             while (isValidMultiblock(xCoord + direction.offsetX * i, yCoord  + direction.offsetY * i, zCoord  + direction.offsetZ * i)) {
                 i++;
             }
+            i--;
             tmpBounds.add(xCoord + direction.offsetX * i, yCoord  + direction.offsetY * i, zCoord  + direction.offsetZ * i);
         }
 
         boolean isValid = true;
-        for(int x = bounds.getMinX(); x <= bounds.getMaxX(); x++){
-            for(int z = bounds.getMinZ(); z <= bounds.getMaxZ(); z++){
+        for(int x = tmpBounds.getMinX(); x <= tmpBounds.getMaxX(); x++){
+            for(int z = tmpBounds.getMinZ(); z <= tmpBounds.getMaxZ(); z++){
                 if(!isValidMultiblock(x, yCoord, z))
                 {
                     isValid = false;
@@ -62,10 +73,8 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     @Override
     public void resetStructure() {
         if(bounds != null){
-            for(int x = bounds.getMinX(); x <= bounds.getMaxX(); x++){
-                for(int z = bounds.getMinZ(); z <= bounds.getMaxZ(); z++){
-                    //TODO: Set Metadata
-                }
+            for(Pos pos : bounds){
+                worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 0, 3);
             }
         }
     }

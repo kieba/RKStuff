@@ -92,7 +92,7 @@ public class MultiBlockHelper {
             return minZ;
         }
 
-        public int getHight(){
+        public int getHeight(){
             return maxY - minY;
         }
 

@@ -25,7 +25,7 @@ public class BlockSolarMaster extends BlockRK implements ISolarBlock{
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         icons[0] = loadIconById(1, iconRegister);
-        icons[1] = loadIconById(2, iconRegister);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":solar/" + Reference.BLOCK_SOLAR_MASTER);
         icons[2] = loadIconById(3, iconRegister);
 
 

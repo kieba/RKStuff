@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 
 public class BlockSolar extends BlockRK implements ISolarBlock{
-    private IIcon[] icons = new IIcon[18];
+    protected IIcon[] icons = new IIcon[18];
 
     public BlockSolar() {
         super(Material.iron);
@@ -25,8 +25,6 @@ public class BlockSolar extends BlockRK implements ISolarBlock{
         icons[0] = loadIconById(1, iconRegister);
         icons[1] = loadIconById(2, iconRegister);
         icons[2] = loadIconById(3, iconRegister);
-
-
         icons[3] = loadIconById(9, iconRegister);
         icons[4] = loadIconById(7, iconRegister);
         icons[5] = loadIconById(8, iconRegister);
@@ -44,8 +42,8 @@ public class BlockSolar extends BlockRK implements ISolarBlock{
         icons[17] = loadIconById(14, iconRegister);
     }
 
-    private IIcon loadIconById(int id, IIconRegister iconRegister){
-        return iconRegister.registerIcon(Reference.MOD_ID + ":solar/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + id);
+    protected IIcon loadIconById(int id, IIconRegister iconRegister){
+        return iconRegister.registerIcon(Reference.MOD_ID + ":solar/" + Reference.BLOCK_SOLAR + id);
     }
 
     @Override

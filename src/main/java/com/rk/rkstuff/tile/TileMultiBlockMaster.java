@@ -1,6 +1,7 @@
 package com.rk.rkstuff.tile;
 
 import com.rk.rkstuff.helper.MultiBlockHelper;
+import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.ICustomMessage;
 import com.rk.rkstuff.network.message.MessageCustom;
@@ -20,7 +21,7 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
     /**
      * Check that structure is properly formed (master only)
      */
-    protected abstract boolean checkMultiBlockForm();
+    public abstract boolean checkMultiBlockForm();
 
     public void build() {
         if(!isBuild && checkMultiBlockForm()) {

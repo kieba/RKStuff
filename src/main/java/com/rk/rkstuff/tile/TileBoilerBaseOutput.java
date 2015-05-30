@@ -1,15 +1,11 @@
 package com.rk.rkstuff.tile;
 
-import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.ICustomMessage;
 import com.rk.rkstuff.network.message.MessageCustom;
-import javafx.stage.FileChooser;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import rk.com.core.io.IOStream;
@@ -41,6 +37,10 @@ public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFl
         return master != null;
     }
 
+    public boolean outputSteam() {
+        return outputSteam;
+    }
+
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         return 0;
@@ -51,7 +51,7 @@ public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFl
         if(hasMaster()) {
             if(outputSteam && FluidHelper.isSteam(resource.getFluid())) {
                 return drain(from, resource.amount, doDrain);
-            } else if(!outputSteam && FluidHelper.isColdCoolant(resource.getFluid())) {
+            } else if(!outputSteam && FluidHelper.isCoolCoolant(resource.getFluid())) {
                 return drain(from, resource.amount, doDrain);
             }
         }
@@ -64,7 +64,7 @@ public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFl
             if(outputSteam) {
                 return master.drainSteam(maxDrain, doDrain);
             } else {
-                return master.drainColdCoolant(maxDrain, doDrain);
+                return master.drainCoolCoolant(maxDrain, doDrain);
             }
         }
         return null;
@@ -81,7 +81,7 @@ public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFl
             if(outputSteam) {
                 return FluidHelper.isSteam(fluid) && master.canDrainSteam();
             } else  {
-                return FluidHelper.isColdCoolant(fluid) && master.canDrainColdCoolant();
+                return FluidHelper.isCoolCoolant(fluid) && master.canDrainCoolCoolant();
             }
         }
         return false;
@@ -93,7 +93,7 @@ public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFl
             if(outputSteam) {
                 return master.getTankInfoSteam();
             } else {
-                return master.getTankInfoColdCoolant();
+                return master.getTankInfoCoolCoolant();
             }
         }
         return new FluidTankInfo[0];
@@ -119,6 +119,7 @@ public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFl
     @Override
     public void readData(IOStream data) throws IOException {
         outputSteam = data.readFirstBoolean();
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord); //re-render block
     }
 
     @Override

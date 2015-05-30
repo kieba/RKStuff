@@ -3,6 +3,7 @@ package com.rk.rkstuff;
 import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
+import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.helper.RKLog;
@@ -14,6 +15,7 @@ import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.Mod;
@@ -57,6 +59,8 @@ public class RkStuff {
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
     public static IProxy PROXY;
 
+    private static GuiHandler guiHandler;
+
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -91,16 +95,20 @@ public class RkStuff {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+
+        guiHandler = new GuiHandler();
+        NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, guiHandler);
+
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         for(Map.Entry<String, Fluid> e : FluidRegistry.getRegisteredFluids().entrySet()) {
             if(e.getValue().getUnlocalizedName().equals("fluid.steam")) {
-                FluidHelper.steamId = e.getValue().getID();
+                FluidHelper.steam = e.getValue();
             }
             if(e.getValue().getUnlocalizedName().equals("fluid.tile.water")) {
-                FluidHelper.waterId = e.getValue().getID();
+                FluidHelper.water = e.getValue();
             }
         }
     }

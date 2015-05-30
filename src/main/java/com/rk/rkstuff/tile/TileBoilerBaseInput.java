@@ -27,7 +27,7 @@ public class TileBoilerBaseInput extends TileRK implements IBoilerBaseTile, IFlu
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         if(hasMaster()) {
-            return master.fill(from, resource, doFill);
+            return master.fill(resource, doFill);
         }
         return 0;
     }
@@ -44,7 +44,7 @@ public class TileBoilerBaseInput extends TileRK implements IBoilerBaseTile, IFlu
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return hasMaster() && master.canFill(from, fluid);
+        return hasMaster() && master.canFill(fluid);
     }
 
     @Override

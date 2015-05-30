@@ -6,22 +6,22 @@ import net.minecraftforge.fluids.Fluid;
 
 public class FluidHelper {
 
-    public static int steamId = -1;
-    public static int waterId = -1;
+    public static Fluid steam = null;
+    public static Fluid water = null;
 
     public static boolean isSteam(Fluid fluid) {
-        return fluid.getID() == steamId;
+        return fluid == steam;
     }
 
     public static boolean isHotCoolant(Fluid fluid) {
         return fluid.getID() == RkStuff.hotCoolant.getID();
     }
 
-    public static boolean isColdCoolant(Fluid fluid) {
+    public static boolean isCoolCoolant(Fluid fluid) {
         return fluid.getID() == RkStuff.coolCoolant.getID();
     }
 
     public static boolean isWater(Fluid fluid) {
-        return fluid.getID() == waterId;
+        return fluid == water;
     }
 }

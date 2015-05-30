@@ -131,6 +131,7 @@ public class RkStuff {
 
 
         hotCoolant = new Fluid(Reference.FLUID_HOT_COOLANT_NAME);
+        hotCoolant.setTemperature(2000);
         FluidRegistry.registerFluid(hotCoolant);
         hotCoolantBlock = new BlockHotCoolantFluid(hotCoolant);
         GameRegistry.registerBlock(hotCoolantBlock, hotCoolantBlock.getUnlocalizedName().substring(5));

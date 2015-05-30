@@ -32,7 +32,6 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
         if (hasMaster) {
             masterPosition.readFromNBT(data, "masterPos");
         }
-
     }
 
     @Override

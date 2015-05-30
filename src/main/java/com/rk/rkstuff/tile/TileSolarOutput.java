@@ -48,7 +48,8 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
         if (resource.getFluid().equals(RkStuff.hotCoolant)) {
             TileSolarMaster master = getMaster();
             int amount = resource.amount;
-            amount = (int) Math.min(amount, Math.ceil(master.getHotCoolantTank()));
+            amount = (int) Math.min(amount, Math.floor(master.getHotCoolantTank()));
+            if (amount < 0) return null;
             if (doDrain) {
                 master.setHotCoolantTank(master.getHotCoolantTank() - amount);
             }
@@ -61,7 +62,7 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         if (!hasMaster) return null;
         TileSolarMaster master = getMaster();
-        int amount = (int) Math.min(maxDrain, Math.ceil(master.getHotCoolantTank()));
+        int amount = (int) Math.min(maxDrain, Math.floor(master.getHotCoolantTank()));
         if (doDrain) {
             master.setHotCoolantTank(master.getHotCoolantTank() - amount);
         }

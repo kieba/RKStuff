@@ -59,7 +59,7 @@ public class GuiSolar extends GuiContainer {
             //draw tooltip prod
             List<String> list = new ArrayList<>(2);
             list.add("Production:");
-            list.add(String.format("%0.2f/%0.2f mB", tile.getProductionLastTick(), tile.getProductionMaximal()));
+            list.add(String.format("%.2f/%.2f mB", tile.getProductionLastTick(), tile.getProductionMaximal()));
             this.func_146283_a(list, mouseX, mouseY);
         }
     }

@@ -8,6 +8,7 @@ import com.rk.rkstuff.tile.TileSolarOutput;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +20,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.sql.Ref;
 
-public class BlockSolarMaster extends BlockSolar implements ISolarBlock{
+public class BlockSolarMaster extends BlockSolar implements ISolarBlock, ITileEntityProvider {
     public BlockSolarMaster() {
         setBlockName(Reference.BLOCK_SOLAR_MASTER);
     }
@@ -32,12 +33,7 @@ public class BlockSolarMaster extends BlockSolar implements ISolarBlock{
     }
 
     @Override
-    public boolean hasTileEntity(int metadata) {
-        return true;
-    }
-
-    @Override
-    public TileEntity createTileEntity(World world, int metadata){
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileSolarMaster();
     }
 

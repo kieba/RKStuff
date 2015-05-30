@@ -15,7 +15,7 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
 
     private int interval = 40; //check structure every 40 ticks (2 seconds)
     private int tick;
-    private boolean isBuild;
+    protected boolean isBuild;
     protected MultiBlockHelper.Bounds bounds;
 
     /**

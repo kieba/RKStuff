@@ -73,6 +73,8 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
         waterStorage = data.getInteger("water");
         coolCoolantStorage = data.getInteger("coolCoolant");
         hotCoolantStorage = data.getInteger("hotCoolant");
+        bounds = null;
+        isBuild = false;
     }
 
     public int fill(FluidStack resource, boolean doFill) {

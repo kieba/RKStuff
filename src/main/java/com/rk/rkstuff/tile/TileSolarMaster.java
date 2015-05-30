@@ -1,20 +1,26 @@
 package com.rk.rkstuff.tile;
 
+import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
 
 public class TileSolarMaster extends TileMultiBlockMaster {
 
     private int count;
+    private FluidStack fluidCoolCoolant = new FluidStack(RkStuff.coolCoolant, 2000);
+    private FluidStack fluidHotCoolant = new FluidStack(RkStuff.hotCoolant, 2000);
+    private int maxTankCapacity = 10000;
 
     @Override
     protected boolean checkMultiBlockForm() {
         return computeMultiStructureBounds() != null;
     }
+
 
     @Override
     protected MultiBlockHelper.Bounds setupStructure() {
@@ -105,7 +111,8 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     @Override
     protected void updateMaster() {
-
+        getFluidHotCoolant().amount += getFluidCoolCoolant().amount;
+        getFluidCoolCoolant().amount = 0;
     }
 
     @Override
@@ -126,5 +133,21 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     private boolean isMasterBlock(int x, int y, int z) {
         Block block = worldObj.getBlock(x, y, z);
         return block instanceof BlockSolarMaster;
+    }
+
+    public FluidStack getFluidCoolCoolant() {
+        return fluidCoolCoolant;
+    }
+
+    public FluidStack getFluidHotCoolant() {
+        return fluidHotCoolant;
+    }
+
+    public int getMaxTankCapacity() {
+        return maxTankCapacity;
+    }
+
+    public void setMaxTankCapacity(int maxTankCapacity) {
+        this.maxTankCapacity = maxTankCapacity;
     }
 }

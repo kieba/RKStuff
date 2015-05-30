@@ -1,12 +1,15 @@
 package com.rk.rkstuff.tile;
 
+import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.helper.Pos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
+import java.util.Map;
+
 public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlockMasterListener {
-    private Pos masterPosition;
+    private Pos masterPosition = new Pos();
     private boolean hasMaster = false;
 
 
@@ -34,6 +37,16 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        if (!hasMaster) return 0;
+        if (resource.getFluid().equals(RkStuff.coolCoolant)) {
+            TileSolarMaster master = getMaster();
+            int amount = resource.amount;
+            amount = Math.min(amount, master.getMaxTankCapacity() - master.getFluidCoolCoolant().amount);
+            if (doFill) {
+                master.getFluidCoolCoolant().amount += amount;
+            }
+            return amount;
+        }
         return 0;
     }
 
@@ -49,7 +62,7 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return false;
+        return true;
     }
 
     @Override
@@ -59,7 +72,8 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        return new FluidTankInfo[0];
+        if (!hasMaster) return null;
+        return new FluidTankInfo[]{new FluidTankInfo(getMaster().getFluidCoolCoolant(), getMaster().getMaxTankCapacity())};
     }
 
     @Override
@@ -72,5 +86,12 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
     public void unregisterMaster() {
         masterPosition = new Pos();
         hasMaster = false;
+    }
+
+    public TileSolarMaster getMaster() {
+        if (hasMaster) {
+            return (TileSolarMaster) worldObj.getTileEntity(masterPosition.x, masterPosition.y, masterPosition.z);
+        }
+        return null;
     }
 }

@@ -41,12 +41,28 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
 
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        return new FluidStack(RkStuff.coolCoolant, 10);
+        if (!hasMaster) return null;
+        if (resource.getFluid().equals(RkStuff.hotCoolant)) {
+            TileSolarMaster master = getMaster();
+            int amount = resource.amount;
+            amount = Math.min(amount, master.getFluidHotCoolant().amount);
+            if (doDrain) {
+                master.getFluidHotCoolant().amount -= amount;
+            }
+            return new FluidStack(RkStuff.hotCoolant, amount);
+        }
+        return null;
     }
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        return new FluidStack(RkStuff.coolCoolant, 10);
+        if (!hasMaster) return null;
+        TileSolarMaster master = getMaster();
+        int amount = master.getFluidHotCoolant().amount;
+        if (doDrain) {
+            master.getFluidHotCoolant().amount -= amount;
+        }
+        return new FluidStack(RkStuff.hotCoolant, amount);
     }
 
     @Override
@@ -61,7 +77,8 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        return new FluidTankInfo[]{new FluidTankInfo(new FluidStack(RkStuff.coolCoolant, 100), 1000)};
+        if (!hasMaster) return null;
+        return new FluidTankInfo[]{new FluidTankInfo(getMaster().getFluidHotCoolant(), getMaster().getMaxTankCapacity())};
     }
 
     @Override
@@ -74,5 +91,12 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
     public void unregisterMaster() {
         masterPosition = new Pos();
         hasMaster = false;
+    }
+
+    public TileSolarMaster getMaster() {
+        if (hasMaster) {
+            return (TileSolarMaster) worldObj.getTileEntity(masterPosition.x, masterPosition.y, masterPosition.z);
+        }
+        return null;
     }
 }

@@ -91,7 +91,6 @@ public class BlockSolar extends BlockRK implements ISolarBlock {
             tmpBounds.add(x + direction.offsetX * i, y + direction.offsetY * i, z + direction.offsetZ * i);
         }
 
-        boolean isValid = true;
         for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : tmpBounds) {
             if (world.getBlock(pos.x, pos.y, pos.z) instanceof BlockSolarMaster) {
                 TileSolarMaster master = (TileSolarMaster) world.getTileEntity(pos.x, pos.y, pos.z);

@@ -14,14 +14,19 @@ public class Reference {
     public static final String BLOCK_SOLAR_MASTER = "SolarMaster";
     public static final String BLOCK_SOLAR_INPUT = "SolarInput";
 
-
-
+    public static final String BLOCK_BOILER_TANK = "BoilerTank";
+    public static final String BLOCK_BOILER_BASE = "BoilerBase";
+    public static final String BLOCK_BOILER_BASE_OUTPUT = "BoilerBaseOutput";
+    public static final String BLOCK_BOILER_BASE_INPUT = "BoilerBaseInput";
+    public static final String BLOCK_BOILER_BASE_MASTER = "BoilerBaseMaster";
 
     public static final String TILE_SOLAR_OUTPUT = "TileSolarOutput";
     public static final String TILE_SOLAR_MASTER = "TileSolarMaster";
     public static final String TILE_SOLAR_INPUT = "TileSolarInput";
 
-
+    public static final String TILE_BOILER_BASE_OUTPUT = "TileBoilerOutput";
+    public static final String TILE_BOILER_BASE_MASTER = "TileBoilerMaster";
+    public static final String TILE_BOILER_BASE_INPUT = "TileBoilerInput";
 
     public static final String FLUID_COOL_COOLANT_NAME = "CoolCoolant";
     public static final String FLUID_HOT_COOLANT_NAME = "HotCoolant";

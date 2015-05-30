@@ -1,19 +1,13 @@
 package com.rk.rkstuff;
 
-import com.rk.rkstuff.block.BlockSolar;
-import com.rk.rkstuff.block.BlockSolarInput;
-import com.rk.rkstuff.block.BlockSolarMaster;
-import com.rk.rkstuff.block.BlockSolarOutput;
+import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.item.BucketBase;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
-import com.rk.rkstuff.tile.TileMultiBlockMaster;
-import com.rk.rkstuff.tile.TileSolarInput;
-import com.rk.rkstuff.tile.TileSolarMaster;
-import com.rk.rkstuff.tile.TileSolarOutput;
+import com.rk.rkstuff.tile.*;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -46,6 +40,13 @@ public class RkStuff {
     public static Block blockSolarMaster = new BlockSolarMaster();
     public static Block blockSolar = new BlockSolar();
 
+    public static Block blockBoilerBase = new BlockBoilerBase();
+    public static Block blockBoilerBaseInput = new BlockBoilerBaseInput();
+    public static Block blockBoilerBaseOutput = new BlockBoilerBaseOutput();
+    public static Block blockBoilerBaseMaster = new BlockBoilerBaseMaster();
+    public static Block blockBoilerTank = new BlockBoilerTank();
+
+
     @Mod.Instance(Reference.MOD_ID)
     public static RkStuff INSTANCE;
 
@@ -64,10 +65,20 @@ public class RkStuff {
         GameRegistry.registerBlock(blockSolarMaster, Reference.BLOCK_SOLAR_MASTER);
         GameRegistry.registerBlock(blockSolar, Reference.BLOCK_SOLAR);
 
+        GameRegistry.registerBlock(blockBoilerBase, Reference.BLOCK_BOILER_BASE);
+        GameRegistry.registerBlock(blockBoilerBaseInput, Reference.BLOCK_BOILER_BASE_INPUT);
+        GameRegistry.registerBlock(blockBoilerBaseOutput, Reference.BLOCK_BOILER_BASE_OUTPUT);
+        GameRegistry.registerBlock(blockBoilerBaseMaster, Reference.BLOCK_BOILER_BASE_MASTER);
+        GameRegistry.registerBlock(blockBoilerTank, Reference.BLOCK_BOILER_TANK);
+
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
         GameRegistry.registerTileEntity(TileSolarInput.class, Reference.TILE_SOLAR_INPUT);
         GameRegistry.registerTileEntity(TileSolarMaster.class, Reference.TILE_SOLAR_MASTER);
+
+        GameRegistry.registerTileEntity(TileBoilerBaseInput.class, Reference.TILE_BOILER_BASE_INPUT);
+        GameRegistry.registerTileEntity(TileBoilerBaseOutput.class, Reference.TILE_BOILER_BASE_OUTPUT);
+        GameRegistry.registerTileEntity(TileBoilerBaseMaster.class, Reference.TILE_BOILER_BASE_MASTER);
 
         //Fluids
         registerFluids();

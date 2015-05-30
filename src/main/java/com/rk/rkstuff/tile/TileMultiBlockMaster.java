@@ -94,6 +94,7 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
 
         isBuild = data.getBoolean("isBuild");
         if (isBuild) {
+            bounds = new MultiBlockHelper.Bounds(0,0,0);
             bounds.readFromNBT(data);
             readFromNBTMaster(data);
         }

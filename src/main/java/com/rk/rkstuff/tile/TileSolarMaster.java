@@ -53,8 +53,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
         boolean isValid = true;
         for(int x = tmpBounds.getMinX(); x <= tmpBounds.getMaxX(); x++){
             for(int z = tmpBounds.getMinZ(); z <= tmpBounds.getMaxZ(); z++){
-                if(!isValidMultiblock(x, yCoord, z))
-                {
+                if(!isValidMultiblock(x, yCoord, z)) {
                     isValid = false;
                     break;
                 }

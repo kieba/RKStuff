@@ -1,7 +1,6 @@
 package com.rk.rkstuff.block;
 
 import com.rk.rkstuff.tile.TileBoilerBaseOutput;
-import com.rk.rkstuff.tile.TileSolarMaster;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockBoilerBaseOutput extends BlockRK implements ITileEntityProvider, IBoilerBlock {
+public class BlockBoilerBaseOutput extends BlockRK implements ITileEntityProvider, IBoilerBaseBlock {
 
     private IIcon[] icons = new IIcon[14];
 

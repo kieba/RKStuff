@@ -3,12 +3,14 @@ package com.rk.rkstuff.block;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
-public class BlockBoilerTank extends BlockRK implements IBoilerBlock{
+public class BlockBoilerTank extends BlockRK {
 
     private IIcon[] icons = new IIcon[14];
 

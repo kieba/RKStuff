@@ -197,7 +197,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     private double getCurrentProductionPerSolar() {
         long time = worldObj.getWorldTime();
-        time += 4000;
+        time += 2000;
         time %= 24000;
 
         if (time <= 16000) {

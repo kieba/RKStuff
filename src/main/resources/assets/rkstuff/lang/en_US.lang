@@ -2,5 +2,9 @@ tile.CoolCoolant.name=Cool Coolant
 tile.HotCoolant.name=Hot Coolant
 item.BucketHotCoolant.name=Hot Coolant Bucket
 item.BucketCoolCoolant.name=Cool Coolant Bucket
+tile.Solar.name=Solar
+tile.SolarOutput.name=Solar Output
+tile.SolarInput.name=Solar Input
+tile.SolarMaster.name=Solar Master
 
 tile.MultiBlockTest.name=Multiplexus

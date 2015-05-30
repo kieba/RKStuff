@@ -39,6 +39,6 @@ public class BlockSolarOutput extends BlockSolar implements ISolarBlock{
 
     @Override
     public TileEntity createTileEntity(World world, int metadata){
-        return new TileSolarInput();
+        return new TileSolarOutput();
     }
 }

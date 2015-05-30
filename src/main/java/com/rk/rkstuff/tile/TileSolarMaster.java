@@ -1,6 +1,6 @@
 package com.rk.rkstuff.tile;
 
-import com.rk.rkstuff.block.ISolarBlock;
+import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
 import net.minecraft.block.Block;
@@ -31,7 +31,14 @@ public class TileSolarMaster extends TileMultiBlockMaster {
             meta |= ((hasSouth ? 1 : 0) << (ForgeDirection.SOUTH.ordinal() - 2));
             meta |= ((hasWest ? 1 : 0) << (ForgeDirection.WEST.ordinal() - 2));
 
-            worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, meta, 3);
+            worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, meta, 2);
+
+            //Update TileIOBlocks
+            Block targetBlock = worldObj.getBlock(pos.x, pos.y, pos.z);
+            if (targetBlock instanceof BlockSolarInput || targetBlock instanceof BlockSolarOutput) {
+                IMultiBlockMasterListener masterListener = (IMultiBlockMasterListener) worldObj.getTileEntity(pos.x, pos.y, pos.z);
+                masterListener.registerMaster(getPosition());
+            }
         }
         return tmpBounds;
     }
@@ -51,12 +58,24 @@ public class TileSolarMaster extends TileMultiBlockMaster {
         }
 
         boolean isValid = true;
-        for(int x = tmpBounds.getMinX(); x <= tmpBounds.getMaxX(); x++){
-            for(int z = tmpBounds.getMinZ(); z <= tmpBounds.getMaxZ(); z++){
-                if(!isValidMultiblock(x, yCoord, z))
-                {
-                    isValid = false;
-                    break;
+        for (int x = tmpBounds.getMinX() - 1; x <= tmpBounds.getMaxX() + 1; x++) {
+            for (int z = tmpBounds.getMinZ() - 1; z <= tmpBounds.getMaxZ() + 1; z++) {
+
+                if (x == (tmpBounds.getMinX() - 1) || x == (tmpBounds.getMaxX() + 1)
+                        || z == (tmpBounds.getMinZ() - 1) || z == (tmpBounds.getMaxZ() + 1)) {
+                    if (isValidMultiblock(x, yCoord, z)) {
+                        isValid = false;
+                        break;
+                    }
+                } else {
+                    if (!isValidMultiblock(x, yCoord, z)) {
+                        isValid = false;
+                        break;
+                    }
+                    if (!new Pos(x, yCoord, z).equals(getPosition()) && isMasterBlock(x, yCoord, z)) {
+                        isValid = false;
+                        break;
+                    }
                 }
             }
             if(!isValid) break;
@@ -74,7 +93,12 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     public void resetStructure() {
         if(bounds != null){
             for(Pos pos : bounds){
-                worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 0, 3);
+                worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 0, 2);
+                Block targetBlock = worldObj.getBlock(pos.x, pos.y, pos.z);
+                if (targetBlock instanceof BlockSolarInput || targetBlock instanceof BlockSolarOutput) {
+                    IMultiBlockMasterListener masterListener = (IMultiBlockMasterListener) worldObj.getTileEntity(pos.x, pos.y, pos.z);
+                    masterListener.unregisterMaster();
+                }
             }
         }
     }
@@ -97,5 +121,10 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     private boolean isValidMultiblock(int x, int y, int z){
         Block block = worldObj.getBlock(x, y, z);
         return block instanceof ISolarBlock;
+    }
+
+    private boolean isMasterBlock(int x, int y, int z) {
+        Block block = worldObj.getBlock(x, y, z);
+        return block instanceof BlockSolarMaster;
     }
 }

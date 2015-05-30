@@ -97,10 +97,10 @@ public class RkStuff {
     public void postInit(FMLPostInitializationEvent event) {
         for(Map.Entry<String, Fluid> e : FluidRegistry.getRegisteredFluids().entrySet()) {
             if(e.getValue().getUnlocalizedName().equals("fluid.steam")) {
-                FluidHelper.steamId = e.getValue().getID();
+                FluidHelper.steam = e.getValue();
             }
             if(e.getValue().getUnlocalizedName().equals("fluid.tile.water")) {
-                FluidHelper.waterId = e.getValue().getID();
+                FluidHelper.water = e.getValue();
             }
         }
     }

@@ -21,7 +21,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     private int maxTankCapacity = 10000;
 
     @Override
-    protected boolean checkMultiBlockForm() {
+    public boolean checkMultiBlockForm() {
         return computeMultiStructureBounds() != null;
     }
 

@@ -1,7 +1,9 @@
 package com.rk.rkstuff.tile;
 
+import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.block.BlockBoilerTank;
 import com.rk.rkstuff.block.IBoilerBaseBlock;
+import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -17,48 +19,122 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     private int baseCount;
     private int tankCount;
 
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        return 0;
+    //in mB
+    private int maxSteamStorage = 10000;
+    private int maxWaterStorage = 10000;
+    private int maxCoolantStorage = 10000;
+
+    //in mB
+    private int steamStorage;
+    private int waterStorage;
+    private int hotCoolantStorage;
+    private int coolCoolantStorage;
+
+    private int coolantTransferRate = 20; //mB per tick
+    private int steamProductionRate = 20; //mB per tick
+
+    @Override
+    protected void updateMaster() {
+        //TODO: implement logic
+
+        //transfer hotCoolant to coldCoolant with a rate of coolantTransferRate
+        int tmp = Math.min(hotCoolantStorage, coolantTransferRate);
+        tmp = Math.min(tmp, maxCoolantStorage - coolCoolantStorage);
+
+        if(tmp > 0) {
+            hotCoolantStorage -= tmp;
+            coolCoolantStorage += tmp;
+        }
+
+        //transfer water to steam with a rate of steamProductionRate
+        tmp = Math.min(waterStorage, steamProductionRate);
+        tmp = Math.min(tmp, maxSteamStorage - steamStorage);
+
+        if(tmp > 0) {
+            waterStorage -= tmp;
+            steamStorage += tmp;
+        }
+
     }
 
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        return null;
+    @Override
+    protected void writeToNBTMaster(NBTTagCompound data) {
+        data.setInteger("steam", steamStorage);
+        data.setInteger("water", waterStorage);
+        data.setInteger("coolCoolant", coolCoolantStorage);
+        data.setInteger("hotCoolant", hotCoolantStorage);
+    }
+
+    @Override
+    protected void readFromNBTMaster(NBTTagCompound data) {
+        steamStorage = data.getInteger("steam");
+        waterStorage = data.getInteger("water");
+        coolCoolantStorage = data.getInteger("coolCoolant");
+        hotCoolantStorage = data.getInteger("hotCoolant");
+    }
+
+    public int fill(FluidStack resource, boolean doFill) {
+        int amount = 0;
+        if(FluidHelper.isWater(resource.getFluid())) {
+            amount = Math.min(resource.amount, maxWaterStorage - waterStorage);
+            if(doFill) waterStorage += amount;
+        } else if(FluidHelper.isHotCoolant(resource.getFluid())) {
+            amount = Math.min(resource.amount, maxCoolantStorage - hotCoolantStorage);
+            if(doFill) hotCoolantStorage += amount;
+        }
+        return amount;
     }
 
     public FluidStack drainSteam(int maxDrain, boolean doDrain) {
-        return null;
+        int amount = Math.min(maxDrain, steamStorage);
+        if(doDrain) steamStorage -= amount;
+        return new FluidStack(FluidHelper.steam, amount);
     }
 
-    public FluidStack drainColdCoolant(int maxDrain, boolean doDrain) {
-        return null;
+    public FluidStack drainCoolCoolant(int maxDrain, boolean doDrain) {
+        int amount = Math.min(maxDrain, coolCoolantStorage);
+        if(doDrain) coolCoolantStorage -= amount;
+        return new FluidStack(RkStuff.coolCoolant, amount);
     }
 
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(Fluid fluid) {
+        if(FluidHelper.isWater(fluid)) {
+            return waterStorage < maxWaterStorage;
+        } else if(FluidHelper.isHotCoolant(fluid)) {
+            return hotCoolantStorage < maxCoolantStorage;
+        }
         return false;
     }
 
     public boolean canDrainSteam() {
-        return false;
+        return steamStorage > 0;
     }
 
-    public boolean canDrainColdCoolant() {
-        return false;
+    public boolean canDrainCoolCoolant() {
+        return coolCoolantStorage > 0;
     }
 
     public FluidTankInfo[] getTankInfoInput() {
-        return new FluidTankInfo[0];
+        return new FluidTankInfo[] {
+                new FluidTankInfo(new FluidStack(FluidHelper.water, waterStorage), maxWaterStorage),
+                new FluidTankInfo(new FluidStack(RkStuff.hotCoolant, hotCoolantStorage), maxCoolantStorage)
+        };
     }
 
     public FluidTankInfo[] getTankInfoSteam() {
-        return new FluidTankInfo[0];
+        return new FluidTankInfo[] {
+                new FluidTankInfo(new FluidStack(FluidHelper.steam, steamStorage), maxSteamStorage)
+        };
     }
 
-    public FluidTankInfo[] getTankInfoColdCoolant() {
-        return new FluidTankInfo[0];
+    public FluidTankInfo[] getTankInfoCoolCoolant() {
+        return new FluidTankInfo[] {
+                new FluidTankInfo(new FluidStack(RkStuff.coolCoolant, coolCoolantStorage), maxCoolantStorage)
+        };
     }
 
     @Override
-    protected boolean checkMultiBlockForm() {
+    public boolean checkMultiBlockForm() {
         return computeMultiStructureBounds() != null;
     }
 
@@ -78,6 +154,16 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
         }
         baseCount = tmpBounds.getWidthX() * tmpBounds.getWidthZ();
         tankCount = baseCount * (tmpBounds.getHeight() - 1);
+
+        maxCoolantStorage = baseCount * 1000;
+        maxWaterStorage = tankCount * 2000;
+        maxSteamStorage = tankCount  * 4000;
+
+        if(coolCoolantStorage > maxCoolantStorage) coolCoolantStorage = maxCoolantStorage;
+        if(hotCoolantStorage > maxCoolantStorage) hotCoolantStorage = maxCoolantStorage;
+        if(waterStorage > maxWaterStorage) waterStorage = maxWaterStorage;
+        if(steamStorage > maxSteamStorage) steamStorage = maxSteamStorage;
+
         return tmpBounds;
     }
 
@@ -97,8 +183,8 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
         }
 
         //check if there are only BoilerBseBlocks within the bounds of the boiler base
-        for(int x = bounds.getMinX(); x <= bounds.getMaxX(); x++){
-            for(int z = bounds.getMinZ(); z <= bounds.getMaxZ(); z++){
+        for(int x = tmpBounds.getMinX(); x <= tmpBounds.getMaxX(); x++){
+            for(int z = tmpBounds.getMinZ(); z <= tmpBounds.getMaxZ(); z++){
                 if(x == xCoord && z == zCoord) continue;
                 if(!isValidBoilerBase(x, yCoord, z)) {
                     //base is not complete
@@ -108,20 +194,20 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
         }
 
         //check if there are other BoilerBaseBlocks around the base, if true don't build the structure
-        for (int x = bounds.getMinX() - 1; x <= bounds.getMaxX() + 1; x++) {
-            if(isValidBoilerBase(x, yCoord, bounds.getMinZ() - 1)) {
+        for (int x = tmpBounds.getMinX() - 1; x <= tmpBounds.getMaxX() + 1; x++) {
+            if(isValidBoilerBase(x, yCoord, tmpBounds.getMinZ() - 1)) {
                 return null;
             }
-            if(isValidBoilerBase(x, yCoord, bounds.getMaxZ() + 1)) {
+            if(isValidBoilerBase(x, yCoord, tmpBounds.getMaxZ() + 1)) {
                 return null;
             }
         }
 
-        for (int z = bounds.getMinZ() - 1; z <= bounds.getMaxZ() + 1; z++) {
-            if(isValidBoilerBase(bounds.getMinX() - 1, yCoord, z)) {
+        for (int z = tmpBounds.getMinZ() - 1; z <= tmpBounds.getMaxZ() + 1; z++) {
+            if(isValidBoilerBase(tmpBounds.getMinX() - 1, yCoord, z)) {
                 return null;
             }
-            if(isValidBoilerBase(bounds.getMaxX() + 1, yCoord, z)) {
+            if(isValidBoilerBase(tmpBounds.getMaxX() + 1, yCoord, z)) {
                 return null;
             }
         }
@@ -168,21 +254,6 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
                 }
             }
         }
-    }
-
-    @Override
-    protected void updateMaster() {
-
-    }
-
-    @Override
-    protected void writeToNBTMaster(NBTTagCompound data) {
-
-    }
-
-    @Override
-    protected void readFromNBTMaster(NBTTagCompound data) {
-
     }
 
     private boolean isValidBoilerBase(int x, int y, int z){

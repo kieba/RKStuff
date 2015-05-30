@@ -8,3 +8,9 @@ tile.SolarInput.name=Solar Input
 tile.SolarMaster.name=Solar Master
 
 tile.MultiBlockTest.name=Multiplexus
+
+tile.BoilerTank.name=Boiler Tank
+tile.BoilerBase.name=Boiler Base
+tile.BoilerBaseInput.name=Boiler Input
+tile.BoilerBaseOutput.name=Boiler Output
+tile.BoilerBaseMaster.name=Boiler Master

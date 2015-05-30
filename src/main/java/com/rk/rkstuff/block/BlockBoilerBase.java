@@ -1,6 +1,7 @@
 package com.rk.rkstuff.block;
 
 import com.rk.rkstuff.helper.MultiBlockHelper;
+import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -33,7 +34,8 @@ public class BlockBoilerBase extends BlockRK implements IBoilerBaseBlock {
     @Override
     public IIcon getIcon(int side, int meta) {
         //TODO: map icons to side
-        return Blocks.stone.getIcon(side, meta);
+        if(meta >= 1) return Blocks.iron_ore.getIcon(side, meta);
+        return Blocks.iron_block.getIcon(side, meta);
     }
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block changeBlock) {
@@ -42,7 +44,7 @@ public class BlockBoilerBase extends BlockRK implements IBoilerBaseBlock {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             if (direction == ForgeDirection.DOWN) continue;
             if (direction == ForgeDirection.UP) continue;
-            boolean hasNeighbour = (meta >> ((direction.ordinal() - 2)) & 0x01) == 1; //TODO:
+            boolean hasNeighbour = (meta >> ((direction.ordinal() - 2)) & 0x01) == 1;
             boolean isNeighbourBoilerBaseBlock = isValidBoilerBase(world, x + direction.offsetX, y, z + direction.offsetZ);
             if (!hasNeighbour && isNeighbourBoilerBaseBlock || hasNeighbour && !isNeighbourBoilerBaseBlock) {
                 TileBoilerBaseMaster master = getMaster(world, x, y, z);

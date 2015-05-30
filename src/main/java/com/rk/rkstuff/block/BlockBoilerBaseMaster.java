@@ -38,7 +38,8 @@ public class BlockBoilerBaseMaster extends BlockRK implements ITileEntityProvide
     @Override
     public IIcon getIcon(int side, int meta) {
         //TODO: map icons to side
-        return Blocks.iron_block.getIcon(side, meta);
+        if(meta >= 1) return Blocks.diamond_ore.getIcon(side, meta);
+        return Blocks.diamond_block.getIcon(side, meta);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class BlockBoilerBaseMaster extends BlockRK implements ITileEntityProvide
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             if (direction == ForgeDirection.DOWN) continue;
             if (direction == ForgeDirection.UP) continue;
-            boolean hasNeighbour = (meta >> ((direction.ordinal() - 2)) & 0x01) == 1; //TODO:
+            boolean hasNeighbour = (meta >> ((direction.ordinal() - 2)) & 0x01) == 1;
             boolean isNeighbourBoilerBaseBlock = isValidBoilerBase(world, x + direction.offsetX, y, z + direction.offsetZ);
             if (!hasNeighbour && isNeighbourBoilerBaseBlock || hasNeighbour && !isNeighbourBoilerBaseBlock) {
                 TileBoilerBaseMaster master = getMaster(world, x, y, z);

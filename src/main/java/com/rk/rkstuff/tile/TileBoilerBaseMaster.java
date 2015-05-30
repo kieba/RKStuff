@@ -1,10 +1,12 @@
 package com.rk.rkstuff.tile;
 
 import com.rk.rkstuff.RkStuff;
+import com.rk.rkstuff.block.BlockBoilerBaseMaster;
 import com.rk.rkstuff.block.BlockBoilerTank;
 import com.rk.rkstuff.block.IBoilerBaseBlock;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.helper.MultiBlockHelper;
+import com.rk.rkstuff.helper.RKLog;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.nbt.NBTTagCompound;
@@ -140,11 +142,23 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
 
     @Override
     protected MultiBlockHelper.Bounds setupStructure() {
+        RKLog.info("setupStructure()");
         MultiBlockHelper.Bounds tmpBounds = computeMultiStructureBounds();
         for(MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : tmpBounds){
-            //TODO: set metadata for each block
-
             Block block = worldObj.getBlock(pos.x, pos.y, pos.z);
+
+            if(block instanceof IBoilerBaseBlock || block instanceof BlockBoilerBaseMaster) {
+                int meta = 0;
+                meta |= ((pos.hasBlock(ForgeDirection.NORTH) ? 1 : 0) << (ForgeDirection.NORTH.ordinal() - 2));
+                meta |= ((pos.hasBlock(ForgeDirection.EAST) ? 1 : 0) << (ForgeDirection.EAST.ordinal() - 2));
+                meta |= ((pos.hasBlock(ForgeDirection.SOUTH) ? 1 : 0) << (ForgeDirection.SOUTH.ordinal() - 2));
+                meta |= ((pos.hasBlock(ForgeDirection.WEST) ? 1 : 0) << (ForgeDirection.WEST.ordinal() - 2));
+                worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, meta, 2);
+            } else if(block instanceof BlockBoilerTank) {
+                //TODO: set right metadata
+                worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 1, 2);
+            }
+
             if(block instanceof ITileEntityProvider) {
                 TileEntity tile = worldObj.getTileEntity(pos.x, pos.y, pos.z);
                 if(tile instanceof IBoilerBaseTile) {
@@ -212,12 +226,12 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
             }
         }
 
-        //check boiler tank
-        if(tmpBounds.getWidthX() >= 2 && tmpBounds.getWidthZ() >= 2) {
+        //check boiler tank (min. size 2x2)
+        if(tmpBounds.getWidthX() > 0 && tmpBounds.getWidthZ() > 0) {
             int height = -1;
             for(MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : tmpBounds) {
                 int i = 1;
-                while(isValidBoilerTank(pos.x, yCoord + i, pos.y)) {
+                while(isValidBoilerTank(pos.x, yCoord + i, pos.z)) {
                     i++;
                 }
                 i--;
@@ -241,6 +255,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
 
     @Override
     public void resetStructure() {
+        RKLog.info("resetStructure()");
         if(bounds != null){
             for(MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : bounds){
                 worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 0, 2);

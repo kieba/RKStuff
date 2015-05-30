@@ -35,7 +35,8 @@ public class BlockBoilerTank extends BlockRK {
     @Override
     public IIcon getIcon(int side, int meta) {
         //TODO: map icons to side
-        return Blocks.dirt.getIcon(side, meta);
+        if(meta >= 1) return Blocks.gold_ore.getIcon(side, meta);
+        return Blocks.gold_block.getIcon(side, meta);
     }
 
     @Override
@@ -55,8 +56,10 @@ public class BlockBoilerTank extends BlockRK {
             master = ((BlockBoilerBaseMaster) block).getMaster(world, x, y - i, z);
         }
 
-        if(master != null && !master.checkMultiBlockForm()) {
-            master.reset();
+        if(master != null) {
+            if(!master.checkMultiBlockForm()) {
+                master.reset();
+            }
         } else {
             RKLog.error("No master found for BlockBoilerTank! Metadata: " + world.getBlockMetadata(x, y, z));
         }

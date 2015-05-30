@@ -60,7 +60,8 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     }
 
     @Override
-    protected void writeToNBTMaster(NBTTagCompound data) {
+    public void writeToNBT(NBTTagCompound data) {
+        super.writeToNBT(data);
         data.setInteger("steam", steamStorage);
         data.setInteger("water", waterStorage);
         data.setInteger("coolCoolant", coolCoolantStorage);
@@ -68,14 +69,14 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     }
 
     @Override
-    protected void readFromNBTMaster(NBTTagCompound data) {
+    public void readFromNBT(NBTTagCompound data) {
+        super.readFromNBT(data);
         steamStorage = data.getInteger("steam");
         waterStorage = data.getInteger("water");
         coolCoolantStorage = data.getInteger("coolCoolant");
         hotCoolantStorage = data.getInteger("hotCoolant");
-        bounds = null;
-        isBuild = false;
     }
+
 
     public int fill(FluidStack resource, boolean doFill) {
         int amount = 0;

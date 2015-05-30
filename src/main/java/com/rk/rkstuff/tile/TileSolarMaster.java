@@ -158,13 +158,17 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     }
 
     @Override
-    protected void writeToNBTMaster(NBTTagCompound data) {
-
+    public void readFromNBT(NBTTagCompound data) {
+        super.readFromNBT(data);
+        coolCoolantTank = data.getDouble("coolCoolantAmount");
+        hotCoolantTank = data.getDouble("hotCoolantAmount");
     }
 
     @Override
-    protected void readFromNBTMaster(NBTTagCompound data) {
-        count = bounds.getWidthX() * bounds.getWidthZ();
+    public void writeToNBT(NBTTagCompound data) {
+        super.writeToNBT(data);
+        data.setDouble("coolCoolantAmount", coolCoolantTank);
+        data.setDouble("hotCoolantAmount", hotCoolantTank);
     }
 
     private boolean isValidMultiblock(int x, int y, int z){

@@ -50,10 +50,6 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
 
     protected abstract void updateMaster();
 
-    protected abstract void writeToNBTMaster(NBTTagCompound data);
-
-    protected abstract void readFromNBTMaster(NBTTagCompound data);
-
     @Override
     public void updateEntity() {
         super.updateEntity();
@@ -78,25 +74,6 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
         reset();
     }
 
-    @Override
-    public void writeToNBT(NBTTagCompound data) {
-        super.writeToNBT(data);
-        data.setBoolean("isBuild", isBuild);
-
-        if (isBuild) {
-            writeToNBTMaster(data);
-        }
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound data) {
-        super.readFromNBT(data);
-
-        isBuild = data.getBoolean("isBuild");
-        if (isBuild) {
-            readFromNBTMaster(data);
-        }
-    }
 
     @Override
     public void readData(IOStream data) throws IOException {

@@ -42,6 +42,7 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
             TileSolarMaster master = getMaster();
             int amount = resource.amount;
             amount = Math.min(amount, master.getMaxTankCapacity() - (int) Math.ceil(master.getCoolCoolantTank()));
+            if (amount < 0) return 0;
             if (doFill) {
                 master.setCoolCoolantTank(master.getCoolCoolantTank() + amount);
             }

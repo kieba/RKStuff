@@ -1,5 +1,7 @@
 package com.rk.rkstuff.helper;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 public class Pos {
 
     public static final Pos NULL = new Pos(0,0,0);
@@ -13,6 +15,10 @@ public class Pos {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public Pos() {
+
     }
 
     public Pos clone(){
@@ -48,5 +54,17 @@ public class Pos {
                 ", y=" + y +
                 ", z=" + z +
                 '}';
+    }
+
+    public void writeToNBT(NBTTagCompound data, String name) {
+        data.setInteger(name + "posX", x);
+        data.setInteger(name + "posY", y);
+        data.setInteger(name + "posZ", z);
+    }
+
+    public void readFromNBT(NBTTagCompound data, String name) {
+        x = data.getInteger(name + "posX");
+        y = data.getInteger(name + "posY");
+        z = data.getInteger(name + "posZ");
     }
 }

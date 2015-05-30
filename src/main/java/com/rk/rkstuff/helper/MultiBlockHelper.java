@@ -30,6 +30,10 @@ public class MultiBlockHelper {
             maxZ = z;
         }
 
+        public Bounds(Pos position){
+            this(position.x, position.y, position.z);
+        }
+
         public void add(int x, int y, int z){
             if(minX > x){
                 minX = x;
@@ -133,6 +137,10 @@ public class MultiBlockHelper {
 
         public int getWidthZ(){
             return Math.abs(maxZ - minZ);
+        }
+
+        public int size(){
+            return getHeight() * getWidthX() * getWidthZ();
         }
 
         public boolean isInBounds(Pos pos){

@@ -1,41 +1,35 @@
 package com.rk.rkstuff.tile;
 
+import com.rk.rkstuff.helper.Pos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
-public class TileSolarInput extends TileRK implements IFluidHandler {
-    private int masterX;
-    private int masterY;
-    private int masterZ;
+public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlockMasterListener {
+    private Pos masterPosition;
     private boolean hasMaster = false;
 
 
 
-    public void setMaster(int x, int y, int z){
-        masterX = x;
-        masterY = y;
-        masterZ = z;
-        hasMaster = true;
-    }
-
-    public void resetMaster(){
-        hasMaster = false;
-        masterX = 0;
-        masterY = 0;
-        masterZ = 0;
+    @Override
+    public void writeToNBT(NBTTagCompound data)
+    {
+        super.writeToNBT(data);
+        data.setBoolean("hasMaster", hasMaster);
+        if (hasMaster) {
+            masterPosition.writeToNBT(data, "masterPos");
+        }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound par1)
+    public void readFromNBT(NBTTagCompound data)
     {
-        super.writeToNBT(par1);
-    }
+        super.readFromNBT(data);
+        hasMaster = data.getBoolean("hasMaster");
+        if (hasMaster) {
+            masterPosition.readFromNBT(data, "masterPos");
+        }
 
-    @Override
-    public void readFromNBT(NBTTagCompound par1)
-    {
-        super.readFromNBT(par1);
     }
 
     @Override
@@ -66,5 +60,17 @@ public class TileSolarInput extends TileRK implements IFluidHandler {
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
         return new FluidTankInfo[0];
+    }
+
+    @Override
+    public void registerMaster(Pos position) {
+        hasMaster = true;
+        masterPosition = position;
+    }
+
+    @Override
+    public void unregisterMaster() {
+        masterPosition = new Pos();
+        hasMaster = false;
     }
 }

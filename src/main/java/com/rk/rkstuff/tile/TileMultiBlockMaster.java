@@ -14,7 +14,7 @@ import java.io.IOException;
 public abstract class TileMultiBlockMaster extends TileRK implements ICustomMessage {
 
     private int interval = 40; //check structure every 40 ticks (2 seconds)
-    private int tick;
+    private int tick = interval;
     protected boolean isBuild;
     protected MultiBlockHelper.Bounds bounds;
 
@@ -84,7 +84,6 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
         data.setBoolean("isBuild", isBuild);
 
         if (isBuild) {
-            bounds.writeToNBT(data);
             writeToNBTMaster(data);
         }
     }
@@ -95,8 +94,6 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
 
         isBuild = data.getBoolean("isBuild");
         if (isBuild) {
-            bounds = new MultiBlockHelper.Bounds(0,0,0);
-            bounds.readFromNBT(data);
             readFromNBTMaster(data);
         }
     }

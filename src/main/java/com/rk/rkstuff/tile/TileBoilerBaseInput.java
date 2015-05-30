@@ -11,19 +11,9 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileBoilerBaseInput extends TileRK implements IBoilerBaseTile, IFluidHandler {
+public class TileBoilerBaseInput extends TileRK implements IMultiBlockMasterListener, IFluidHandler {
 
     private TileBoilerBaseMaster master;
-
-    @Override
-    public void setMaster(int masterX, int masterY, int masterZ) {
-        master = (TileBoilerBaseMaster) worldObj.getTileEntity(masterX, masterY, masterZ);
-    }
-
-    @Override
-    public void resetMaster() {
-        master = null;
-    }
 
     public boolean hasMaster() {
         return master != null;
@@ -70,13 +60,22 @@ public class TileBoilerBaseInput extends TileRK implements IBoilerBaseTile, IFlu
         return false;
     }
 
+
+    @Override
+    public void registerMaster(TileMultiBlockMaster tileMaster) {
+        master = (TileBoilerBaseMaster) tileMaster;
+    }
+
+    @Override
+    public void unregisterMaster() {
+        master = null;
+    }
+
     @Override
     public void readData(IOStream data) throws IOException {
-
     }
 
     @Override
     public void writeData(IOStream data) {
-
     }
 }

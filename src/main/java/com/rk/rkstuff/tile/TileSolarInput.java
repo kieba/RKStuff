@@ -11,32 +11,12 @@ import java.io.IOException;
 import java.util.Map;
 
 public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlockMasterListener {
-    private Pos masterPosition = new Pos();
-    private boolean hasMaster = false;
+    private TileSolarMaster master;
 
-    @Override
-    public void writeToNBT(NBTTagCompound data)
-    {
-        super.writeToNBT(data);
-        data.setBoolean("hasMaster", hasMaster);
-        if (hasMaster) {
-            masterPosition.writeToNBT(data, "masterPos");
-        }
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound data)
-    {
-        super.readFromNBT(data);
-        hasMaster = data.getBoolean("hasMaster");
-        if (hasMaster) {
-            masterPosition.readFromNBT(data, "masterPos");
-        }
-    }
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        if (!hasMaster) return 0;
+        if (master == null) return 0;
         if (resource.getFluid().equals(RkStuff.coolCoolant)) {
             TileSolarMaster master = getMaster();
             int amount = resource.amount;
@@ -73,27 +53,22 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        if (!hasMaster) return null;
+        if (master == null) return null;
         return new FluidTankInfo[]{new FluidTankInfo(new FluidStack(RkStuff.coolCoolant, (int) Math.round(getMaster().getCoolCoolantTank())), getMaster().getMaxTankCapacity())};
     }
 
     @Override
-    public void registerMaster(Pos position) {
-        hasMaster = true;
-        masterPosition = position;
+    public void registerMaster(TileMultiBlockMaster tileMaster) {
+        master = (TileSolarMaster) tileMaster;
     }
 
     @Override
     public void unregisterMaster() {
-        masterPosition = new Pos();
-        hasMaster = false;
+        master = null;
     }
 
     public TileSolarMaster getMaster() {
-        if (hasMaster) {
-            return (TileSolarMaster) worldObj.getTileEntity(masterPosition.x, masterPosition.y, masterPosition.z);
-        }
-        return null;
+        return master;
     }
 
     @Override

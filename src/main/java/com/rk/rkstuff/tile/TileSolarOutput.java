@@ -13,29 +13,7 @@ import rk.com.core.io.IOStream;
 import java.io.IOException;
 
 public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBlockMasterListener {
-    private Pos masterPosition = new Pos();
-    private boolean hasMaster = false;
-
-    @Override
-    public void writeToNBT(NBTTagCompound data)
-    {
-        super.writeToNBT(data);
-        data.setBoolean("hasMaster", hasMaster);
-        if (hasMaster) {
-            masterPosition.writeToNBT(data, "masterPos");
-        }
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound data)
-    {
-        super.readFromNBT(data);
-        hasMaster = data.getBoolean("hasMaster");
-        if (hasMaster) {
-            masterPosition.readFromNBT(data, "masterPos");
-        }
-
-    }
+    private TileSolarMaster master;
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
@@ -44,7 +22,7 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
 
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        if (!hasMaster) return null;
+        if (master == null) return null;
         if (resource.getFluid().equals(RkStuff.hotCoolant)) {
             TileSolarMaster master = getMaster();
             int amount = resource.amount;
@@ -60,7 +38,7 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        if (!hasMaster) return null;
+        if (master == null) return null;
         TileSolarMaster master = getMaster();
         int amount = (int) Math.min(maxDrain, Math.floor(master.getHotCoolantTank()));
         if (doDrain) {
@@ -82,27 +60,12 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        if (!hasMaster) return null;
+        if (master == null) return null;
         return new FluidTankInfo[]{new FluidTankInfo(new FluidStack(RkStuff.hotCoolant, (int) Math.round(getMaster().getHotCoolantTank())), getMaster().getMaxTankCapacity())};
     }
 
-    @Override
-    public void registerMaster(Pos position) {
-        hasMaster = true;
-        masterPosition = position;
-    }
-
-    @Override
-    public void unregisterMaster() {
-        masterPosition = new Pos();
-        hasMaster = false;
-    }
-
     public TileSolarMaster getMaster() {
-        if (hasMaster) {
-            return (TileSolarMaster) worldObj.getTileEntity(masterPosition.x, masterPosition.y, masterPosition.z);
-        }
-        return null;
+        return master;
     }
 
     @Override
@@ -118,5 +81,15 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
     @Override
     public void writeData(IOStream data) {
 
+    }
+
+    @Override
+    public void registerMaster(TileMultiBlockMaster tileMaster) {
+        master = (TileSolarMaster) tileMaster;
+    }
+
+    @Override
+    public void unregisterMaster() {
+        master = null;
     }
 }

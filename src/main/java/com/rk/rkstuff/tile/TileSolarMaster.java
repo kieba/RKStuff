@@ -56,7 +56,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
             Block targetBlock = worldObj.getBlock(pos.x, pos.y, pos.z);
             if (targetBlock instanceof BlockSolarInput || targetBlock instanceof BlockSolarOutput) {
                 IMultiBlockMasterListener masterListener = (IMultiBlockMasterListener) worldObj.getTileEntity(pos.x, pos.y, pos.z);
-                masterListener.registerMaster(getPosition());
+                masterListener.registerMaster(this);
             }
         }
         return tmpBounds;

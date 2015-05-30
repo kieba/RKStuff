@@ -4,11 +4,11 @@ import com.rk.rkstuff.helper.Pos;
 
 public interface IMultiBlockMasterListener {
     /**
-     * Register Position
+     * Register MasterBock
      *
-     * @param position Position of MasterBlock
+     * @param tileMaster MasterBlock
      */
-    void registerMaster(Pos position);
+    void registerMaster(TileMultiBlockMaster tileMaster);
 
     /**
      * Unregister Position

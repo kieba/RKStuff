@@ -12,7 +12,7 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFluidHandler, ICustomMessage {
+public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterListener, IFluidHandler, ICustomMessage {
 
     private TileBoilerBaseMaster master;
     //if true => outputSteam else coldCoolant
@@ -21,16 +21,6 @@ public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFl
     public void toggleOutput() {
         outputSteam = !outputSteam;
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-    }
-
-    @Override
-    public void setMaster(int masterX, int masterY, int masterZ) {
-        master = (TileBoilerBaseMaster) worldObj.getTileEntity(masterX, masterY, masterZ);
-    }
-
-    @Override
-    public void resetMaster() {
-        master = null;
     }
 
     public boolean hasMaster() {
@@ -130,5 +120,15 @@ public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFl
     @Override
     protected boolean hasGui() {
         return false;
+    }
+
+    @Override
+    public void registerMaster(TileMultiBlockMaster tileMaster) {
+        master = (TileBoilerBaseMaster) tileMaster;
+    }
+
+    @Override
+    public void unregisterMaster() {
+        master = null;
     }
 }

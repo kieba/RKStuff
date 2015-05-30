@@ -162,8 +162,8 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
 
             if(block instanceof ITileEntityProvider) {
                 TileEntity tile = worldObj.getTileEntity(pos.x, pos.y, pos.z);
-                if(tile instanceof IBoilerBaseTile) {
-                    ((IBoilerBaseTile)tile).setMaster(xCoord, yCoord, zCoord);
+                if (tile instanceof IMultiBlockMasterListener) {
+                    ((IMultiBlockMasterListener) tile).registerMaster(this);
                 }
             }
         }
@@ -263,8 +263,8 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
                 Block block = worldObj.getBlock(pos.x, pos.y, pos.z);
                 if(block instanceof ITileEntityProvider) {
                     TileEntity tile = worldObj.getTileEntity(pos.x, pos.y, pos.z);
-                    if(tile instanceof IBoilerBaseTile) {
-                        ((IBoilerBaseTile)tile).resetMaster();
+                    if (tile instanceof IMultiBlockMasterListener) {
+                        ((IMultiBlockMasterListener) tile).unregisterMaster();
                     }
                 }
             }

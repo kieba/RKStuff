@@ -103,6 +103,30 @@ public class MultiBlockHelper {
             return minZ;
         }
 
+        public void setMaxX(int maxX) {
+            this.maxX = maxX;
+        }
+
+        public void setMaxY(int maxY) {
+            this.maxY = maxY;
+        }
+
+        public void setMaxZ(int maxZ) {
+            this.maxZ = maxZ;
+        }
+
+        public void setMinX(int minX) {
+            this.minX = minX;
+        }
+
+        public void setMinY(int minY) {
+            this.minY = minY;
+        }
+
+        public void setMinZ(int minZ) {
+            this.minZ = minZ;
+        }
+
         public int getHeight(){
             return Math.abs(maxY - minY);
         }

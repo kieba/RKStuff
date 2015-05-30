@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 
-public class BlockBoilerBase extends BlockRK implements IBoilerBlock {
+public class BlockBoilerBase extends BlockRK implements IBoilerBaseBlock {
 
     private IIcon[] icons = new IIcon[14];
 

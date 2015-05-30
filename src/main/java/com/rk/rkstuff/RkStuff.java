@@ -4,6 +4,8 @@ import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.handler.BucketHandler;
+import com.rk.rkstuff.helper.FluidHelper;
+import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.item.BucketBase;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
@@ -24,6 +26,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+
+import java.util.Map;
 
 @Mod(modid = Reference.MOD_ID, version = Reference.VERSION, name = Reference.MOD_NAME)
 public class RkStuff {
@@ -91,7 +95,14 @@ public class RkStuff {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-
+        for(Map.Entry<String, Fluid> e : FluidRegistry.getRegisteredFluids().entrySet()) {
+            if(e.getValue().getUnlocalizedName().equals("fluid.steam")) {
+                FluidHelper.steamId = e.getValue().getID();
+            }
+            if(e.getValue().getUnlocalizedName().equals("fluid.tile.water")) {
+                FluidHelper.waterId = e.getValue().getID();
+            }
+        }
     }
 
 

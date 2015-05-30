@@ -2,6 +2,10 @@ package com.rk.rkstuff.tile;
 
 import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.block.*;
+import com.rk.rkstuff.block.BlockSolarInput;
+import com.rk.rkstuff.block.BlockSolarMaster;
+import com.rk.rkstuff.block.BlockSolarOutput;
+import com.rk.rkstuff.block.ISolarBlock;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
 import net.minecraft.block.Block;
@@ -61,7 +65,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
             }
             i--;
             tmpBounds.add(xCoord + direction.offsetX * i, yCoord  + direction.offsetY * i, zCoord  + direction.offsetZ * i);
-        }
+    }
 
         boolean isValid = true;
         for (int x = tmpBounds.getMinX() - 1; x <= tmpBounds.getMaxX() + 1; x++) {

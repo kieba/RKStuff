@@ -5,6 +5,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+import rk.com.core.io.IOStream;
+
+import java.io.IOException;
 
 public class TileBoilerBaseInput extends TileRK implements IBoilerBaseTile, IFluidHandler {
 
@@ -58,5 +61,20 @@ public class TileBoilerBaseInput extends TileRK implements IBoilerBaseTile, IFlu
             return master.getTankInfoInput();
         }
         return new FluidTankInfo[0];
+    }
+
+    @Override
+    protected boolean hasGui() {
+        return false;
+    }
+
+    @Override
+    public void readData(IOStream data) throws IOException {
+
+    }
+
+    @Override
+    public void writeData(IOStream data) {
+
     }
 }

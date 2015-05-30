@@ -1,6 +1,9 @@
 package com.rk.rkstuff.container;
 
+import com.rk.rkstuff.helper.RKLog;
+import com.rk.rkstuff.tile.TileSolarMaster;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -10,14 +13,21 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerSolar extends Container {
 
-    public ContainerSolar(InventoryPlayer inventoryPlayer) {
+    private TileSolarMaster tile;
+
+    public ContainerSolar(EntityPlayer player, TileSolarMaster tile) {
+        this.tile = tile;
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
         for (int i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+            this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
+        }
+
+        if(player instanceof EntityPlayerMP) {
+            tile.registerPlayerGui((EntityPlayerMP) player);
         }
     }
 
@@ -97,5 +107,13 @@ public class ContainerSolar extends Container {
         }
 
         return itemstack;
+    }
+
+    @Override
+    public void onContainerClosed(EntityPlayer player) {
+        super.onContainerClosed(player);
+        if(player instanceof EntityPlayerMP) {
+            tile.unregisterPlayerGui((EntityPlayerMP) player);
+        }
     }
 }

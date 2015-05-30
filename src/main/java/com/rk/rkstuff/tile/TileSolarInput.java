@@ -5,14 +5,14 @@ import com.rk.rkstuff.helper.Pos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import rk.com.core.io.IOStream;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlockMasterListener {
     private Pos masterPosition = new Pos();
     private boolean hasMaster = false;
-
-
 
     @Override
     public void writeToNBT(NBTTagCompound data)
@@ -94,5 +94,20 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
             return (TileSolarMaster) worldObj.getTileEntity(masterPosition.x, masterPosition.y, masterPosition.z);
         }
         return null;
+    }
+
+    @Override
+    protected boolean hasGui() {
+        return false;
+    }
+
+    @Override
+    public void readData(IOStream data) throws IOException {
+
+    }
+
+    @Override
+    public void writeData(IOStream data) {
+
     }
 }

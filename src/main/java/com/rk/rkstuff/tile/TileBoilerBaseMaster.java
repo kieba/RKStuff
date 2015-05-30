@@ -142,7 +142,6 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
 
     @Override
     protected MultiBlockHelper.Bounds setupStructure() {
-        RKLog.info("setupStructure()");
         MultiBlockHelper.Bounds tmpBounds = computeMultiStructureBounds();
         for(MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : tmpBounds){
             Block block = worldObj.getBlock(pos.x, pos.y, pos.z);
@@ -255,7 +254,6 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
 
     @Override
     public void resetStructure() {
-        RKLog.info("resetStructure()");
         if(bounds != null){
             for(MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : bounds){
                 worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 0, 2);
@@ -281,4 +279,8 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
         return block instanceof BlockBoilerTank;
     }
 
+    @Override
+    protected boolean hasGui() {
+        return true;
+    }
 }

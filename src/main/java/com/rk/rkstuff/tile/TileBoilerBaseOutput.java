@@ -126,4 +126,9 @@ public class TileBoilerBaseOutput extends TileRK implements IBoilerBaseTile, IFl
     public void writeData(IOStream data) {
         data.writeLast(outputSteam);
     }
+
+    @Override
+    protected boolean hasGui() {
+        return false;
+    }
 }

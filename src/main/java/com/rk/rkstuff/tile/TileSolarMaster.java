@@ -201,4 +201,9 @@ public class TileSolarMaster extends TileMultiBlockMaster {
             return 0;
         }
     }
+
+    @Override
+    protected boolean hasGui() {
+        return true;
+    }
 }

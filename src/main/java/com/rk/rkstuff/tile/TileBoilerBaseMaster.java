@@ -273,7 +273,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
 
     private boolean isValidBoilerBase(int x, int y, int z){
         Block block = worldObj.getBlock(x, y, z);
-        return block instanceof IBoilerBaseBlock;
+        return block instanceof IBoilerBaseBlock || block instanceof BlockBoilerBaseMaster;
     }
 
     private boolean isValidBoilerTank(int x, int y, int z){

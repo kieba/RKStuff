@@ -33,9 +33,9 @@ public class GuiSolar extends GuiContainer {
         int y = (this.height - SIZE_Y) / 2;
         drawTexturedModalRect(x, y, 0, 0, SIZE_X,  SIZE_Y);
 
-        int coolCoolantPx = (int)Math.floor(MAX * tile.getCoolCoolantTank() / tile.getMaxTankCapacity());
-        int hotCoolantPx = (int)Math.floor(MAX * tile.getHotCoolantTank() / tile.getMaxTankCapacity());
-        int prodPx = (int)Math.floor(MAX * tile.getProductionLastTick() / tile.getProductionMaximal());
+        int coolCoolantPx = (int)Math.round(MAX * tile.getCoolCoolantTank() / tile.getMaxTankCapacity());
+        int hotCoolantPx = (int)Math.round(MAX * tile.getHotCoolantTank() / tile.getMaxTankCapacity());
+        int prodPx = (int)Math.round(MAX * tile.getProductionLastTick() / tile.getProductionMaximal());
 
         drawTexturedModalRect(x + 26, y + 71 - coolCoolantPx, 176, MAX - coolCoolantPx, 34,  coolCoolantPx);
         drawTexturedModalRect(x + 116, y + 71 - hotCoolantPx, 210, MAX - hotCoolantPx, 34,  hotCoolantPx);
@@ -59,7 +59,7 @@ public class GuiSolar extends GuiContainer {
             //draw tooltip prod
             List<String> list = new ArrayList<>(2);
             list.add("Production:");
-            list.add(String.format("%d/%d mB", Math.round(tile.getProductionLastTick()), Math.round(tile.getProductionMaximal())));
+            list.add(String.format("%0.2f/%0.2f mB", tile.getProductionLastTick(), tile.getProductionMaximal()));
             this.func_146283_a(list, mouseX, mouseY);
         }
     }

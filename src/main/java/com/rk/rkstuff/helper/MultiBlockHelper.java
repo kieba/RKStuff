@@ -171,11 +171,11 @@ public class MultiBlockHelper {
                 BoundsPos tmp = new BoundsPos(minX + xOffset, minY + yOffset, minZ + zOffset);
 
                 xOffset++;
-                if(xOffset > getWidthX()){
+                if (xOffset >= getWidthX()) {
                     xOffset = 0;
                     yOffset++;
                 }
-                if(yOffset > getHeight()){
+                if (yOffset >= getHeight()) {
                     yOffset = 0;
                     zOffset++;
                 }

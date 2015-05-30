@@ -17,8 +17,6 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     private int count;
     private double MAX_MB_PER_PANEL = 1;
-    private FluidStack fluidCoolCoolant = new FluidStack(RkStuff.coolCoolant, 0);
-    private FluidStack fluidHotCoolant = new FluidStack(RkStuff.hotCoolant, 0);
     private double productionLastTick = 0;
 
 
@@ -139,8 +137,10 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     @Override
     protected void updateMaster() {
-        if (worldObj.getWorldTime() % 1000 == 0) {
-            RKLog.debug("Time: " + worldObj.getWorldTime() % 24000);
+        if (worldObj.getWorldTime() % 250 == 0) {
+            RKLog.info("Time: " + worldObj.getWorldTime() % 24000);
+            RKLog.info("AfterTime: " + (worldObj.getWorldTime() + 3000) % 24000);
+            RKLog.info("Production: " + getProductionLastTick());
         }
         double amountConvert = count * getCurrentProductionPerSolar();
 
@@ -150,7 +150,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
         productionLastTick = amountConvert;
 
         hotCoolantTank += amountConvert;
-        coolCoolantTank += amountConvert;
+        coolCoolantTank -= amountConvert;
     }
 
     @Override
@@ -192,11 +192,11 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     private double getCurrentProductionPerSolar() {
         long time = worldObj.getWorldTime();
-        time -= 3000;
-        time %= 18000;
+        time += 3000;
+        time %= 24000;
 
         if (time <= 18000) {
-            return 0.42 - 0.5 * Math.cos(2 * Math.PI * time / 18000) + 0.08 * Math.cos(4 * Math.PI * time / 18000);
+            return (0.42 - 0.5 * Math.cos(2 * Math.PI * time / 18000) + 0.08 * Math.cos(4 * Math.PI * time / 18000)) * MAX_MB_PER_PANEL;
         } else {
             return 0;
         }

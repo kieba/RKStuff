@@ -1,5 +1,8 @@
 package com.rk.rkstuff.tile;
 
+import com.rk.rkstuff.block.BlockSolarInput;
+import com.rk.rkstuff.block.BlockSolarMaster;
+import com.rk.rkstuff.block.BlockSolarOutput;
 import com.rk.rkstuff.block.ISolarBlock;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
@@ -47,7 +50,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
                 i++;
             }
             i--;
-            tmpBounds.add(xCoord + direction.offsetX * i, yCoord  + direction.offsetY * i, zCoord  + direction.offsetZ * i);
+            tmpBounds.add(xCoord + direction.offsetX * i, yCoord + direction.offsetY * i, zCoord + direction.offsetZ * i);
         }
 
         boolean isValid = true;

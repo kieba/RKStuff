@@ -10,7 +10,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
 public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBlockMasterListener {
-    private Pos masterPosition;
+    private Pos masterPosition = new Pos();
     private boolean hasMaster = false;
 
     @Override
@@ -45,9 +45,9 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
         if (resource.getFluid().equals(RkStuff.hotCoolant)) {
             TileSolarMaster master = getMaster();
             int amount = resource.amount;
-            amount = Math.min(amount, master.getFluidHotCoolant().amount);
+            amount = (int) Math.min(amount, Math.ceil(master.getHotCoolantTank()));
             if (doDrain) {
-                master.getFluidHotCoolant().amount -= amount;
+                master.setHotCoolantTank(master.getHotCoolantTank() - amount);
             }
             return new FluidStack(RkStuff.hotCoolant, amount);
         }
@@ -58,9 +58,9 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         if (!hasMaster) return null;
         TileSolarMaster master = getMaster();
-        int amount = master.getFluidHotCoolant().amount;
+        int amount = (int) Math.min(maxDrain, Math.ceil(master.getHotCoolantTank()));
         if (doDrain) {
-            master.getFluidHotCoolant().amount -= amount;
+            master.setHotCoolantTank(master.getHotCoolantTank() - amount);
         }
         return new FluidStack(RkStuff.hotCoolant, amount);
     }
@@ -72,13 +72,14 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        if (from == ForgeDirection.UP) return false;
         return true;
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
         if (!hasMaster) return null;
-        return new FluidTankInfo[]{new FluidTankInfo(getMaster().getFluidHotCoolant(), getMaster().getMaxTankCapacity())};
+        return new FluidTankInfo[]{new FluidTankInfo(new FluidStack(RkStuff.hotCoolant, (int) Math.round(getMaster().getHotCoolantTank())), getMaster().getMaxTankCapacity())};
     }
 
     @Override

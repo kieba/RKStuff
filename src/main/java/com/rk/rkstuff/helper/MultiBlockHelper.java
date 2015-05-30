@@ -128,15 +128,15 @@ public class MultiBlockHelper {
         }
 
         public int getHeight(){
-            return Math.abs(maxY - minY);
+            return Math.abs(maxY - minY) + 1;
         }
 
         public int getWidthX(){
-            return Math.abs(maxX - minX);
+            return Math.abs(maxX - minX) + 1;
         }
 
         public int getWidthZ(){
-            return Math.abs(maxZ - minZ);
+            return Math.abs(maxZ - minZ) + 1;
         }
 
         public int size(){

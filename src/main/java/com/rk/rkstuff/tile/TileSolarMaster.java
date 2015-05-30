@@ -1,13 +1,13 @@
 package com.rk.rkstuff.tile;
 
 import com.rk.rkstuff.RkStuff;
-import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.BlockSolarInput;
 import com.rk.rkstuff.block.BlockSolarMaster;
 import com.rk.rkstuff.block.BlockSolarOutput;
 import com.rk.rkstuff.block.ISolarBlock;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
+import com.rk.rkstuff.helper.RKLog;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -16,8 +16,15 @@ import net.minecraftforge.fluids.FluidStack;
 public class TileSolarMaster extends TileMultiBlockMaster {
 
     private int count;
-    private FluidStack fluidCoolCoolant = new FluidStack(RkStuff.coolCoolant, 2000);
-    private FluidStack fluidHotCoolant = new FluidStack(RkStuff.hotCoolant, 2000);
+    private double MAX_MB_PER_PANEL = 1;
+    private FluidStack fluidCoolCoolant = new FluidStack(RkStuff.coolCoolant, 0);
+    private FluidStack fluidHotCoolant = new FluidStack(RkStuff.hotCoolant, 0);
+    private double productionLastTick = 0;
+
+
+    private double coolCoolantTank = 0;
+    private double hotCoolantTank = 0;
+
     private int maxTankCapacity = 10000;
 
     @Override
@@ -113,10 +120,37 @@ public class TileSolarMaster extends TileMultiBlockMaster {
         }
     }
 
+    public double getCoolCoolantTank() {
+        return coolCoolantTank;
+    }
+
+    public void setCoolCoolantTank(double coolCoolantTank) {
+        this.coolCoolantTank = coolCoolantTank;
+    }
+
+    public double getHotCoolantTank() {
+        return hotCoolantTank;
+    }
+
+    public void setHotCoolantTank(double hotCoolantTank) {
+        this.hotCoolantTank = hotCoolantTank;
+    }
+
+
     @Override
     protected void updateMaster() {
-        getFluidHotCoolant().amount += getFluidCoolCoolant().amount;
-        getFluidCoolCoolant().amount = 0;
+        if (worldObj.getWorldTime() % 1000 == 0) {
+            RKLog.debug("Time: " + worldObj.getWorldTime() % 24000);
+        }
+        double amountConvert = count * getCurrentProductionPerSolar();
+
+        amountConvert = Math.min(amountConvert, getMaxTankCapacity() - hotCoolantTank);
+        amountConvert = Math.min(amountConvert, coolCoolantTank);
+
+        productionLastTick = amountConvert;
+
+        hotCoolantTank += amountConvert;
+        coolCoolantTank += amountConvert;
     }
 
     @Override
@@ -126,7 +160,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     @Override
     protected void readFromNBTMaster(NBTTagCompound data) {
-
+        count = bounds.getWidthX() * bounds.getWidthZ();
     }
 
     private boolean isValidMultiblock(int x, int y, int z){
@@ -139,13 +173,6 @@ public class TileSolarMaster extends TileMultiBlockMaster {
         return block instanceof BlockSolarMaster;
     }
 
-    public FluidStack getFluidCoolCoolant() {
-        return fluidCoolCoolant;
-    }
-
-    public FluidStack getFluidHotCoolant() {
-        return fluidHotCoolant;
-    }
 
     public int getMaxTankCapacity() {
         return maxTankCapacity;
@@ -153,5 +180,25 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     public void setMaxTankCapacity(int maxTankCapacity) {
         this.maxTankCapacity = maxTankCapacity;
+    }
+
+    public double getProductionLastTick() {
+        return productionLastTick;
+    }
+
+    public double getProductionMaximal() {
+        return MAX_MB_PER_PANEL * count;
+    }
+
+    private double getCurrentProductionPerSolar() {
+        long time = worldObj.getWorldTime();
+        time -= 3000;
+        time %= 18000;
+
+        if (time <= 18000) {
+            return 0.42 - 0.5 * Math.cos(2 * Math.PI * time / 18000) + 0.08 * Math.cos(4 * Math.PI * time / 18000);
+        } else {
+            return 0;
+        }
     }
 }

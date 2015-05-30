@@ -41,9 +41,9 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
         if (resource.getFluid().equals(RkStuff.coolCoolant)) {
             TileSolarMaster master = getMaster();
             int amount = resource.amount;
-            amount = Math.min(amount, master.getMaxTankCapacity() - master.getFluidCoolCoolant().amount);
+            amount = Math.min(amount, master.getMaxTankCapacity() - (int) Math.ceil(master.getCoolCoolantTank()));
             if (doFill) {
-                master.getFluidCoolCoolant().amount += amount;
+                master.setCoolCoolantTank(master.getCoolCoolantTank() + amount);
             }
             return amount;
         }
@@ -62,6 +62,7 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
+        if (from == ForgeDirection.UP) return false;
         return true;
     }
 
@@ -73,7 +74,7 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
         if (!hasMaster) return null;
-        return new FluidTankInfo[]{new FluidTankInfo(getMaster().getFluidCoolCoolant(), getMaster().getMaxTankCapacity())};
+        return new FluidTankInfo[]{new FluidTankInfo(new FluidStack(RkStuff.coolCoolant, (int) Math.round(getMaster().getCoolCoolantTank())), getMaster().getMaxTankCapacity())};
     }
 
     @Override

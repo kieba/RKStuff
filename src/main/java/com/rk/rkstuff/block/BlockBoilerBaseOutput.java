@@ -67,7 +67,7 @@ public class BlockBoilerBaseOutput extends BlockRK implements ITileEntityProvide
                 return true;
             }
         }
-        return false;
+        return true;
     }
 
     @Override

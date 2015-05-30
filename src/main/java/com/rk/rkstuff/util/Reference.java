@@ -31,5 +31,7 @@ public class Reference {
     public static final String FLUID_COOL_COOLANT_NAME = "CoolCoolant";
     public static final String FLUID_HOT_COOLANT_NAME = "HotCoolant";
 
+    public static final int GUI_ID_SOLAR = 1;
+
 
 }

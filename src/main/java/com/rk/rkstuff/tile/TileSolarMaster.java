@@ -143,7 +143,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     protected void updateMaster() {
         if (worldObj.getWorldTime() % 250 == 0) {
             RKLog.info("Time: " + worldObj.getWorldTime() % 24000);
-            RKLog.info("AfterTime: " + (worldObj.getWorldTime() + 3000) % 24000);
+            RKLog.info("AfterTime: " + (worldObj.getWorldTime() + 4000) % 24000);
             RKLog.info("Production: " + getProductionLastTick());
         }
         double amountConvert = count * getCurrentProductionPerSolar();
@@ -197,11 +197,11 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     private double getCurrentProductionPerSolar() {
         long time = worldObj.getWorldTime();
-        time += 3000;
+        time += 4000;
         time %= 24000;
 
-        if (time <= 18000) {
-            return (0.42 - 0.5 * Math.cos(2 * Math.PI * time / 18000) + 0.08 * Math.cos(4 * Math.PI * time / 18000)) * MAX_MB_PER_PANEL;
+        if (time <= 16000) {
+            return (0.42 - 0.5 * Math.cos(2 * Math.PI * time / 16000) + 0.08 * Math.cos(4 * Math.PI * time / 16000)) * MAX_MB_PER_PANEL;
         } else {
             return 0;
         }

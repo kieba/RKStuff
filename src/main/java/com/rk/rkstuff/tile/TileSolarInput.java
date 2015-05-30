@@ -16,6 +16,7 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        if (from == ForgeDirection.UP) return 0;
         if (master == null) return 0;
         if (resource.getFluid().equals(RkStuff.coolCoolant)) {
             TileSolarMaster master = getMaster();

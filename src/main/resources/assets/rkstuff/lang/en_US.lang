@@ -1,5 +1,7 @@
 tile.CoolCoolant.name=Cool Coolant
+fluid.tile.CoolCoolant=Cool Coolant
 tile.HotCoolant.name=Hot Coolant
+fluid.tile.HotCoolant=Hot Coolant
 item.BucketHotCoolant.name=Hot Coolant Bucket
 item.BucketCoolCoolant.name=Cool Coolant Bucket
 tile.Solar.name=Solar

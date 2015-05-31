@@ -3,6 +3,7 @@ package com.rk.rkstuff;
 import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
+import com.rk.rkstuff.cc.CCMethodRegistry;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
@@ -96,6 +97,9 @@ public class RkStuff {
 
         //Fluids
         registerFluids();
+
+        //ComputerCraft Methods
+        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetCoolCoolant());
 
     }
 

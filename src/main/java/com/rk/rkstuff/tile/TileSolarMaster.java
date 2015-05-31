@@ -4,8 +4,15 @@ import com.rk.rkstuff.block.BlockSolarInput;
 import com.rk.rkstuff.block.BlockSolarMaster;
 import com.rk.rkstuff.block.BlockSolarOutput;
 import com.rk.rkstuff.block.ISolarBlock;
+import com.rk.rkstuff.cc.CCMethodRegistry;
+import com.rk.rkstuff.cc.ICCMethod;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
+import com.rk.rkstuff.util.Reference;
+import dan200.computercraft.api.lua.ILuaContext;
+import dan200.computercraft.api.lua.LuaException;
+import dan200.computercraft.api.peripheral.IComputerAccess;
+import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -13,7 +20,7 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileSolarMaster extends TileMultiBlockMaster {
+public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral {
 
     private int countSolarPanels;
     private double MAX_MB_PER_PANEL = 1;
@@ -236,5 +243,51 @@ public class TileSolarMaster extends TileMultiBlockMaster {
         coolCoolantTank = data.readFirstDouble();
         hotCoolantTank = data.readFirstDouble();
         productionLastTick = data.readLastDouble();
+    }
+
+    @Override
+    public String getType() {
+        return Reference.TILE_SOLAR_MASTER;
+    }
+
+    @Override
+    public String[] getMethodNames() {
+        return CCMethodRegistry.getMethods(this);
+    }
+
+    @Override
+    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
+        return CCMethodRegistry.executeMethod(computer, context, arguments, this, method);
+    }
+
+    @Override
+    public void attach(IComputerAccess computer) {
+
+    }
+
+    @Override
+    public void detach(IComputerAccess computer) {
+
+    }
+
+    @Override
+    public boolean equals(IPeripheral other) {
+        return other == this;
+    }
+
+    public static class CCMethodGetCoolCoolant implements ICCMethod<TileSolarMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getCoolCoolant";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getCoolCoolantTank()};
+        }
     }
 }

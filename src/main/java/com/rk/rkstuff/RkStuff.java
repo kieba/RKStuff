@@ -99,10 +99,26 @@ public class RkStuff {
         //Fluids
         registerFluids();
 
+        //ComputerCraft Provider
+        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockSolarMaster);
+
         //ComputerCraft Methods
         CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetCoolCoolant());
+        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetMaxCoolCoolant());
+        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetHotCoolant());
+        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetMaxHotCoolant());
+        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetProduction());
 
-        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockSolarMaster);
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetCoolCoolant());
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxCoolCoolant());
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetHotCoolant());
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxHotCoolant());
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetWater());
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxWater());
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetSteam());
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxSteam());
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetTemperature());
+        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxTemperature());
 
     }
 

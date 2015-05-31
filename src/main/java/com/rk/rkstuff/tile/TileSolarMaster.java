@@ -301,4 +301,68 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
             return new Object[] { tile.getCoolCoolantTank()};
         }
     }
+
+    public static class CCMethodGetMaxCoolCoolant implements ICCMethod<TileSolarMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getMaxCoolCoolant";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getMaxTankCapacity() };
+        }
+    }
+
+    public static class CCMethodGetHotCoolant implements ICCMethod<TileSolarMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getHotCoolant";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getHotCoolantTank()};
+        }
+    }
+
+    public static class CCMethodGetMaxHotCoolant implements ICCMethod<TileSolarMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getMaxHotCoolant";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getMaxTankCapacity() };
+        }
+    }
+
+    public static class CCMethodGetProduction implements ICCMethod<TileSolarMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getProduction";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getProductionLastTick() };
+        }
+    }
 }

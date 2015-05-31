@@ -8,6 +8,8 @@ import com.rk.rkstuff.tile.TileSolarMaster;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -19,7 +21,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockBoilerBaseMaster extends BlockRK implements ITileEntityProvider {
+public class BlockBoilerBaseMaster extends BlockRK implements ITileEntityProvider, IPeripheralProvider {
 
     private IIcon[] icons = new IIcon[14];
 
@@ -85,5 +87,10 @@ public class BlockBoilerBaseMaster extends BlockRK implements ITileEntityProvide
         TileBoilerBaseMaster master = (TileBoilerBaseMaster) world.getTileEntity(x, y, z);
         if(master.isBuild()) return master;
         return null;
+    }
+
+    @Override
+    public IPeripheral getPeripheral(World world, int x, int y, int z, int side) {
+        return (IPeripheral) world.getTileEntity(x, y, z);
     }
 }

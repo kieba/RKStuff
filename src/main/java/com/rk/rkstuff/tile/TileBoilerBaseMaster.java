@@ -4,9 +4,17 @@ import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.block.BlockBoilerBaseMaster;
 import com.rk.rkstuff.block.BlockBoilerTank;
 import com.rk.rkstuff.block.IBoilerBaseBlock;
+import com.rk.rkstuff.cc.CCMethodRegistry;
+import com.rk.rkstuff.cc.ICCMethod;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.RKLog;
+import com.rk.rkstuff.util.Reference;
+import cpw.mods.fml.common.Optional;
+import dan200.computercraft.api.lua.ILuaContext;
+import dan200.computercraft.api.lua.LuaException;
+import dan200.computercraft.api.peripheral.IComputerAccess;
+import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +27,10 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileBoilerBaseMaster extends TileMultiBlockMaster {
+@Optional.InterfaceList({
+        @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
+})
+public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPeripheral {
 
     private int baseCount;
     private int tankCount;
@@ -402,5 +413,202 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     @Override
     protected boolean hasGui() {
         return true;
+    }
+
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public String getType() {
+        return Reference.TILE_BOILER_BASE_MASTER;
+    }
+
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public String[] getMethodNames() {
+        return CCMethodRegistry.getMethods(this);
+    }
+
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
+        return CCMethodRegistry.executeMethod(computer, context, arguments, this, method);
+    }
+
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public void attach(IComputerAccess computer) {
+
+    }
+
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public void detach(IComputerAccess computer) {
+
+    }
+
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public boolean equals(IPeripheral other) {
+        if(other == null) return false;
+        return this.hashCode() == other.hashCode();
+    }
+
+    public static class CCMethodGetCoolCoolant implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getCoolCoolant";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getCoolCoolantStorage()};
+        }
+    }
+
+    public static class CCMethodGetMaxCoolCoolant implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getMaxCoolCoolant";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getMaxCoolantStorage() };
+        }
+    }
+
+    public static class CCMethodGetHotCoolant implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getHotCoolant";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getHotCoolantStorage()};
+        }
+    }
+
+    public static class CCMethodGetMaxHotCoolant implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getMaxHotCoolant";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getMaxCoolantStorage() };
+        }
+    }
+
+    public static class CCMethodGetWater implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getWater";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getWaterStorage()};
+        }
+    }
+
+    public static class CCMethodGetMaxWater implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getMaxWater";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getMaxWaterStorage() };
+        }
+    }
+
+    public static class CCMethodGetSteam implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getSteam";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getSteamStorage()};
+        }
+    }
+
+    public static class CCMethodGetMaxSteam implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getMaxSteam";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getMaxSteamStorage() };
+        }
+    }
+
+    public static class CCMethodGetTemperature implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getTemperature";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getTemperature() };
+        }
+    }
+
+    public static class CCMethodGetMaxTemperature implements ICCMethod<TileBoilerBaseMaster> {
+
+        @Override
+        public String getMethodName() {
+            return "getMaxTemperature";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) {
+            if(arguments != null && arguments.length > 0) {
+                return new Object[0];
+            }
+            return new Object[] { tile.getMaxTemperature() };
+        }
     }
 }

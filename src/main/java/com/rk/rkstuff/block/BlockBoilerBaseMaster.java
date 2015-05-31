@@ -30,16 +30,19 @@ public class BlockBoilerBaseMaster extends BlockRK implements ITileEntityProvide
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        for (int i = 0; i < icons.length; i++) {
-            icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + (i+1));
-        }
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":boiler/" + Reference.BLOCK_BOILER_BASE + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":boiler/" + Reference.BLOCK_BOILER_BASE_MASTER);
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        //TODO: map icons to side
-        if(meta >= 1) return Blocks.diamond_ore.getIcon(side, meta);
-        return Blocks.diamond_block.getIcon(side, meta);
+        if (ForgeDirection.UP.ordinal() == side) {
+            return icons[0];
+        } else if (ForgeDirection.DOWN.ordinal() == side) {
+            return icons[0];
+        } else {
+            return icons[1];
+        }
     }
 
     @Override

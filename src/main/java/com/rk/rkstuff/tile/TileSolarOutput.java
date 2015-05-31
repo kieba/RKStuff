@@ -1,6 +1,7 @@
 package com.rk.rkstuff.tile;
 
 import com.rk.rkstuff.RkStuff;
+import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.helper.Pos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -93,5 +94,18 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
     @Override
     public void unregisterMaster() {
         master = null;
+    }
+
+    @Override
+    public void updateEntity() {
+        super.updateEntity();
+        if (master != null && master.getHotCoolantTank() > 1) {
+            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+                if (direction == ForgeDirection.UP) continue;
+                int moveAmount = FluidHelper.insertFluidIntoNeighbourFluidHandler(this, direction, new FluidStack(RkStuff.hotCoolant, Math.min((int) master.getHotCoolantTank(), 500)), true);
+                master.setHotCoolantTank(master.getHotCoolantTank() - moveAmount);
+                if (master.getHotCoolantTank() < 1) break;
+            }
+        }
     }
 }

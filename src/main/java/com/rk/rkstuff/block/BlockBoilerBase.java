@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockBoilerBase extends BlockRK implements IBoilerBaseBlock {
 
-    private IIcon[] icons = new IIcon[14];
+    private IIcon[] icons = new IIcon[2];
 
     public BlockBoilerBase() {
         super(Material.iron);
@@ -26,16 +26,23 @@ public class BlockBoilerBase extends BlockRK implements IBoilerBaseBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        for (int i = 0; i < icons.length; i++) {
-            icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + (i+1));
-        }
+        icons[0] = loadIconById(1, iconRegister);
+        icons[1] = loadIconById(2, iconRegister);
+    }
+
+    protected IIcon loadIconById(int id, IIconRegister iconRegister) {
+        return iconRegister.registerIcon(Reference.MOD_ID + ":boiler/" + Reference.BLOCK_BOILER_BASE + id);
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        //TODO: map icons to side
-        if(meta >= 1) return Blocks.iron_ore.getIcon(side, meta);
-        return Blocks.iron_block.getIcon(side, meta);
+        if (ForgeDirection.UP.ordinal() == side) {
+            return icons[0];
+        } else if (ForgeDirection.DOWN.ordinal() == side) {
+            return icons[0];
+        } else {
+            return icons[1];
+        }
     }
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block changeBlock) {

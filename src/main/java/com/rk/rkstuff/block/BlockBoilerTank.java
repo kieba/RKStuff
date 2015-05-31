@@ -1,6 +1,5 @@
 package com.rk.rkstuff.block;
 
-import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.util.Reference;
@@ -9,7 +8,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -37,9 +35,6 @@ public class BlockBoilerTank extends BlockRK {
         icons[8] = loadIconById(9, iconRegister);
         icons[9] = loadIconById(10, iconRegister);
         icons[10] = loadIconById(11, iconRegister);
-        icons[11] = loadIconById(12, iconRegister);
-        icons[12] = loadIconById(13, iconRegister);
-        icons[13] = loadIconById(14, iconRegister);
     }
 
     protected IIcon loadIconById(int id, IIconRegister iconRegister) {

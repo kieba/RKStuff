@@ -1,8 +1,6 @@
 package com.rk.rkstuff.block;
 
-import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.helper.MultiBlockHelper;
-import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.tile.TileBoilerBaseOutput;
 import com.rk.rkstuff.util.Reference;
@@ -22,7 +20,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockBoilerBaseOutput extends BlockRK implements ITileEntityProvider, IBoilerBaseBlock {
 
-    private IIcon[] icons = new IIcon[14];
+    private IIcon[] icons = new IIcon[2];
 
     public BlockBoilerBaseOutput() {
         super(Material.iron);
@@ -32,9 +30,8 @@ public class BlockBoilerBaseOutput extends BlockRK implements ITileEntityProvide
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        for (int i = 0; i < icons.length; i++) {
-            icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()) + (i+1));
-        }
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":boiler/" + Reference.BLOCK_BOILER_BASE_OUTPUT + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":boiler/" + Reference.BLOCK_BOILER_BASE_OUTPUT + 2);
     }
 
     @Override
@@ -43,9 +40,9 @@ public class BlockBoilerBaseOutput extends BlockRK implements ITileEntityProvide
         if(tile instanceof TileBoilerBaseOutput) {
             TileBoilerBaseOutput outputTile = (TileBoilerBaseOutput) tile;
             if(outputTile.outputSteam()) {
-                Blocks.sand.getIcon(side, 0);
+                return icons[1];
             } else {
-                return RkStuff.coolCoolantBlock.getIcon(side, 0);
+                return icons[0];
             }
         }
         return getIcon(side, 0);

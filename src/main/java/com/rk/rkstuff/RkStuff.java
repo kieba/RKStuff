@@ -52,6 +52,8 @@ public class RkStuff {
     public static Block blockBoilerBaseMaster = new BlockBoilerBaseMaster();
     public static Block blockBoilerTank = new BlockBoilerTank();
 
+    public static Block blockEnergyDistribution = new BlockEnergyDistribution();
+
 
     @Mod.Instance(Reference.MOD_ID)
     public static RkStuff INSTANCE;
@@ -79,6 +81,8 @@ public class RkStuff {
         GameRegistry.registerBlock(blockBoilerBaseMaster, Reference.BLOCK_BOILER_BASE_MASTER);
         GameRegistry.registerBlock(blockBoilerTank, Reference.BLOCK_BOILER_TANK);
 
+        GameRegistry.registerBlock(blockEnergyDistribution, Reference.BLOCK_ENERGY_DISTRIBUTION);
+
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
         GameRegistry.registerTileEntity(TileSolarInput.class, Reference.TILE_SOLAR_INPUT);
@@ -87,6 +91,8 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileBoilerBaseInput.class, Reference.TILE_BOILER_BASE_INPUT);
         GameRegistry.registerTileEntity(TileBoilerBaseOutput.class, Reference.TILE_BOILER_BASE_OUTPUT);
         GameRegistry.registerTileEntity(TileBoilerBaseMaster.class, Reference.TILE_BOILER_BASE_MASTER);
+
+        GameRegistry.registerTileEntity(TileEnergyDistribution.class, Reference.TILE_ENERGY_DISTRIBUTION);
 
         //Fluids
         registerFluids();

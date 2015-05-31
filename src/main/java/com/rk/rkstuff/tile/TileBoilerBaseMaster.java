@@ -6,7 +6,6 @@ import com.rk.rkstuff.block.BlockBoilerTank;
 import com.rk.rkstuff.block.IBoilerBaseBlock;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.helper.MultiBlockHelper;
-import com.rk.rkstuff.helper.RKLog;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,16 +14,25 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
+import rk.com.core.io.IOStream;
+
+import java.io.IOException;
 
 public class TileBoilerBaseMaster extends TileMultiBlockMaster {
 
     private int baseCount;
     private int tankCount;
 
-    //in mB
-    private int maxSteamStorage = 10000;
-    private int maxWaterStorage = 10000;
-    private int maxCoolantStorage = 10000;
+    private final int HEATENERGY_PER_TANK = 100;
+    private final int HEATENERGY_PER_WATERBUCKET = 1000;
+    private final int HEATENERGY_PRODUCTION_PER_BASE = 100;
+    private final int MAX_STEAM_PER_TANK = 1000;
+    private final int STEAM_PER_HEATENERGY = 1;
+    private final int STEAM_PER_WATER_MB = 1600;
+    private final int COOLANT_TRANSFER_PER_BASE = 1;
+    private final int COOLANT_STORAGE_PER_BASE = 1000;
+    private final int WATER_STORAGE_PER_TANK = 1000;
+
 
     //in mB
     private int steamStorage;
@@ -32,31 +40,100 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     private int hotCoolantStorage;
     private int coolCoolantStorage;
 
-    private int coolantTransferRate = 20; //mB per tick
-    private int steamProductionRate = 20; //mB per tick
+    private int heatEnergy = 0;
 
     @Override
     protected void updateMaster() {
-        //TODO: implement logic
+        int coolantUsage = Math.min(hotCoolantStorage, COOLANT_TRANSFER_PER_BASE * baseCount);
+        coolantUsage = Math.min(coolantUsage, getMaxCoolantStorage() - coolantUsage);
+        hotCoolantStorage -= coolantUsage;
+        coolCoolantStorage += coolantUsage;
+        heatingProcess(coolantUsage);
 
-        //transfer hotCoolant to coldCoolant with a rate of coolantTransferRate
-        int tmp = Math.min(hotCoolantStorage, coolantTransferRate);
-        tmp = Math.min(tmp, maxCoolantStorage - coolCoolantStorage);
+        doSteamProduction();
+    }
 
-        if(tmp > 0) {
-            hotCoolantStorage -= tmp;
-            coolCoolantStorage += tmp;
+    private void heatingProcess(int amountHotFluid) {
+        heatEnergy *= 0.01;
+        heatEnergy += amountHotFluid * baseCount * HEATENERGY_PRODUCTION_PER_BASE;
+    }
+
+    private int doSteamProduction() {
+        int heatDiff = heatEnergy - getStartSteamProducingHeatingEnergyLevel();
+        if (heatDiff > 0) {
+            int production = heatDiff * STEAM_PER_HEATENERGY;
+            production = Math.min(production, getMaxSteamStorage() - steamStorage);
+            production = Math.min(production, MAX_STEAM_PER_TANK * tankCount);
+            production = Math.min(production, waterStorage * STEAM_PER_WATER_MB);
+
+            heatEnergy -= production / STEAM_PER_WATER_MB;
+            waterStorage -= production / STEAM_PER_WATER_MB;
+            return production;
         }
+        return 0;
+    }
 
-        //transfer water to steam with a rate of steamProductionRate
-        tmp = Math.min(waterStorage, steamProductionRate);
-        tmp = Math.min(tmp, maxSteamStorage - steamStorage);
+    private int getStartSteamProducingHeatingEnergyLevel() {
+        return (int) (tankCount * HEATENERGY_PER_TANK + (waterStorage / 1000.0) * HEATENERGY_PER_WATERBUCKET);
+    }
 
-        if(tmp > 0) {
-            waterStorage -= tmp;
-            steamStorage += tmp;
-        }
+    public int getTemperature() {
+        return heatEnergy / getStartSteamProducingHeatingEnergyLevel() * 100;
+    }
 
+    public int getMaxTemperature() {
+        return getStartSteamProducingHeatingEnergyLevel() * 300;
+    }
+
+    public int getMaxCoolantStorage() {
+        return COOLANT_STORAGE_PER_BASE * baseCount;
+    }
+
+    public int getCoolCoolantStorage() {
+        return coolCoolantStorage;
+    }
+
+    public int getHotCoolantStorage() {
+        return hotCoolantStorage;
+    }
+
+    public int getWaterStorage() {
+        return waterStorage;
+    }
+
+    public int getMaxWaterStorage() {
+        return tankCount * WATER_STORAGE_PER_TANK;
+    }
+
+    public int getSteamStorage() {
+        return steamStorage;
+    }
+
+    public int getMaxSteamStorage() {
+        return getMaxWaterStorage() * STEAM_PER_WATER_MB;
+    }
+
+
+    @Override
+    public void writeData(IOStream data) {
+        data.writeLast(heatEnergy);
+        data.writeLast(coolCoolantStorage);
+        data.writeLast(hotCoolantStorage);
+        data.writeLast(waterStorage);
+        data.writeLast(steamStorage);
+        data.writeLast(tankCount);
+        data.writeLast(baseCount);
+    }
+
+    @Override
+    public void readData(IOStream data) throws IOException {
+        heatEnergy = data.readFirstInt();
+        coolCoolantStorage = data.readFirstInt();
+        hotCoolantStorage = data.readFirstInt();
+        waterStorage = data.readFirstInt();
+        steamStorage = data.readFirstInt();
+        tankCount = data.readFirstInt();
+        baseCount = data.readFirstInt();
     }
 
     @Override
@@ -81,10 +158,10 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     public int fill(FluidStack resource, boolean doFill) {
         int amount = 0;
         if(FluidHelper.isWater(resource.getFluid())) {
-            amount = Math.min(resource.amount, maxWaterStorage - waterStorage);
+            amount = Math.min(resource.amount, getMaxWaterStorage() - waterStorage);
             if(doFill) waterStorage += amount;
         } else if(FluidHelper.isHotCoolant(resource.getFluid())) {
-            amount = Math.min(resource.amount, maxCoolantStorage - hotCoolantStorage);
+            amount = Math.min(resource.amount, getMaxCoolantStorage() - hotCoolantStorage);
             if(doFill) hotCoolantStorage += amount;
         }
         return amount;
@@ -104,9 +181,9 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
 
     public boolean canFill(Fluid fluid) {
         if(FluidHelper.isWater(fluid)) {
-            return waterStorage < maxWaterStorage;
+            return waterStorage < getMaxWaterStorage();
         } else if(FluidHelper.isHotCoolant(fluid)) {
-            return hotCoolantStorage < maxCoolantStorage;
+            return hotCoolantStorage < getMaxCoolantStorage();
         }
         return false;
     }
@@ -121,20 +198,20 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
 
     public FluidTankInfo[] getTankInfoInput() {
         return new FluidTankInfo[] {
-                new FluidTankInfo(new FluidStack(FluidHelper.water, waterStorage), maxWaterStorage),
-                new FluidTankInfo(new FluidStack(RkStuff.hotCoolant, hotCoolantStorage), maxCoolantStorage)
+                new FluidTankInfo(new FluidStack(FluidHelper.water, waterStorage), getMaxWaterStorage()),
+                new FluidTankInfo(new FluidStack(RkStuff.hotCoolant, hotCoolantStorage), getMaxCoolantStorage())
         };
     }
 
     public FluidTankInfo[] getTankInfoSteam() {
         return new FluidTankInfo[] {
-                new FluidTankInfo(new FluidStack(FluidHelper.steam, steamStorage), maxSteamStorage)
+                new FluidTankInfo(new FluidStack(FluidHelper.steam, steamStorage), getMaxSteamStorage())
         };
     }
 
     public FluidTankInfo[] getTankInfoCoolCoolant() {
         return new FluidTankInfo[] {
-                new FluidTankInfo(new FluidStack(RkStuff.coolCoolant, coolCoolantStorage), maxCoolantStorage)
+                new FluidTankInfo(new FluidStack(RkStuff.coolCoolant, coolCoolantStorage), getMaxCoolantStorage())
         };
     }
 
@@ -206,14 +283,10 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
         baseCount = tmpBounds.getWidthX() * tmpBounds.getWidthZ();
         tankCount = baseCount * (tmpBounds.getHeight() - 1);
 
-        maxCoolantStorage = baseCount * 1000;
-        maxWaterStorage = tankCount * 2000;
-        maxSteamStorage = tankCount  * 4000;
-
-        if(coolCoolantStorage > maxCoolantStorage) coolCoolantStorage = maxCoolantStorage;
-        if(hotCoolantStorage > maxCoolantStorage) hotCoolantStorage = maxCoolantStorage;
-        if(waterStorage > maxWaterStorage) waterStorage = maxWaterStorage;
-        if(steamStorage > maxSteamStorage) steamStorage = maxSteamStorage;
+        if (coolCoolantStorage > getMaxCoolantStorage()) coolCoolantStorage = getMaxCoolantStorage();
+        if (hotCoolantStorage > getMaxCoolantStorage()) hotCoolantStorage = getMaxCoolantStorage();
+        if (waterStorage > getMaxWaterStorage()) waterStorage = getMaxWaterStorage();
+        if (steamStorage > getMaxSteamStorage()) steamStorage = getMaxSteamStorage();
 
         return tmpBounds;
     }

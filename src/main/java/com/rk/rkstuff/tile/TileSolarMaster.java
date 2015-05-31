@@ -6,7 +6,6 @@ import com.rk.rkstuff.block.BlockSolarOutput;
 import com.rk.rkstuff.block.ISolarBlock;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
-import com.rk.rkstuff.helper.RKLog;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -154,18 +153,12 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     @Override
     protected void updateMaster() {
         tick++;
-        if (worldObj.getWorldTime() % 250 == 0) {
-            RKLog.info("Time: " + worldObj.getWorldTime() % 24000);
-            RKLog.info("AfterTime: " + (worldObj.getWorldTime() + 4000) % 24000);
-            RKLog.info("Production: " + getProductionLastTick());
-        }
         double amountConvert = getCountCurrentSkySeeingSolarPanel() * getCurrentProductionPerSolar();
 
         amountConvert = Math.min(amountConvert, getMaxTankCapacity() - hotCoolantTank);
         amountConvert = Math.min(amountConvert, coolCoolantTank);
 
         productionLastTick = amountConvert;
-
         hotCoolantTank += amountConvert;
         coolCoolantTank -= amountConvert;
 

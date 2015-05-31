@@ -1,5 +1,6 @@
 package com.rk.rkstuff.client.gui;
 
+import com.rk.rkstuff.container.ContainerBoiler;
 import com.rk.rkstuff.container.ContainerSolar;
 import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.tile.TileBoilerBaseMaster;
@@ -17,6 +18,8 @@ public class GuiHandler implements IGuiHandler {
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         if(ID == Reference.GUI_ID_SOLAR) {
             return new ContainerSolar(player, (TileSolarMaster) world.getTileEntity(x, y, z));
+        } else if(ID == Reference.GUI_ID_BOILER) {
+            return new ContainerBoiler(player, (TileBoilerBaseMaster) world.getTileEntity(x, y, z));
         }
         return null;
     }
@@ -25,6 +28,8 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         if(ID == Reference.GUI_ID_SOLAR) {
             return new GuiSolar(player, (TileSolarMaster) world.getTileEntity(x, y, z));
+        } else if(ID == Reference.GUI_ID_BOILER) {
+            return new GuiBoiler(player, (TileBoilerBaseMaster) world.getTileEntity(x, y, z));
         }
         return null;
     }

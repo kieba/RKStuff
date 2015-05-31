@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -43,6 +44,14 @@ public class BlockBoilerBaseMaster extends BlockRK implements ITileEntityProvide
         } else {
             return icons[1];
         }
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        if(world.getTileEntity(x, y, z) instanceof TileBoilerBaseMaster) {
+            player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_BOILER, world, x, y, z);
+        }
+        return true;
     }
 
     @Override

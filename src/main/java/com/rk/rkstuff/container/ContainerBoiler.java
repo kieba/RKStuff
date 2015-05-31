@@ -1,11 +1,12 @@
 package com.rk.rkstuff.container;
 
-import com.rk.rkstuff.tile.TileSolarMaster;
+
+import com.rk.rkstuff.tile.TileBoilerBaseMaster;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ContainerSolar extends ContainerRK<TileSolarMaster> {
+public class ContainerBoiler extends ContainerRK<TileBoilerBaseMaster> {
 
-    public ContainerSolar(EntityPlayer player, TileSolarMaster tile) {
+    public ContainerBoiler(EntityPlayer player, TileBoilerBaseMaster tile) {
         super(player, tile);
         setupPlayerInventory(player);
     }

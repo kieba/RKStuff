@@ -2,7 +2,6 @@ package com.rk.rkstuff.block;
 
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.RKLog;
-import com.rk.rkstuff.tile.IBoilerBaseTile;
 import com.rk.rkstuff.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;

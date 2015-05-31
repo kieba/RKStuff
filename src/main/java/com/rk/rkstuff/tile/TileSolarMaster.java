@@ -8,7 +8,9 @@ import com.rk.rkstuff.cc.CCMethodRegistry;
 import com.rk.rkstuff.cc.ICCMethod;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
+import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.util.Reference;
+import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -20,6 +22,9 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
+@Optional.InterfaceList({
+        @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
+})
 public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral {
 
     private int countSolarPanels;
@@ -251,28 +256,34 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     }
 
     @Override
+    @Optional.Method(modid = "ComputerCraft")
     public String[] getMethodNames() {
         return CCMethodRegistry.getMethods(this);
     }
 
     @Override
+    @Optional.Method(modid = "ComputerCraft")
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
         return CCMethodRegistry.executeMethod(computer, context, arguments, this, method);
     }
 
     @Override
+    @Optional.Method(modid = "ComputerCraft")
     public void attach(IComputerAccess computer) {
 
     }
 
     @Override
+    @Optional.Method(modid = "ComputerCraft")
     public void detach(IComputerAccess computer) {
 
     }
 
     @Override
+    @Optional.Method(modid = "ComputerCraft")
     public boolean equals(IPeripheral other) {
-        return other == this;
+        if(other == null) return false;
+        return this.hashCode() == other.hashCode();
     }
 
     public static class CCMethodGetCoolCoolant implements ICCMethod<TileSolarMaster> {

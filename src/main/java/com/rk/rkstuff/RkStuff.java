@@ -18,6 +18,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import dan200.computercraft.api.ComputerCraftAPI;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -44,7 +45,7 @@ public class RkStuff {
 
     public static Block blockSolarOutput = new BlockSolarOutput();
     public static Block blockSolarInput = new BlockSolarInput();
-    public static Block blockSolarMaster = new BlockSolarMaster();
+    public static BlockSolarMaster blockSolarMaster = new BlockSolarMaster();
     public static Block blockSolar = new BlockSolar();
 
     public static Block blockBoilerBase = new BlockBoilerBase();
@@ -100,6 +101,8 @@ public class RkStuff {
 
         //ComputerCraft Methods
         CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetCoolCoolant());
+
+        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockSolarMaster);
 
     }
 

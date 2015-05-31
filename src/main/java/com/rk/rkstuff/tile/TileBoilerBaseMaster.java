@@ -158,7 +158,42 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
                 worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, meta, 2);
             } else if(block instanceof BlockBoilerTank) {
                 //TODO: set right metadata
-                worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 1, 2);
+                int meta = 0;
+                if (pos.x == tmpBounds.getMinX()) {
+                    if (pos.z == tmpBounds.getMinZ()) {
+                        meta = 4;
+                    } else if (pos.z == tmpBounds.getMaxZ()) {
+                        meta = 6;
+                    } else {
+                        meta = 3;
+                    }
+                }
+
+                if (pos.x == tmpBounds.getMaxX()) {
+                    if (pos.z != tmpBounds.getMinZ() && pos.z != tmpBounds.getMaxZ()) {
+                        meta = 5;
+                    }
+                }
+
+                if (pos.z == tmpBounds.getMinZ()) {
+                    if (pos.x == tmpBounds.getMaxX()) {
+                        meta = 2;
+                    }
+                    if (pos.x != tmpBounds.getMinX() && pos.x != tmpBounds.getMaxX()) {
+                        meta = 1;
+                    }
+                }
+
+                if (pos.z == tmpBounds.getMaxZ()) {
+                    if (pos.x == tmpBounds.getMaxX()) {
+                        meta = 8;
+                    }
+                    if (pos.x != tmpBounds.getMinX() && pos.x != tmpBounds.getMaxX()) {
+                        meta = 7;
+                    }
+                }
+
+                worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, meta, 2);
             }
 
             if(block instanceof ITileEntityProvider) {

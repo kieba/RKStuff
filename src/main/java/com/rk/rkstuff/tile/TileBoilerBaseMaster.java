@@ -6,6 +6,7 @@ import com.rk.rkstuff.block.BlockBoilerTank;
 import com.rk.rkstuff.block.IBoilerBaseBlock;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.helper.MultiBlockHelper;
+import com.rk.rkstuff.helper.RKLog;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,12 +24,11 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     private int baseCount;
     private int tankCount;
 
-    private final int HEATENERGY_PER_TANK = 100;
+    private final int HEATENERGY_PER_TANK = 1000;
     private final int HEATENERGY_PER_WATERBUCKET = 1000;
-    private final int HEATENERGY_PRODUCTION_PER_BASE = 100;
-    private final int MAX_STEAM_PER_TANK = 1000;
-    private final int STEAM_PER_HEATENERGY = 1;
-    private final int STEAM_PER_WATER_MB = 1600;
+    private final int HEATENERGY_PRODUCTION_PER_BASE = 28;
+    private final float STEAM_PER_HEATENERGY = 0.02f;
+    private final int STEAM_PER_WATER_MB = 2;
     private final int COOLANT_TRANSFER_PER_BASE = 1;
     private final int COOLANT_STORAGE_PER_BASE = 1000;
     private final int WATER_STORAGE_PER_TANK = 1000;
@@ -45,7 +45,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     @Override
     protected void updateMaster() {
         int coolantUsage = Math.min(hotCoolantStorage, COOLANT_TRANSFER_PER_BASE * baseCount);
-        coolantUsage = Math.min(coolantUsage, getMaxCoolantStorage() - coolantUsage);
+        coolantUsage = Math.min(coolantUsage, getMaxCoolantStorage() - coolCoolantStorage);
         hotCoolantStorage -= coolantUsage;
         coolCoolantStorage += coolantUsage;
         heatingProcess(coolantUsage);
@@ -54,20 +54,29 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     }
 
     private void heatingProcess(int amountHotFluid) {
-        heatEnergy *= 0.01;
+        heatEnergy -= tankCount * HEATENERGY_PER_TANK * 0.05;
+        if (heatEnergy < 0) heatEnergy = 0;
+
         heatEnergy += amountHotFluid * baseCount * HEATENERGY_PRODUCTION_PER_BASE;
+
+        if (heatEnergy > getStartSteamProducingHeatingEnergyLevel() * 3) {
+            heatEnergy = getStartSteamProducingHeatingEnergyLevel() * 3;
+        }
+        if (worldObj.getWorldTime() % 100 == 0) {
+            RKLog.info("Heat: " + heatEnergy);
+        }
     }
 
     private int doSteamProduction() {
         int heatDiff = heatEnergy - getStartSteamProducingHeatingEnergyLevel();
         if (heatDiff > 0) {
-            int production = heatDiff * STEAM_PER_HEATENERGY;
+            int production = (int) (heatDiff * STEAM_PER_HEATENERGY);
             production = Math.min(production, getMaxSteamStorage() - steamStorage);
-            production = Math.min(production, MAX_STEAM_PER_TANK * tankCount);
-            production = Math.min(production, waterStorage * STEAM_PER_WATER_MB);
+            production = Math.min(production, getWaterStorage() * STEAM_PER_WATER_MB);
 
             heatEnergy -= production / STEAM_PER_WATER_MB;
             waterStorage -= production / STEAM_PER_WATER_MB;
+            steamStorage += production;
             return production;
         }
         return 0;
@@ -78,11 +87,11 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster {
     }
 
     public int getTemperature() {
-        return heatEnergy / getStartSteamProducingHeatingEnergyLevel() * 100;
+        return (int) ((float) heatEnergy / getStartSteamProducingHeatingEnergyLevel() * 100);
     }
 
     public int getMaxTemperature() {
-        return getStartSteamProducingHeatingEnergyLevel() * 300;
+        return 300;
     }
 
     public int getMaxCoolantStorage() {

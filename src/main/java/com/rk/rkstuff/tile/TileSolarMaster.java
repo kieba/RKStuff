@@ -1,6 +1,5 @@
 package com.rk.rkstuff.tile;
 
-import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.block.BlockSolarInput;
 import com.rk.rkstuff.block.BlockSolarMaster;
 import com.rk.rkstuff.block.BlockSolarOutput;
@@ -11,23 +10,22 @@ import com.rk.rkstuff.helper.RKLog;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
 public class TileSolarMaster extends TileMultiBlockMaster {
 
-    private int count;
+    private int countSolarPanels;
     private double MAX_MB_PER_PANEL = 1;
     private int MAX_TANK_MB_PER_PANEL = 1000;
     private double productionLastTick = 0;
 
-
     private double coolCoolantTank = 0;
     private double hotCoolantTank = 0;
 
-
+    private int lastSkyCount = 0;
+    private int tick = 0;
 
     @Override
     public boolean checkMultiBlockForm() {
@@ -59,6 +57,9 @@ public class TileSolarMaster extends TileMultiBlockMaster {
                 masterListener.registerMaster(this);
             }
         }
+        countSolarPanels = tmpBounds.getWidthX() * tmpBounds.getWidthZ();
+        hotCoolantTank = Math.min(hotCoolantTank, getMaxTankCapacity());
+        coolCoolantTank = Math.min(coolCoolantTank, getMaxTankCapacity());
         return tmpBounds;
     }
 
@@ -101,7 +102,6 @@ public class TileSolarMaster extends TileMultiBlockMaster {
         }
 
         if(isValid){
-            count = tmpBounds.getWidthX() * tmpBounds.getWidthZ();
             return tmpBounds;
         }else {
             return null;
@@ -138,15 +138,28 @@ public class TileSolarMaster extends TileMultiBlockMaster {
         this.hotCoolantTank = hotCoolantTank;
     }
 
+    public int getCountCurrentSkySeeingSolarPanel() {
+        if (tick % 20 == 0) {
+            lastSkyCount = 0;
+            for (Pos pos : bounds) {
+                if (worldObj.canBlockSeeTheSky(pos.x, pos.y + 1, pos.z)) {
+                    lastSkyCount++;
+                }
+            }
+        }
+        return lastSkyCount;
+    }
+
 
     @Override
     protected void updateMaster() {
+        tick++;
         if (worldObj.getWorldTime() % 250 == 0) {
             RKLog.info("Time: " + worldObj.getWorldTime() % 24000);
             RKLog.info("AfterTime: " + (worldObj.getWorldTime() + 4000) % 24000);
             RKLog.info("Production: " + getProductionLastTick());
         }
-        double amountConvert = count * getCurrentProductionPerSolar();
+        double amountConvert = getCountCurrentSkySeeingSolarPanel() * getCurrentProductionPerSolar();
 
         amountConvert = Math.min(amountConvert, getMaxTankCapacity() - hotCoolantTank);
         amountConvert = Math.min(amountConvert, coolCoolantTank);
@@ -155,6 +168,10 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
         hotCoolantTank += amountConvert;
         coolCoolantTank -= amountConvert;
+
+        if (tick % 20 == 0) {
+            tick = 0;
+        }
     }
 
     @Override
@@ -183,7 +200,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
 
     public int getMaxTankCapacity() {
-        return MAX_TANK_MB_PER_PANEL * count;
+        return MAX_TANK_MB_PER_PANEL * countSolarPanels;
     }
 
 
@@ -192,7 +209,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
     }
 
     public double getProductionMaximal() {
-        return MAX_MB_PER_PANEL * count;
+        return MAX_MB_PER_PANEL * countSolarPanels;
     }
 
     private double getCurrentProductionPerSolar() {
@@ -214,7 +231,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     @Override
     public void writeData(IOStream data) {
-        data.writeLast(count);
+        data.writeLast(countSolarPanels);
         data.writeLast(getCoolCoolantTank());
         data.writeLast(getHotCoolantTank());
         data.writeLast(getProductionLastTick());
@@ -222,7 +239,7 @@ public class TileSolarMaster extends TileMultiBlockMaster {
 
     @Override
     public void readData(IOStream data) throws IOException {
-        count = data.readFirstInt();
+        countSolarPanels = data.readFirstInt();
         coolCoolantTank = data.readFirstDouble();
         hotCoolantTank = data.readFirstDouble();
         productionLastTick = data.readLastDouble();

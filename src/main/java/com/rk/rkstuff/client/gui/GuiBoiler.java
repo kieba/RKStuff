@@ -44,31 +44,31 @@ public class GuiBoiler extends GuiContainer {
         int yMax = y + 71;
         if(isInArea(mouseX, mouseY, x + 21, yMin, x + 37, yMax)) {
             //draw tooltip cool coolant
-            List<String> list = new ArrayList<>(2);
+            List<String> list = new ArrayList<String>(2);
             list.add("Hot Coolant:");
             list.add(String.format("%d/%d mB", tile.getHotCoolantStorage(), tile.getMaxCoolantStorage()));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(isInArea(mouseX, mouseY, x + 44, yMin, x + 60, yMax)) {
             //draw tooltip hot coolant
-            List<String> list = new ArrayList<>(2);
+            List<String> list = new ArrayList<String>(2);
             list.add("Cool Coolant:");
             list.add(String.format("%d/%d mB", tile.getCoolCoolantStorage(), tile.getMaxCoolantStorage()));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(isInArea(mouseX, mouseY, x + 82, yMin, x + 94, yMax)) {
             //draw tooltip prod
-            List<String> list = new ArrayList<>(2);
+            List<String> list = new ArrayList<String>(2);
             list.add("Heat:");
             list.add(String.format("%d °C", tile.getTemperature()));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(isInArea(mouseX, mouseY, x + 116, yMin, x + 132, yMax)) {
             //draw tooltip prod
-            List<String> list = new ArrayList<>(2);
+            List<String> list = new ArrayList<String>(2);
             list.add("Water:");
             list.add(String.format("%d/%d mB", tile.getWaterStorage(), tile.getMaxWaterStorage()));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(isInArea(mouseX, mouseY, x + 139, yMin, x + 155, yMax)) {
             //draw tooltip prod
-            List<String> list = new ArrayList<>(2);
+            List<String> list = new ArrayList<String>(2);
             list.add("Steam:");
             list.add(String.format("%d/%d mB", tile.getSteamStorage(), tile.getMaxSteamStorage()));
             this.func_146283_a(list, mouseX, mouseY);

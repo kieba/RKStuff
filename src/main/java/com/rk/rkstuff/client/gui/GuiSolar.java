@@ -1,15 +1,10 @@
 package com.rk.rkstuff.client.gui;
 
 import com.rk.rkstuff.container.ContainerSolar;
-import com.rk.rkstuff.helper.RKLog;
-import com.rk.rkstuff.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.tile.TileSolarMaster;
 import com.rk.rkstuff.util.Textures;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,19 +40,19 @@ public class GuiSolar extends GuiContainer {
         int yMax = y + 71;
         if(isInArea(mouseX, mouseY, x + 26, yMin, x + 60, yMax)) {
             //draw tooltip cool coolant
-            List<String> list = new ArrayList<>(2);
+            List<String> list = new ArrayList<String>(2);
             list.add("Cool Coolant:");
             list.add(String.format("%d/%d mB", Math.round(tile.getCoolCoolantTank()), Math.round(tile.getMaxTankCapacity())));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(isInArea(mouseX, mouseY, x + 116, yMin, x + 150, yMax)) {
             //draw tooltip hot coolant
-            List<String> list = new ArrayList<>(2);
+            List<String> list = new ArrayList<String>(2);
             list.add("Hot Coolant:");
             list.add(String.format("%d/%d mB", Math.round(tile.getHotCoolantTank()), Math.round(tile.getMaxTankCapacity())));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(isInArea(mouseX, mouseY, x + 82, yMin, x + 94, yMax)) {
             //draw tooltip prod
-            List<String> list = new ArrayList<>(2);
+            List<String> list = new ArrayList<String>(2);
             list.add("Production:");
             list.add(String.format("%.2f/%.2f mB", tile.getProductionLastTick(), tile.getProductionMaximal()));
             this.func_146283_a(list, mouseX, mouseY);

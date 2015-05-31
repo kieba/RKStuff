@@ -10,14 +10,14 @@ import java.util.HashMap;
 
 public class CCMethodRegistry {
 
-    private static HashMap<Class, ArrayList<ICCMethod>> TILE_TO_METHODS = new HashMap<>();
+    private static HashMap<Class, ArrayList<ICCMethod>> TILE_TO_METHODS = new HashMap<Class, ArrayList<ICCMethod>>();
 
     public static <T extends TileRK> void registerCCMethod(Class<T> clazz, ICCMethod<T> method) {
         if(TILE_TO_METHODS.containsKey(clazz)) {
             ArrayList<ICCMethod> methods = TILE_TO_METHODS.get(clazz);
             methods.add(method);
         } else {
-            ArrayList<ICCMethod> methods = new ArrayList<>(1);
+            ArrayList<ICCMethod> methods = new ArrayList<ICCMethod>(1);
             methods.add(method);
             TILE_TO_METHODS.put(clazz, methods);
         }

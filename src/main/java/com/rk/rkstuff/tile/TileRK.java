@@ -4,21 +4,16 @@ import com.rk.rkstuff.helper.Pos;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.ICustomMessage;
 import com.rk.rkstuff.network.message.MessageCustom;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 
 public abstract class TileRK extends TileEntity implements ICustomMessage {
 
     public static int GUI_UPDATE_RATE = 10;
 
-    private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<>(1);
+    private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<EntityPlayerMP>(1);
     private int tick = 0;
 
     @Override

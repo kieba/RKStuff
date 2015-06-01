@@ -51,7 +51,7 @@ public class RkStuff {
     public static Block blockBoilerBase = new BlockBoilerBase();
     public static Block blockBoilerBaseInput = new BlockBoilerBaseInput();
     public static Block blockBoilerBaseOutput = new BlockBoilerBaseOutput();
-    public static Block blockBoilerBaseMaster = new BlockBoilerBaseMaster();
+    public static BlockBoilerBaseMaster blockBoilerBaseMaster = new BlockBoilerBaseMaster();
     public static Block blockBoilerTank = new BlockBoilerTank();
 
     public static Block blockEnergyDistribution = new BlockEnergyDistribution();
@@ -101,6 +101,7 @@ public class RkStuff {
 
         //ComputerCraft Provider
         ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockSolarMaster);
+        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockBoilerBaseMaster);
 
         //ComputerCraft Methods
         CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetCoolCoolant());

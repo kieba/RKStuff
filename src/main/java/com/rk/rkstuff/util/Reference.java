@@ -37,6 +37,14 @@ public class Reference {
     public static final String FLUID_COOL_COOLANT_NAME = "CoolCoolant";
     public static final String FLUID_HOT_COOLANT_NAME = "HotCoolant";
 
+    public static final String ITEM_VALVE = "Valve";
+    public static final String ITEM_MACHINE_BLOCK = "MachineBlock";
+    public static final String ITEM_SOLAR_PANEL = "SolarPanel";
+    public static final String ITEM_CONTROL_UNIT = "ControlUnit";
+    public static final String ITEM_WIRE = "Wire";
+    public static final String ITEM_SOLAR_TILE = "SolarTile";
+
+
     public static final int GUI_ID_SOLAR = 0;
     public static final int GUI_ID_BOILER = 1;
     public static final int GUI_ID_ENERGY_DISTRIBUTION = 2;

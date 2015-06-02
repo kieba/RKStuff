@@ -15,6 +15,21 @@ buildscript {
     }
 }
 
+ext.configFile = file "build.properties"
+configFile.withReader {
+    // Load config.  It shall from now be referenced as simply config or project.config
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+repositories {
+    ivy {
+        name 'CoFHLib'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${config.cofhlib.cf}/[module]-[revision].[ext]"
+    }
+}
+
 apply plugin: 'forge'
 
 version = "1.0"
@@ -39,7 +54,7 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+    compile group: 'cofh', name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
 }
 
 processResources

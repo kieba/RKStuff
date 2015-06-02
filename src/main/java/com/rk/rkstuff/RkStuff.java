@@ -3,16 +3,21 @@ package com.rk.rkstuff;
 import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
+import com.rk.rkstuff.cc.CCMethodRegistry;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.item.BucketBase;
+import com.rk.rkstuff.item.ItemRK;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
 import com.rk.rkstuff.tile.*;
 import com.rk.rkstuff.util.Reference;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -23,12 +28,14 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.Map;
 
@@ -55,6 +62,13 @@ public class RkStuff {
 
     public static Block blockEnergyDistribution = new BlockEnergyDistribution();
     public static Block blockFluidDistribution = new BlockFluidDistribution();
+
+    public static Item itemMachineBlock = new ItemRK(Reference.ITEM_MACHINE_BLOCK);
+    public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
+    public static Item itemSolarPanel = new ItemRK(Reference.ITEM_SOLAR_PANEL);
+    public static Item itemControlUnit = new ItemRK(Reference.ITEM_CONTROL_UNIT);
+    public static Item itemWire = new ItemRK(Reference.ITEM_WIRE);
+    public static Item itemSolarTile = new ItemRK(Reference.ITEM_SOLAR_TILE);
 
 
     @Mod.Instance(Reference.MOD_ID)
@@ -101,10 +115,21 @@ public class RkStuff {
         //Fluids
         registerFluids();
 
+        //Items
+        GameRegistry.registerItem(itemControlUnit, Reference.ITEM_CONTROL_UNIT);
+        GameRegistry.registerItem(itemMachineBlock, Reference.ITEM_MACHINE_BLOCK);
+        GameRegistry.registerItem(itemSolarPanel, Reference.ITEM_SOLAR_PANEL);
+        GameRegistry.registerItem(itemValve, Reference.ITEM_VALVE);
+        GameRegistry.registerItem(itemWire, Reference.ITEM_WIRE);
+        GameRegistry.registerItem(itemSolarTile, Reference.ITEM_SOLAR_TILE);
+
+
         //ComputerCraft Provider
         ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockSolarMaster);
         ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockBoilerBaseMaster);
 
+        //Recipes
+        registerRecipes();
     }
 
     @EventHandler
@@ -126,6 +151,8 @@ public class RkStuff {
             }
         }
     }
+
+
 
     private void registerFluids(){
         MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
@@ -152,5 +179,22 @@ public class RkStuff {
         GameRegistry.registerItem(hotCoolantBucket, "Bucket" + Reference.FLUID_HOT_COOLANT_NAME);
         FluidContainerRegistry.registerFluidContainer(hotCoolant, new ItemStack(hotCoolantBucket), new ItemStack(Items.bucket));
         BucketHandler.INSTANCE.buckets.put(hotCoolantBlock, hotCoolantBucket);
+    }
+
+    private void registerRecipes() {
+        GameRegistry.addShapedRecipe(new ItemStack(itemValve), " i ", "iii", 'i', Items.iron_ingot);
+        GameRegistry.addShapedRecipe(new ItemStack(itemMachineBlock), "iii", "iri", "iii", 'i', Items.iron_ingot, 'r', Items.redstone);
+        GameRegistry.addShapedRecipe(new ItemStack(itemControlUnit), "wrw", "rgr", "wrw", 'w', itemWire, 'r', Items.redstone, 'g', Items.gold_ingot);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemWire), true, new Object[]{"ccc", 'c', "itemCopper"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemSolarPanel), true, new Object[]{"sts", "tct", "sts", 's', itemSolarTile, 't', "ingotTin", 'c', "ingotCopper"}));
+
+        //Blockrecipes
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolar), true, new Object[]{"sss", "ibi", "iii", 's', itemSolarPanel, 'b', itemMachineBlock, 'i', Items.iron_ingot}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarInput), true, new Object[]{"sss", "vbr", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', Items.redstone, 'b', itemMachineBlock, 'i', Items.iron_ingot}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarOutput), true, new Object[]{"sss", "rbv", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', Items.redstone, 'b', itemMachineBlock, 'i', Items.iron_ingot}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarMaster), true, new Object[]{"sss", "cbc", "iii", 's', itemSolarPanel, 'c', itemControlUnit, 'b', itemMachineBlock, 'i', Items.iron_ingot}));
+
+        //MachineRecipes
+        cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(4000, new ItemStack(Items.redstone), new ItemStack(Items.dye, 1, 4), new ItemStack(itemSolarTile));
     }
 }

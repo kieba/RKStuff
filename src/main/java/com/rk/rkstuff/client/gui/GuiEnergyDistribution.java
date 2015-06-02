@@ -69,32 +69,32 @@ public class GuiEnergyDistribution extends GuiContainer {
         //DOWN
         bounds = defaultBounds.copy().setPos(guiLeft + 114, guiTop + 53);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        sideButtons[ForgeDirection.DOWN.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        sideButtons[ForgeDirection.DOWN.ordinal()] = new GuiButtonRK(ForgeDirection.DOWN.ordinal(), tex, bounds, overlay);
 
         //UP
         bounds = defaultBounds.copy().setPos(guiLeft + 114, guiTop + 27);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        sideButtons[ForgeDirection.UP.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        sideButtons[ForgeDirection.UP.ordinal()] = new GuiButtonRK(ForgeDirection.UP.ordinal(), tex, bounds, overlay);
 
         //NORTH
         bounds = defaultBounds.copy().setPos(guiLeft + 101, guiTop + 27);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        sideButtons[ForgeDirection.NORTH.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        sideButtons[ForgeDirection.NORTH.ordinal()] = new GuiButtonRK(ForgeDirection.NORTH.ordinal(), tex, bounds, overlay);
 
         //SOUTH
         bounds = defaultBounds.copy().setPos(guiLeft + 101, guiTop + 53);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        sideButtons[ForgeDirection.SOUTH.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        sideButtons[ForgeDirection.SOUTH.ordinal()] = new GuiButtonRK(ForgeDirection.SOUTH.ordinal(), tex, bounds, overlay);
 
         //WEST
         bounds = defaultBounds.copy().setPos(guiLeft + 88, guiTop + 40);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        sideButtons[ForgeDirection.WEST.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        sideButtons[ForgeDirection.WEST.ordinal()] = new GuiButtonRK(ForgeDirection.WEST.ordinal(), tex, bounds, overlay);
 
         //EAST
         bounds = defaultBounds.copy().setPos(guiLeft + 114, guiTop + 40);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        sideButtons[ForgeDirection.EAST.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        sideButtons[ForgeDirection.EAST.ordinal()] = new GuiButtonRK(ForgeDirection.EAST.ordinal(), tex, bounds, overlay);
 
 
         for (int i = 0; i < sideButtons.length; i++) {
@@ -109,32 +109,32 @@ public class GuiEnergyDistribution extends GuiContainer {
         //DOWN
         bounds = defaultBounds.copy().setPos(guiLeft + 114, guiTop + 53);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        priorityButtons[ForgeDirection.DOWN.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        priorityButtons[ForgeDirection.DOWN.ordinal()] = new GuiButtonRK(6 + ForgeDirection.DOWN.ordinal(), tex, bounds, overlay);
 
         //UP
         bounds = defaultBounds.copy().setPos(guiLeft + 114, guiTop + 27);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        priorityButtons[ForgeDirection.UP.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        priorityButtons[ForgeDirection.UP.ordinal()] = new GuiButtonRK(6 + ForgeDirection.UP.ordinal(), tex, bounds, overlay);
 
         //NORTH
         bounds = defaultBounds.copy().setPos(guiLeft + 101, guiTop + 27);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        priorityButtons[ForgeDirection.NORTH.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        priorityButtons[ForgeDirection.NORTH.ordinal()] = new GuiButtonRK(6 + ForgeDirection.NORTH.ordinal(), tex, bounds, overlay);
 
         //SOUTH
         bounds = defaultBounds.copy().setPos(guiLeft + 101, guiTop + 53);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        priorityButtons[ForgeDirection.SOUTH.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        priorityButtons[ForgeDirection.SOUTH.ordinal()] = new GuiButtonRK(6 + ForgeDirection.SOUTH.ordinal(), tex, bounds, overlay);
 
         //WEST
         bounds = defaultBounds.copy().setPos(guiLeft + 88, guiTop + 40);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        priorityButtons[ForgeDirection.WEST.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        priorityButtons[ForgeDirection.WEST.ordinal()] = new GuiButtonRK(6 + ForgeDirection.WEST.ordinal(), tex, bounds, overlay);
 
         //EAST
         bounds = defaultBounds.copy().setPos(guiLeft + 114, guiTop + 40);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY);
-        priorityButtons[ForgeDirection.EAST.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        priorityButtons[ForgeDirection.EAST.ordinal()] = new GuiButtonRK(6 + ForgeDirection.EAST.ordinal(), tex, bounds, overlay);
 
         for (int i = 0; i < priorityButtons.length; i++) {
             priorityButtons[i].visible = false;
@@ -148,32 +148,34 @@ public class GuiEnergyDistribution extends GuiContainer {
         //DOWN
         bounds = defaultBounds.copy().setPos(guiLeft + 75, guiTop + 46);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY).setIndex(5);
-        outputButtons[ForgeDirection.DOWN.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        outputButtons[ForgeDirection.DOWN.ordinal()] = new GuiButtonRK(12 + ForgeDirection.DOWN.ordinal(), tex, bounds, overlay);
 
         //UP
         bounds = defaultBounds.copy().setPos(guiLeft + 75, guiTop + 20);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY).setIndex(4);
-        outputButtons[ForgeDirection.UP.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        outputButtons[ForgeDirection.UP.ordinal()] = new GuiButtonRK(12 + ForgeDirection.UP.ordinal(), tex, bounds, overlay);
 
         //NORTH
         bounds = defaultBounds.copy().setPos(guiLeft + 62, guiTop + 20);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY).setIndex(0);
-        outputButtons[ForgeDirection.NORTH.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        outputButtons[ForgeDirection.NORTH.ordinal()] = new GuiButtonRK(12 + ForgeDirection.NORTH.ordinal(), tex, bounds, overlay);
 
         //SOUTH
         bounds = defaultBounds.copy().setPos(guiLeft + 62, guiTop + 46);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY).setIndex(2);
-        outputButtons[ForgeDirection.SOUTH.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        outputButtons[ForgeDirection.SOUTH.ordinal()] = new GuiButtonRK(12 + ForgeDirection.SOUTH.ordinal(), tex, bounds, overlay);
 
         //WEST
         bounds = defaultBounds.copy().setPos(guiLeft + 49, guiTop + 33);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY).setIndex(3);
-        outputButtons[ForgeDirection.WEST.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        outputButtons[ForgeDirection.WEST.ordinal()] = new GuiButtonRK(12 + ForgeDirection.WEST.ordinal(), tex, bounds, overlay);
 
         //EAST
         bounds = defaultBounds.copy().setPos(guiLeft + 75, guiTop + 33);
         overlay = defaultOverlay.copy().setPos(bounds.xPos + overlayOffsetX, bounds.yPos + overlayOffsetY).setIndex(1);
-        outputButtons[ForgeDirection.EAST.ordinal()] = new GuiButtonRK(buttonId++, tex, bounds, overlay);
+        outputButtons[ForgeDirection.EAST.ordinal()] = new GuiButtonRK(12 + ForgeDirection.EAST.ordinal(), tex, bounds, overlay);
+
+        buttonId = 18;
 
         //ABSOLUTE - PERCENT
         bounds = defaultBounds.copy().setPos(guiLeft + 82, guiTop + 60).enableSelect(false);

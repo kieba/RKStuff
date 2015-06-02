@@ -104,7 +104,7 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver, I
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if(!isInput(from.getOpposite())) return 0;
+        if(!isInput(from.ordinal())) return 0;
 
         int[] maxInput = new int[6];
         int inputTotal = 0;
@@ -112,10 +112,10 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver, I
 
         //get max inputs from all directions
         for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            if(isOutput(dir)) {
+            if(isOutput(dir.ordinal())) {
                 receiver[dir.ordinal()] = getIEnergyReceiver(dir);
                 if(receiver[dir.ordinal()] != null) {
-                    int transfer = receiver[dir.ordinal()].receiveEnergy(dir, Integer.MAX_VALUE, true);
+                    int transfer = receiver[dir.ordinal()].receiveEnergy(dir.getOpposite(), Integer.MAX_VALUE, true);
                     if(!isOutputLimitRelative) {
                         transfer = Math.min(maxOutputAbs[dir.ordinal()] - energyOutputted[dir.ordinal()], transfer);
                     }
@@ -133,29 +133,32 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver, I
                     output[i] = maxInput[i];
                 }
             } else {
+                inputTotal = maxReceive;
+
                 for (int p = 5; p >= 0; p--) {
                     int sum = 0;
                     for (int i = 0; i < 6; i++) {
                         if(priority[i] == p) {
-                            sum = maxInput[i];
+                            sum += maxInput[i];
                         }
                     }
 
-                    float scale = inputTotal / sum;
+                    float scale = (sum == 0) ? 0 : inputTotal / (float)sum;
                     if(scale > 1.0) scale = 1.0f;
 
                     for (int i = 0; i < 6; i++) {
                         if(priority[i] == p) {
-                            output[i] = (int) (maxInput[i] * scale);
+                            int scaled = (int) (maxInput[i] * scale);
+                            output[i] = scaled;
+                            inputTotal -= scaled;
                         }
                     }
-
-                    inputTotal -= sum;
                 }
             }
         } else {
+            inputTotal = Math.min(inputTotal, maxReceive);
             for (int i = 0; i < 6; i++) {
-                output[i] = Math.min(maxInput[i], (int) (maxOutputRel[i] * inputTotal));
+                output[i] = Math.min(maxInput[i], Math.round(maxOutputRel[i] * inputTotal));
             }
         }
 
@@ -185,31 +188,19 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver, I
 
     @Override
     public boolean canConnectEnergy(ForgeDirection from) {
-        return isDisabled(from.getOpposite());
-    }
-
-    private boolean isDisabled(ForgeDirection direction) {
-        return isDisabled(direction.ordinal());
-    }
-
-    private boolean isInput(ForgeDirection direction) {
-        return isInput(direction.ordinal());
-    }
-
-    private boolean isOutput(ForgeDirection direction) {
-        return isOutput(direction.ordinal());
+        return !isDisabled(from.ordinal());
     }
 
     private boolean isDisabled(int direction) {
-        return sides[direction] == 0;
+        return sides[direction] == 2;
     }
 
     private boolean isInput(int direction) {
-        return sides[direction] == 1;
+        return sides[direction] == 0;
     }
 
     private boolean isOutput(int direction) {
-        return sides[direction] == 2;
+        return sides[direction] == 1;
     }
 
     private IEnergyReceiver getIEnergyReceiver(ForgeDirection dir) {

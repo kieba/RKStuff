@@ -6,7 +6,6 @@ import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
-import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.item.BucketBase;
 import com.rk.rkstuff.item.ItemRK;
 import com.rk.rkstuff.network.PacketHandler;
@@ -23,9 +22,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import dan200.computercraft.api.ComputerCraftAPI;
 import net.minecraft.block.Block;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
@@ -184,7 +180,7 @@ public class RkStuff {
         GameRegistry.addShapedRecipe(new ItemStack(itemValve), " i ", "iii", 'i', Items.iron_ingot);
         GameRegistry.addShapedRecipe(new ItemStack(itemMachineBlock), "iii", "iri", "iii", 'i', Items.iron_ingot, 'r', Items.redstone);
         GameRegistry.addShapedRecipe(new ItemStack(itemControlUnit), "wrw", "rgr", "wrw", 'w', itemWire, 'r', Items.redstone, 'g', Items.gold_ingot);
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemWire), true, new Object[]{"ccc", 'c', "itemCopper"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemWire), true, new Object[]{"ccc", 'c', "ingotCopper"}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemSolarPanel), true, new Object[]{"sts", "tct", "sts", 's', itemSolarTile, 't', "ingotTin", 'c', "ingotCopper"}));
 
         //Blockrecipes

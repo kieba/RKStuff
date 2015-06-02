@@ -19,7 +19,7 @@ import rk.com.core.io.IOStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiEnergyDistribution extends GuiContainer {
+public class GuiDistribution extends GuiContainer {
 
     private static final int TEXTURE_WIDTH = 300;
     private static final int TEXTURE_HEIGHT = 300;
@@ -41,7 +41,7 @@ public class GuiEnergyDistribution extends GuiContainer {
     private TileEnergyDistribution tile;
     private int page = 0;
 
-    public GuiEnergyDistribution(EntityPlayer player, TileEnergyDistribution tile) {
+    public GuiDistribution(EntityPlayer player, TileEnergyDistribution tile) {
         super(new ContainerEnergyDistribution(player, tile));
         this.tile = tile;
     }

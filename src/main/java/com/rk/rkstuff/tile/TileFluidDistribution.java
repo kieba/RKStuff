@@ -75,7 +75,7 @@ public class TileFluidDistribution extends TileDistribution implements IFluidHan
         //get max inputs from all directions
         for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             if(isOutput(dir.ordinal())) {
-                int transfer = fill(dir.getOpposite(), resource.getFluid(), Integer.MAX_VALUE, false);
+                int transfer = fill(dir, resource.getFluid(), Integer.MAX_VALUE, false);
                 if(!isOutputLimitRelative) {
                     transfer = Math.min(maxOutputAbs[dir.ordinal()] - outputted[dir.ordinal()], transfer);
                 }
@@ -125,7 +125,7 @@ public class TileFluidDistribution extends TileDistribution implements IFluidHan
         int totalOutput = 0;
         for (int i = 0; i < 6; i++) {
             if(output[i] > 0) {
-                int ret = fill(ForgeDirection.VALID_DIRECTIONS[i].getOpposite(), resource.getFluid(), output[i], doFill);
+                int ret = fill(ForgeDirection.VALID_DIRECTIONS[i], resource.getFluid(), output[i], doFill);
                 if(doFill) {
                     outputted[i] += ret;
                 }
@@ -163,7 +163,7 @@ public class TileFluidDistribution extends TileDistribution implements IFluidHan
     private int fill(ForgeDirection dir, Fluid fluid, int amount, boolean doFill) {
         TileEntity tile = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
         if(tile instanceof IFluidHandler) {
-            return ((IFluidHandler) tile).fill(dir, new FluidStack(fluid, amount), doFill);
+            return ((IFluidHandler) tile).fill(dir.getOpposite(), new FluidStack(fluid, amount), doFill);
         }
         if(tile instanceof IFluidTank) {
             return ((IFluidTank) tile).fill(new FluidStack(fluid, amount), doFill);

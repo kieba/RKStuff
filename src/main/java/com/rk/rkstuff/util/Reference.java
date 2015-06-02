@@ -48,6 +48,6 @@ public class Reference {
     public static final int GUI_ID_SOLAR = 0;
     public static final int GUI_ID_BOILER = 1;
     public static final int GUI_ID_ENERGY_DISTRIBUTION = 2;
-    public static final int GUI_ID_FLUID_DISTRIBUTION = 2;
+    public static final int GUI_ID_FLUID_DISTRIBUTION = 3;
 
 }

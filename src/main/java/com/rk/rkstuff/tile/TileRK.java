@@ -22,7 +22,6 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         if(hasGui() && !playerInGui.isEmpty()) {
             if(tick > GUI_UPDATE_RATE) {
                 updateGuiInformation();
-                tick = 0;
             } else  {
                 tick++;
             }
@@ -33,6 +32,7 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         for (EntityPlayerMP p : playerInGui) {
             PacketHandler.INSTANCE.sendTo(new MessageCustom(this), p);
         }
+        tick = 0;
     }
 
     public void registerPlayerGui(EntityPlayerMP player) {

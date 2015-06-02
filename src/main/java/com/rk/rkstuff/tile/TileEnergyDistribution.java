@@ -1,6 +1,7 @@
 package com.rk.rkstuff.tile;
 
 import cofh.api.energy.IEnergyReceiver;
+import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.network.message.IGuiActionMessage;
 import net.minecraft.nbt.NBTTagCompound;
@@ -230,17 +231,6 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver, I
     private void addOutputRel(int side, float amount) {
         maxOutputRel[side] += amount;
         if(maxOutputRel[side] > 1.0f) maxOutputRel[side] = 1.0f;
-
-        /*float subtract = -amount / 5.0f;
-        for (int i = 0; i < 6; i++) {
-            maxOutputRel[i] += (i == side) ? amount : subtract;
-        }
-        if(maxOutputRel[side] > 1.0) {
-            for (int i = 0; i < 6; i++) {
-                maxOutputRel[i] = (i == side) ? 1.0f : 0.0f;
-            }
-        }
-        */
     }
 
     private void subtractOutputAbs(int side, int amount) {
@@ -251,13 +241,6 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver, I
     private void subtractOutputRel(int side, float amount) {
         maxOutputRel[side] -= amount;
         if(maxOutputRel[side] < 0) maxOutputRel[side] = 0.0f;
-        /*
-        float add = amount / 5.0f;
-        for (int i = 0; i < 6; i++) {
-            maxOutputRel[i] += (i == side) ? -amount : add;
-            if(maxOutputRel[i] < 0) maxOutputRel[i] = 0.0f;
-        }
-        */
     }
 
     public boolean isOutputLimitRelative() {
@@ -286,6 +269,7 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver, I
         if(id >= 0 && id < 6) {
             //SIDE BUTTONS
             this.changeSide(id);
+            worldObj.notifyBlockChange(xCoord, yCoord, zCoord, RkStuff.blockEnergyDistribution);
         } else if(id >= 6 && id < 12) {
             //PRIORITY BUTTONS
             this.changePriority(id - 6);
@@ -312,6 +296,6 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver, I
                 }
             }
         }
-        updateGuiInformation();
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 }

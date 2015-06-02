@@ -1,6 +1,7 @@
 package com.rk.rkstuff.client.gui;
 
 import com.rk.rkstuff.container.ContainerBoiler;
+import com.rk.rkstuff.helper.GuiHelper;
 import com.rk.rkstuff.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.util.Textures;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -42,31 +43,31 @@ public class GuiBoiler extends GuiContainer {
 
         int yMin = y + 18;
         int yMax = y + 71;
-        if(isInArea(mouseX, mouseY, x + 21, yMin, x + 37, yMax)) {
+        if(GuiHelper.isInArea(mouseX, mouseY, x + 21, yMin, x + 37, yMax)) {
             //draw tooltip cool coolant
             List<String> list = new ArrayList<String>(2);
             list.add("Hot Coolant:");
             list.add(String.format("%d/%d mB", tile.getHotCoolantStorage(), tile.getMaxCoolantStorage()));
             this.func_146283_a(list, mouseX, mouseY);
-        } else if(isInArea(mouseX, mouseY, x + 44, yMin, x + 60, yMax)) {
+        } else if(GuiHelper.isInArea(mouseX, mouseY, x + 44, yMin, x + 60, yMax)) {
             //draw tooltip hot coolant
             List<String> list = new ArrayList<String>(2);
             list.add("Cool Coolant:");
             list.add(String.format("%d/%d mB", tile.getCoolCoolantStorage(), tile.getMaxCoolantStorage()));
             this.func_146283_a(list, mouseX, mouseY);
-        } else if(isInArea(mouseX, mouseY, x + 82, yMin, x + 94, yMax)) {
+        } else if(GuiHelper.isInArea(mouseX, mouseY, x + 82, yMin, x + 94, yMax)) {
             //draw tooltip prod
             List<String> list = new ArrayList<String>(2);
             list.add("Heat:");
             list.add(String.format("%d °C", tile.getTemperature()));
             this.func_146283_a(list, mouseX, mouseY);
-        } else if(isInArea(mouseX, mouseY, x + 116, yMin, x + 132, yMax)) {
+        } else if(GuiHelper.isInArea(mouseX, mouseY, x + 116, yMin, x + 132, yMax)) {
             //draw tooltip prod
             List<String> list = new ArrayList<String>(2);
             list.add("Water:");
             list.add(String.format("%d/%d mB", tile.getWaterStorage(), tile.getMaxWaterStorage()));
             this.func_146283_a(list, mouseX, mouseY);
-        } else if(isInArea(mouseX, mouseY, x + 139, yMin, x + 155, yMax)) {
+        } else if(GuiHelper.isInArea(mouseX, mouseY, x + 139, yMin, x + 155, yMax)) {
             //draw tooltip prod
             List<String> list = new ArrayList<String>(2);
             list.add("Steam:");
@@ -75,11 +76,4 @@ public class GuiBoiler extends GuiContainer {
         }
     }
 
-    private boolean isInArea(int x, int y, int xMin, int yMin, int xMax, int yMax) {
-        if(x < xMin)return false;
-        if(y < yMin)return false;
-        if(x > xMax)return false;
-        if(y > yMax)return false;
-        return true;
-    }
 }

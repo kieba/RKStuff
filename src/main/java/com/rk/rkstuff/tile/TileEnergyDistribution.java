@@ -1,21 +1,23 @@
 package com.rk.rkstuff.tile;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
+import com.rk.rkstuff.helper.RKLog;
+import com.rk.rkstuff.network.message.IGuiActionMessage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
+import java.util.Arrays;
 
-public class TileEnergyDistribution extends TileRK implements IEnergyReceiver {
+public class TileEnergyDistribution extends TileRK implements IEnergyReceiver, IGuiActionMessage {
 
     private int[] priority = new int[6];
     private boolean isOutputLimitRelative = false;
-    private int[] maxOutput = new int[6]; //if isOutputLimitRelative == true then output is between 0 ... 100
-    private byte[] sides = new byte[6];
+    private int[] maxOutputAbs = new int[6];
+    private float[] maxOutputRel = new float[6];
+    private int[] sides = new int[6];
     private int[] energyOutputted = new int[6];
 
     private int[] history = new int[60];
@@ -47,8 +49,13 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver {
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         priority = nbt.getIntArray("prio");
-        maxOutput = nbt.getIntArray("output");
-        sides = nbt.getByteArray("sides");
+        maxOutputAbs = nbt.getIntArray("maxOutputAbs");
+        int[] tmp = nbt.getIntArray("maxOutputRel");
+        maxOutputRel = new float[tmp.length];
+        for (int i = 0; i < tmp.length; i++) {
+            maxOutputRel[i] = Float.intBitsToFloat(tmp[i]);
+        }
+        sides = nbt.getIntArray("sides");
         isOutputLimitRelative = nbt.getBoolean("outputRelative");
     }
 
@@ -56,8 +63,13 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver {
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
         nbt.setIntArray("prio", priority);
-        nbt.setIntArray("output", maxOutput);
-        nbt.setByteArray("sides", sides);
+        nbt.setIntArray("maxOutputAbs", maxOutputAbs);
+        int[] tmp = new int[maxOutputRel.length];
+        for (int i = 0; i < tmp.length; i++) {
+            tmp[i] = Float.floatToIntBits(maxOutputRel[i]);
+        }
+        nbt.setIntArray("maxOutputRel", tmp);
+        nbt.setIntArray("sides", sides);
         nbt.setBoolean("outputRelative", isOutputLimitRelative);
     }
 
@@ -70,8 +82,9 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver {
     public void readData(IOStream data) throws IOException {
         for (int i = 0; i < 6; i++) {
             priority[i] = data.readFirstInt();
-            maxOutput[i] = data.readFirstInt();
-            sides[i] = data.readFirstByte();
+            maxOutputAbs[i] = data.readFirstInt();
+            maxOutputRel[i] = data.readFirstFloat();
+            sides[i] = data.readFirstInt();
         }
         isOutputLimitRelative = data.readFirstBoolean();
         sum = data.readFirstInt();
@@ -81,7 +94,8 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver {
     public void writeData(IOStream data) {
         for (int i = 0; i < 6; i++) {
             data.writeLast(priority[i]);
-            data.writeLast(maxOutput[i]);
+            data.writeLast(maxOutputAbs[i]);
+            data.writeLast(maxOutputRel[i]);
             data.writeLast(sides[i]);
         }
         data.writeLast(isOutputLimitRelative);
@@ -103,7 +117,7 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver {
                 if(receiver[dir.ordinal()] != null) {
                     int transfer = receiver[dir.ordinal()].receiveEnergy(dir, Integer.MAX_VALUE, true);
                     if(!isOutputLimitRelative) {
-                        transfer = Math.min(maxOutput[dir.ordinal()] - energyOutputted[dir.ordinal()], transfer);
+                        transfer = Math.min(maxOutputAbs[dir.ordinal()] - energyOutputted[dir.ordinal()], transfer);
                     }
                     maxInput[dir.ordinal()] = transfer;
                     inputTotal += transfer;
@@ -141,7 +155,7 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver {
             }
         } else {
             for (int i = 0; i < 6; i++) {
-                output[i] = Math.min(maxInput[i], (int) (maxOutput[i] / 100.0f * inputTotal));
+                output[i] = Math.min(maxInput[i], (int) (maxOutputRel[i] * inputTotal));
             }
         }
 
@@ -198,18 +212,6 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver {
         return sides[direction] == 2;
     }
 
-    public void setDisabled(int direction) {
-        sides[direction] = 0;
-    }
-
-    public void setInput(int direction) {
-        sides[direction] = 1;
-    }
-
-    public void setOutput(int direction) {
-        sides[direction] = 2;
-    }
-
     private IEnergyReceiver getIEnergyReceiver(ForgeDirection dir) {
         TileEntity tile = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
         if(tile instanceof IEnergyReceiver) {
@@ -222,4 +224,103 @@ public class TileEnergyDistribution extends TileRK implements IEnergyReceiver {
         return (sum / (float)history.length);
     }
 
+    private void changeSide(int side) {
+        this.sides[side] = (this.sides[side] + 1) % 3;
+    }
+
+    private void changePriority(int side) {
+        this.priority[side] = (this.priority[side] + 1) % 5;
+    }
+
+    private void addOutputAbs(int side, int amount) {
+        maxOutputAbs[side] += amount;
+    }
+
+    private void addOutputRel(int side, float amount) {
+        maxOutputRel[side] += amount;
+        if(maxOutputRel[side] > 1.0f) maxOutputRel[side] = 1.0f;
+
+        /*float subtract = -amount / 5.0f;
+        for (int i = 0; i < 6; i++) {
+            maxOutputRel[i] += (i == side) ? amount : subtract;
+        }
+        if(maxOutputRel[side] > 1.0) {
+            for (int i = 0; i < 6; i++) {
+                maxOutputRel[i] = (i == side) ? 1.0f : 0.0f;
+            }
+        }
+        */
+    }
+
+    private void subtractOutputAbs(int side, int amount) {
+        maxOutputAbs[side] -= amount;
+        if(maxOutputAbs[side] < 0) maxOutputAbs[side] = 0;
+    }
+
+    private void subtractOutputRel(int side, float amount) {
+        maxOutputRel[side] -= amount;
+        if(maxOutputRel[side] < 0) maxOutputRel[side] = 0.0f;
+        /*
+        float add = amount / 5.0f;
+        for (int i = 0; i < 6; i++) {
+            maxOutputRel[i] += (i == side) ? -amount : add;
+            if(maxOutputRel[i] < 0) maxOutputRel[i] = 0.0f;
+        }
+        */
+    }
+
+    public boolean isOutputLimitRelative() {
+        return this.isOutputLimitRelative;
+    }
+
+    public int[] getMaxOutputAbs() {
+        return maxOutputAbs;
+    }
+
+    public float[] getMaxOutputRel() {
+        return maxOutputRel;
+    }
+
+    public int[] getSides() {
+        return sides;
+    }
+
+    public int[] getPriorities() {
+        return priority;
+    }
+
+    @Override
+    public void receiveGuiAction(IOStream data) throws IOException {
+        int id = data.readFirstInt();
+        if(id >= 0 && id < 6) {
+            //SIDE BUTTONS
+            this.changeSide(id);
+        } else if(id >= 6 && id < 12) {
+            //PRIORITY BUTTONS
+            this.changePriority(id - 6);
+        } else if(id >= 18 && id < 25) {
+            //OUTPUT BUTTONS (other)
+            if (id == 18) { //ABSOLUTE - PERCENT
+                isOutputLimitRelative = !isOutputLimitRelative;
+            } else {
+                int selectedOutputSide = data.readFirstInt();
+                if (this.isOutputLimitRelative()) {
+                    if (id == 19) this.subtractOutputRel(selectedOutputSide, 0.1f);
+                    if (id == 20) this.subtractOutputRel(selectedOutputSide, 0.05f);
+                    if (id == 21) this.subtractOutputRel(selectedOutputSide, 0.025f);
+                    if (id == 22) this.addOutputRel(selectedOutputSide, 0.025f);
+                    if (id == 23) this.addOutputRel(selectedOutputSide, 0.05f);
+                    if (id == 24) this.addOutputRel(selectedOutputSide, 0.1f);
+                } else {
+                    if (id == 19) this.subtractOutputAbs(selectedOutputSide, 5000);
+                    if (id == 20) this.subtractOutputAbs(selectedOutputSide, 500);
+                    if (id == 21) this.subtractOutputAbs(selectedOutputSide, 50);
+                    if (id == 22) this.addOutputAbs(selectedOutputSide, 50);
+                    if (id == 23) this.addOutputAbs(selectedOutputSide, 500);
+                    if (id == 24) this.addOutputAbs(selectedOutputSide, 5000);
+                }
+            }
+        }
+        updateGuiInformation();
+    }
 }

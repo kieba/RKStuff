@@ -1,6 +1,7 @@
 package com.rk.rkstuff.client.gui;
 
 import com.rk.rkstuff.container.ContainerSolar;
+import com.rk.rkstuff.helper.GuiHelper;
 import com.rk.rkstuff.tile.TileSolarMaster;
 import com.rk.rkstuff.util.Textures;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -38,19 +39,19 @@ public class GuiSolar extends GuiContainer {
 
         int yMin = y + 18;
         int yMax = y + 71;
-        if(isInArea(mouseX, mouseY, x + 26, yMin, x + 60, yMax)) {
+        if(GuiHelper.isInArea(mouseX, mouseY, x + 26, yMin, x + 60, yMax)) {
             //draw tooltip cool coolant
             List<String> list = new ArrayList<String>(2);
             list.add("Cool Coolant:");
             list.add(String.format("%d/%d mB", Math.round(tile.getCoolCoolantTank()), Math.round(tile.getMaxTankCapacity())));
             this.func_146283_a(list, mouseX, mouseY);
-        } else if(isInArea(mouseX, mouseY, x + 116, yMin, x + 150, yMax)) {
+        } else if(GuiHelper.isInArea(mouseX, mouseY, x + 116, yMin, x + 150, yMax)) {
             //draw tooltip hot coolant
             List<String> list = new ArrayList<String>(2);
             list.add("Hot Coolant:");
             list.add(String.format("%d/%d mB", Math.round(tile.getHotCoolantTank()), Math.round(tile.getMaxTankCapacity())));
             this.func_146283_a(list, mouseX, mouseY);
-        } else if(isInArea(mouseX, mouseY, x + 82, yMin, x + 94, yMax)) {
+        } else if(GuiHelper.isInArea(mouseX, mouseY, x + 82, yMin, x + 94, yMax)) {
             //draw tooltip prod
             List<String> list = new ArrayList<String>(2);
             list.add("Production:");
@@ -59,11 +60,4 @@ public class GuiSolar extends GuiContainer {
         }
     }
 
-    private boolean isInArea(int x, int y, int xMin, int yMin, int xMax, int yMax) {
-        if(x < xMin)return false;
-        if(y < yMin)return false;
-        if(x > xMax)return false;
-        if(y > yMax)return false;
-        return true;
-    }
 }

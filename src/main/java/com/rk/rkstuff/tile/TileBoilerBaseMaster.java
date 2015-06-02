@@ -35,14 +35,15 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     private int baseCount;
     private int tankCount;
 
-    private final int HEATENERGY_PER_TANK = 1000;
-    private final int HEATENERGY_PER_WATERBUCKET = 1000;
-    private final int HEATENERGY_PRODUCTION_PER_BASE = 28;
-    private final float STEAM_PER_HEATENERGY = 0.02f;
-    private final int STEAM_PER_WATER_MB = 2;
-    private final int COOLANT_TRANSFER_PER_BASE = 1;
+    private final int HEATBUFFER_PER_TANK = 10000;
+    private final float HEATLOSS_PER_TICK = 1;
+    private final int HEAT_PRODUCTION_PER_BASE = 10;
+    private final float STEAM_PER_HEATENERGY = 0.75f;
+    private final int STEAM_PER_WATER_MB = 160;
+    private final int COOLANT_USAGE_PER_BASE = 1;
     private final int COOLANT_STORAGE_PER_BASE = 1000;
     private final int WATER_STORAGE_PER_TANK = 1000;
+    private final int MAX_STEAMPRODUCTION_PER_TANK = 100;
 
 
     //in mB
@@ -55,7 +56,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
 
     @Override
     protected void updateMaster() {
-        int coolantUsage = Math.min(hotCoolantStorage, COOLANT_TRANSFER_PER_BASE * baseCount);
+        int coolantUsage = Math.min(hotCoolantStorage, COOLANT_USAGE_PER_BASE * baseCount);
         coolantUsage = Math.min(coolantUsage, getMaxCoolantStorage() - coolCoolantStorage);
         hotCoolantStorage -= coolantUsage;
         coolCoolantStorage += coolantUsage;
@@ -65,13 +66,13 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     }
 
     private void heatingProcess(int amountHotFluid) {
-        heatEnergy -= tankCount * HEATENERGY_PER_TANK * 0.05;
+        heatEnergy -= tankCount * HEATLOSS_PER_TICK;
         if (heatEnergy < 0) heatEnergy = 0;
 
-        heatEnergy += amountHotFluid * baseCount * HEATENERGY_PRODUCTION_PER_BASE;
+        heatEnergy += amountHotFluid * baseCount * HEAT_PRODUCTION_PER_BASE;
 
-        if (heatEnergy > getStartSteamProducingHeatingEnergyLevel() * 3) {
-            heatEnergy = getStartSteamProducingHeatingEnergyLevel() * 3;
+        if (heatEnergy > getMaxHeatEnergy()) {
+            heatEnergy = getMaxHeatEnergy();
         }
         if (worldObj.getWorldTime() % 100 == 0) {
             RKLog.info("Heat: " + heatEnergy);
@@ -84,8 +85,9 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
             int production = (int) (heatDiff * STEAM_PER_HEATENERGY);
             production = Math.min(production, getMaxSteamStorage() - steamStorage);
             production = Math.min(production, getWaterStorage() * STEAM_PER_WATER_MB);
+            production = Math.min(production, tankCount * MAX_STEAMPRODUCTION_PER_TANK);
 
-            heatEnergy -= production / STEAM_PER_WATER_MB;
+            heatEnergy -= production / STEAM_PER_HEATENERGY;
             waterStorage -= production / STEAM_PER_WATER_MB;
             steamStorage += production;
             return production;
@@ -94,15 +96,19 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     }
 
     private int getStartSteamProducingHeatingEnergyLevel() {
-        return (int) (tankCount * HEATENERGY_PER_TANK + (waterStorage / 1000.0) * HEATENERGY_PER_WATERBUCKET);
+        return (int) (getMaxHeatEnergy() * 80 / 300);
+    }
+
+    private int getMaxHeatEnergy() {
+        return tankCount * HEATBUFFER_PER_TANK;
     }
 
     public int getTemperature() {
-        return (int) ((float) heatEnergy / getStartSteamProducingHeatingEnergyLevel() * 100);
+        return (int) ((float) heatEnergy / getStartSteamProducingHeatingEnergyLevel() * 80) + 20;
     }
 
     public int getMaxTemperature() {
-        return 300;
+        return 320;
     }
 
     public int getMaxCoolantStorage() {
@@ -130,7 +136,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     }
 
     public int getMaxSteamStorage() {
-        return getMaxWaterStorage() * STEAM_PER_WATER_MB;
+        return getMaxWaterStorage() * 10;
     }
 
 
@@ -254,7 +260,6 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
                 meta |= ((pos.hasBlock(ForgeDirection.WEST) ? 1 : 0) << (ForgeDirection.WEST.ordinal() - 2));
                 worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, meta, 2);
             } else if(block instanceof BlockBoilerTank) {
-                //TODO: set right metadata
                 int meta = 0;
                 if (pos.x == tmpBounds.getMinX()) {
                     if (pos.z == tmpBounds.getMinZ()) {

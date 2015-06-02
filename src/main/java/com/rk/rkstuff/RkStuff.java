@@ -3,7 +3,6 @@ package com.rk.rkstuff;
 import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
-import com.rk.rkstuff.cc.CCMethodRegistry;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
@@ -55,6 +54,7 @@ public class RkStuff {
     public static Block blockBoilerTank = new BlockBoilerTank();
 
     public static Block blockEnergyDistribution = new BlockEnergyDistribution();
+    public static Block blockFluidDistribution = new BlockFluidDistribution();
 
 
     @Mod.Instance(Reference.MOD_ID)
@@ -84,6 +84,7 @@ public class RkStuff {
         GameRegistry.registerBlock(blockBoilerTank, Reference.BLOCK_BOILER_TANK);
 
         GameRegistry.registerBlock(blockEnergyDistribution, Reference.BLOCK_ENERGY_DISTRIBUTION);
+        GameRegistry.registerBlock(blockFluidDistribution, Reference.BLOCK_FLUID_DISTRIBUTION);
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
@@ -95,6 +96,7 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileBoilerBaseMaster.class, Reference.TILE_BOILER_BASE_MASTER);
 
         GameRegistry.registerTileEntity(TileEnergyDistribution.class, Reference.TILE_ENERGY_DISTRIBUTION);
+        GameRegistry.registerTileEntity(TileFluidDistribution.class, Reference.TILE_FLUID_DISTRIBUTION);
 
         //Fluids
         registerFluids();
@@ -102,24 +104,6 @@ public class RkStuff {
         //ComputerCraft Provider
         ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockSolarMaster);
         ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockBoilerBaseMaster);
-
-        //ComputerCraft Methods
-        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetCoolCoolant());
-        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetMaxCoolCoolant());
-        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetHotCoolant());
-        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetMaxHotCoolant());
-        CCMethodRegistry.registerCCMethod(TileSolarMaster.class, new TileSolarMaster.CCMethodGetProduction());
-
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetCoolCoolant());
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxCoolCoolant());
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetHotCoolant());
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxHotCoolant());
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetWater());
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxWater());
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetSteam());
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxSteam());
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetTemperature());
-        CCMethodRegistry.registerCCMethod(TileBoilerBaseMaster.class, new TileBoilerBaseMaster.CCMethodGetMaxTemperature());
 
     }
 
@@ -142,8 +126,6 @@ public class RkStuff {
             }
         }
     }
-
-
 
     private void registerFluids(){
         MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);

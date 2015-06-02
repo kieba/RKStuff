@@ -1,4 +1,4 @@
-package com.rk.rkstuff.cc;
+package com.rk.rkstuff.tile;
 
 import com.rk.rkstuff.tile.TileRK;
 import dan200.computercraft.api.lua.ILuaContext;

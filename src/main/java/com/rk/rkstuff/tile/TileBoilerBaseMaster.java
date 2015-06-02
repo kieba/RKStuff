@@ -4,8 +4,6 @@ import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.block.BlockBoilerBaseMaster;
 import com.rk.rkstuff.block.BlockBoilerTank;
 import com.rk.rkstuff.block.IBoilerBaseBlock;
-import com.rk.rkstuff.cc.CCMethodRegistry;
-import com.rk.rkstuff.cc.ICCMethod;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.RKLog;
@@ -31,6 +29,37 @@ import java.io.IOException;
         @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
 })
 public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPeripheral {
+
+    private static enum CCMethods {
+        METHOD1(new CCMethodGetCoolCoolant()),
+        METHOD2(new CCMethodGetMaxCoolCoolant()),
+        METHOD3(new CCMethodGetHotCoolant()),
+        METHOD4(new CCMethodGetMaxHotCoolant()),
+        METHOD5(new CCMethodGetWater()),
+        METHOD6(new CCMethodGetMaxWater()),
+        METHOD7(new CCMethodGetSteam()),
+        METHOD8(new CCMethodGetMaxSteam()),
+        METHOD9(new CCMethodGetTemperature()),
+        METHOD10(new CCMethodGetMaxTemperature());
+
+        private ICCMethod<TileBoilerBaseMaster> method;
+
+        CCMethods(ICCMethod<TileBoilerBaseMaster> method) {
+            this.method = method;
+        }
+
+        private Object[] execute(IComputerAccess computer, ILuaContext context, Object[] arguments, TileBoilerBaseMaster tile) throws LuaException, InterruptedException {
+            return method.callMethod(computer, context, arguments, tile);
+        }
+    }
+
+    private static String[] CC_METHODS;
+    static {
+        CC_METHODS = new String[CCMethods.values().length];
+        for (int i = 0; i < CCMethods.values().length; i++) {
+            CC_METHODS[i] = CCMethods.values()[i].method.getMethodName();
+        }
+    }
 
     private int baseCount;
     private int tankCount;
@@ -424,13 +453,13 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     @Override
     @Optional.Method(modid = "ComputerCraft")
     public String[] getMethodNames() {
-        return CCMethodRegistry.getMethods(this);
+        return CC_METHODS;
     }
 
     @Override
     @Optional.Method(modid = "ComputerCraft")
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
-        return CCMethodRegistry.executeMethod(computer, context, arguments, this, method);
+        return CCMethods.values()[method].execute(computer, context, arguments, this);
     }
 
     @Override

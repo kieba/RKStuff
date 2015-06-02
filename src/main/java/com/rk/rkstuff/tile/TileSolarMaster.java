@@ -4,11 +4,8 @@ import com.rk.rkstuff.block.BlockSolarInput;
 import com.rk.rkstuff.block.BlockSolarMaster;
 import com.rk.rkstuff.block.BlockSolarOutput;
 import com.rk.rkstuff.block.ISolarBlock;
-import com.rk.rkstuff.cc.CCMethodRegistry;
-import com.rk.rkstuff.cc.ICCMethod;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
-import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
@@ -26,6 +23,32 @@ import java.io.IOException;
         @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
 })
 public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral {
+
+    private static enum CCMethods {
+        METHOD1(new CCMethodGetCoolCoolant()),
+        METHOD2(new CCMethodGetMaxCoolCoolant()),
+        METHOD3(new CCMethodGetHotCoolant()),
+        METHOD4(new CCMethodGetMaxHotCoolant()),
+        METHOD5(new CCMethodGetProduction());
+
+        private ICCMethod<TileSolarMaster> method;
+
+        CCMethods(ICCMethod<TileSolarMaster> method) {
+            this.method = method;
+        }
+
+        private Object[] execute(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) throws LuaException, InterruptedException {
+            return method.callMethod(computer, context, arguments, tile);
+        }
+    }
+
+    private static String[] CC_METHODS;
+    static {
+        CC_METHODS = new String[CCMethods.values().length];
+        for (int i = 0; i < CCMethods.values().length; i++) {
+            CC_METHODS[i] = CCMethods.values()[i].method.getMethodName();
+        }
+    }
 
     private int countSolarPanels;
     private double MAX_MB_PER_PANEL = 1;
@@ -258,13 +281,13 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     @Override
     @Optional.Method(modid = "ComputerCraft")
     public String[] getMethodNames() {
-        return CCMethodRegistry.getMethods(this);
+        return CC_METHODS;
     }
 
     @Override
     @Optional.Method(modid = "ComputerCraft")
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
-        return CCMethodRegistry.executeMethod(computer, context, arguments, this, method);
+        return CCMethods.values()[method].execute(computer, context, arguments, this);
     }
 
     @Override

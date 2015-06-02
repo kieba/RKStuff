@@ -1,25 +1,19 @@
 package com.rk.rkstuff.client.gui;
 
-import com.rk.rkstuff.container.ContainerEnergyDistribution;
-import com.rk.rkstuff.container.ContainerSolar;
 import com.rk.rkstuff.network.PacketHandler;
-import com.rk.rkstuff.tile.TileBoilerBaseMaster;
-import com.rk.rkstuff.tile.TileEnergyDistribution;
-import com.rk.rkstuff.tile.TileSolarMaster;
+import com.rk.rkstuff.network.message.IGuiActionMessage;
+import com.rk.rkstuff.tile.*;
 import com.rk.rkstuff.util.Textures;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import rk.com.core.io.ByteArrayHelper;
 import rk.com.core.io.IOStream;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class GuiDistribution extends GuiContainer {
+public abstract class GuiDistribution<T extends TileDistribution & IGuiActionMessage> extends GuiContainer {
 
     private static final int TEXTURE_WIDTH = 300;
     private static final int TEXTURE_HEIGHT = 300;
@@ -37,12 +31,12 @@ public class GuiDistribution extends GuiContainer {
     private GuiButtonRK[] outputButtons = new GuiButtonRK[13];
     private GuiButtonRK[] pageButtons = new GuiButtonRK[2];
 
+    protected T tile;
     private int selectedOutputSide = 0;
-    private TileEnergyDistribution tile;
     private int page = 0;
 
-    public GuiDistribution(EntityPlayer player, TileEnergyDistribution tile) {
-        super(new ContainerEnergyDistribution(player, tile));
+    public GuiDistribution(Container container, T tile) {
+        super(container);
         this.tile = tile;
     }
 
@@ -50,7 +44,7 @@ public class GuiDistribution extends GuiContainer {
     public void initGui() {
         super.initGui();
 
-        ResourceLocation tex = Textures.ENERGY_DISTRIBUTION_GUI;
+        ResourceLocation tex = Textures.DISTRIBUTION_GUI;
         int buttonId = 0;
 
         TextureBounds defaultBounds = null, bounds = null;
@@ -278,7 +272,7 @@ public class GuiDistribution extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float tick, int mouseX, int mouseY) {
-        this.mc.getTextureManager().bindTexture(Textures.ENERGY_DISTRIBUTION_GUI);
+        this.mc.getTextureManager().bindTexture(Textures.DISTRIBUTION_GUI);
         int x = (this.width - SIZE_X) / 2;
         int y = (this.height - SIZE_Y) / 2;
         func_146110_a(x, y, 0, 0, SIZE_X, SIZE_Y, TEXTURE_WIDTH, TEXTURE_HEIGHT);
@@ -324,7 +318,7 @@ public class GuiDistribution extends GuiContainer {
         }
         GL11.glPopMatrix();
 
-        String str = String.format("Output: %.2f RF/t", tile.getAvgOutputPerTick());
+        String str = getAvgOutputString(tile.getAvgOutputPerTick());
         int strWidth = fontRendererObj.getStringWidth(str);
         fontRendererObj.drawString(str, 87 - (strWidth / 2), 73, 4210752);
     }
@@ -368,4 +362,5 @@ public class GuiDistribution extends GuiContainer {
         return "";
     }
 
+    protected abstract String getAvgOutputString(float avgOutput);
 }

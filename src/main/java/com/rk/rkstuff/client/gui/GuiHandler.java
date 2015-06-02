@@ -32,7 +32,7 @@ public class GuiHandler implements IGuiHandler {
         } else if(ID == Reference.GUI_ID_BOILER) {
             return new GuiBoiler(player, (TileBoilerBaseMaster) world.getTileEntity(x, y, z));
         } else if(ID == Reference.GUI_ID_ENERGY_DISTRIBUTION) {
-            return new GuiDistribution(player, (TileEnergyDistribution) world.getTileEntity(x, y, z));
+            return new GuiEnergyDistribution(player, (TileEnergyDistribution) world.getTileEntity(x, y, z));
         }
         return null;
     }

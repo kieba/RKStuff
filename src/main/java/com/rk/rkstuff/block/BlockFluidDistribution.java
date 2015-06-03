@@ -4,13 +4,15 @@ import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.tile.TileEnergyDistribution;
 import com.rk.rkstuff.tile.TileFluidDistribution;
 import com.rk.rkstuff.util.Reference;
+import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockFluidDistribution extends BlockRK implements ITileEntityProvider {
+public class BlockFluidDistribution extends BlockRK implements ITileEntityProvider, IPeripheralProvider {
 
     public BlockFluidDistribution() {
         super(Material.iron);
@@ -28,5 +30,10 @@ public class BlockFluidDistribution extends BlockRK implements ITileEntityProvid
             player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_FLUID_DISTRIBUTION, world, x, y, z);
         }
         return true;
+    }
+
+    @Override
+    public IPeripheral getPeripheral(World world, int x, int y, int z, int side) {
+        return (IPeripheral) world.getTileEntity(x, y, z);
     }
 }

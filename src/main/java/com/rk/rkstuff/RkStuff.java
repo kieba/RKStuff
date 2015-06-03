@@ -2,6 +2,7 @@ package com.rk.rkstuff;
 
 import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
+import com.rk.rkstuff.block.fluid.BlockFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.handler.BucketHandler;
@@ -40,7 +41,7 @@ public class RkStuff {
     public static Fluid coolCoolant;
     public static Block coolCoolantBlock;
     public static ItemBucket coolCoolantBucket;
-    public static Fluid hotCoolant = new Fluid("hotCoolant");
+    public static Fluid hotCoolant;
     public static Block hotCoolantBlock;
     public static ItemBucket hotCoolantBucket;
 
@@ -55,8 +56,8 @@ public class RkStuff {
     public static BlockBoilerBaseMaster blockBoilerBaseMaster = new BlockBoilerBaseMaster();
     public static Block blockBoilerTank = new BlockBoilerTank();
 
-    public static Block blockEnergyDistribution = new BlockEnergyDistribution();
-    public static Block blockFluidDistribution = new BlockFluidDistribution();
+    public static BlockEnergyDistribution blockEnergyDistribution = new BlockEnergyDistribution();
+    public static BlockFluidDistribution blockFluidDistribution = new BlockFluidDistribution();
 
     public static Item itemMachineBlock = new ItemRK(Reference.ITEM_MACHINE_BLOCK);
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
@@ -122,6 +123,8 @@ public class RkStuff {
         //ComputerCraft Provider
         ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockSolarMaster);
         ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockBoilerBaseMaster);
+        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockEnergyDistribution);
+        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockFluidDistribution);
 
         //Recipes
         registerRecipes();

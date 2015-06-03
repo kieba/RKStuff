@@ -44,7 +44,7 @@ public class TileEnergyDistribution extends TileDistribution implements IEnergyR
             }
         }
 
-        //sort sides py prio
+        //sort sides by prio
         for (int s = 0; s < 6; s++) {
             if(!isOutput(s) || maxOutput[s] == 0) continue;
             int p = priority[s];
@@ -120,9 +120,9 @@ public class TileEnergyDistribution extends TileDistribution implements IEnergyR
     protected void addOutputRel(int side, int mode) {
         float amount;
         if(mode == 0) {
-            amount = 0.025f;
+            amount = 0.001f;
         } else if(mode == 1) {
-            amount = 0.05f;
+            amount = 0.01f;
         } else {
             amount = 0.1f;
         }
@@ -148,9 +148,9 @@ public class TileEnergyDistribution extends TileDistribution implements IEnergyR
     protected void subtractOutputRel(int side, int mode) {
         float amount;
         if(mode == 0) {
-            amount = 0.025f;
+            amount = 0.001f;
         } else if(mode == 1) {
-            amount = 0.05f;
+            amount = 0.01f;
         } else {
             amount = 0.1f;
         }

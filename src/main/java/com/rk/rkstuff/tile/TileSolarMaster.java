@@ -4,6 +4,8 @@ import com.rk.rkstuff.block.BlockSolarInput;
 import com.rk.rkstuff.block.BlockSolarMaster;
 import com.rk.rkstuff.block.BlockSolarOutput;
 import com.rk.rkstuff.block.ISolarBlock;
+import com.rk.rkstuff.helper.CCHelper;
+import com.rk.rkstuff.helper.CCMethods;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.helper.Pos;
 import com.rk.rkstuff.util.Reference;
@@ -18,36 +20,21 @@ import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Optional.InterfaceList({
         @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
 })
 public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral {
 
-    private static enum CCMethods {
-        METHOD1(new CCMethodGetCoolCoolant()),
-        METHOD2(new CCMethodGetMaxCoolCoolant()),
-        METHOD3(new CCMethodGetHotCoolant()),
-        METHOD4(new CCMethodGetMaxHotCoolant()),
-        METHOD5(new CCMethodGetProduction());
-
-        private ICCMethod<TileSolarMaster> method;
-
-        CCMethods(ICCMethod<TileSolarMaster> method) {
-            this.method = method;
-        }
-
-        private Object[] execute(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) throws LuaException, InterruptedException {
-            return method.callMethod(computer, context, arguments, tile);
-        }
-    }
-
-    private static String[] CC_METHODS;
+    private static CCMethods METHODS = new CCMethods();
     static {
-        CC_METHODS = new String[CCMethods.values().length];
-        for (int i = 0; i < CCMethods.values().length; i++) {
-            CC_METHODS[i] = CCMethods.values()[i].method.getMethodName();
-        }
+        METHODS.add(new CCHelper.CCMethodDoc(METHODS));
+        METHODS.add(new CCMethodGetCoolCoolant());
+        METHODS.add(new CCMethodGetMaxCoolCoolant());
+        METHODS.add(new CCMethodGetHotCoolant());
+        METHODS.add(new CCMethodGetMaxHotCoolant());
+        METHODS.add(new CCMethodGetProduction());
     }
 
     private int countSolarPanels;
@@ -281,13 +268,13 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     @Override
     @Optional.Method(modid = "ComputerCraft")
     public String[] getMethodNames() {
-        return CC_METHODS;
+        return METHODS.getMethodNames();
     }
 
     @Override
     @Optional.Method(modid = "ComputerCraft")
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
-        return CCMethods.values()[method].execute(computer, context, arguments, this);
+        return METHODS.execute(method, computer, context, arguments, this);
     }
 
     @Override
@@ -309,7 +296,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         return this.hashCode() == other.hashCode();
     }
 
-    public static class CCMethodGetCoolCoolant implements ICCMethod<TileSolarMaster> {
+    private static class CCMethodGetCoolCoolant implements CCHelper.ICCMethod<TileSolarMaster> {
 
         @Override
         public String getMethodName() {
@@ -317,15 +304,20 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         }
 
         @Override
-        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
-            if(arguments != null && arguments.length > 0) {
-                return new Object[0];
+        public String getMethodDescription() {
+            return "Returns the storage of coolCoolant[mB].\n\tUsage: getCoolCoolant();";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) throws LuaException {
+            if(arguments == null || arguments.length != 0) {
+                throw CCHelper.INVALID_ARGUMENT_EXCEPTION;
             }
             return new Object[] { tile.getCoolCoolantTank()};
         }
     }
 
-    public static class CCMethodGetMaxCoolCoolant implements ICCMethod<TileSolarMaster> {
+    private static class CCMethodGetMaxCoolCoolant implements CCHelper.ICCMethod<TileSolarMaster> {
 
         @Override
         public String getMethodName() {
@@ -333,15 +325,20 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         }
 
         @Override
-        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
-            if(arguments != null && arguments.length > 0) {
-                return new Object[0];
+        public String getMethodDescription() {
+            return "\tReturns the maximum storage of coolCoolant[mB].\n\tUsage: getMaxCoolCoolant();";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) throws LuaException {
+            if(arguments == null || arguments.length != 0) {
+                throw CCHelper.INVALID_ARGUMENT_EXCEPTION;
             }
             return new Object[] { tile.getMaxTankCapacity() };
         }
     }
 
-    public static class CCMethodGetHotCoolant implements ICCMethod<TileSolarMaster> {
+    private static class CCMethodGetHotCoolant implements CCHelper.ICCMethod<TileSolarMaster> {
 
         @Override
         public String getMethodName() {
@@ -349,15 +346,20 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         }
 
         @Override
-        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
-            if(arguments != null && arguments.length > 0) {
-                return new Object[0];
+        public String getMethodDescription() {
+            return "\tReturns the storage of hotCoolant[mB].\n\tUsage: getHotCoolant();";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) throws LuaException {
+            if(arguments == null || arguments.length != 0) {
+                throw CCHelper.INVALID_ARGUMENT_EXCEPTION;
             }
             return new Object[] { tile.getHotCoolantTank()};
         }
     }
 
-    public static class CCMethodGetMaxHotCoolant implements ICCMethod<TileSolarMaster> {
+    private static class CCMethodGetMaxHotCoolant implements CCHelper.ICCMethod<TileSolarMaster> {
 
         @Override
         public String getMethodName() {
@@ -365,15 +367,20 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         }
 
         @Override
-        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
-            if(arguments != null && arguments.length > 0) {
-                return new Object[0];
+        public String getMethodDescription() {
+            return "\tReturns the maximum storage of hotCoolant[mB].\n\tUsage: getMaxHotCoolant();";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) throws LuaException {
+            if(arguments == null || arguments.length != 0) {
+                throw CCHelper.INVALID_ARGUMENT_EXCEPTION;
             }
             return new Object[] { tile.getMaxTankCapacity() };
         }
     }
 
-    public static class CCMethodGetProduction implements ICCMethod<TileSolarMaster> {
+    private static class CCMethodGetProduction implements CCHelper.ICCMethod<TileSolarMaster> {
 
         @Override
         public String getMethodName() {
@@ -381,11 +388,18 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         }
 
         @Override
-        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) {
-            if(arguments != null && arguments.length > 0) {
-                return new Object[0];
+        public String getMethodDescription() {
+            return "\tReturns the amount of hotCoolant[mB] produced per tick.\n\tUsage: getProduction();";
+        }
+
+        @Override
+        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) throws LuaException {
+            if(arguments == null || arguments.length != 0) {
+                throw CCHelper.INVALID_ARGUMENT_EXCEPTION;
             }
             return new Object[] { tile.getProductionLastTick() };
         }
     }
+
+
 }

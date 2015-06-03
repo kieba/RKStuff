@@ -6,7 +6,7 @@ import net.minecraftforge.fluids.*;
 
 import java.util.Arrays;
 
-public class TileFluidDistribution extends TileDistribution implements IFluidHandler {
+public class TileDistributionFluid extends TileDistribution implements IFluidHandler {
 
     private int[] maxOutput = new int[6];
     private int[] count = new int[5];

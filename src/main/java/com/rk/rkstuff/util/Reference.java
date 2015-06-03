@@ -20,8 +20,8 @@ public class Reference {
     public static final String BLOCK_BOILER_BASE_INPUT = "BoilerBaseInput";
     public static final String BLOCK_BOILER_BASE_MASTER = "BoilerBaseMaster";
 
-    public static final String BLOCK_ENERGY_DISTRIBUTION = "EnergyDistribution";
-    public static final String BLOCK_FLUID_DISTRIBUTION = "FluidDistribution";
+    public static final String BLOCK_DISTRIBUTION_ENERGY = "DistributionEnergy";
+    public static final String BLOCK_DISTRIBUTION_FLUID = "DistributionFluid";
 
     public static final String TILE_SOLAR_OUTPUT = "TileSolarOutput";
     public static final String TILE_SOLAR_MASTER = "TileSolarMaster";
@@ -31,8 +31,8 @@ public class Reference {
     public static final String TILE_BOILER_BASE_MASTER = "TileBoilerMaster";
     public static final String TILE_BOILER_BASE_INPUT = "TileBoilerInput";
 
-    public static final String TILE_ENERGY_DISTRIBUTION = "TileEnergyDistribution";
-    public static final String TILE_FLUID_DISTRIBUTION = "TileFluidDistribution";
+    public static final String TILE_DISTRIBUTION_ENERGY = "TileDistributionEnergy";
+    public static final String TILE_DISTRIBUTION_FLUID = "TileDistributionFluid";
 
     public static final String FLUID_COOL_COOLANT_NAME = "CoolCoolant";
     public static final String FLUID_HOT_COOLANT_NAME = "HotCoolant";
@@ -44,10 +44,9 @@ public class Reference {
     public static final String ITEM_WIRE = "Wire";
     public static final String ITEM_SOLAR_TILE = "SolarTile";
 
-
     public static final int GUI_ID_SOLAR = 0;
     public static final int GUI_ID_BOILER = 1;
-    public static final int GUI_ID_ENERGY_DISTRIBUTION = 2;
-    public static final int GUI_ID_FLUID_DISTRIBUTION = 3;
+    public static final int GUI_ID_DISTRIBUTION_ENERGY = 2;
+    public static final int GUI_ID_DISTRIBUTION_FLUID = 3;
 
 }

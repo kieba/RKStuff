@@ -12,7 +12,7 @@ import rk.com.core.io.IOStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class TileEnergyDistribution extends TileDistribution implements IEnergyReceiver {
+public class TileDistributionEnergy extends TileDistribution implements IEnergyReceiver {
 
     private int[] maxOutput = new int[6];
     private int[] count = new int[5];

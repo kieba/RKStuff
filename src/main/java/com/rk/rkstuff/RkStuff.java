@@ -2,7 +2,6 @@ package com.rk.rkstuff;
 
 import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
-import com.rk.rkstuff.block.fluid.BlockFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.handler.BucketHandler;
@@ -56,8 +55,8 @@ public class RkStuff {
     public static BlockBoilerBaseMaster blockBoilerBaseMaster = new BlockBoilerBaseMaster();
     public static Block blockBoilerTank = new BlockBoilerTank();
 
-    public static BlockEnergyDistribution blockEnergyDistribution = new BlockEnergyDistribution();
-    public static BlockFluidDistribution blockFluidDistribution = new BlockFluidDistribution();
+    public static BlockDistributionEnergy blockEnergyDistribution = new BlockDistributionEnergy();
+    public static BlockDistributionFluid blockFluidDistribution = new BlockDistributionFluid();
 
     public static Item itemMachineBlock = new ItemRK(Reference.ITEM_MACHINE_BLOCK);
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
@@ -93,8 +92,8 @@ public class RkStuff {
         GameRegistry.registerBlock(blockBoilerBaseMaster, Reference.BLOCK_BOILER_BASE_MASTER);
         GameRegistry.registerBlock(blockBoilerTank, Reference.BLOCK_BOILER_TANK);
 
-        GameRegistry.registerBlock(blockEnergyDistribution, Reference.BLOCK_ENERGY_DISTRIBUTION);
-        GameRegistry.registerBlock(blockFluidDistribution, Reference.BLOCK_FLUID_DISTRIBUTION);
+        GameRegistry.registerBlock(blockEnergyDistribution, Reference.BLOCK_DISTRIBUTION_ENERGY);
+        GameRegistry.registerBlock(blockFluidDistribution, Reference.BLOCK_DISTRIBUTION_FLUID);
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
@@ -105,8 +104,8 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileBoilerBaseOutput.class, Reference.TILE_BOILER_BASE_OUTPUT);
         GameRegistry.registerTileEntity(TileBoilerBaseMaster.class, Reference.TILE_BOILER_BASE_MASTER);
 
-        GameRegistry.registerTileEntity(TileEnergyDistribution.class, Reference.TILE_ENERGY_DISTRIBUTION);
-        GameRegistry.registerTileEntity(TileFluidDistribution.class, Reference.TILE_FLUID_DISTRIBUTION);
+        GameRegistry.registerTileEntity(TileDistributionEnergy.class, Reference.TILE_DISTRIBUTION_ENERGY);
+        GameRegistry.registerTileEntity(TileDistributionFluid.class, Reference.TILE_DISTRIBUTION_FLUID);
 
         //Fluids
         registerFluids();

@@ -1,12 +1,12 @@
 package com.rk.rkstuff.client.gui;
 
 import com.rk.rkstuff.container.ContainerBoiler;
-import com.rk.rkstuff.container.ContainerEnergyDistribution;
-import com.rk.rkstuff.container.ContainerFluidDistribution;
+import com.rk.rkstuff.container.ContainerDistributionEnergy;
+import com.rk.rkstuff.container.ContainerDistributionFluid;
 import com.rk.rkstuff.container.ContainerSolar;
 import com.rk.rkstuff.tile.TileBoilerBaseMaster;
-import com.rk.rkstuff.tile.TileEnergyDistribution;
-import com.rk.rkstuff.tile.TileFluidDistribution;
+import com.rk.rkstuff.tile.TileDistributionEnergy;
+import com.rk.rkstuff.tile.TileDistributionFluid;
 import com.rk.rkstuff.tile.TileSolarMaster;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -21,10 +21,10 @@ public class GuiHandler implements IGuiHandler {
             return new ContainerSolar(player, (TileSolarMaster) world.getTileEntity(x, y, z));
         } else if(ID == Reference.GUI_ID_BOILER) {
             return new ContainerBoiler(player, (TileBoilerBaseMaster) world.getTileEntity(x, y, z));
-        } else if(ID == Reference.GUI_ID_ENERGY_DISTRIBUTION) {
-            return new ContainerEnergyDistribution(player, (TileEnergyDistribution) world.getTileEntity(x, y, z));
-        } else if(ID == Reference.GUI_ID_FLUID_DISTRIBUTION) {
-            return new ContainerFluidDistribution(player, (TileFluidDistribution) world.getTileEntity(x, y, z));
+        } else if(ID == Reference.GUI_ID_DISTRIBUTION_ENERGY) {
+            return new ContainerDistributionEnergy(player, (TileDistributionEnergy) world.getTileEntity(x, y, z));
+        } else if(ID == Reference.GUI_ID_DISTRIBUTION_FLUID) {
+            return new ContainerDistributionFluid(player, (TileDistributionFluid) world.getTileEntity(x, y, z));
         }
         return null;
     }
@@ -35,10 +35,10 @@ public class GuiHandler implements IGuiHandler {
             return new GuiSolar(player, (TileSolarMaster) world.getTileEntity(x, y, z));
         } else if(ID == Reference.GUI_ID_BOILER) {
             return new GuiBoiler(player, (TileBoilerBaseMaster) world.getTileEntity(x, y, z));
-        } else if(ID == Reference.GUI_ID_ENERGY_DISTRIBUTION) {
-            return new GuiEnergyDistribution(player, (TileEnergyDistribution) world.getTileEntity(x, y, z));
-        } else if(ID == Reference.GUI_ID_FLUID_DISTRIBUTION) {
-            return new GuiFluidDistribution(player, (TileFluidDistribution) world.getTileEntity(x, y, z));
+        } else if(ID == Reference.GUI_ID_DISTRIBUTION_ENERGY) {
+            return new GuiDistributionEnergy(player, (TileDistributionEnergy) world.getTileEntity(x, y, z));
+        } else if(ID == Reference.GUI_ID_DISTRIBUTION_FLUID) {
+            return new GuiDistributionFluid(player, (TileDistributionFluid) world.getTileEntity(x, y, z));
         }
         return null;
     }

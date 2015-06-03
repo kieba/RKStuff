@@ -14,78 +14,69 @@ import java.util.Arrays;
 
 public class TileEnergyDistribution extends TileDistribution implements IEnergyReceiver {
 
+    private int[] maxOutput = new int[6];
+    private int[] count = new int[5];
+    private int[][] sidesByPrio = new int[5][6];
+
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
         if(!isInput(from.ordinal())) return 0;
 
-        int[] maxInput = new int[6];
-        int inputTotal = 0;
         IEnergyReceiver[] receiver = new IEnergyReceiver[6];
+        int maxReceiveCpy = maxReceive;
 
-        //get max inputs from all directions
+        Arrays.fill(count, 0);
+
+        //compute max outputs for each side
         for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            if(isOutput(dir.ordinal())) {
-                receiver[dir.ordinal()] = getIEnergyReceiver(dir);
-                if(receiver[dir.ordinal()] != null) {
-                    int transfer = receiver[dir.ordinal()].receiveEnergy(dir.getOpposite(), Integer.MAX_VALUE, true);
-                    if(!isOutputLimitRelative) {
-                        transfer = Math.min(maxOutputAbs[dir.ordinal()] - outputted[dir.ordinal()], transfer);
+            int side = dir.ordinal();
+            maxOutput[side] = 0;
+            if(isOutput(side)) {
+                receiver[side] = getIEnergyReceiver(dir);
+                if(receiver[side] != null) {
+                    int maxInput = receiver[side].receiveEnergy(dir.getOpposite(), Integer.MAX_VALUE, true);
+                    if(isOutputLimitRelative()) {
+                        maxOutput[side] = Math.min(Math.round(maxOutputRel[side] * maxReceive), maxInput);
+                    } else {
+                        maxOutput[side] = Math.min(maxOutputAbs[side] - outputted[side], maxInput);
                     }
-                    maxInput[dir.ordinal()] = transfer;
-                    inputTotal += transfer;
                 }
             }
         }
 
-        //compute the outputs for each side
-        int[] output = new int[6];
-        if(!isOutputLimitRelative) {
-            if(inputTotal <= maxReceive) {
-                for (int i = 0; i < 6; i++) {
-                    output[i] = maxInput[i];
-                }
-            } else {
-                inputTotal = maxReceive;
-
-                for (int p = 5; p >= 0; p--) {
-                    int sum = 0;
-                    for (int i = 0; i < 6; i++) {
-                        if(priority[i] == p) {
-                            sum += maxInput[i];
-                        }
-                    }
-
-                    float scale = (sum == 0) ? 0 : inputTotal / (float)sum;
-                    if(scale > 1.0) scale = 1.0f;
-
-                    for (int i = 0; i < 6; i++) {
-                        if(priority[i] == p) {
-                            output[i]= (int) (maxInput[i] * scale);
-                            inputTotal -= output[i];
-                        }
-                    }
-                }
-            }
-        } else {
-            int tmp = Math.min(inputTotal, maxReceive);
-            for (int i = 0; i < 6; i++) {
-                output[i] = Math.min(maxInput[i], Math.min(Math.round(maxOutputRel[i] * tmp), inputTotal));
-                inputTotal -= output[i];
-            }
+        //sort sides py prio
+        for (int s = 0; s < 6; s++) {
+            if(!isOutput(s) || maxOutput[s] == 0) continue;
+            int p = priority[s];
+            sidesByPrio[p][count[p]] = s;
+            count[p]++;
         }
 
-        //output the energy
-        int totalOutput = 0;
-        for (int i = 0; i < 6; i++) {
-            if(receiver[i] != null && output[i] > 0) {
-                int ret = receiver[i].receiveEnergy(ForgeDirection.VALID_DIRECTIONS[i].getOpposite(), output[i], simulate);
+        //handle all sides by prio
+        for (int p = 4; p >= 0; p--) {
+            int outputSum = 0;
+            for (int i = 0; i < count[p]; i++) {
+                int side = sidesByPrio[p][i];
+                outputSum += maxOutput[side];
+            }
+
+            if(outputSum == 0) continue;
+
+            float scale = maxReceive / (float)outputSum;
+            if(scale >= 1.0f)  scale = 1.0f;
+
+            for (int i = 0; i < count[p]; i++) {
+                int side = sidesByPrio[p][i];
+                int ret = receiver[side].receiveEnergy(ForgeDirection.VALID_DIRECTIONS[side].getOpposite(), Math.round(maxOutput[side] * scale), simulate);
                 if(!simulate) {
-                    outputted[i] += ret;
+                    outputted[side] += ret;
                 }
-                totalOutput += ret;
+                maxReceive -= ret;
             }
+
+            if(maxReceive == 0) break;
         }
-        return totalOutput;
+        return maxReceiveCpy - maxReceive;
     }
 
     @Override

@@ -1,11 +1,16 @@
 package com.rk.rkstuff.tile;
 
-import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
+import java.util.Arrays;
+
 public class TileFluidDistribution extends TileDistribution implements IFluidHandler {
+
+    private int[] maxOutput = new int[6];
+    private int[] count = new int[5];
+    private int[][] sidesByPrio = new int[5][6];
 
     @Override
     protected void addOutputAbs(int side, int mode) {
@@ -68,71 +73,57 @@ public class TileFluidDistribution extends TileDistribution implements IFluidHan
         if(!isInput(from.ordinal())) return 0;
 
         int maxReceive = resource.amount;
+        int maxReceiveCpy = maxReceive;
 
-        int[] maxInput = new int[6];
-        int inputTotal = 0;
+        Arrays.fill(count, 0);
 
-        //get max inputs from all directions
+        //compute max outputs for each side
         for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            if(isOutput(dir.ordinal())) {
-                int transfer = fill(dir, resource.getFluid(), Integer.MAX_VALUE, false);
-                if(!isOutputLimitRelative) {
-                    transfer = Math.min(maxOutputAbs[dir.ordinal()] - outputted[dir.ordinal()], transfer);
+            int side = dir.ordinal();
+            maxOutput[side] = 0;
+            if(isOutput(side)) {
+                int maxInput = fill(dir, resource.getFluid(), Integer.MAX_VALUE, false);
+                if(isOutputLimitRelative()) {
+                    maxOutput[side] = Math.min(Math.round(maxOutputRel[side] * maxReceive), maxInput);
+                } else {
+                    maxOutput[side] = Math.min(maxOutputAbs[side] - outputted[side], maxInput);
                 }
-                maxInput[dir.ordinal()] = transfer;
-                inputTotal += transfer;
             }
         }
 
-        //compute the outputs for each side
-        int[] output = new int[6];
-        if(!isOutputLimitRelative) {
-            if(inputTotal <= maxReceive) {
-                for (int i = 0; i < 6; i++) {
-                    output[i] = maxInput[i];
-                }
-            } else {
-                inputTotal = maxReceive;
-
-                for (int p = 5; p >= 0; p--) {
-                    int sum = 0;
-                    for (int i = 0; i < 6; i++) {
-                        if(priority[i] == p) {
-                            sum += maxInput[i];
-                        }
-                    }
-
-                    float scale = (sum == 0) ? 0 : inputTotal / (float)sum;
-                    if(scale > 1.0) scale = 1.0f;
-
-                    for (int i = 0; i < 6; i++) {
-                        if(priority[i] == p) {
-                            output[i]= (int) (maxInput[i] * scale);
-                            inputTotal -= output[i];
-                        }
-                    }
-                }
-            }
-        } else {
-            int tmp = Math.min(inputTotal, maxReceive);
-            for (int i = 0; i < 6; i++) {
-                output[i] = Math.min(maxInput[i], Math.min(Math.round(maxOutputRel[i] * tmp), inputTotal));
-                inputTotal -= output[i];
-            }
+        //sort sides py prio
+        for (int s = 0; s < 6; s++) {
+            if(!isOutput(s) || maxOutput[s] == 0) continue;
+            int p = priority[s];
+            sidesByPrio[p][count[p]] = s;
+            count[p]++;
         }
 
-        //output the energy
-        int totalOutput = 0;
-        for (int i = 0; i < 6; i++) {
-            if(output[i] > 0) {
-                int ret = fill(ForgeDirection.VALID_DIRECTIONS[i], resource.getFluid(), output[i], doFill);
+        //handle all sides by prio
+        for (int p = 4; p >= 0; p--) {
+            int outputSum = 0;
+            for (int i = 0; i < count[p]; i++) {
+                int side = sidesByPrio[p][i];
+                outputSum += maxOutput[side];
+            }
+
+            if(outputSum == 0) continue;
+
+            float scale = maxReceive / (float)outputSum;
+            if(scale >= 1.0f)  scale = 1.0f;
+
+            for (int i = 0; i < count[p]; i++) {
+                int side = sidesByPrio[p][i];
+                int ret = fill(ForgeDirection.VALID_DIRECTIONS[i], resource.getFluid(), Math.round(maxOutput[side] * scale), doFill);
                 if(doFill) {
-                    outputted[i] += ret;
+                    outputted[side] += ret;
                 }
-                totalOutput += ret;
+                maxReceive -= ret;
             }
+
+            if(maxReceive == 0) break;
         }
-        return totalOutput;
+        return maxReceiveCpy - maxReceive;
     }
 
     @Override

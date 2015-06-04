@@ -46,15 +46,15 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     private int baseCount;
     private int tankCount;
 
-    private final int HEATBUFFER_PER_TANK = 10000;
-    private final float HEATLOSS_PER_TICK = 1;
-    private final int HEAT_PRODUCTION_PER_BASE = 10;
-    private final float STEAM_PER_HEATENERGY = 0.75f;
-    private final int STEAM_PER_WATER_MB = 160;
-    private final int COOLANT_USAGE_PER_BASE = 1;
-    private final int COOLANT_STORAGE_PER_BASE = 1000;
-    private final int WATER_STORAGE_PER_TANK = 1000;
-    private final int MAX_STEAMPRODUCTION_PER_TANK = 100;
+    private static final int HEATBUFFER_PER_TANK = 10000;
+    private static final float HEATLOSS_PER_TICK = 1;
+    private static final int HEAT_PRODUCTION_PER_BASE = 10;
+    private static final float STEAM_PER_HEATENERGY = 0.75f;
+    private static final int STEAM_PER_WATER_MB = 160;
+    private static final int COOLANT_USAGE_PER_BASE = 1;
+    private static final int COOLANT_STORAGE_PER_BASE = 1000;
+    private static final int WATER_STORAGE_PER_TANK = 1000;
+    private static final int MAX_STEAMPRODUCTION_PER_TANK = 100;
 
 
     //in mB
@@ -107,7 +107,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     }
 
     private int getStartSteamProducingHeatingEnergyLevel() {
-        return (int) (getMaxHeatEnergy() * 80 / 300);
+        return getMaxHeatEnergy() * 80 / 300;
     }
 
     private int getMaxHeatEnergy() {

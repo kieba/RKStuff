@@ -3,7 +3,6 @@ package com.rk.rkstuff.tile;
 import com.rk.rkstuff.helper.Pos;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.ICustomMessage;
-import com.rk.rkstuff.network.message.IGuiActionMessage;
 import com.rk.rkstuff.network.message.MessageCustom;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
@@ -15,7 +14,7 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
 
     public static int GUI_UPDATE_RATE = 10;
 
-    private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<EntityPlayerMP>(1);
+    private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<EntityPlayerMP>(0);
     private int tick = 0;
 
     @Override
@@ -24,7 +23,7 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         if(hasGui() && !playerInGui.isEmpty()) {
             if(tick > GUI_UPDATE_RATE) {
                 updateGuiInformation();
-            } else  {
+            } else {
                 tick++;
             }
         }

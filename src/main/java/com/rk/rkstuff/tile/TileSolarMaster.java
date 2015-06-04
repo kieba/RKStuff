@@ -20,7 +20,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 @Optional.InterfaceList({
         @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
@@ -38,8 +37,8 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     }
 
     private int countSolarPanels;
-    private double MAX_MB_PER_PANEL = 1;
-    private int MAX_TANK_MB_PER_PANEL = 1000;
+    private static double MAX_MB_PER_PANEL = 1;
+    private static int MAX_TANK_MB_PER_PANEL = 1000;
     private double productionLastTick = 0;
 
     private double coolCoolantTank = 0;

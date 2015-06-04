@@ -23,6 +23,8 @@ public class Reference {
     public static final String BLOCK_DISTRIBUTION_ENERGY = "DistributionEnergy";
     public static final String BLOCK_DISTRIBUTION_FLUID = "DistributionFluid";
 
+    public static final String BLOCK_TELEPORTER_NAME = "Teleporter";
+
     public static final String TILE_SOLAR_OUTPUT = "TileSolarOutput";
     public static final String TILE_SOLAR_MASTER = "TileSolarMaster";
     public static final String TILE_SOLAR_INPUT = "TileSolarInput";
@@ -34,6 +36,8 @@ public class Reference {
     public static final String TILE_DISTRIBUTION_ENERGY = "TileDistributionEnergy";
     public static final String TILE_DISTRIBUTION_FLUID = "TileDistributionFluid";
 
+    public static final String TILE_TELEPORTER_NAME = "TileTeleporter";
+
     public static final String FLUID_COOL_COOLANT_NAME = "CoolCoolant";
     public static final String FLUID_HOT_COOLANT_NAME = "HotCoolant";
 
@@ -43,6 +47,7 @@ public class Reference {
     public static final String ITEM_CONTROL_UNIT = "ControlUnit";
     public static final String ITEM_WIRE = "Wire";
     public static final String ITEM_SOLAR_TILE = "SolarTile";
+    public static final String ITEM_LINKER_NAME = "Linker";
 
     public static final int GUI_ID_SOLAR = 0;
     public static final int GUI_ID_BOILER = 1;

@@ -7,6 +7,7 @@ import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.item.BucketBase;
+import com.rk.rkstuff.item.ItemLinker;
 import com.rk.rkstuff.item.ItemRK;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
@@ -58,6 +59,8 @@ public class RkStuff {
     public static BlockDistributionEnergy blockEnergyDistribution = new BlockDistributionEnergy();
     public static BlockDistributionFluid blockFluidDistribution = new BlockDistributionFluid();
 
+    public static Block blockTeleporter = new BlockTeleporter();
+
     public static Item itemMachineBlock = new ItemRK(Reference.ITEM_MACHINE_BLOCK);
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
     public static Item itemSolarPanel = new ItemRK(Reference.ITEM_SOLAR_PANEL);
@@ -65,6 +68,7 @@ public class RkStuff {
     public static Item itemWire = new ItemRK(Reference.ITEM_WIRE);
     public static Item itemSolarTile = new ItemRK(Reference.ITEM_SOLAR_TILE);
 
+    public static ItemLinker itemLinker = new ItemLinker();
 
     @Mod.Instance(Reference.MOD_ID)
     public static RkStuff INSTANCE;
@@ -95,6 +99,8 @@ public class RkStuff {
         GameRegistry.registerBlock(blockEnergyDistribution, Reference.BLOCK_DISTRIBUTION_ENERGY);
         GameRegistry.registerBlock(blockFluidDistribution, Reference.BLOCK_DISTRIBUTION_FLUID);
 
+        GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER_NAME);
+
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
         GameRegistry.registerTileEntity(TileSolarInput.class, Reference.TILE_SOLAR_INPUT);
@@ -107,6 +113,8 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileDistributionEnergy.class, Reference.TILE_DISTRIBUTION_ENERGY);
         GameRegistry.registerTileEntity(TileDistributionFluid.class, Reference.TILE_DISTRIBUTION_FLUID);
 
+        GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER_NAME);
+
         //Fluids
         registerFluids();
 
@@ -117,6 +125,7 @@ public class RkStuff {
         GameRegistry.registerItem(itemValve, Reference.ITEM_VALVE);
         GameRegistry.registerItem(itemWire, Reference.ITEM_WIRE);
         GameRegistry.registerItem(itemSolarTile, Reference.ITEM_SOLAR_TILE);
+        GameRegistry.registerItem(itemLinker, Reference.ITEM_LINKER_NAME);
 
 
         //ComputerCraft Provider

@@ -38,7 +38,8 @@ public class TileDistributionEnergy extends TileDistribution implements IEnergyR
                     if(isOutputLimitRelative()) {
                         maxOutput[side] = Math.min(Math.round(maxOutputRel[side] * maxReceive), maxInput);
                     } else {
-                        maxOutput[side] = Math.min(maxOutputAbs[side] - outputted[side], maxInput);
+                        int out = maxOutputAbs[side] == ABS_OUTPUT_INFINITE ? Integer.MAX_VALUE : maxOutputAbs[side] - outputted[side];
+                        maxOutput[side] = Math.min(out , maxInput);
                     }
                 }
             }
@@ -106,6 +107,9 @@ public class TileDistributionEnergy extends TileDistribution implements IEnergyR
     @Override
     protected void addOutputAbs(int side, int mode) {
         int amount;
+        if(maxOutputAbs[side] == ABS_OUTPUT_INFINITE) {
+            maxOutputAbs[side] = 0;
+        }
         if(mode == 0) {
             amount = 50;
         } else if(mode == 1) {
@@ -141,7 +145,7 @@ public class TileDistributionEnergy extends TileDistribution implements IEnergyR
             amount = 5000;
         }
         maxOutputAbs[side] -= amount;
-        if(maxOutputAbs[side] < 0) maxOutputAbs[side] = 0;
+        if(maxOutputAbs[side] < 0) maxOutputAbs[side] = ABS_OUTPUT_INFINITE;
     }
 
     @Override

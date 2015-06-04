@@ -326,40 +326,17 @@ public abstract class GuiDistribution<T extends TileDistribution & IGuiActionMes
     private String formatRel(int side, float value) {
         ForgeDirection  dir = ForgeDirection.VALID_DIRECTIONS[side];
         value *= 100;
-        switch (dir) {
-            case DOWN:
-                return String.format("D: %.1f%%", value);
-            case UP:
-                return String.format("U: %.1f%%", value);
-            case NORTH:
-                return String.format("N: %.1f%%", value);
-            case SOUTH:
-                return String.format("S: %.1f%%", value);
-            case WEST:
-                return String.format("W: %.1f%%", value);
-            case EAST:
-                return String.format("E: %.1f%%", value);
-        }
-        return "";
+        char c = dir.name().toUpperCase().charAt(0);
+        return String.format("%c: %.1f%%", c, value);
     }
 
     private String formatAbs(int side, int value) {
         ForgeDirection dir = ForgeDirection.VALID_DIRECTIONS[side];
-        switch (dir) {
-            case DOWN:
-                return String.format("D: %,d", value);
-            case UP:
-                return String.format("U: %,d", value);
-            case NORTH:
-                return String.format("N: %,d", value);
-            case SOUTH:
-                return String.format("S: %,d", value);
-            case WEST:
-                return String.format("W: %,d", value);
-            case EAST:
-                return String.format("E: %,d", value);
+        char c = dir.name().toUpperCase().charAt(0);
+        if(value == TileDistribution.ABS_OUTPUT_INFINITE) {
+            return String.format("%c: Infinite", c);
         }
-        return "";
+        return String.format("%c: %,d", c, value);
     }
 
     protected abstract String getAvgOutputString(float avgOutput);

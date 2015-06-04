@@ -3,8 +3,10 @@ package com.rk.rkstuff.tile;
 import com.rk.rkstuff.helper.Pos;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.ICustomMessage;
+import com.rk.rkstuff.network.message.IGuiActionMessage;
 import com.rk.rkstuff.network.message.MessageCustom;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
 
     public void registerPlayerGui(EntityPlayerMP player) {
         playerInGui.add(player);
+        PacketHandler.INSTANCE.sendTo(new MessageCustom(this), player);
     }
 
     public void unregisterPlayerGui(EntityPlayerMP player) {
@@ -47,5 +50,17 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
 
     public Pos getPosition(){
         return new Pos(xCoord, yCoord, zCoord);
+    }
+
+    @Override
+    public Packet getDescriptionPacket() {
+        return PacketHandler.INSTANCE.getPacketFrom(new MessageCustom(this));
+    }
+
+    @Override
+    public void onChunkUnload() {
+        if (!tileEntityInvalid) {
+            invalidate();
+        }
     }
 }

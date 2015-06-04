@@ -22,9 +22,11 @@ import java.io.IOException;
 })
 public abstract class TileDistribution extends TileRK implements IGuiActionMessage, IPeripheral {
 
-    private static LuaException INVALID_PRIORITY_EXCEPTION = new LuaException("Invalid priority! Valid:\n[1 .. 5]");
-    private static LuaException INVALID_ABS_OUTPUT_EXCEPTION = new LuaException("Invalid absolute output! Valid:\n>0");
-    private static LuaException INVALID_REL_OUTPUT_EXCEPTION = new LuaException("Invalid relative output! Valid:\n[0.0 .. 1.0]");
+    private static final LuaException INVALID_PRIORITY_EXCEPTION = new LuaException("Invalid priority! Valid:\n[1 .. 5]");
+    private static final LuaException INVALID_ABS_OUTPUT_EXCEPTION = new LuaException("Invalid absolute output! Valid:\n>=0 OR -1 = Infinite");
+    private static final LuaException INVALID_REL_OUTPUT_EXCEPTION = new LuaException("Invalid relative output! Valid:\n[0.0 .. 1.0]");
+
+    public static final int ABS_OUTPUT_INFINITE = -1;
 
     private static CCMethods METHODS = new CCMethods();
     static {
@@ -463,7 +465,7 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
             }
 
             int output = ((Double) arguments[1]).intValue();
-            if (output < 0) {
+            if (output < 0 && output != ABS_OUTPUT_INFINITE) {
                 throw INVALID_ABS_OUTPUT_EXCEPTION;
             }
 

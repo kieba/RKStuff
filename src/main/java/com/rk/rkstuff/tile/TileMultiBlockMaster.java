@@ -83,11 +83,6 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
         data.writeLast(isBuild);
     }
 
-    @Override
-    public Packet getDescriptionPacket() {
-        return PacketHandler.INSTANCE.getPacketFrom(new MessageCustom(this));
-    }
-
     public boolean isBuild() {
         return isBuild;
     }

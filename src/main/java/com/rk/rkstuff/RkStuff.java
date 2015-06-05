@@ -197,7 +197,7 @@ public class RkStuff {
         GameRegistry.addShapedRecipe(new ItemStack(itemValve), " i ", "iii", 'i', Items.iron_ingot);
         GameRegistry.addShapedRecipe(new ItemStack(itemMachineBlock), "iii", "iri", "iii", 'i', Items.iron_ingot, 'r', Items.redstone);
         GameRegistry.addShapedRecipe(new ItemStack(itemControlUnit), "wrw", "rgr", "wrw", 'w', itemWire, 'r', Items.redstone, 'g', Items.gold_ingot);
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemWire), true, new Object[]{"ccc", 'c', "ingotCopper"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemWire, 2), true, new Object[]{"ccc", 'c', "ingotCopper"}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemSolarPanel), true, new Object[]{"sts", "tct", "sts", 's', itemSolarTile, 't', "ingotTin", 'c', "ingotCopper"}));
 
         //Blockrecipes

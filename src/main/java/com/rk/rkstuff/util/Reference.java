@@ -9,38 +9,54 @@ public class Reference {
     public static final String CLIENT_PROXY_CLASS = "com.rk.rkstuff.proxy.ClientProxy";
     public static final String SERVER_PROXY_CLASS = "com.rk.rkstuff.proxy.ServerProxy";
 
+    /* BLOCKS */
     public static final String BLOCK_SOLAR = "Solar";
     public static final String BLOCK_SOLAR_OUTPUT = "SolarOutput";
     public static final String BLOCK_SOLAR_MASTER = "SolarMaster";
     public static final String BLOCK_SOLAR_INPUT = "SolarInput";
-
     public static final String BLOCK_BOILER_TANK = "BoilerTank";
     public static final String BLOCK_BOILER_BASE = "BoilerBase";
     public static final String BLOCK_BOILER_BASE_OUTPUT = "BoilerBaseOutput";
     public static final String BLOCK_BOILER_BASE_INPUT = "BoilerBaseInput";
     public static final String BLOCK_BOILER_BASE_MASTER = "BoilerBaseMaster";
-
     public static final String BLOCK_DISTRIBUTION_ENERGY = "DistributionEnergy";
     public static final String BLOCK_DISTRIBUTION_FLUID = "DistributionFluid";
-
     public static final String BLOCK_TELEPORTER_NAME = "Teleporter";
+    public static final String BLOCK_MODEL_TEST_NAME = "ModelTest";
+    public static final String BLOCK_FUSION_CORE_NAME = "FusionCore";
+    public static final String BLOCK_FUSION_CASE_NAME = "FusionCase";
+    public static final String BLOCK_FUSION_CASE_1_NAME = "FusionCase1";
+    public static final String BLOCK_FUSION_CASE_2_NAME = "FusionCase2";
+    public static final String BLOCK_FUSION_CASE_3_NAME = "FusionCase3";
+    public static final String BLOCK_FUSION_CASE_FLUID_IO_NAME = "FusionCaseFluidIO";
+    public static final String BLOCK_FUSION_CONTROL_CASE_NAME = "FusionControlCase";
+    public static final String BLOCK_FUSION_CONTROL_CORE_NAME = "FusionControlCore";
+    public static final String BLOCK_FUSION_CONTROL_ENERGY_IO_NAME = "FusionControlEnergyIO";
+    public static final String BLOCK_FUSION_CONTROL_ITEM_IO_NAME = "FusionControlItemIO";
+    public static final String BLOCK_FUSION_CONTROL_MASTER_NAME = "FusionControlMaster";
 
+    /* TILE ENTITIES */
     public static final String TILE_SOLAR_OUTPUT = "TileSolarOutput";
     public static final String TILE_SOLAR_MASTER = "TileSolarMaster";
     public static final String TILE_SOLAR_INPUT = "TileSolarInput";
-
     public static final String TILE_BOILER_BASE_OUTPUT = "TileBoilerOutput";
     public static final String TILE_BOILER_BASE_MASTER = "TileBoilerMaster";
     public static final String TILE_BOILER_BASE_INPUT = "TileBoilerInput";
-
     public static final String TILE_DISTRIBUTION_ENERGY = "TileDistributionEnergy";
     public static final String TILE_DISTRIBUTION_FLUID = "TileDistributionFluid";
-
     public static final String TILE_TELEPORTER_NAME = "TileTeleporter";
+    public static final String TILE_MODEL_TEST_NAME = "TileModelTest";
+    public static final String TILE_FUSION_CASE_FLUID_IO_NAME = "TileFusionCaseFluidIO";
+    public static final String TILE_FUSION_CONTROL_ENERGY_IO_NAME = "TileFusionControlEnergyIO";
+    public static final String TILE_FUSION_CONTROL_ITEM_IO_NAME = "TileFusionControlItemIO";
+    public static final String TILE_FUSION_CONTROL_MASTER_NAME = "TileFusionControlMaster";
 
+
+    /* FLUIDS */
     public static final String FLUID_COOL_COOLANT_NAME = "CoolCoolant";
     public static final String FLUID_HOT_COOLANT_NAME = "HotCoolant";
 
+    /* ITEMS */
     public static final String ITEM_VALVE = "Valve";
     public static final String ITEM_MACHINE_BLOCK = "MachineBlock";
     public static final String ITEM_SOLAR_PANEL = "SolarPanel";
@@ -49,6 +65,7 @@ public class Reference {
     public static final String ITEM_SOLAR_TILE = "SolarTile";
     public static final String ITEM_LINKER_NAME = "Linker";
 
+    /* GUI's */
     public static final int GUI_ID_SOLAR = 0;
     public static final int GUI_ID_BOILER = 1;
     public static final int GUI_ID_DISTRIBUTION_ENERGY = 2;

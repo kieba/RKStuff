@@ -61,6 +61,8 @@ public class RkStuff {
 
     public static Block blockTeleporter = new BlockTeleporter();
 
+    public static Block blockModelTest = new BlockModelTest();
+
     public static Item itemMachineBlock = new ItemRK(Reference.ITEM_MACHINE_BLOCK);
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
     public static Item itemSolarPanel = new ItemRK(Reference.ITEM_SOLAR_PANEL);
@@ -100,6 +102,7 @@ public class RkStuff {
         GameRegistry.registerBlock(blockFluidDistribution, Reference.BLOCK_DISTRIBUTION_FLUID);
 
         GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER_NAME);
+        GameRegistry.registerBlock(blockModelTest, Reference.BLOCK_MODEL_TEST_NAME);
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
@@ -114,6 +117,7 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileDistributionFluid.class, Reference.TILE_DISTRIBUTION_FLUID);
 
         GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER_NAME);
+        GameRegistry.registerTileEntity(TileModelTest.class, Reference.TILE_MODEL_TEST_NAME);
 
         //Fluids
         registerFluids();
@@ -143,6 +147,8 @@ public class RkStuff {
 
         guiHandler = new GuiHandler();
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, guiHandler);
+
+        PROXY.init();
 
     }
 

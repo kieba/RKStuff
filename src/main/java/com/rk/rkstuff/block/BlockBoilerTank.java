@@ -8,6 +8,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -77,6 +78,34 @@ public class BlockBoilerTank extends BlockRK {
             RKLog.error("No master found for BlockBoilerTank! Metadata: " + world.getBlockMetadata(x, y, z));
         }
 
+    }
+
+    @Override
+    public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
+        if (world.getBlockMetadata(x, y, z) == 0) return;
+
+        int i = 0;
+        while (isValidBoilerTank(world, x, y - i, z)) {
+            i++;
+        }
+
+        Block block = world.getBlock(x, y - i, z);
+        TileBoilerBaseMaster master = null;
+        if (block instanceof IBoilerBaseBlock) {
+            master = ((IBoilerBaseBlock) block).getMaster(world, x, y - i, z);
+        } else if (block instanceof BlockBoilerBaseMaster) {
+            master = ((BlockBoilerBaseMaster) block).getMaster(world, x, y - i, z);
+        }
+
+        if (master != null) {
+            if (!master.checkMultiBlockForm()) {
+                if (master.getTemperature() >= 300) {
+                    entity.setFire(10);
+                }
+            }
+        } else {
+            RKLog.error("No master found for BlockBoilerTank! Metadata: " + world.getBlockMetadata(x, y, z));
+        }
     }
 
     private boolean isValidBoilerTank(World world, int x, int y, int z){

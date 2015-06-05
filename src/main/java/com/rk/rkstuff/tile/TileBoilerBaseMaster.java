@@ -4,7 +4,10 @@ import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.block.BlockBoilerBaseMaster;
 import com.rk.rkstuff.block.BlockBoilerTank;
 import com.rk.rkstuff.block.IBoilerBaseBlock;
-import com.rk.rkstuff.helper.*;
+import com.rk.rkstuff.helper.CCHelper;
+import com.rk.rkstuff.helper.CCMethods;
+import com.rk.rkstuff.helper.FluidHelper;
+import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
@@ -84,9 +87,6 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
 
         if (heatEnergy > getMaxHeatEnergy()) {
             heatEnergy = getMaxHeatEnergy();
-        }
-        if (worldObj.getWorldTime() % 100 == 0) {
-            RKLog.info("Heat: " + heatEnergy);
         }
     }
 
@@ -180,6 +180,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
         data.setInteger("water", waterStorage);
         data.setInteger("coolCoolant", coolCoolantStorage);
         data.setInteger("hotCoolant", hotCoolantStorage);
+        data.setInteger("heat", heatEnergy);
     }
 
     @Override
@@ -189,6 +190,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
         waterStorage = data.getInteger("water");
         coolCoolantStorage = data.getInteger("coolCoolant");
         hotCoolantStorage = data.getInteger("hotCoolant");
+        heatEnergy = data.getInteger("heat");
     }
 
 

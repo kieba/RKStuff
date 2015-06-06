@@ -4,6 +4,9 @@ tile.HotCoolant.name=Hot Coolant
 fluid.tile.HotCoolant=Hot Coolant
 item.BucketHotCoolant.name=Hot Coolant Bucket
 item.BucketCoolCoolant.name=Cool Coolant Bucket
+
+tile.MachineBlock.name=Machine Block
+
 tile.Solar.name=Solar Module
 tile.SolarOutput.name=Solar Output
 tile.SolarInput.name=Solar Input
@@ -18,7 +21,7 @@ tile.BoilerBaseOutput.name=Boiler Output
 tile.BoilerBaseMaster.name=Boiler Master
 
 item.Valve.name=Valve
-item.MachineBlock.name=Machine Block
+
 item.SolarPanel.name=Solar Panel
 item.SolarTile.name=Solar Tile
 item.ControlUnit.name=Control Unit

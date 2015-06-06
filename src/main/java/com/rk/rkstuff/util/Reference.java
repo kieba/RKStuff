@@ -10,6 +10,7 @@ public class Reference {
     public static final String SERVER_PROXY_CLASS = "com.rk.rkstuff.proxy.ServerProxy";
 
     /* BLOCKS */
+    public static final String BLOCK_MACHINE_BLOCK = "MachineBlock";
     public static final String BLOCK_SOLAR = "Solar";
     public static final String BLOCK_SOLAR_OUTPUT = "SolarOutput";
     public static final String BLOCK_SOLAR_MASTER = "SolarMaster";
@@ -58,7 +59,6 @@ public class Reference {
 
     /* ITEMS */
     public static final String ITEM_VALVE = "Valve";
-    public static final String ITEM_MACHINE_BLOCK = "MachineBlock";
     public static final String ITEM_SOLAR_PANEL = "SolarPanel";
     public static final String ITEM_CONTROL_UNIT = "ControlUnit";
     public static final String ITEM_WIRE = "Wire";

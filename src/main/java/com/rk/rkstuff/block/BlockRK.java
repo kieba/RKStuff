@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 
 public class BlockRK extends Block {
 
-    protected BlockRK(Material material, String blockName) {
+    public BlockRK(Material material, String blockName) {
         super(material);
         this.setCreativeTab(CreativeTabRKStuff.RK_STUFF_TAB);
         this.setHardness(0.5f);

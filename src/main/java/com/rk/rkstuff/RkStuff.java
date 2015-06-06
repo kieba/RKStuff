@@ -28,6 +28,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import dan200.computercraft.api.ComputerCraftAPI;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
@@ -49,6 +50,8 @@ public class RkStuff {
     public static Fluid hotCoolant;
     public static Block hotCoolantBlock;
     public static ItemBucket hotCoolantBucket;
+
+    public static Block blockMachineBlock = new BlockRK(Material.iron, Reference.BLOCK_MACHINE_BLOCK);
 
     public static Block blockSolarOutput = new BlockSolarOutput();
     public static Block blockSolarInput = new BlockSolarInput();
@@ -80,7 +83,6 @@ public class RkStuff {
     public static Block blockFusionControlMaster = new BlockFusionControlMaster();
     public static Block blockFusionCore = new BlockFusionCore();
 
-    public static Item itemMachineBlock = new ItemRK(Reference.ITEM_MACHINE_BLOCK);
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
     public static Item itemSolarPanel = new ItemRK(Reference.ITEM_SOLAR_PANEL);
     public static Item itemControlUnit = new ItemRK(Reference.ITEM_CONTROL_UNIT);
@@ -104,6 +106,8 @@ public class RkStuff {
         PacketHandler.init();
 
         //Blocks
+        GameRegistry.registerBlock(blockMachineBlock, Reference.BLOCK_MACHINE_BLOCK);
+
         GameRegistry.registerBlock(blockSolarOutput, Reference.BLOCK_SOLAR_OUTPUT);
         GameRegistry.registerBlock(blockSolarInput, Reference.BLOCK_SOLAR_INPUT);
         GameRegistry.registerBlock(blockSolarMaster, Reference.BLOCK_SOLAR_MASTER);
@@ -158,7 +162,6 @@ public class RkStuff {
 
         //Items
         GameRegistry.registerItem(itemControlUnit, Reference.ITEM_CONTROL_UNIT);
-        GameRegistry.registerItem(itemMachineBlock, Reference.ITEM_MACHINE_BLOCK);
         GameRegistry.registerItem(itemSolarPanel, Reference.ITEM_SOLAR_PANEL);
         GameRegistry.registerItem(itemValve, Reference.ITEM_VALVE);
         GameRegistry.registerItem(itemWire, Reference.ITEM_WIRE);
@@ -229,16 +232,16 @@ public class RkStuff {
 
     private void registerRecipes() {
         GameRegistry.addShapedRecipe(new ItemStack(itemValve), " i ", "iii", 'i', Items.iron_ingot);
-        GameRegistry.addShapedRecipe(new ItemStack(itemMachineBlock), "iii", "iri", "iii", 'i', Items.iron_ingot, 'r', Items.redstone);
+        GameRegistry.addShapedRecipe(new ItemStack(blockMachineBlock), "iii", "iri", "iii", 'i', Items.iron_ingot, 'r', Items.redstone);
         GameRegistry.addShapedRecipe(new ItemStack(itemControlUnit), "wrw", "rgr", "wrw", 'w', itemWire, 'r', Items.redstone, 'g', Items.gold_ingot);
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemWire, 2), true, new Object[]{"ccc", 'c', "ingotCopper"}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemSolarPanel), true, new Object[]{"sts", "tct", "sts", 's', itemSolarTile, 't', "ingotTin", 'c', "ingotCopper"}));
 
         //Blockrecipes
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolar), true, new Object[]{"sss", "ibi", "iii", 's', itemSolarPanel, 'b', itemMachineBlock, 'i', Items.iron_ingot}));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarInput), true, new Object[]{"sss", "vbr", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', Items.redstone, 'b', itemMachineBlock, 'i', Items.iron_ingot}));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarOutput), true, new Object[]{"sss", "rbv", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', Items.redstone, 'b', itemMachineBlock, 'i', Items.iron_ingot}));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarMaster), true, new Object[]{"sss", "cbc", "iii", 's', itemSolarPanel, 'c', itemControlUnit, 'b', itemMachineBlock, 'i', Items.iron_ingot}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolar), true, new Object[]{"sss", "ibi", "iii", 's', itemSolarPanel, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarInput), true, new Object[]{"sss", "vbr", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', Items.redstone, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarOutput), true, new Object[]{"sss", "rbv", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', Items.redstone, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarMaster), true, new Object[]{"sss", "cbc", "iii", 's', itemSolarPanel, 'c', itemControlUnit, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
 
         //MachineRecipes
         cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(4000, new ItemStack(Items.redstone), new ItemStack(Items.dye, 1, 4), new ItemStack(itemSolarTile));

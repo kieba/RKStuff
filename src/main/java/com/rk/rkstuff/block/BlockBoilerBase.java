@@ -1,7 +1,6 @@
 package com.rk.rkstuff.block;
 
 import com.rk.rkstuff.helper.MultiBlockHelper;
-import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -9,7 +8,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -19,8 +17,7 @@ public class BlockBoilerBase extends BlockRK implements IBoilerBaseBlock {
     private IIcon[] icons = new IIcon[2];
 
     public BlockBoilerBase() {
-        super(Material.iron);
-        setBlockName(Reference.BLOCK_BOILER_BASE);
+        super(Material.iron, Reference.BLOCK_BOILER_BASE);
     }
 
     @Override

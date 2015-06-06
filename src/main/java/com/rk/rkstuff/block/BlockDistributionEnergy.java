@@ -22,8 +22,7 @@ public class BlockDistributionEnergy extends BlockRK implements ITileEntityProvi
     private IIcon[] icons = new IIcon[3];
 
     public BlockDistributionEnergy() {
-        super(Material.iron);
-        setBlockName(Reference.BLOCK_DISTRIBUTION_ENERGY);
+        super(Material.iron, Reference.BLOCK_DISTRIBUTION_ENERGY);
     }
 
     @Override

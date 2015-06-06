@@ -18,8 +18,7 @@ public class BlockBoilerTank extends BlockRK {
     private IIcon[] icons = new IIcon[14];
 
     public BlockBoilerTank() {
-        super(Material.iron);
-        setBlockName(Reference.BLOCK_BOILER_TANK);
+        super(Material.iron, Reference.BLOCK_BOILER_TANK);
     }
 
     @Override

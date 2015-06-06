@@ -3,6 +3,7 @@ package com.rk.rkstuff;
 import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
+import com.rk.rkstuff.block.fusion.*;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
@@ -12,6 +13,10 @@ import com.rk.rkstuff.item.ItemRK;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
 import com.rk.rkstuff.tile.*;
+import com.rk.rkstuff.tile.fusion.TileFusionCaseFluidIO;
+import com.rk.rkstuff.tile.fusion.TileFusionControlEnergyIO;
+import com.rk.rkstuff.tile.fusion.TileFusionControlItemIO;
+import com.rk.rkstuff.tile.fusion.TileFusionControlMaster;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -63,6 +68,17 @@ public class RkStuff {
 
     public static Block blockModelTest = new BlockModelTest();
 
+    public static Block blockFusionCase = new BlockFusionCase();
+    public static Block blockFusionCase1 = new BlockFusionCase1();
+    public static Block blockFusionCase2 = new BlockFusionCase2();
+    public static Block blockFusionCase3 = new BlockFusionCase3();
+    public static Block blockFusionCaseFluidIO = new BlockFusionCaseFluidIO();
+    public static Block blockFusionControlCase = new BlockFusionControlCase();
+    public static Block blockFusionControlCore = new BlockFusionControlCore();
+    public static Block blockFusionControlEnergyIO = new BlockFusionControlEnergyIO();
+    public static Block blockFusionControlItemIO = new BlockFusionControlItemIO();
+    public static Block blockFusionControlMaster = new BlockFusionControlMaster();
+
     public static Item itemMachineBlock = new ItemRK(Reference.ITEM_MACHINE_BLOCK);
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
     public static Item itemSolarPanel = new ItemRK(Reference.ITEM_SOLAR_PANEL);
@@ -104,6 +120,17 @@ public class RkStuff {
         GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER_NAME);
         GameRegistry.registerBlock(blockModelTest, Reference.BLOCK_MODEL_TEST_NAME);
 
+        GameRegistry.registerBlock(blockFusionCase, Reference.BLOCK_FUSION_CASE_NAME);
+        GameRegistry.registerBlock(blockFusionCase1, Reference.BLOCK_FUSION_CASE_1_NAME);
+        GameRegistry.registerBlock(blockFusionCase2, Reference.BLOCK_FUSION_CASE_2_NAME);
+        GameRegistry.registerBlock(blockFusionCase3, Reference.BLOCK_FUSION_CASE_3_NAME);
+        GameRegistry.registerBlock(blockFusionCaseFluidIO, Reference.BLOCK_FUSION_CASE_FLUID_IO_NAME);
+        GameRegistry.registerBlock(blockFusionControlCase, Reference.BLOCK_FUSION_CONTROL_CASE_NAME);
+        GameRegistry.registerBlock(blockFusionControlCore, Reference.BLOCK_FUSION_CONTROL_CORE_NAME);
+        GameRegistry.registerBlock(blockFusionControlEnergyIO, Reference.BLOCK_FUSION_CONTROL_ENERGY_IO_NAME);
+        GameRegistry.registerBlock(blockFusionControlItemIO, Reference.BLOCK_FUSION_CONTROL_ITEM_IO_NAME);
+        GameRegistry.registerBlock(blockFusionControlMaster, Reference.BLOCK_FUSION_CONTROL_MASTER_NAME);
+
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
         GameRegistry.registerTileEntity(TileSolarInput.class, Reference.TILE_SOLAR_INPUT);
@@ -118,6 +145,11 @@ public class RkStuff {
 
         GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER_NAME);
         GameRegistry.registerTileEntity(TileModelTest.class, Reference.TILE_MODEL_TEST_NAME);
+
+        GameRegistry.registerTileEntity(TileFusionCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO_NAME);
+        GameRegistry.registerTileEntity(TileFusionControlEnergyIO.class, Reference.TILE_FUSION_CONTROL_ENERGY_IO_NAME);
+        GameRegistry.registerTileEntity(TileFusionControlItemIO.class, Reference.TILE_FUSION_CONTROL_ITEM_IO_NAME);
+        GameRegistry.registerTileEntity(TileFusionControlMaster.class, Reference.TILE_FUSION_CONTROL_MASTER_NAME);
 
         //Fluids
         registerFluids();

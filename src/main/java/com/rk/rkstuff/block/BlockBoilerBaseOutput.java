@@ -22,8 +22,7 @@ public class BlockBoilerBaseOutput extends BlockRK implements ITileEntityProvide
     private IIcon[] icons = new IIcon[2];
 
     public BlockBoilerBaseOutput() {
-        super(Material.iron);
-        setBlockName(Reference.BLOCK_BOILER_BASE_OUTPUT);
+        super(Material.iron, Reference.BLOCK_BOILER_BASE_OUTPUT);
     }
 
     @Override

@@ -20,8 +20,7 @@ public class BlockBoilerBaseInput extends BlockRK implements ITileEntityProvider
     private IIcon[] icons = new IIcon[1];
 
     public BlockBoilerBaseInput() {
-        super(Material.iron);
-        setBlockName(Reference.BLOCK_BOILER_BASE_INPUT);
+        super(Material.iron, Reference.BLOCK_BOILER_BASE_INPUT);
     }
 
     @Override

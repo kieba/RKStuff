@@ -11,8 +11,7 @@ import net.minecraft.world.World;
 public class BlockModelTest extends BlockRK implements ITileEntityProvider {
 
     public BlockModelTest() {
-        super(Material.iron);
-        setBlockName(Reference.BLOCK_MODEL_TEST_NAME);
+        super(Material.iron, Reference.BLOCK_MODEL_TEST_NAME);
     }
 
     @Override

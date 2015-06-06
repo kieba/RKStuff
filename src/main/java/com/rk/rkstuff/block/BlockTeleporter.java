@@ -22,8 +22,7 @@ import java.util.UUID;
 public class BlockTeleporter extends BlockRK implements ITileEntityProvider {
 
     public BlockTeleporter() {
-        super(Material.iron);
-        this.setBlockName(Reference.BLOCK_TELEPORTER_NAME);
+        super(Material.iron, Reference.BLOCK_TELEPORTER_NAME);
     }
 
     @Override

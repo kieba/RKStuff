@@ -17,9 +17,11 @@ public class BlockSolar extends BlockRK implements ISolarBlock {
     protected IIcon[] icons = new IIcon[18];
 
     public BlockSolar() {
-        super(Material.iron);
-        setBlockName(Reference.BLOCK_SOLAR);
+        this(Reference.BLOCK_SOLAR);
+    }
 
+    protected BlockSolar(String blockName) {
+        super(Material.iron, blockName);
     }
 
     @Override

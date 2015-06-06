@@ -78,6 +78,7 @@ public class RkStuff {
     public static Block blockFusionControlEnergyIO = new BlockFusionControlEnergyIO();
     public static Block blockFusionControlItemIO = new BlockFusionControlItemIO();
     public static Block blockFusionControlMaster = new BlockFusionControlMaster();
+    public static Block blockFusionCore = new BlockFusionCore();
 
     public static Item itemMachineBlock = new ItemRK(Reference.ITEM_MACHINE_BLOCK);
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
@@ -130,6 +131,7 @@ public class RkStuff {
         GameRegistry.registerBlock(blockFusionControlEnergyIO, Reference.BLOCK_FUSION_CONTROL_ENERGY_IO_NAME);
         GameRegistry.registerBlock(blockFusionControlItemIO, Reference.BLOCK_FUSION_CONTROL_ITEM_IO_NAME);
         GameRegistry.registerBlock(blockFusionControlMaster, Reference.BLOCK_FUSION_CONTROL_MASTER_NAME);
+        GameRegistry.registerBlock(blockFusionCore, Reference.BLOCK_FUSION_CORE_NAME);
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);

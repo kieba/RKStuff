@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 
-public abstract class BlockRK extends Block {
+public class BlockRK extends Block {
 
     protected BlockRK(Material material, String blockName) {
         super(material);

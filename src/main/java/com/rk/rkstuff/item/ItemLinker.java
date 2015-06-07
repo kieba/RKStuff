@@ -12,7 +12,7 @@ import java.util.List;
 public class ItemLinker extends ItemRK {
 
     public ItemLinker() {
-        super(Reference.ITEM_LINKER_NAME);
+        super(Reference.ITEM_LINKER);
         this.setNoRepair();
     }
 

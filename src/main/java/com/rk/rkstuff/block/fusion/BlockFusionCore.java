@@ -7,7 +7,7 @@ import net.minecraft.block.material.Material;
 public class BlockFusionCore extends BlockRK {
 
     public BlockFusionCore() {
-        super(Material.iron, Reference.BLOCK_FUSION_CORE_NAME);
+        super(Material.iron, Reference.BLOCK_FUSION_CORE);
     }
 
 }

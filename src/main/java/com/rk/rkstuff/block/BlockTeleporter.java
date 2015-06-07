@@ -22,7 +22,7 @@ import java.util.UUID;
 public class BlockTeleporter extends BlockRK implements ITileEntityProvider {
 
     public BlockTeleporter() {
-        super(Material.iron, Reference.BLOCK_TELEPORTER_NAME);
+        super(Material.iron, Reference.BLOCK_TELEPORTER);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class BlockTeleporter extends BlockRK implements ITileEntityProvider {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(String.format("%s:%s", Reference.MOD_ID.toLowerCase(), Reference.BLOCK_TELEPORTER_NAME));
+        blockIcon = iconRegister.registerIcon(String.format("%s:%s", Reference.MOD_ID.toLowerCase(), Reference.BLOCK_TELEPORTER));
     }
 
 }

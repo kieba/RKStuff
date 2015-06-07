@@ -2,7 +2,6 @@ package com.rk.rkstuff.tile;
 
 import com.rk.rkstuff.helper.CCHelper;
 import com.rk.rkstuff.helper.CCMethods;
-import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.network.message.IGuiActionMessage;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.Optional;
@@ -13,7 +12,6 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
-import scala.Int;
 
 import java.io.IOException;
 
@@ -47,7 +45,7 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
     private static int HISTORY_SIZE = 60;
 
     public enum SideType {
-        INPUT, OUTPUT, DISABLED;
+        INPUT, OUTPUT, DISABLED
     }
 
     protected int[] priority = new int[6];

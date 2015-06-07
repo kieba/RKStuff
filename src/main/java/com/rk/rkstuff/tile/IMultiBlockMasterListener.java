@@ -1,7 +1,5 @@
 package com.rk.rkstuff.tile;
 
-import com.rk.rkstuff.helper.Pos;
-
 public interface IMultiBlockMasterListener {
     /**
      * Register MasterBock

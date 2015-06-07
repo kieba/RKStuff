@@ -2,7 +2,7 @@ package com.rk.rkstuff.client.gui;
 
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.IGuiActionMessage;
-import com.rk.rkstuff.tile.*;
+import com.rk.rkstuff.tile.TileDistribution;
 import com.rk.rkstuff.util.Textures;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;

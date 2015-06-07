@@ -22,19 +22,19 @@ public class Reference {
     public static final String BLOCK_BOILER_BASE_MASTER = "BoilerBaseMaster";
     public static final String BLOCK_DISTRIBUTION_ENERGY = "DistributionEnergy";
     public static final String BLOCK_DISTRIBUTION_FLUID = "DistributionFluid";
-    public static final String BLOCK_TELEPORTER_NAME = "Teleporter";
-    public static final String BLOCK_MODEL_TEST_NAME = "ModelTest";
-    public static final String BLOCK_FUSION_CORE_NAME = "FusionCore";
-    public static final String BLOCK_FUSION_CASE_NAME = "FusionCase";
-    public static final String BLOCK_FUSION_CASE_1_NAME = "FusionCase1";
-    public static final String BLOCK_FUSION_CASE_2_NAME = "FusionCase2";
-    public static final String BLOCK_FUSION_CASE_3_NAME = "FusionCase3";
-    public static final String BLOCK_FUSION_CASE_FLUID_IO_NAME = "FusionCaseFluidIO";
-    public static final String BLOCK_FUSION_CONTROL_CASE_NAME = "FusionControlCase";
-    public static final String BLOCK_FUSION_CONTROL_CORE_NAME = "FusionControlCore";
-    public static final String BLOCK_FUSION_CONTROL_ENERGY_IO_NAME = "FusionControlEnergyIO";
-    public static final String BLOCK_FUSION_CONTROL_ITEM_IO_NAME = "FusionControlItemIO";
-    public static final String BLOCK_FUSION_CONTROL_MASTER_NAME = "FusionControlMaster";
+    public static final String BLOCK_TELEPORTER = "Teleporter";
+    public static final String BLOCK_MODEL_TEST = "ModelTest";
+    public static final String BLOCK_FUSION_CORE = "FusionCore";
+    public static final String BLOCK_FUSION_CASE = "FusionCase";
+    public static final String BLOCK_FUSION_CASE_BEVEL_LARGE = "FusionCase1";
+    public static final String BLOCK_FUSION_CASE_BEVEL_SMALL = "FusionCase2";
+    public static final String BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED = "FusionCase3";
+    public static final String BLOCK_FUSION_CASE_FLUID_IO = "FusionCaseFluidIO";
+    public static final String BLOCK_FUSION_CONTROL_CASE = "FusionControlCase";
+    public static final String BLOCK_FUSION_CONTROL_CORE = "FusionControlCore";
+    public static final String BLOCK_FUSION_CONTROL_ENERGY_IO = "FusionControlEnergyIO";
+    public static final String BLOCK_FUSION_CONTROL_ITEM_IO = "FusionControlItemIO";
+    public static final String BLOCK_FUSION_CONTROL_MASTER = "FusionControlMaster";
 
     /* TILE ENTITIES */
     public static final String TILE_SOLAR_OUTPUT = "TileSolarOutput";
@@ -45,17 +45,16 @@ public class Reference {
     public static final String TILE_BOILER_BASE_INPUT = "TileBoilerInput";
     public static final String TILE_DISTRIBUTION_ENERGY = "TileDistributionEnergy";
     public static final String TILE_DISTRIBUTION_FLUID = "TileDistributionFluid";
-    public static final String TILE_TELEPORTER_NAME = "TileTeleporter";
-    public static final String TILE_MODEL_TEST_NAME = "TileModelTest";
-    public static final String TILE_FUSION_CASE_FLUID_IO_NAME = "TileFusionCaseFluidIO";
-    public static final String TILE_FUSION_CONTROL_ENERGY_IO_NAME = "TileFusionControlEnergyIO";
-    public static final String TILE_FUSION_CONTROL_ITEM_IO_NAME = "TileFusionControlItemIO";
-    public static final String TILE_FUSION_CONTROL_MASTER_NAME = "TileFusionControlMaster";
-
+    public static final String TILE_TELEPORTER = "TileTeleporter";
+    public static final String TILE_MODEL_TEST = "TileModelTest";
+    public static final String TILE_FUSION_CASE_FLUID_IO = "TileFusionCaseFluidIO";
+    public static final String TILE_FUSION_CONTROL_ENERGY_IO = "TileFusionControlEnergyIO";
+    public static final String TILE_FUSION_CONTROL_ITEM_IO = "TileFusionControlItemIO";
+    public static final String TILE_FUSION_CONTROL_MASTER = "TileFusionControlMaster";
 
     /* FLUIDS */
-    public static final String FLUID_COOL_COOLANT_NAME = "CoolCoolant";
-    public static final String FLUID_HOT_COOLANT_NAME = "HotCoolant";
+    public static final String FLUID_COOL_COOLANT = "CoolCoolant";
+    public static final String FLUID_HOT_COOLANT = "HotCoolant";
 
     /* ITEMS */
     public static final String ITEM_VALVE = "Valve";
@@ -63,7 +62,7 @@ public class Reference {
     public static final String ITEM_CONTROL_UNIT = "ControlUnit";
     public static final String ITEM_WIRE = "Wire";
     public static final String ITEM_SOLAR_TILE = "SolarTile";
-    public static final String ITEM_LINKER_NAME = "Linker";
+    public static final String ITEM_LINKER = "Linker";
 
     /* GUI's */
     public static final int GUI_ID_SOLAR = 0;

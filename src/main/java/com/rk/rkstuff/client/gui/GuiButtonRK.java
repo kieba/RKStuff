@@ -1,11 +1,9 @@
 package com.rk.rkstuff.client.gui;
 
 import com.rk.rkstuff.helper.GuiHelper;
-import com.rk.rkstuff.util.Textures;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
-
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 

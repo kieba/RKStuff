@@ -7,6 +7,7 @@ import rk.com.core.io.IOStream;
 import java.io.IOException;
 
 public class TileFusionControlMaster extends TileMultiBlockMaster {
+
     @Override
     protected boolean hasGui() {
         return false;
@@ -14,6 +15,8 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
     @Override
     public boolean checkMultiBlockForm() {
+
+
         return false;
     }
 

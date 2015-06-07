@@ -1,7 +1,6 @@
 package com.rk.rkstuff.helper;
 
 import com.rk.rkstuff.RkStuff;
-import javafx.stage.FileChooser;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;

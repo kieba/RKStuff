@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 public class TileModelTestRenderer extends TileEntitySpecialRenderer {
 
     private final ModelTest model = new ModelTest();
-    private ResourceLocation loc = new ResourceLocation(Reference.MOD_ID + ":textures/models/Test.png");
+    private ResourceLocation loc = new ResourceLocation(Reference.MOD_ID + ":textures/models/BevelSmall.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float tick) {

@@ -7,7 +7,7 @@ import net.minecraft.block.material.Material;
 public class BlockFusionControlMaster extends BlockRK {
 
     public BlockFusionControlMaster() {
-        super(Material.iron, Reference.BLOCK_FUSION_CONTROL_MASTER_NAME);
+        super(Material.iron, Reference.BLOCK_FUSION_CONTROL_MASTER);
     }
 
 }

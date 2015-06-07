@@ -2,13 +2,11 @@ package com.rk.rkstuff.container;
 
 
 import com.rk.rkstuff.tile.TileRK;
-import com.rk.rkstuff.tile.TileSolarMaster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 public abstract class ContainerRK<T extends TileRK> extends Container {
 
@@ -60,7 +58,7 @@ public abstract class ContainerRK<T extends TileRK> extends Container {
             }
 
             if (itemstack1.stackSize == 0) {
-                slot.putStack((ItemStack)null);
+                slot.putStack(null);
             } else {
                 slot.onSlotChanged();
             }

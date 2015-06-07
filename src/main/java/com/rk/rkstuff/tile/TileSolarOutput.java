@@ -2,8 +2,6 @@ package com.rk.rkstuff.tile;
 
 import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.helper.FluidHelper;
-import com.rk.rkstuff.helper.Pos;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;

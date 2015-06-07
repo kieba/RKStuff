@@ -1,6 +1,5 @@
 package com.rk.rkstuff.block.fluid;
 
-import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

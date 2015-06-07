@@ -7,7 +7,7 @@ import net.minecraft.block.material.Material;
 public class BlockFusionCase3 extends BlockRK {
 
     public BlockFusionCase3() {
-        super(Material.iron, Reference.BLOCK_FUSION_CASE_3_NAME);
+        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
     }
 
 }

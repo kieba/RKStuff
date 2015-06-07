@@ -1,9 +1,6 @@
 package com.rk.rkstuff.item;
 
-import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.util.Reference;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Items;

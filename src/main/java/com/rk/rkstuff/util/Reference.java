@@ -20,6 +20,9 @@ public class Reference {
     public static final String BLOCK_BOILER_BASE_OUTPUT = "BoilerBaseOutput";
     public static final String BLOCK_BOILER_BASE_INPUT = "BoilerBaseInput";
     public static final String BLOCK_BOILER_BASE_MASTER = "BoilerBaseMaster";
+
+    public static final String BLOCK_TANK_ADAPTER = "TankAdapter";
+
     public static final String BLOCK_DISTRIBUTION_ENERGY = "DistributionEnergy";
     public static final String BLOCK_DISTRIBUTION_FLUID = "DistributionFluid";
     public static final String BLOCK_TELEPORTER = "Teleporter";
@@ -51,7 +54,7 @@ public class Reference {
     public static final String TILE_FUSION_CONTROL_ENERGY_IO = "TileFusionControlEnergyIO";
     public static final String TILE_FUSION_CONTROL_ITEM_IO = "TileFusionControlItemIO";
     public static final String TILE_FUSION_CONTROL_MASTER = "TileFusionControlMaster";
-
+    public static final String TILE_TANK_ADAPTER = "TileTankAdapter";
     /* FLUIDS */
     public static final String FLUID_COOL_COOLANT = "CoolCoolant";
     public static final String FLUID_HOT_COOLANT = "HotCoolant";

@@ -69,6 +69,8 @@ public class RkStuff {
 
     public static Block blockTeleporter = new BlockTeleporter();
 
+    public static Block blockTankAdapter = new BlockTankAdapter();
+
     public static Block blockModelTest = new BlockModelTest();
 
     public static Block blockFusionCase = new BlockFusionCase();
@@ -122,8 +124,9 @@ public class RkStuff {
         GameRegistry.registerBlock(blockEnergyDistribution, Reference.BLOCK_DISTRIBUTION_ENERGY);
         GameRegistry.registerBlock(blockFluidDistribution, Reference.BLOCK_DISTRIBUTION_FLUID);
 
-        GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER);
-        GameRegistry.registerBlock(blockModelTest, Reference.BLOCK_MODEL_TEST);
+        GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER_NAME);
+        GameRegistry.registerBlock(blockModelTest, Reference.BLOCK_MODEL_TEST_NAME);
+        GameRegistry.registerBlock(blockTankAdapter, Reference.BLOCK_TANK_ADAPTER);
 
         GameRegistry.registerBlock(blockFusionCase, Reference.BLOCK_FUSION_CASE);
         GameRegistry.registerBlock(blockFusionCase1, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
@@ -149,8 +152,9 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileDistributionEnergy.class, Reference.TILE_DISTRIBUTION_ENERGY);
         GameRegistry.registerTileEntity(TileDistributionFluid.class, Reference.TILE_DISTRIBUTION_FLUID);
 
-        GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER);
-        GameRegistry.registerTileEntity(TileModelTest.class, Reference.TILE_MODEL_TEST);
+        GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER_NAME);
+        GameRegistry.registerTileEntity(TileTankAdapter.class, Reference.TILE_TANK_ADAPTER);
+        GameRegistry.registerTileEntity(TileModelTest.class, Reference.TILE_MODEL_TEST_NAME);
 
         GameRegistry.registerTileEntity(TileFusionCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO);
         GameRegistry.registerTileEntity(TileFusionControlEnergyIO.class, Reference.TILE_FUSION_CONTROL_ENERGY_IO);

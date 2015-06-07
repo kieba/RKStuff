@@ -9,8 +9,7 @@ import net.minecraft.world.World;
 
 public class BlockTankAdapter extends BlockRK implements ITileEntityProvider {
     public BlockTankAdapter() {
-        super(Material.iron);
-        setBlockName(Reference.BLOCK_TANK_ADAPTER);
+        super(Material.iron, Reference.BLOCK_TANK_ADAPTER);
     }
 
     @Override

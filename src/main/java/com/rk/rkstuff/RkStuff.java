@@ -69,8 +69,6 @@ public class RkStuff {
 
     public static Block blockTeleporter = new BlockTeleporter();
 
-    public static Block blockTankAdapter = new BlockTankAdapter();
-
     public static Block blockModelTest = new BlockModelTest();
 
     public static Block blockFusionCase = new BlockFusionCase();
@@ -124,21 +122,20 @@ public class RkStuff {
         GameRegistry.registerBlock(blockEnergyDistribution, Reference.BLOCK_DISTRIBUTION_ENERGY);
         GameRegistry.registerBlock(blockFluidDistribution, Reference.BLOCK_DISTRIBUTION_FLUID);
 
-        GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER);
-        GameRegistry.registerBlock(blockModelTest, Reference.BLOCK_MODEL_TEST);
-        GameRegistry.registerBlock(blockTankAdapter, Reference.BLOCK_TANK_ADAPTER);
+        GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER_NAME);
+        GameRegistry.registerBlock(blockModelTest, Reference.BLOCK_MODEL_TEST_NAME);
 
-        GameRegistry.registerBlock(blockFusionCase, Reference.BLOCK_FUSION_CASE);
-        GameRegistry.registerBlock(blockFusionCase1, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
-        GameRegistry.registerBlock(blockFusionCase2, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);
-        GameRegistry.registerBlock(blockFusionCase3, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
-        GameRegistry.registerBlock(blockFusionCaseFluidIO, Reference.BLOCK_FUSION_CASE_FLUID_IO);
-        GameRegistry.registerBlock(blockFusionControlCase, Reference.BLOCK_FUSION_CONTROL_CASE);
-        GameRegistry.registerBlock(blockFusionControlCore, Reference.BLOCK_FUSION_CONTROL_CORE);
-        GameRegistry.registerBlock(blockFusionControlEnergyIO, Reference.BLOCK_FUSION_CONTROL_ENERGY_IO);
-        GameRegistry.registerBlock(blockFusionControlItemIO, Reference.BLOCK_FUSION_CONTROL_ITEM_IO);
-        GameRegistry.registerBlock(blockFusionControlMaster, Reference.BLOCK_FUSION_CONTROL_MASTER);
-        GameRegistry.registerBlock(blockFusionCore, Reference.BLOCK_FUSION_CORE);
+        GameRegistry.registerBlock(blockFusionCase, Reference.BLOCK_FUSION_CASE_NAME);
+        GameRegistry.registerBlock(blockFusionCase1, Reference.BLOCK_FUSION_CASE_1_NAME);
+        GameRegistry.registerBlock(blockFusionCase2, Reference.BLOCK_FUSION_CASE_2_NAME);
+        GameRegistry.registerBlock(blockFusionCase3, Reference.BLOCK_FUSION_CASE_3_NAME);
+        GameRegistry.registerBlock(blockFusionCaseFluidIO, Reference.BLOCK_FUSION_CASE_FLUID_IO_NAME);
+        GameRegistry.registerBlock(blockFusionControlCase, Reference.BLOCK_FUSION_CONTROL_CASE_NAME);
+        GameRegistry.registerBlock(blockFusionControlCore, Reference.BLOCK_FUSION_CONTROL_CORE_NAME);
+        GameRegistry.registerBlock(blockFusionControlEnergyIO, Reference.BLOCK_FUSION_CONTROL_ENERGY_IO_NAME);
+        GameRegistry.registerBlock(blockFusionControlItemIO, Reference.BLOCK_FUSION_CONTROL_ITEM_IO_NAME);
+        GameRegistry.registerBlock(blockFusionControlMaster, Reference.BLOCK_FUSION_CONTROL_MASTER_NAME);
+        GameRegistry.registerBlock(blockFusionCore, Reference.BLOCK_FUSION_CORE_NAME);
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
@@ -152,14 +149,13 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileDistributionEnergy.class, Reference.TILE_DISTRIBUTION_ENERGY);
         GameRegistry.registerTileEntity(TileDistributionFluid.class, Reference.TILE_DISTRIBUTION_FLUID);
 
-        GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER);
-        GameRegistry.registerTileEntity(TileTankAdapter.class, Reference.TILE_TANK_ADAPTER);
-        GameRegistry.registerTileEntity(TileModelTest.class, Reference.TILE_MODEL_TEST);
+        GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER_NAME);
+        GameRegistry.registerTileEntity(TileModelTest.class, Reference.TILE_MODEL_TEST_NAME);
 
-        GameRegistry.registerTileEntity(TileFusionCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO);
-        GameRegistry.registerTileEntity(TileFusionControlEnergyIO.class, Reference.TILE_FUSION_CONTROL_ENERGY_IO);
-        GameRegistry.registerTileEntity(TileFusionControlItemIO.class, Reference.TILE_FUSION_CONTROL_ITEM_IO);
-        GameRegistry.registerTileEntity(TileFusionControlMaster.class, Reference.TILE_FUSION_CONTROL_MASTER);
+        GameRegistry.registerTileEntity(TileFusionCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO_NAME);
+        GameRegistry.registerTileEntity(TileFusionControlEnergyIO.class, Reference.TILE_FUSION_CONTROL_ENERGY_IO_NAME);
+        GameRegistry.registerTileEntity(TileFusionControlItemIO.class, Reference.TILE_FUSION_CONTROL_ITEM_IO_NAME);
+        GameRegistry.registerTileEntity(TileFusionControlMaster.class, Reference.TILE_FUSION_CONTROL_MASTER_NAME);
 
         //Fluids
         registerFluids();
@@ -170,7 +166,7 @@ public class RkStuff {
         GameRegistry.registerItem(itemValve, Reference.ITEM_VALVE);
         GameRegistry.registerItem(itemWire, Reference.ITEM_WIRE);
         GameRegistry.registerItem(itemSolarTile, Reference.ITEM_SOLAR_TILE);
-        GameRegistry.registerItem(itemLinker, Reference.ITEM_LINKER);
+        GameRegistry.registerItem(itemLinker, Reference.ITEM_LINKER_NAME);
 
 
         //ComputerCraft Provider
@@ -210,25 +206,26 @@ public class RkStuff {
     private void registerFluids(){
         MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 
-        coolCoolant = new Fluid(Reference.FLUID_COOL_COOLANT);
+        coolCoolant = new Fluid(Reference.FLUID_COOL_COOLANT_NAME);
         FluidRegistry.registerFluid(coolCoolant);
         coolCoolantBlock = new BlockCoolCoolantFluid(coolCoolant);
         GameRegistry.registerBlock(coolCoolantBlock, coolCoolantBlock.getUnlocalizedName().substring(5));
         coolCoolant.setUnlocalizedName(coolCoolantBlock.getUnlocalizedName());
-        coolCoolantBucket = new BucketBase(coolCoolantBlock, "Bucket" + Reference.FLUID_COOL_COOLANT);
-        GameRegistry.registerItem(coolCoolantBucket, "Bucket" + Reference.FLUID_COOL_COOLANT);
+        coolCoolantBucket = new BucketBase(coolCoolantBlock, "Bucket" + Reference.FLUID_COOL_COOLANT_NAME);
+        GameRegistry.registerItem(coolCoolantBucket, "Bucket" + Reference.FLUID_COOL_COOLANT_NAME);
         FluidContainerRegistry.registerFluidContainer(coolCoolant, new ItemStack(coolCoolantBucket), new ItemStack(Items.bucket));
         BucketHandler.INSTANCE.buckets.put(coolCoolantBlock, coolCoolantBucket);
 
 
-        hotCoolant = new Fluid(Reference.FLUID_HOT_COOLANT);
+
+        hotCoolant = new Fluid(Reference.FLUID_HOT_COOLANT_NAME);
         hotCoolant.setTemperature(2000);
         FluidRegistry.registerFluid(hotCoolant);
         hotCoolantBlock = new BlockHotCoolantFluid(hotCoolant);
         GameRegistry.registerBlock(hotCoolantBlock, hotCoolantBlock.getUnlocalizedName().substring(5));
         hotCoolant.setUnlocalizedName(hotCoolantBlock.getUnlocalizedName());
-        hotCoolantBucket = new BucketBase(hotCoolantBlock, "Bucket" + Reference.FLUID_HOT_COOLANT);
-        GameRegistry.registerItem(hotCoolantBucket, "Bucket" + Reference.FLUID_HOT_COOLANT);
+        hotCoolantBucket = new BucketBase(hotCoolantBlock, "Bucket" + Reference.FLUID_HOT_COOLANT_NAME);
+        GameRegistry.registerItem(hotCoolantBucket, "Bucket" + Reference.FLUID_HOT_COOLANT_NAME);
         FluidContainerRegistry.registerFluidContainer(hotCoolant, new ItemStack(hotCoolantBucket), new ItemStack(Items.bucket));
         BucketHandler.INSTANCE.buckets.put(hotCoolantBlock, hotCoolantBucket);
     }

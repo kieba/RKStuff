@@ -11,6 +11,7 @@ public class Reference {
 
     /* BLOCKS */
     public static final String BLOCK_MACHINE_BLOCK = "MachineBlock";
+    public static final String BLOCK_PORTLANDITE = "Portlandite";
     public static final String BLOCK_SOLAR = "Solar";
     public static final String BLOCK_SOLAR_OUTPUT = "SolarOutput";
     public static final String BLOCK_SOLAR_MASTER = "SolarMaster";
@@ -68,7 +69,6 @@ public class Reference {
     public static final String ITEM_LINKER = "Linker";
     public static final String ITEM_WOOD_ASH = "WoodAsh";
     public static final String ITEM_POTASH = "Potash";
-    public static final String ITEM_PORTLANDITE = "Portlandite";
     public static final String ITEM_POTASSIUM_HYDROXIDE = "PotassiumHydroxide";
     public static final String ITEM_GLYCERINE = "Glycerine";
 

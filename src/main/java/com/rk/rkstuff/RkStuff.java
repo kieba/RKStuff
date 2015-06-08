@@ -54,6 +54,7 @@ public class RkStuff {
     public static ItemBucket hotCoolantBucket;
 
     public static Block blockMachineBlock = new BlockRK(Material.iron, Reference.BLOCK_MACHINE_BLOCK);
+    public static Block blockPortlandite = new BlockRK(Material.iron, Reference.BLOCK_PORTLANDITE);
 
     public static Block blockSolarOutput = new BlockSolarOutput();
     public static Block blockSolarInput = new BlockSolarInput();
@@ -94,7 +95,6 @@ public class RkStuff {
     public static Item itemSolarTile = new ItemRK(Reference.ITEM_SOLAR_TILE);
     public static Item itemWoodAsh = new ItemRK(Reference.ITEM_WOOD_ASH);
     public static Item itemPotash = new ItemRK(Reference.ITEM_POTASH);
-    public static Item itemPortlandite = new ItemRK(Reference.ITEM_PORTLANDITE);
     public static Item itemPotassiumHydroxide = new ItemRK(Reference.ITEM_POTASSIUM_HYDROXIDE);
     public static Item itemGlycerine = new ItemRK(Reference.ITEM_GLYCERINE);
 
@@ -116,6 +116,7 @@ public class RkStuff {
 
         //Blocks
         GameRegistry.registerBlock(blockMachineBlock, Reference.BLOCK_MACHINE_BLOCK);
+        GameRegistry.registerBlock(blockPortlandite, Reference.BLOCK_PORTLANDITE);
 
         GameRegistry.registerBlock(blockSolarOutput, Reference.BLOCK_SOLAR_OUTPUT);
         GameRegistry.registerBlock(blockSolarInput, Reference.BLOCK_SOLAR_INPUT);
@@ -180,7 +181,6 @@ public class RkStuff {
         GameRegistry.registerItem(itemLinker, Reference.ITEM_LINKER);
         GameRegistry.registerItem(itemWoodAsh, Reference.ITEM_WOOD_ASH);
         GameRegistry.registerItem(itemPotash, Reference.ITEM_POTASH);
-        GameRegistry.registerItem(itemPortlandite, Reference.ITEM_PORTLANDITE);
         GameRegistry.registerItem(itemPotassiumHydroxide, Reference.ITEM_POTASSIUM_HYDROXIDE);
         GameRegistry.registerItem(itemGlycerine, Reference.ITEM_GLYCERINE);
 
@@ -252,7 +252,6 @@ public class RkStuff {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemWire, 2), true, new Object[]{"   ", "ccc", "   ", 'c', "ingotCopper"}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemSolarPanel), true, new Object[]{"sts", "tct", "sts", 's', itemSolarTile, 't', "ingotTin", 'c', "ingotCopper"}));
         GameRegistry.addShapelessRecipe(new ItemStack(itemPotash), new ItemStack(itemWoodAsh), new ItemStack(Items.water_bucket.setContainerItem(Items.bucket)));
-        GameRegistry.addShapelessRecipe(new ItemStack(itemGlycerine), new ItemStack(itemPotassiumHydroxide), new ItemStack(Items.leather));
 
         //Blockrecipes
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolar), true, new Object[]{"sss", "ibi", "iii", 's', itemSolarPanel, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
@@ -263,8 +262,9 @@ public class RkStuff {
         //MachineRecipes
         cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(Items.redstone), new ItemStack(Items.dye, 1, 4), new ItemStack(itemSolarTile, 2));
         GameRegistry.addSmelting(new ItemStack(Blocks.planks), new ItemStack(itemWoodAsh), 0.1f);
-        cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(Blocks.sand, 1, 1), new ItemStack(Items.clay_ball), new ItemStack(itemPortlandite, 2));
-        cofh.api.modhelpers.ThermalExpansionHelper.addInsolatorRecipe(1600, new ItemStack(itemPotash), new ItemStack(itemPortlandite), new ItemStack(itemPotassiumHydroxide));
+        cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(Blocks.sand, 1, 1), new ItemStack(Items.clay_ball), new ItemStack(blockPortlandite, 2));
+        cofh.api.modhelpers.ThermalExpansionHelper.addInsolatorRecipe(1600, new ItemStack(itemPotash), new ItemStack(blockPortlandite), new ItemStack(itemPotassiumHydroxide));
+        cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(itemPotassiumHydroxide), new ItemStack(Items.leather), new ItemStack(itemGlycerine));
         cofh.api.modhelpers.ThermalExpansionHelper.addCrucibleRecipe(1600, new ItemStack(itemGlycerine), new FluidStack(coolCoolant, 1000));
     }
 }

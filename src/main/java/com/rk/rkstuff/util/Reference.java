@@ -66,6 +66,11 @@ public class Reference {
     public static final String ITEM_WIRE = "Wire";
     public static final String ITEM_SOLAR_TILE = "SolarTile";
     public static final String ITEM_LINKER = "Linker";
+    public static final String ITEM_WOOD_ASH = "WoodAsh";
+    public static final String ITEM_POTASH = "Potash";
+    public static final String ITEM_PORTLANDITE = "Portlandite";
+    public static final String ITEM_POTASSIUM_HYDROXIDE = "PotassiumHydroxide";
+    public static final String ITEM_GLYCERINE = "Glycerine";
 
     /* GUI's */
     public static final int GUI_ID_SOLAR = 0;

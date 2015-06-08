@@ -29,6 +29,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import dan200.computercraft.api.ComputerCraftAPI;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
@@ -37,6 +38,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.Map;
@@ -90,6 +92,11 @@ public class RkStuff {
     public static Item itemControlUnit = new ItemRK(Reference.ITEM_CONTROL_UNIT);
     public static Item itemWire = new ItemRK(Reference.ITEM_WIRE);
     public static Item itemSolarTile = new ItemRK(Reference.ITEM_SOLAR_TILE);
+    public static Item itemWoodAsh = new ItemRK(Reference.ITEM_WOOD_ASH);
+    public static Item itemPotash = new ItemRK(Reference.ITEM_POTASH);
+    public static Item itemPortlandite = new ItemRK(Reference.ITEM_PORTLANDITE);
+    public static Item itemPotassiumHydroxide = new ItemRK(Reference.ITEM_POTASSIUM_HYDROXIDE);
+    public static Item itemGlycerine = new ItemRK(Reference.ITEM_GLYCERINE);
 
     public static ItemLinker itemLinker = new ItemLinker();
 
@@ -171,6 +178,11 @@ public class RkStuff {
         GameRegistry.registerItem(itemWire, Reference.ITEM_WIRE);
         GameRegistry.registerItem(itemSolarTile, Reference.ITEM_SOLAR_TILE);
         GameRegistry.registerItem(itemLinker, Reference.ITEM_LINKER);
+        GameRegistry.registerItem(itemWoodAsh, Reference.ITEM_WOOD_ASH);
+        GameRegistry.registerItem(itemPotash, Reference.ITEM_POTASH);
+        GameRegistry.registerItem(itemPortlandite, Reference.ITEM_PORTLANDITE);
+        GameRegistry.registerItem(itemPotassiumHydroxide, Reference.ITEM_POTASSIUM_HYDROXIDE);
+        GameRegistry.registerItem(itemGlycerine, Reference.ITEM_GLYCERINE);
 
 
         //ComputerCraft Provider
@@ -239,6 +251,8 @@ public class RkStuff {
         GameRegistry.addShapedRecipe(new ItemStack(itemControlUnit), "wrw", "rgr", "wrw", 'w', itemWire, 'r', Items.redstone, 'g', Items.gold_ingot);
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemWire, 2), true, new Object[]{"   ", "ccc", "   ", 'c', "ingotCopper"}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemSolarPanel), true, new Object[]{"sts", "tct", "sts", 's', itemSolarTile, 't', "ingotTin", 'c', "ingotCopper"}));
+        GameRegistry.addShapelessRecipe(new ItemStack(itemPotash), new ItemStack(itemWoodAsh), new ItemStack(Items.water_bucket.setContainerItem(Items.bucket)));
+        GameRegistry.addShapelessRecipe(new ItemStack(itemGlycerine), new ItemStack(itemPotassiumHydroxide), new ItemStack(Items.leather));
 
         //Blockrecipes
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolar), true, new Object[]{"sss", "ibi", "iii", 's', itemSolarPanel, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
@@ -247,6 +261,10 @@ public class RkStuff {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarMaster), true, new Object[]{"sss", "cbc", "iii", 's', itemSolarPanel, 'c', itemControlUnit, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
 
         //MachineRecipes
-        cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(4000, new ItemStack(Items.redstone), new ItemStack(Items.dye, 1, 4), new ItemStack(itemSolarTile, 2));
+        cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(Items.redstone), new ItemStack(Items.dye, 1, 4), new ItemStack(itemSolarTile, 2));
+        GameRegistry.addSmelting(new ItemStack(Blocks.planks), new ItemStack(itemWoodAsh), 0.1f);
+        cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(Blocks.sand, 1, 1), new ItemStack(Items.clay_ball), new ItemStack(itemPortlandite, 2));
+        cofh.api.modhelpers.ThermalExpansionHelper.addInsolatorRecipe(1600, new ItemStack(itemPotash), new ItemStack(itemPortlandite), new ItemStack(itemPotassiumHydroxide));
+        cofh.api.modhelpers.ThermalExpansionHelper.addCrucibleRecipe(1600, new ItemStack(itemGlycerine), new FluidStack(coolCoolant, 1000));
     }
 }

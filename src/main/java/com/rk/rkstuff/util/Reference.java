@@ -30,9 +30,9 @@ public class Reference {
     public static final String BLOCK_MODEL_TEST = "ModelTest";
     public static final String BLOCK_FUSION_CORE = "FusionCore";
     public static final String BLOCK_FUSION_CASE = "FusionCase";
-    public static final String BLOCK_FUSION_CASE_BEVEL_LARGE = "FusionCase1";
-    public static final String BLOCK_FUSION_CASE_BEVEL_SMALL = "FusionCase2";
-    public static final String BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED = "FusionCase3";
+    public static final String BLOCK_FUSION_CASE_BEVEL_LARGE = "FusionCaseBevelLarge";
+    public static final String BLOCK_FUSION_CASE_BEVEL_SMALL = "FusionCaseBevelSmall";
+    public static final String BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED = "FusionCaseBevelSmallInverted";
     public static final String BLOCK_FUSION_CASE_FLUID_IO = "FusionCaseFluidIO";
     public static final String BLOCK_FUSION_CONTROL_CASE = "FusionControlCase";
     public static final String BLOCK_FUSION_CONTROL_CORE = "FusionControlCore";

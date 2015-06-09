@@ -77,9 +77,9 @@ public class RkStuff {
     public static Block blockModelTest = new BlockModelTest();
 
     public static Block blockFusionCase = new BlockFusionCase();
-    public static Block blockFusionCase1 = new BlockFusionCase1();
-    public static Block blockFusionCase2 = new BlockFusionCase2();
-    public static Block blockFusionCase3 = new BlockFusionCase3();
+    public static Block blockFusionCase1 = new BlockFusionCaseBevelSmall();
+    public static Block blockFusionCase2 = new BlockFusionCaseBevelSmallInverted();
+    public static Block blockFusionCase3 = new BlockFusionCaseBevelLarge();
     public static Block blockFusionCaseFluidIO = new BlockFusionCaseFluidIO();
     public static Block blockFusionControlCase = new BlockFusionControlCase();
     public static Block blockFusionControlCore = new BlockFusionControlCore();

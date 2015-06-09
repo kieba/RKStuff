@@ -1,13 +1,16 @@
 package com.rk.rkstuff.proxy;
 
+import com.rk.rkstuff.client.renderer.BlockFusionCaseRenderer;
 import com.rk.rkstuff.client.renderer.TileModelTestRenderer;
 import com.rk.rkstuff.client.renderer.TileTankAdapterSpecialRenderer;
 import com.rk.rkstuff.tile.TileModelTest;
 import com.rk.rkstuff.tile.TileTankAdapter;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
 
+    public static int blockFusionCaseRenderId = -1;
     public static TileModelTestRenderer modelTestRenderer;
     public static TileTankAdapterSpecialRenderer tankAdapterSpecialRenderer;
 
@@ -24,6 +27,9 @@ public class ClientProxy extends CommonProxy {
         //MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RkStuff.blockModelTest), new ItemModelTestRenderer());
         tankAdapterSpecialRenderer = new TileTankAdapterSpecialRenderer();
         ClientRegistry.bindTileEntitySpecialRenderer(TileTankAdapter.class, tankAdapterSpecialRenderer);
+
+        blockFusionCaseRenderId = RenderingRegistry.getNextAvailableRenderId();
+        RenderingRegistry.registerBlockHandler(new BlockFusionCaseRenderer());
     }
 
     @Override

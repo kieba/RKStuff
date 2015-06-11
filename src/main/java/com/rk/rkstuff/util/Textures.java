@@ -12,8 +12,4 @@ public class Textures {
     public static ResourceLocation BOILER_GUI = new ResourceLocation(GUI_PATH + "BoilerGUI.png");
     public static ResourceLocation DISTRIBUTION_GUI = new ResourceLocation(GUI_PATH + "DistributionGUI.png");
 
-    public static ResourceLocation BEVEL_SMALL = new ResourceLocation(MODEL_PATH + "FusionCaseBevelSmall.png");
-    public static ResourceLocation BEVEL_LARGE = new ResourceLocation(MODEL_PATH + "BevelLarge.png");
-    public static ResourceLocation BEVEL_SMALL_INVERTED = new ResourceLocation(MODEL_PATH + "FusionCaseBevelSmallInverted.png");
-
 }

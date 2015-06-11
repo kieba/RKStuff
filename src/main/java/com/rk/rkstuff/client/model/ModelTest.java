@@ -10,11 +10,11 @@ public class ModelTest {
     private IModelCustom modelTest;
 
     public ModelTest() {
-        //modelTest = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.MOD_ID + ":" + "textures/models/Test.obj"));
+        modelTest = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.MOD_ID + ":" + "models/Test.obj"));
     }
 
     public void render() {
-        //modelTest.renderAll();
+        modelTest.renderAll();
     }
 
 

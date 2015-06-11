@@ -97,7 +97,7 @@ public class BlockBoilerTank extends BlockRK {
         }
 
         if (master != null) {
-            if (!master.checkMultiBlockForm()) {
+            if (!master.isBuild()) {
                 if (master.getTemperature() >= 300) {
                     entity.setFire(10);
                 }

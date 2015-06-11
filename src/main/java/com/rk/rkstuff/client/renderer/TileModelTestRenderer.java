@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 public class TileModelTestRenderer extends TileEntitySpecialRenderer {
 
     private final ModelTest model = new ModelTest();
-    private ResourceLocation loc = new ResourceLocation(Reference.MOD_ID + ":textures/blocks/fusion/FusionCaseBevelSmall.png");
+    private ResourceLocation loc = new ResourceLocation(Reference.MOD_ID + ":textures/Test.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float tick) {
@@ -19,11 +19,10 @@ public class TileModelTestRenderer extends TileEntitySpecialRenderer {
             TileModelTest tileModelTest = (TileModelTest) tile;
             this.bindTexture(loc);
 
-
             GL11.glPushMatrix();
             GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
             GL11.glScalef(1.0f, 1.0f, 1.0f);
-            GL11.glRotatef(90, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(tileModelTest.rotation, 0.0F, 1.0F, 0.0F);
 
             model.render();
 

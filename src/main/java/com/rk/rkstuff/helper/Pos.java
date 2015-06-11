@@ -21,6 +21,12 @@ public class Pos {
 
     }
 
+    public void add(Pos p) {
+        this.x += p.x;
+        this.y += p.y;
+        this.z += p.z;
+    }
+
     public Pos clone(){
         return new Pos(x,y,z);
     }

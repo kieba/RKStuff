@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class BlockFusionCaseBevelSmall extends BlockRK {
+public class BlockFusionCaseBevelSmall extends BlockRK implements IFusionCaseBlock {
 
     public BlockFusionCaseBevelSmall() {
         super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);

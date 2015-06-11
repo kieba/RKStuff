@@ -1,11 +1,32 @@
 package com.rk.rkstuff.tile.fusion;
 
+import cofh.api.energy.IEnergyHandler;
+import com.rk.rkstuff.tile.IMultiBlockMasterListener;
+import com.rk.rkstuff.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.tile.TileRK;
+import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileFusionControlEnergyIO extends TileRK {
+public class TileFusionControlEnergyIO extends TileRK implements IMultiBlockMasterListener, IEnergyHandler {
+
+    private TileFusionControlMaster master;
+
+    public boolean hasMaster() {
+        return master != null;
+    }
+
+    @Override
+    public void registerMaster(TileMultiBlockMaster tileMaster) {
+        master = (TileFusionControlMaster) tileMaster;
+    }
+
+    @Override
+    public void unregisterMaster() {
+        master = null;
+    }
+
     @Override
     protected boolean hasGui() {
         return false;
@@ -19,5 +40,30 @@ public class TileFusionControlEnergyIO extends TileRK {
     @Override
     public void writeData(IOStream data) {
 
+    }
+
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int getEnergyStored(ForgeDirection from) {
+        return 0;
+    }
+
+    @Override
+    public int getMaxEnergyStored(ForgeDirection from) {
+        return 0;
+    }
+
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from) {
+        return false;
     }
 }

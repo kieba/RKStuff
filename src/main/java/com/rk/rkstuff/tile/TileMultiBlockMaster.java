@@ -28,9 +28,9 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
 
     public void reset() {
         if(isBuild) {
+            isBuild = false;
             resetStructure();
             bounds = null;
-            isBuild = false;
         }
     }
 

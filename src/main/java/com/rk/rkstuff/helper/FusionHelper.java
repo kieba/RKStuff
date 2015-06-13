@@ -1,7 +1,12 @@
 package com.rk.rkstuff.helper;
 
 import com.rk.rkstuff.RkStuff;
+import com.rk.rkstuff.block.fusion.IFusionCaseBlock;
+import com.rk.rkstuff.block.fusion.IFusionControlCaseBlock;
+import com.rk.rkstuff.block.fusion.IFusionControlCoreBlock;
+import com.rk.rkstuff.block.fusion.IFusionCoreBlock;
 import net.minecraft.block.Block;
+import net.minecraft.world.World;
 
 public class FusionHelper {
 
@@ -66,7 +71,6 @@ public class FusionHelper {
         public Pos ringEnd;
         public FusionCoreDir startDir;
         public int[] lengths = new int[9]; //FusionCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
-        //public boolean isClockwise;
         public MultiBlockHelper.Bounds controlBounds;
         public Pos master;
     }
@@ -139,7 +143,7 @@ public class FusionHelper {
                 start.x += dir.xOff * setup.lengths[i];
                 start.z += dir.zOff * setup.lengths[i];
 
-                dir = dir.getNext(false);//setup.isClockwise);
+                dir = dir.getNext(false);
 
             } else {
                 boolean swap = false;
@@ -307,7 +311,7 @@ public class FusionHelper {
                 start.x += dir.xOff * (setup.lengths[i] - 1);
                 start.z += dir.zOff * (setup.lengths[i] - 1);
 
-                dir = dir.getNext(false);//setup.isClockwise);
+                dir = dir.getNext(false);
 
                 start.x += dir.xOff;
                 start.z += dir.zOff;
@@ -390,5 +394,38 @@ public class FusionHelper {
 
         public boolean visit(FusionPos pos);
 
+    }
+
+    public static boolean isValidControlBlock(World world, int x, int y, int z) {
+        Block b = world.getBlock(x, y, z);
+        return b instanceof IFusionControlCoreBlock || b instanceof IFusionControlCaseBlock;
+    }
+
+    public static boolean isValidControlCoreBlock(World world, int x, int y, int z) {
+        Block b = world.getBlock(x, y, z);
+        return b instanceof IFusionControlCoreBlock;
+    }
+
+    public static boolean isValidControlCaseBlock(World world, int x, int y, int z) {
+        Block b = world.getBlock(x, y, z);
+        return b instanceof IFusionControlCaseBlock;
+    }
+
+    public static boolean isValidCoreBlock(World world, int x, int y, int z) {
+        Block b = world.getBlock(x, y, z);
+        return b instanceof IFusionCoreBlock;
+    }
+
+    public static boolean isValidCaseBlock(World world, int x, int y, int z) {
+        Block b = world.getBlock(x, y, z);
+        return b instanceof IFusionCaseBlock;
+    }
+
+    public static boolean isValidCaseOrCoreBlock(World world, int x, int y, int z) {
+        return isValidCaseOrCoreBlock(world.getBlock(x, y, z));
+    }
+
+    public static boolean isValidCaseOrCoreBlock(Block b) {
+        return b instanceof IFusionCaseBlock || b instanceof IFusionCoreBlock;
     }
 }

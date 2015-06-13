@@ -145,6 +145,12 @@ public class MultiBlockHelper {
                     && pos.z >= minZ && pos.z <= maxZ;
         }
 
+        public Bounds clone() {
+            Bounds newBounds = new Bounds(minX, minY, minZ);
+            newBounds.add(maxX, maxY, maxZ);
+            return newBounds;
+        }
+
 
         @Override
         public Iterator<BlockIterator.BoundsPos> iterator() {

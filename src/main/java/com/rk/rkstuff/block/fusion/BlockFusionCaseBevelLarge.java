@@ -46,7 +46,7 @@ public class BlockFusionCaseBevelLarge extends BlockRK implements IFusionCaseBlo
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             int meta = world.getBlockMetadata(x, y, z);
-            meta = (meta + 1) % 8;
+            meta = (meta + 1) % 12;
             world.setBlockMetadataWithNotify(x, y, z, meta, 3);
         }
         return true;

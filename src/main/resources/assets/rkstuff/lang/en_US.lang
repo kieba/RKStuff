@@ -20,6 +20,9 @@ tile.BoilerBase.name=Boiler Base
 tile.BoilerBaseInput.name=Boiler Input
 tile.BoilerBaseOutput.name=Boiler Output
 tile.BoilerBaseMaster.name=Boiler Master
+tile.DistributionEnergy.name=Energy Distributor
+tile.DistributionFluid.name=Fluid Distributor
+tile.Teleporter.name=Player Teleporter
 
 item.Valve.name=Valve
 
@@ -31,3 +34,4 @@ item.WoodAsh.name=Wood Ash
 item.Potash.name=Potash (K2CO3)
 item.PotassiumHydroxide.name=Potassium Hydroxide (KOH)
 item.Glycerine.name=Glycerine
+item.Linker.name=Linker

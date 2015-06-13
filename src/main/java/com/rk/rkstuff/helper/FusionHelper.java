@@ -66,7 +66,7 @@ public class FusionHelper {
         public Pos ringEnd;
         public FusionCoreDir startDir;
         public int[] lengths = new int[9]; //FusionCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
-        public boolean isClockwise;
+        //public boolean isClockwise;
         public MultiBlockHelper.Bounds controlBounds;
         public Pos master;
     }
@@ -139,7 +139,7 @@ public class FusionHelper {
                 start.x += dir.xOff * setup.lengths[i];
                 start.z += dir.zOff * setup.lengths[i];
 
-                dir = dir.getNext(setup.isClockwise);
+                dir = dir.getNext(false);//setup.isClockwise);
 
             } else {
                 boolean swap = false;
@@ -307,7 +307,7 @@ public class FusionHelper {
                 start.x += dir.xOff * (setup.lengths[i] - 1);
                 start.z += dir.zOff * (setup.lengths[i] - 1);
 
-                dir = dir.getNext(setup.isClockwise);
+                dir = dir.getNext(false);//setup.isClockwise);
 
                 start.x += dir.xOff;
                 start.z += dir.zOff;

@@ -25,7 +25,7 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         setup = new FusionHelper.FusionStructure();
         setup.ringStart = new Pos(484, 6, 69);
         setup.ringEnd = new Pos(478, 6, 69);
-        setup.startDir = FusionHelper.FusionCoreDir.XpZz;
+        setup.startDir = FusionHelper.FusionCoreDir.XnZz;
         /*
         setup.lengths[0] = 5;
         setup.lengths[1] = 5;
@@ -47,7 +47,7 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         setup.lengths[6] = 7;
         setup.lengths[7] = 5;
         setup.lengths[8] = 2;
-        setup.isClockwise = false;
+        //setup.isClockwise = false;
 
         setup.controlBounds = new MultiBlockHelper.Bounds(479, 4, 67);
         setup.controlBounds.add(483, 8, 71);
@@ -237,15 +237,27 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
             if (dir == ForgeDirection.DOWN) continue;
             if (dir == ForgeDirection.UP) continue;
 
-            if (dir.offsetX > 0) {
+            if (dir.offsetX == 1) {
                 int z = fs.controlBounds.getMinZ() + 2;
                 if (followFusionCoreBlocks(fs, fs.controlBounds.getMaxX() + 1, y, z, fs.controlBounds.getMinX() - 1, y, z, FusionHelper.FusionCoreDir.XpZz)) {
                     isValid = true;
                     break;
                 }
-            } else if (dir.offsetZ > 0) {
+            } else if (dir.offsetZ == 1) {
                 int x = fs.controlBounds.getMinX() + 2;
                 if (followFusionCoreBlocks(fs, x, y, fs.controlBounds.getMaxZ() + 1, x, y, fs.controlBounds.getMinZ() - 1, FusionHelper.FusionCoreDir.XzZp)) {
+                    isValid = true;
+                    break;
+                }
+            } else if (dir.offsetX == -1) {
+                int z = fs.controlBounds.getMinZ() + 2;
+                if (followFusionCoreBlocks(fs, fs.controlBounds.getMinX() - 1, y, z, fs.controlBounds.getMaxX() + 1, y, z, FusionHelper.FusionCoreDir.XnZz)) {
+                    isValid = true;
+                    break;
+                }
+            } else if (dir.offsetZ == -1) {
+                int x = fs.controlBounds.getMinX() + 2;
+                if (followFusionCoreBlocks(fs, x, y, fs.controlBounds.getMinZ() - 1, x, y, fs.controlBounds.getMaxZ() + 1, FusionHelper.FusionCoreDir.XzZn)) {
                     isValid = true;
                     break;
                 }
@@ -280,7 +292,7 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         int index = 0;
         int length = 0;
         boolean isValid = false;
-        for (int i = 0; i < 2; i++) {
+        // for (int i = 0; i < 2; i++) {
             index = 0;
             dir = fs.startDir;
             Pos current = new Pos(xSrc - dir.xOff, ySrc, zSrc - dir.zOff);
@@ -314,10 +326,10 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
                 fs.lengths[index] = length;
                 index++;
-                dir = dir.getNext(i == 0); //first check clockwise, if it fails check other direction
+                dir = dir.getNext(false); //first check clockwise, if it fails check other direction
             }
-            if (isValid) break;
-        }
+        //if (isValid) break;
+        // }
 
         return isValid;
     }

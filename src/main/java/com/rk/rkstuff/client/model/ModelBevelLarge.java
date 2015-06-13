@@ -8,8 +8,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class ModelBevelLarge {
 
-    private Vec3[][] vertices = new Vec3[8][];
-    private Vec3[][] normals = new Vec3[8][];
+    private Vec3[][] vertices = new Vec3[12][];
+    private Vec3[][] normals = new Vec3[12][];
 
     public ModelBevelLarge() {
         setupModel();
@@ -56,8 +56,10 @@ public class ModelBevelLarge {
         for (int i = 0; i < vertices.length; i++) {
             int side = (i & 0x03) + 2;
             boolean yp = ((i >> 2) & 0x01) == 0x01;
+            boolean ignoreY = ((i >> 3) & 0x01) == 0x01;
             for (int j = 0; j < vertices[i].length; j++) {
-                if (yp) vertices[i][j].rotateAroundX(((float) Math.PI) / 2.0f);
+                if (!ignoreY && yp) vertices[i][j].rotateAroundX(((float) Math.PI) / 2.0f);
+                if (ignoreY) vertices[i][j].rotateAroundZ(((float) Math.PI) / 2.0f);
                 if (side == ForgeDirection.NORTH.ordinal()) {
                     vertices[i][j].rotateAroundY(((float) Math.PI));
                 } else if (side == ForgeDirection.WEST.ordinal()) {

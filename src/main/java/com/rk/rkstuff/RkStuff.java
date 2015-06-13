@@ -73,6 +73,7 @@ public class RkStuff {
     public static Block blockTeleporter = new BlockTeleporter();
 
     public static Block blockTankAdapter = new BlockTankAdapter();
+    public static Block blockTank = new BlockTank();
 
     public static Block blockModelTest = new BlockModelTest();
 
@@ -135,6 +136,7 @@ public class RkStuff {
         GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER);
         GameRegistry.registerBlock(blockModelTest, Reference.BLOCK_MODEL_TEST);
         GameRegistry.registerBlock(blockTankAdapter, Reference.BLOCK_TANK_ADAPTER);
+        GameRegistry.registerBlock(blockTank, Reference.BLOCK_TANK);
 
         GameRegistry.registerBlock(blockFusionCase, Reference.BLOCK_FUSION_CASE);
         GameRegistry.registerBlock(blockFusionCase1, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);

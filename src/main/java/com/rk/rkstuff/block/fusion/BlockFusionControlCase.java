@@ -13,7 +13,8 @@ public class BlockFusionControlCase extends BlockRK implements IFusionControlCas
     }
 
     @Override
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
-        return Blocks.stone.getIcon(0, 0);
+    public IIcon getIcon(int side, int meta) {
+        if (meta == 0) return Blocks.coal_ore.getIcon(0, 0);
+        return Blocks.coal_block.getIcon(0, 0);
     }
 }

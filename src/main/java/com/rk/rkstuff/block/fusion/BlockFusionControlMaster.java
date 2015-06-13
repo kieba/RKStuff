@@ -23,8 +23,9 @@ public class BlockFusionControlMaster extends BlockRK implements ITileEntityProv
     }
 
     @Override
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
-        return Blocks.diamond_block.getIcon(0, 0);
+    public IIcon getIcon(int side, int meta) {
+        if (meta == 0) return Blocks.emerald_ore.getIcon(0, 0);
+        return Blocks.emerald_block.getIcon(0, 0);
     }
 
     @Override

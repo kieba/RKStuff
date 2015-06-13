@@ -13,7 +13,8 @@ public class BlockFusionCase extends BlockRK implements IFusionCaseBlock {
     }
 
     @Override
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
-        return Blocks.dirt.getIcon(0, 0);
+    public IIcon getIcon(int side, int meta) {
+        if (meta == 0) return Blocks.iron_ore.getIcon(0, 0);
+        return Blocks.iron_block.getIcon(0, 0);
     }
 }

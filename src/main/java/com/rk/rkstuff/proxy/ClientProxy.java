@@ -1,6 +1,6 @@
 package com.rk.rkstuff.proxy;
 
-import com.rk.rkstuff.client.renderer.BlockFusionCaseRenderer;
+import com.rk.rkstuff.client.renderer.BlockBevelRenderer;
 import com.rk.rkstuff.client.renderer.TileModelTestRenderer;
 import com.rk.rkstuff.client.renderer.TileTankAdapterSpecialRenderer;
 import com.rk.rkstuff.tile.TileModelTest;
@@ -29,7 +29,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileTankAdapter.class, tankAdapterSpecialRenderer);
 
         blockFusionCaseRenderId = RenderingRegistry.getNextAvailableRenderId();
-        RenderingRegistry.registerBlockHandler(new BlockFusionCaseRenderer());
+        RenderingRegistry.registerBlockHandler(new BlockBevelRenderer());
     }
 
     @Override

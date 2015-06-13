@@ -13,7 +13,8 @@ public class BlockFusionControlCore extends BlockRK implements IFusionControlCor
     }
 
     @Override
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
-        return Blocks.cobblestone.getIcon(0, 0);
+    public IIcon getIcon(int side, int meta) {
+        if (meta == 0) return Blocks.diamond_ore.getIcon(0, 0);
+        return Blocks.diamond_block.getIcon(0, 0);
     }
 }

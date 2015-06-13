@@ -198,21 +198,21 @@ public class FusionHelper {
     }
 
     public static boolean iterateControl(FusionStructure setup, IFusionVisitor visitor) {
-        int xMin = setup.controlBounds.getMinX();
-        int yMin = setup.controlBounds.getMinY();
-        int zMin = setup.controlBounds.getMinZ();
-        int xMax = setup.controlBounds.getMaxX();
-        int yMax = setup.controlBounds.getMaxY();
-        int zMax = setup.controlBounds.getMaxZ();
-
         FusionPos p = new FusionPos();
         MultiBlockHelper.Bounds extendedBounds = setup.controlBounds.clone();
-        extendedBounds.setMaxX(extendedBounds.getMinX() - 1);
-        extendedBounds.setMaxX(extendedBounds.getMinY() - 1);
-        extendedBounds.setMaxX(extendedBounds.getMinZ() - 1);
+        extendedBounds.setMinX(extendedBounds.getMinX() - 1);
+        extendedBounds.setMinY(extendedBounds.getMinY() - 1);
+        extendedBounds.setMinZ(extendedBounds.getMinZ() - 1);
         extendedBounds.setMaxX(extendedBounds.getMaxX() + 1);
-        extendedBounds.setMaxX(extendedBounds.getMaxY() + 1);
-        extendedBounds.setMaxX(extendedBounds.getMaxZ() + 1);
+        extendedBounds.setMaxY(extendedBounds.getMaxY() + 1);
+        extendedBounds.setMaxZ(extendedBounds.getMaxZ() + 1);
+
+        int xMin = extendedBounds.getMinX();
+        int yMin = extendedBounds.getMinY();
+        int zMin = extendedBounds.getMinZ();
+        int xMax = extendedBounds.getMaxX();
+        int yMax = extendedBounds.getMaxY();
+        int zMax = extendedBounds.getMaxZ();
         for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos bp : extendedBounds) {
             p.p = bp;
             if (bp.x == xMin || bp.x == xMax || bp.y == yMin || bp.y == yMax || bp.z == zMin || bp.z == zMax) {

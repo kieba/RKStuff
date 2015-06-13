@@ -1,6 +1,5 @@
 package com.rk.rkstuff.tile.fusion;
 
-import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.block.fusion.IFusionCaseBlock;
 import com.rk.rkstuff.block.fusion.IFusionControlCaseBlock;
 import com.rk.rkstuff.block.fusion.IFusionControlCoreBlock;
@@ -11,7 +10,6 @@ import com.rk.rkstuff.helper.Pos;
 import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.tile.TileMultiBlockMaster;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
@@ -36,6 +34,9 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         setup.lengths[7] = 9;
         setup.lengths[8] = 6;
         setup.isClockwise = false;
+
+        setup.controlBounds = new MultiBlockHelper.Bounds(479, 4, 67);
+        setup.controlBounds.add(483, 8, 71);
     }
 
     @Override
@@ -49,6 +50,8 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
     }
 
     public void onBlockActivated() {
+        this.reset();
+        /*
         FusionHelper.iterateRing(setup, new FusionHelper.IFusionVisitor() {
             @Override
             public boolean visit(FusionHelper.FusionPos pos) {
@@ -62,22 +65,67 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
                 return true;
             }
         });
+        */
 
     }
 
     @Override
     protected MultiBlockHelper.Bounds setupStructure() {
         setup = createFusionStructure();
-
         RKLog.info("Setup FusionCore structure!!!!!");
 
+        if (setup != null) {
+            FusionHelper.iterateControl(setup, new FusionHelper.IFusionVisitor() {
+                @Override
+                public boolean visit(FusionHelper.FusionPos pos) {
+                    if (pos.isCore) {
+                        worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 3);
+                    } else if (pos.isCase) {
+                        worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 3);
+                    } else {
+
+                    }
+                    return true;
+                }
+            });
+            FusionHelper.iterateRing(setup, new FusionHelper.IFusionVisitor() {
+                @Override
+                public boolean visit(FusionHelper.FusionPos pos) {
+                    if (pos.isCore) {
+                        worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 3);
+                    } else if (pos.isCase) {
+                        //TODO:
+                        worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 3);
+                    } else {
+
+                    }
+                    return true;
+                }
+            });
+        }
 
         return null;
     }
 
     @Override
     protected void resetStructure() {
-
+        RKLog.info("Reset FusionCore structure!!!!!");
+        if (setup != null) {
+            FusionHelper.iterateControl(setup, new FusionHelper.IFusionVisitor() {
+                @Override
+                public boolean visit(FusionHelper.FusionPos pos) {
+                    worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 3);
+                    return true;
+                }
+            });
+            FusionHelper.iterateRing(setup, new FusionHelper.IFusionVisitor() {
+                @Override
+                public boolean visit(FusionHelper.FusionPos pos) {
+                    worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 3);
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
@@ -132,14 +180,13 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         //check if there are other FusionControlBlocks around the control base, if true don't build the structure
         //and check if the fusion control base is surrounded by IFusionCaseBlocks
         //and check if there are only IFusionCoreBlocks in the fusion control base
-
         isValid = FusionHelper.iterateControl(fs, new FusionHelper.IFusionVisitor() {
             @Override
             public boolean visit(FusionHelper.FusionPos pos) {
-                if (pos.isCore && !isValidControlCoreBlock(pos.p.x, pos.p.y, pos.p.z)) {
-                    return false;
-                } else if (pos.isCase && !isValidControlCaseBlock(pos.p.x, pos.p.y, pos.p.z)) {
-                    return false;
+                if (pos.isCore) {
+                    if (!isValidControlCoreBlock(pos.p.x, pos.p.y, pos.p.z)) return false;
+                } else if (pos.isCase) {
+                    if (!isValidControlCaseBlock(pos.p.x, pos.p.y, pos.p.z)) return false;
                 } else if (isValidControlBlock(pos.p.x, pos.p.y, pos.p.z)) {
                     return false;
                 }
@@ -148,44 +195,6 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         });
 
         return isValid;
-
-
-        /*
-        int xMin = tmpBounds.getMinX() - 1;
-        int yMin = tmpBounds.getMinY() - 1;
-        int zMin = tmpBounds.getMinZ() - 1;
-        int xMax = tmpBounds.getMaxX() + 1;
-        int yMax = tmpBounds.getMaxY() + 1;
-        int zMax = tmpBounds.getMaxZ() + 1;
-        for (int x = xMin; x <= xMax; x++) {
-            for (int y = yMin; y <= yMax; y++) {
-                for (int z = zMin; z <= zMax; z++) {
-                    if (x == xCoord && y == yCoord && z == zCoord) continue;// don't check master block
-
-                    //check the blocks around the fusion control base
-                    if (x == xMin || x == xMax || y == yMin || y == yMax || z == zMin || z == zMax) {
-                        if (isValidControlBlock(x, y, z)) {
-                            return false;
-                        }
-                        continue;
-                    }
-
-                    //check the case of the fusion control base
-                    if (x == (xMin + 1) || x == (xMax - 1) || y == (yMin + 1) || y == (yMax - 1) || z == (zMin + 1) || z == (zMax - 1)) {
-                        if (!isValidControlCaseBlock(x, y, z)) {
-                            return false;
-                        }
-                        continue;
-                    }
-
-                    //check the blocks inside the fusion control base
-                    if (!isValidControlCoreBlock(x, y, z)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        */
     }
 
     private boolean createFusionRing(FusionHelper.FusionStructure fs) {
@@ -253,6 +262,7 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
                     if (index == (setup.lengths.length - 1)) {
                         if (current.equals(fs.ringEnd)) {
+                            length++;
                             isValid = true;
                             break;
                         }

@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockFusionCaseRenderer implements ISimpleBlockRenderingHandler {
+public class BlockBevelRenderer implements ISimpleBlockRenderingHandler {
 
     private ModelBevelLarge modelBevelLarge = new ModelBevelLarge();
     private ModelBevelSmall modelBevelSmall = new ModelBevelSmall();

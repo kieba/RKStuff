@@ -6,7 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockTank extends BlockRK {
+public class BlockTank extends BlockRK implements ITankBlock {
     public BlockTank() {
         super(Material.iron, Reference.BLOCK_TANK);
     }

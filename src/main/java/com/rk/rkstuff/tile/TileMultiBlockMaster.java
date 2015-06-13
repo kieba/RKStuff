@@ -15,6 +15,7 @@ public abstract class TileMultiBlockMaster extends TileRK implements ICustomMess
 
     /**
      * Check that structure is properly formed (master only)
+     * returns true if correct
      */
     public abstract boolean checkMultiBlockForm();
 

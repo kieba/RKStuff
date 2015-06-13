@@ -189,10 +189,13 @@ public class MultiBlockHelper {
                     super(x, y, z);
                 }
 
-                public boolean hasBlock(ForgeDirection direction){
+                public boolean hasNeighbourBlock(ForgeDirection direction) {
                     return isInBounds(new Pos(direction.offsetX + x, direction.offsetY + y, direction.offsetZ + z));
                 }
 
+                public boolean isBorder() {
+                    return x == minX || x == maxX || y == minY || y == maxY || z == minZ || z == maxZ;
+                }
             }
         }
     }

@@ -7,7 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockTankAdapter extends BlockRK implements ITileEntityProvider {
+public class BlockTankAdapter extends BlockRK implements ITileEntityProvider, ITankBlock {
     public BlockTankAdapter() {
         super(Material.iron, Reference.BLOCK_TANK_ADAPTER);
     }

@@ -57,10 +57,10 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     protected MultiBlockHelper.Bounds setupStructure() {
         MultiBlockHelper.Bounds tmpBounds = computeMultiStructureBounds();
         for(MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : tmpBounds){
-            boolean hasNorth = pos.hasBlock(ForgeDirection.NORTH);
-            boolean hasEast = pos.hasBlock(ForgeDirection.EAST);
-            boolean hasSouth = pos.hasBlock(ForgeDirection.SOUTH);
-            boolean hasWest = pos.hasBlock(ForgeDirection.WEST);
+            boolean hasNorth = pos.hasNeighbourBlock(ForgeDirection.NORTH);
+            boolean hasEast = pos.hasNeighbourBlock(ForgeDirection.EAST);
+            boolean hasSouth = pos.hasNeighbourBlock(ForgeDirection.SOUTH);
+            boolean hasWest = pos.hasNeighbourBlock(ForgeDirection.WEST);
 
             int meta = 0;
             meta |= ((hasNorth ? 1 : 0) << (ForgeDirection.NORTH.ordinal() - 2));

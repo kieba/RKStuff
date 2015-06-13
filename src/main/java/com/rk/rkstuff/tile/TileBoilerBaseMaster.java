@@ -267,10 +267,10 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
 
             if(block instanceof IBoilerBaseBlock || block instanceof BlockBoilerBaseMaster) {
                 int meta = 0;
-                meta |= ((pos.hasBlock(ForgeDirection.NORTH) ? 1 : 0) << (ForgeDirection.NORTH.ordinal() - 2));
-                meta |= ((pos.hasBlock(ForgeDirection.EAST) ? 1 : 0) << (ForgeDirection.EAST.ordinal() - 2));
-                meta |= ((pos.hasBlock(ForgeDirection.SOUTH) ? 1 : 0) << (ForgeDirection.SOUTH.ordinal() - 2));
-                meta |= ((pos.hasBlock(ForgeDirection.WEST) ? 1 : 0) << (ForgeDirection.WEST.ordinal() - 2));
+                meta |= ((pos.hasNeighbourBlock(ForgeDirection.NORTH) ? 1 : 0) << (ForgeDirection.NORTH.ordinal() - 2));
+                meta |= ((pos.hasNeighbourBlock(ForgeDirection.EAST) ? 1 : 0) << (ForgeDirection.EAST.ordinal() - 2));
+                meta |= ((pos.hasNeighbourBlock(ForgeDirection.SOUTH) ? 1 : 0) << (ForgeDirection.SOUTH.ordinal() - 2));
+                meta |= ((pos.hasNeighbourBlock(ForgeDirection.WEST) ? 1 : 0) << (ForgeDirection.WEST.ordinal() - 2));
                 worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, meta, 2);
             } else if(block instanceof BlockBoilerTank) {
                 int meta = 0;

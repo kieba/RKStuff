@@ -74,6 +74,8 @@ public class RkStuff {
 
     public static Block blockTankAdapter = new BlockTankAdapter();
     public static Block blockTank = new BlockTank();
+    public static Block blockTankInteraction = new BlockTankInteraction();
+    public static Block blockTankValve = new BlockTankValve();
 
     public static Block blockModelTest = new BlockModelTest();
 
@@ -137,6 +139,8 @@ public class RkStuff {
         GameRegistry.registerBlock(blockModelTest, Reference.BLOCK_MODEL_TEST);
         GameRegistry.registerBlock(blockTankAdapter, Reference.BLOCK_TANK_ADAPTER);
         GameRegistry.registerBlock(blockTank, Reference.BLOCK_TANK);
+        GameRegistry.registerBlock(blockTankInteraction, Reference.BLOCK_TANK_INTERACTION);
+        GameRegistry.registerBlock(blockTankValve, Reference.BLOCK_TANK_VALVE);
 
         GameRegistry.registerBlock(blockFusionCase, Reference.BLOCK_FUSION_CASE);
         GameRegistry.registerBlock(blockFusionCase1, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);

@@ -73,7 +73,7 @@ public class ModelBevelSmall {
     }
 
     public void render(IIcon i, float x, float y, float z, int meta) {
-
+        if (meta > 7) meta = 7;
         double uMin = i.getMinU();
         double uMax = i.getMaxU();
         double vMin = i.getMinV();

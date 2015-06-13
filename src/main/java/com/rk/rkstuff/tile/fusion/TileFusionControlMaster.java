@@ -1,5 +1,6 @@
 package com.rk.rkstuff.tile.fusion;
 
+import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.block.fusion.IFusionCaseBlock;
 import com.rk.rkstuff.block.fusion.IFusionControlCaseBlock;
 import com.rk.rkstuff.block.fusion.IFusionControlCoreBlock;
@@ -10,6 +11,7 @@ import com.rk.rkstuff.helper.Pos;
 import com.rk.rkstuff.helper.RKLog;
 import com.rk.rkstuff.tile.TileMultiBlockMaster;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
@@ -50,7 +52,12 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
     }
 
     public void onBlockActivated() {
-        this.reset();
+        if (isBuild()) {
+            this.reset();
+        } else {
+            resetStructure();
+        }
+
         /*
         FusionHelper.iterateRing(setup, new FusionHelper.IFusionVisitor() {
             @Override
@@ -94,8 +101,14 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
                     if (pos.isCore) {
                         worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 3);
                     } else if (pos.isCase) {
-                        //TODO:
-                        worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 3);
+                        if (pos.isBevelBlock) {
+                            Block b = worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z);
+                            if (b != pos.bevelBlock) {
+                                worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, pos.bevelBlock, pos.bevelMeta, 3);
+                            }
+                        } else {
+                            worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 3);
+                        }
                     } else {
 
                     }
@@ -121,7 +134,13 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
             FusionHelper.iterateRing(setup, new FusionHelper.IFusionVisitor() {
                 @Override
                 public boolean visit(FusionHelper.FusionPos pos) {
-                    worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 3);
+                    if (pos.isBevelBlock) {
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionCase, 0, 3);
+                    } else if (!pos.isCase && !pos.isCore) {
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, Blocks.air, 0, 3);
+                    } else {
+                        worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 3);
+                    }
                     return true;
                 }
             });

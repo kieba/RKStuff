@@ -80,9 +80,9 @@ public class RkStuff {
     public static Block blockModelTest = new BlockModelTest();
 
     public static Block blockFusionCase = new BlockFusionCase();
-    public static Block blockFusionCase1 = new BlockFusionCaseBevelSmall();
-    public static Block blockFusionCase2 = new BlockFusionCaseBevelSmallInverted();
-    public static Block blockFusionCase3 = new BlockFusionCaseBevelLarge();
+    public static Block blockFusionCaseBevelSmall = new BlockFusionCaseBevelSmall();
+    public static Block blockFusionCaseBevelSmallInverted = new BlockFusionCaseBevelSmallInverted();
+    public static Block blockFusionCaseBevelLarge = new BlockFusionCaseBevelLarge();
     public static Block blockFusionCaseFluidIO = new BlockFusionCaseFluidIO();
     public static Block blockFusionControlCase = new BlockFusionControlCase();
     public static Block blockFusionControlCore = new BlockFusionControlCore();
@@ -143,9 +143,9 @@ public class RkStuff {
         GameRegistry.registerBlock(blockTankValve, Reference.BLOCK_TANK_VALVE);
 
         GameRegistry.registerBlock(blockFusionCase, Reference.BLOCK_FUSION_CASE);
-        GameRegistry.registerBlock(blockFusionCase1, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
-        GameRegistry.registerBlock(blockFusionCase2, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);
-        GameRegistry.registerBlock(blockFusionCase3, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
+        GameRegistry.registerBlock(blockFusionCaseBevelSmall, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
+        GameRegistry.registerBlock(blockFusionCaseBevelSmallInverted, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);
+        GameRegistry.registerBlock(blockFusionCaseBevelLarge, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
         GameRegistry.registerBlock(blockFusionCaseFluidIO, Reference.BLOCK_FUSION_CASE_FLUID_IO);
         GameRegistry.registerBlock(blockFusionControlCase, Reference.BLOCK_FUSION_CONTROL_CASE);
         GameRegistry.registerBlock(blockFusionControlCore, Reference.BLOCK_FUSION_CONTROL_CORE);

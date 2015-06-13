@@ -32,7 +32,7 @@ public class BlockFusionControlMaster extends BlockRK implements ITileEntityProv
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             TileFusionControlMaster tile = (TileFusionControlMaster) world.getTileEntity(x, y, z);
-            tile.onBlockActivated();
+            tile.onBlockActivated(player.isSneaking());
         }
         return true;
     }

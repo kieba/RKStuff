@@ -26,6 +26,7 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         setup.ringStart = new Pos(484, 6, 69);
         setup.ringEnd = new Pos(478, 6, 69);
         setup.startDir = FusionHelper.FusionCoreDir.XpZz;
+        /*
         setup.lengths[0] = 5;
         setup.lengths[1] = 5;
         setup.lengths[2] = 12;
@@ -35,6 +36,17 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         setup.lengths[6] = 11;
         setup.lengths[7] = 9;
         setup.lengths[8] = 6;
+        */
+
+        setup.lengths[0] = 2;
+        setup.lengths[1] = 6;
+        setup.lengths[2] = 5;
+        setup.lengths[3] = 8;
+        setup.lengths[4] = 5;
+        setup.lengths[5] = 7;
+        setup.lengths[6] = 7;
+        setup.lengths[7] = 5;
+        setup.lengths[8] = 2;
         setup.isClockwise = false;
 
         setup.controlBounds = new MultiBlockHelper.Bounds(479, 4, 67);
@@ -51,29 +63,30 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         return createFusionStructure() != null;
     }
 
-    public void onBlockActivated() {
-        if (isBuild()) {
-            this.reset();
-        } else {
-            resetStructure();
-        }
-
-        /*
-        FusionHelper.iterateRing(setup, new FusionHelper.IFusionVisitor() {
-            @Override
-            public boolean visit(FusionHelper.FusionPos pos) {
-                if (pos.isCore) {
-                    worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionCore);
-                } else if (pos.isCase) {
-                    worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionCase);
-                } else {
-                    worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, Blocks.air);
-                }
-                return true;
+    public void onBlockActivated(boolean shift) {
+        if (!shift) {
+            if (isBuild()) {
+                this.reset();
+            } else {
+                resetStructure();
             }
-        });
-        */
-
+        } else {
+            FusionHelper.iterateRing(setup, new FusionHelper.IFusionVisitor() {
+                @Override
+                public boolean visit(FusionHelper.FusionPos pos) {
+                    if (pos.isCore) {
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionCore);
+                        //worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, Blocks.air);
+                    } else if (pos.isCase) {
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionCase);
+                        //worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, Blocks.air);
+                    } else {
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, Blocks.air);
+                    }
+                    return true;
+                }
+            });
+        }
     }
 
     @Override

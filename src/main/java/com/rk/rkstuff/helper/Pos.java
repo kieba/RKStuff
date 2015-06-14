@@ -27,6 +27,12 @@ public class Pos {
         this.z += p.z;
     }
 
+    public void set(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
     public Pos clone(){
         return new Pos(x,y,z);
     }

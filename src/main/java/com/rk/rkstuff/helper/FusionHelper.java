@@ -94,18 +94,19 @@ public class FusionHelper {
         }
     }
 
-    public static boolean iterateRing(FusionStructure setup, IFusionVisitor visitor) {
+    public static boolean iterateRing(FusionStructure setup, IFusionPosVisitor visitor) {
         FusionCoreDir dir = setup.startDir;
         Pos start = new Pos(setup.ringStart.x, setup.ringStart.y, setup.ringStart.z);
         for (int i = 0; i < setup.lengths.length; i++) {
             FusionPos pos = new FusionPos();
+            pos.p = new Pos(0, 0, 0);
             if (!dir.isEdge()) {
                 if (dir.xOff != 0) {
                     for (int y = start.y - 2; y <= start.y + 2; y++) {
+                        int yOff = start.y - y;
                         for (int z = start.z - 2; z <= start.z + 2; z++) {
                             int zOff = start.z - z;
-                            int yOff = start.y - y;
-                            pos.p = new Pos(start.x, y, z);
+                            pos.p.set(start.x, y, z);
                             pos.isCore = zOff == 0 && yOff == 0;
                             pos.isCase = !pos.isCore && Math.abs(yOff) != 2 && Math.abs(zOff) != 2;
                             pos.isBevelBlock = pos.isCase && yOff != 0 && zOff != 0;
@@ -121,10 +122,10 @@ public class FusionHelper {
                     }
                 } else {
                     for (int x = start.x - 2; x <= start.x + 2; x++) {
+                        int xOff = start.x - x;
                         for (int y = start.y - 2; y <= start.y + 2; y++) {
-                            int xOff = start.x - x;
                             int yOff = start.y - y;
-                            pos.p = new Pos(x, y, start.z);
+                            pos.p.set(x, y, start.z);
                             pos.isCore = xOff == 0 && yOff == 0;
                             pos.isCase = !pos.isCore && Math.abs(yOff) != 2 && Math.abs(xOff) != 2;
                             pos.isBevelBlock = pos.isCase && yOff != 0 && xOff != 0;
@@ -164,7 +165,7 @@ public class FusionHelper {
                     int yOff = start.y - y;
                     for (int zOff = -3; zOff <= 1; zOff++) {
                         first = null;
-                        pos.p = new Pos(start.x, y, start.z - zOff * dir.zOff);
+                        pos.p.set(start.x, y, start.z - zOff * dir.zOff);
                         pos.isCore = zOff == 0 && yOff == 0;
                         pos.isCase = !pos.isCore && zOff != -3 && Math.abs(yOff) != 2;
                         pos.isBevelBlock = pos.isCase && Math.abs(yOff) <= 1 && (zOff == -2 || zOff == -1 || zOff == 1);
@@ -249,7 +250,7 @@ public class FusionHelper {
                         pos.bevelMeta = 0;
                     }
 
-                    pos.p = new Pos(start.x + dir.xOff, y, start.z - dir.zOff);
+                    pos.p.set(start.x + dir.xOff, y, start.z - dir.zOff);
                     pos.isCore = false;
                     pos.isCase = Math.abs(yOff) != 2;
                     pos.isBevelBlock = pos.isCase;
@@ -278,14 +279,14 @@ public class FusionHelper {
                     }
                     pos.isBevelBlock = false;
 
-                    pos.p = new Pos(start.x, y, start.z - 2 * dir.zOff);
+                    pos.p.set(start.x, y, start.z - 2 * dir.zOff);
                     pos.isCore = false;
                     pos.isCase = false;
                     if (!visitor.visit(pos)) {
                         return false;
                     }
 
-                    pos.p = new Pos(start.x, y, start.z - 2 * dir.zOff);
+                    pos.p.set(start.x, y, start.z - 2 * dir.zOff);
                     pos.p.x += dir.xOff * (setup.lengths[i] + 1);
                     pos.p.z += dir.zOff * (setup.lengths[i] + 1);
                     pos.isCore = false;
@@ -294,7 +295,7 @@ public class FusionHelper {
                         return false;
                     }
 
-                    pos.p = new Pos(start.x + dir.xOff, y, start.z - 2 * dir.zOff);
+                    pos.p.set(start.x + dir.xOff, y, start.z - 2 * dir.zOff);
                     pos.isCore = false;
                     pos.isCase = false;
                     if (!visitBlocks(dir, pos, setup.lengths[i] + 1, visitor)) {
@@ -321,7 +322,7 @@ public class FusionHelper {
         return true;
     }
 
-    private static boolean visitBlocks(FusionCoreDir dir, FusionPos start, int length, IFusionVisitor visitor) {
+    private static boolean visitBlocks(FusionCoreDir dir, FusionPos start, int length, IFusionPosVisitor visitor) {
         FusionPos currentPos = start.clone();
         for (int i = 0; i < length; i++) {
             if (!visitor.visit(currentPos)) {
@@ -333,7 +334,7 @@ public class FusionHelper {
         return true;
     }
 
-    private static boolean visitBlocks(FusionCoreDir dir, FusionPos start, int length, IFusionVisitor visitor, Block first, Block last, int metaFirst, int metaLast) {
+    private static boolean visitBlocks(FusionCoreDir dir, FusionPos start, int length, IFusionPosVisitor visitor, Block first, Block last, int metaFirst, int metaLast) {
         FusionPos currentPos = start.clone();
         for (int i = 0; i < length; i++) {
             if (i == 0) {
@@ -355,7 +356,7 @@ public class FusionHelper {
         return true;
     }
 
-    public static boolean iterateControl(FusionStructure setup, IFusionVisitor visitor) {
+    public static boolean iterateControl(FusionStructure setup, IFusionPosVisitor visitor) {
         FusionPos p = new FusionPos();
         MultiBlockHelper.Bounds extendedBounds = setup.controlBounds.clone();
         extendedBounds.setMinX(extendedBounds.getMinX() - 1);
@@ -390,7 +391,7 @@ public class FusionHelper {
         return true;
     }
 
-    public interface IFusionVisitor {
+    public interface IFusionPosVisitor {
 
         public boolean visit(FusionPos pos);
 
@@ -419,6 +420,14 @@ public class FusionHelper {
     public static boolean isValidCaseBlock(World world, int x, int y, int z) {
         Block b = world.getBlock(x, y, z);
         return b instanceof IFusionCaseBlock;
+    }
+
+    public static boolean isValidCaseOrCoreControlBlock(World world, int x, int y, int z) {
+        return isValidCaseOrCoreControlBlock(world.getBlock(x, y, z));
+    }
+
+    public static boolean isValidCaseOrCoreControlBlock(Block b) {
+        return b instanceof IFusionControlCaseBlock || b instanceof IFusionControlCoreBlock;
     }
 
     public static boolean isValidCaseOrCoreBlock(World world, int x, int y, int z) {

@@ -1,16 +1,14 @@
 package com.rk.rkstuff.block.fusion;
 
-import com.rk.rkstuff.block.BlockRK;
 import com.rk.rkstuff.proxy.ClientProxy;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
+import net.minecraft.util.IIcon;
 
-public class BlockFusionCaseBevelLarge extends BlockRK implements IFusionCaseBlock {
+public class BlockFusionCaseBevelLarge extends BlockFusionCase {
 
     public BlockFusionCaseBevelLarge() {
         super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
@@ -43,12 +41,8 @@ public class BlockFusionCaseBevelLarge extends BlockRK implements IFusionCaseBlo
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        if (!world.isRemote) {
-            int meta = world.getBlockMetadata(x, y, z);
-            meta = (meta + 1) % 12;
-            world.setBlockMetadataWithNotify(x, y, z, meta, 3);
-        }
-        return true;
+    public IIcon getIcon(int side, int meta) {
+        return blockIcon;
     }
+
 }

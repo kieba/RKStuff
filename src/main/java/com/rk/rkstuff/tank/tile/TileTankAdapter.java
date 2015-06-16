@@ -184,6 +184,8 @@ public class TileTankAdapter extends TileMultiBlockMaster {
                     y == yCoord &&
                     z == zCoord) {
                 return true;
+            } else {
+                return false;
             }
         }
         return block instanceof ITankBlock;

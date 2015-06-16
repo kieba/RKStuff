@@ -235,7 +235,7 @@ public class MultiBlockHelper {
                 public boolean isEdge() {
                     return (x == minX || x == maxX) &&
                             (y == minY || y == maxY) &&
-                            (z == minZ || x == maxZ);
+                            (z == minZ || z == maxZ);
                 }
             }
         }

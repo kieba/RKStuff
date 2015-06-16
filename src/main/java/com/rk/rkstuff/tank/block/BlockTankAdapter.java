@@ -29,11 +29,6 @@ public class BlockTankAdapter extends BlockRK implements ITileEntityProvider, IT
     }
 
     @Override
-    public int getRenderType() {
-        return -1;
-    }
-
-    @Override
     public boolean isBlockNormalCube() {
         return false;
     }

@@ -20,20 +20,21 @@ public class BlockTank extends BlockRK implements ITankBlock {
     }
 
     @Override
-    public IIcon getIcon(int meta, int side) {
+    public IIcon getIcon(int side, int meta) {
         if (meta == 0) {
-            return Blocks.coal_ore.getIcon(meta, side);
+            return Blocks.coal_ore.getIcon(side, meta);
         } else {
-            return Blocks.glass.getIcon(meta, side);
+            return Blocks.glass.getIcon(side, meta);
         }
     }
 
     @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int meta) {
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
+        int meta = world.getBlockMetadata(x, y, z);
         if (meta == 0) {
-            return Blocks.coal_ore.getIcon(world, x, y, z, meta);
+            return Blocks.coal_ore.getIcon(world, x, y, z, side);
         } else {
-            return Blocks.glass.getIcon(world, x, y, z, meta);
+            return Blocks.glass.getIcon(world, x, y, z, side);
         }
     }
 

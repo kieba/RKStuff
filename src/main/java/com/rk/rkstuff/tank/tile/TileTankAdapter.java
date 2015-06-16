@@ -59,49 +59,68 @@ public class TileTankAdapter extends TileMultiBlockMaster {
         MultiBlockHelper.Bounds bounds = computeMultiStructureBounds();
         for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : bounds) {
             if (pos.isEdge()) {
-                worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelSmall, 1, 2);
+                int meta = 0;
+                if (pos.y == bounds.getMinY()) meta |= (0x01 << 1);
+                if (pos.x == bounds.getMinX()) meta |= 0x01;
+                if (pos.z == bounds.getMinZ()) meta |= (0x01 << 2);
+
+                worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelSmall, meta, 2);
+                continue;
             }
             if (!pos.isEdge() && pos.isBorder()) {
                 if (pos.y == bounds.getMinY()) {
                     if (pos.x == bounds.getMinX()) {
-                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 6, 2);
+                        continue;
                     }
                     if (pos.x == bounds.getMaxX()) {
-                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 7, 2);
+                        continue;
                     }
                     if (pos.z == bounds.getMinZ()) {
-                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 5, 2);
+                        continue;
                     }
                     if (pos.z == bounds.getMaxZ()) {
-                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 4, 2);
+                        continue;
                     }
                 }
                 if (pos.y == bounds.getMaxY()) {
                     if (pos.x == bounds.getMinX()) {
-                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 2, 2);
+                        continue;
                     }
                     if (pos.x == bounds.getMaxX()) {
-                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 3, 2);
+                        continue;
                     }
                     if (pos.z == bounds.getMinZ()) {
                         worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                        continue;
                     }
                     if (pos.z == bounds.getMaxZ()) {
-                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                        worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 0, 2);
+                        continue;
                     }
                 }
                 if (pos.x == bounds.getMinX() && pos.z == bounds.getMinZ()) {
-                    worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                    worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 10, 2);
+                    continue;
                 }
                 if (pos.x == bounds.getMinX() && pos.z == bounds.getMaxZ()) {
-                    worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                    worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 8, 2);
+                    continue;
                 }
                 if (pos.x == bounds.getMaxX() && pos.z == bounds.getMinZ()) {
-                    worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                    worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 9, 2);
+                    continue;
                 }
                 if (pos.x == bounds.getMaxX() && pos.z == bounds.getMaxZ()) {
-                    worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 1, 2);
+                    worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 11, 2);
+                    continue;
                 }
+                worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 1, 2);
             }
 
         }

@@ -1,5 +1,6 @@
 package com.rk.rkstuff.block;
 
+import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.tile.INeighbourListener;
 import com.rk.rkstuff.tile.TileCoolantPipe;
 import com.rk.rkstuff.util.Reference;
@@ -9,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
@@ -171,5 +173,10 @@ public class BlockCoolantPipe extends BlockRK implements ITileEntityProvider {
             bbs.add(AxisAlignedBB.getBoundingBox(cableMin, cableMin, cableMin, cableMax, cableMax, 1.0F));
         }
         return bbs;
+    }
+
+    @Override
+    public IIcon getIcon(int side, int meta) {
+        return RkStuff.coolCoolant.getFlowingIcon();
     }
 }

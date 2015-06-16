@@ -215,7 +215,17 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
                     return FusionHelper.isValidCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 } else if (pos.isCase) {
                     if (pos.isBevelBlock) {
-                        return worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z) == RkStuff.blockFusionCase;
+                        Block b = worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z);
+                        if (b == RkStuff.blockFusionCaseBevelLarge) {
+                            return true;
+                        }
+                        if (b == RkStuff.blockFusionCaseBevelSmall) {
+                            return true;
+                        }
+                        if (b == RkStuff.blockFusionCaseBevelSmallInverted) {
+                            return true;
+                        }
+                        return false;
                     } else {
                         return FusionHelper.isValidCaseBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                     }

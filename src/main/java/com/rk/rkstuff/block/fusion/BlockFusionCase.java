@@ -20,7 +20,7 @@ public class BlockFusionCase extends BlockRK implements IFusionCaseBlock {
         super(Material.iron, Reference.BLOCK_FUSION_CASE);
     }
 
-    public BlockFusionCase(Material m, String name) {
+    protected BlockFusionCase(Material m, String name) {
         super(m, name);
     }
 

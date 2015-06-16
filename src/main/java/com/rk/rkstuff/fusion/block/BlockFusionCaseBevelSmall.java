@@ -1,4 +1,4 @@
-package com.rk.rkstuff.fusion.tank;
+package com.rk.rkstuff.fusion.block;
 
 import com.rk.rkstuff.core.block.IBlockBevelSmall;
 import com.rk.rkstuff.proxy.ClientProxy;
@@ -40,7 +40,7 @@ public class BlockFusionCaseBevelSmall extends BlockFusionCase implements IBlock
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":block/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
     }
 
     @Override

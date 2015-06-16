@@ -1,4 +1,4 @@
-package com.rk.rkstuff.fusion.tank;
+package com.rk.rkstuff.fusion.block;
 
 public interface IFusionCaseBlock {
 }

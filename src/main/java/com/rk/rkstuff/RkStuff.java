@@ -13,7 +13,7 @@ import com.rk.rkstuff.distribution.block.BlockDistributionEnergy;
 import com.rk.rkstuff.distribution.block.BlockDistributionFluid;
 import com.rk.rkstuff.distribution.tile.TileDistributionEnergy;
 import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
-import com.rk.rkstuff.fusion.tank.*;
+import com.rk.rkstuff.fusion.block.*;
 import com.rk.rkstuff.fusion.tile.TileFusionCaseFluidIO;
 import com.rk.rkstuff.fusion.tile.TileFusionControlEnergyIO;
 import com.rk.rkstuff.fusion.tile.TileFusionControlItemIO;

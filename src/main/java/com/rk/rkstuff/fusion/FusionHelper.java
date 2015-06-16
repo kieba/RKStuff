@@ -1,10 +1,10 @@
 package com.rk.rkstuff.fusion;
 
 import com.rk.rkstuff.RkStuff;
-import com.rk.rkstuff.fusion.tank.IFusionCaseBlock;
-import com.rk.rkstuff.fusion.tank.IFusionControlCaseBlock;
-import com.rk.rkstuff.fusion.tank.IFusionControlCoreBlock;
-import com.rk.rkstuff.fusion.tank.IFusionCoreBlock;
+import com.rk.rkstuff.fusion.block.IFusionCaseBlock;
+import com.rk.rkstuff.fusion.block.IFusionControlCaseBlock;
+import com.rk.rkstuff.fusion.block.IFusionControlCoreBlock;
+import com.rk.rkstuff.fusion.block.IFusionCoreBlock;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
 import net.minecraft.block.Block;

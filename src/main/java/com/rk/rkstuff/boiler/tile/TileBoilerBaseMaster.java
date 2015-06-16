@@ -375,7 +375,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
             }
         }
 
-        //check boiler tank (min. size 2x2)
+        //check boiler block (min. size 2x2)
         if(tmpBounds.getWidthX() > 0 && tmpBounds.getWidthZ() > 0) {
             int height = -1;
             for(MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : tmpBounds) {
@@ -387,7 +387,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
                 if(height == -1) {
                     height = i;
                 } else if(height != i) {
-                    //boiler tank heights are not equal
+                    //boiler block heights are not equal
                     return null;
                 }
             }

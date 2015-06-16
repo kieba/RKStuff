@@ -1,4 +1,4 @@
-package com.rk.rkstuff.fusion.tank;
+package com.rk.rkstuff.fusion.block;
 
 import com.rk.rkstuff.core.block.IBlockBevelLarge;
 import com.rk.rkstuff.proxy.ClientProxy;

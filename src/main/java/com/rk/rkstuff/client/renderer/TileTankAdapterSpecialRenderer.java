@@ -1,6 +1,7 @@
 package com.rk.rkstuff.client.renderer;
 
 import com.rk.rkstuff.RkStuff;
+import com.rk.rkstuff.tile.tank.TileTankAdapter;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -12,6 +13,7 @@ public class TileTankAdapterSpecialRenderer extends TileEntitySpecialRenderer {
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+        TileTankAdapter tankAdapter = (TileTankAdapter) tile;
         this.bindTexture(TextureMap.locationBlocksTexture);
         IIcon coolCoolant = RkStuff.coolCoolant.getIcon();
         Tessellator tessellator = Tessellator.instance;
@@ -20,8 +22,8 @@ public class TileTankAdapterSpecialRenderer extends TileEntitySpecialRenderer {
 
         tessellator.startDrawingQuads();
 
-        int radius = 1;
-        float fillHeight = 1.1512f;
+        int radius = tankAdapter.getInnerRadius();
+        float fillHeight = tankAdapter.getFillHeight();
 
         GL11.glEnable(GL11.GL_BLEND);
 

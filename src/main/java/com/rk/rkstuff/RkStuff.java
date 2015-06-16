@@ -4,6 +4,7 @@ import com.rk.rkstuff.block.*;
 import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.block.fusion.*;
+import com.rk.rkstuff.block.tank.*;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.client.model.ModelPipe;
 import com.rk.rkstuff.handler.BucketHandler;
@@ -18,6 +19,7 @@ import com.rk.rkstuff.tile.fusion.TileFusionCaseFluidIO;
 import com.rk.rkstuff.tile.fusion.TileFusionControlEnergyIO;
 import com.rk.rkstuff.tile.fusion.TileFusionControlItemIO;
 import com.rk.rkstuff.tile.fusion.TileFusionControlMaster;
+import com.rk.rkstuff.tile.tank.TileTankAdapter;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -79,6 +81,8 @@ public class RkStuff {
 
     public static Block blockTankAdapter = new BlockTankAdapter();
     public static Block blockTank = new BlockTank();
+    public static Block blockTankBevelLarge = new BlockTankBevelLarge();
+    public static Block blockTankBevelSmall = new BlockTankBevelSmall();
     public static Block blockTankInteraction = new BlockTankInteraction();
     public static Block blockTankValve = new BlockTankValve();
 
@@ -144,6 +148,8 @@ public class RkStuff {
         GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER);
         GameRegistry.registerBlock(blockTankAdapter, Reference.BLOCK_TANK_ADAPTER);
         GameRegistry.registerBlock(blockTank, Reference.BLOCK_TANK);
+        GameRegistry.registerBlock(blockTankBevelSmall, Reference.BLOCK_TANK_BEVEL_SMALL);
+        GameRegistry.registerBlock(blockTankBevelLarge, Reference.BLOCK_TANK_BEVEL_LARGE);
         GameRegistry.registerBlock(blockTankInteraction, Reference.BLOCK_TANK_INTERACTION);
         GameRegistry.registerBlock(blockTankValve, Reference.BLOCK_TANK_VALVE);
 

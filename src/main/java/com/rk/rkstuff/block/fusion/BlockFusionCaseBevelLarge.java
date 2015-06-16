@@ -1,5 +1,6 @@
 package com.rk.rkstuff.block.fusion;
 
+import com.rk.rkstuff.block.IBlockBevelLarge;
 import com.rk.rkstuff.proxy.ClientProxy;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -8,7 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
-public class BlockFusionCaseBevelLarge extends BlockFusionCase {
+public class BlockFusionCaseBevelLarge extends BlockFusionCase implements IBlockBevelLarge {
 
     public BlockFusionCaseBevelLarge() {
         super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
@@ -31,7 +32,7 @@ public class BlockFusionCaseBevelLarge extends BlockFusionCase {
 
     @Override
     public int getRenderType() {
-        return ClientProxy.blockFusionCaseRenderId;
+        return ClientProxy.blockBevelRenderId;
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.rk.rkstuff.client.renderer.ItemCoolantPipeRenderer;
 import com.rk.rkstuff.client.renderer.TileCoolantPipeRenderer;
 import com.rk.rkstuff.client.renderer.TileTankAdapterSpecialRenderer;
 import com.rk.rkstuff.tile.TileCoolantPipe;
-import com.rk.rkstuff.tile.TileTankAdapter;
+import com.rk.rkstuff.tile.tank.TileTankAdapter;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.item.Item;
@@ -14,7 +14,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends CommonProxy {
 
-    public static int blockFusionCaseRenderId = -1;
+    public static int blockBevelRenderId = -1;
     public static TileCoolantPipeRenderer coolantPipeRenderer;
     public static TileTankAdapterSpecialRenderer tankAdapterSpecialRenderer;
 
@@ -31,7 +31,7 @@ public class ClientProxy extends CommonProxy {
         tankAdapterSpecialRenderer = new TileTankAdapterSpecialRenderer();
         ClientRegistry.bindTileEntitySpecialRenderer(TileTankAdapter.class, tankAdapterSpecialRenderer);
 
-        blockFusionCaseRenderId = RenderingRegistry.getNextAvailableRenderId();
+        blockBevelRenderId = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(new BlockBevelRenderer());
 
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RkStuff.blockCoolantPipe), new ItemCoolantPipeRenderer());

@@ -1,6 +1,7 @@
-package com.rk.rkstuff.block;
+package com.rk.rkstuff.block.tank;
 
-import com.rk.rkstuff.tile.TileTankAdapter;
+import com.rk.rkstuff.block.BlockRK;
+import com.rk.rkstuff.tile.tank.TileTankAdapter;
 import com.rk.rkstuff.util.Reference;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;

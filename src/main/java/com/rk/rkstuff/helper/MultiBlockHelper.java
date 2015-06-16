@@ -1,15 +1,17 @@
 package com.rk.rkstuff.helper;
 
+import com.rk.rkstuff.network.message.ICustomMessage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import rk.com.core.io.IOStream;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 public class MultiBlockHelper {
 
 
-
-    public static class Bounds implements Iterable<Bounds.BlockIterator.BoundsPos>{
+    public static class Bounds implements Iterable<Bounds.BlockIterator.BoundsPos>, ICustomMessage {
         private int minX;
         private int minY;
         private int minZ;
@@ -54,6 +56,18 @@ public class MultiBlockHelper {
             if(maxZ < z){
                 maxZ = z;
             }
+        }
+
+        @Override
+        public String toString() {
+            return "Bounds{" +
+                    "maxX=" + maxX +
+                    ", minX=" + minX +
+                    ", minY=" + minY +
+                    ", minZ=" + minZ +
+                    ", maxY=" + maxY +
+                    ", maxZ=" + maxZ +
+                    '}';
         }
 
         public void writeToNBT(NBTTagCompound data) {
@@ -157,6 +171,26 @@ public class MultiBlockHelper {
             return new BlockIterator();
         }
 
+        @Override
+        public void readData(IOStream data) throws IOException {
+            minX = data.readFirstInt();
+            minY = data.readFirstInt();
+            minZ = data.readFirstInt();
+            maxX = data.readFirstInt();
+            maxY = data.readFirstInt();
+            maxZ = data.readFirstInt();
+        }
+
+        @Override
+        public void writeData(IOStream data) {
+            data.writeLast(minX);
+            data.writeLast(minY);
+            data.writeLast(minZ);
+            data.writeLast(maxX);
+            data.writeLast(maxY);
+            data.writeLast(maxZ);
+        }
+
         public class BlockIterator implements Iterator<BlockIterator.BoundsPos> {
             private int xOffset, yOffset, zOffset;
 
@@ -195,6 +229,12 @@ public class MultiBlockHelper {
 
                 public boolean isBorder() {
                     return x == minX || x == maxX || y == minY || y == maxY || z == minZ || z == maxZ;
+                }
+
+                public boolean isEdge() {
+                    return (x == minX || x == maxX) &&
+                            (y == minY || y == maxY) &&
+                            (z == minZ || x == maxZ);
                 }
             }
         }

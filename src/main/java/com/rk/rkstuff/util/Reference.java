@@ -23,6 +23,8 @@ public class Reference {
     public static final String BLOCK_BOILER_BASE_MASTER = "BoilerBaseMaster";
 
     public static final String BLOCK_TANK_ADAPTER = "TankAdapter";
+    public static final String BLOCK_TANK_BEVEL_LARGE = "TankBevelLarge";
+    public static final String BLOCK_TANK_BEVEL_SMALL = "TankBevelSmall";
     public static final String BLOCK_TANK = "Tank";
     public static final String BLOCK_TANK_VALVE = "TankValve";
     public static final String BLOCK_TANK_INTERACTION = "TankInteraction";

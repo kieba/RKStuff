@@ -1,6 +1,6 @@
-package com.rk.rkstuff.block.fusion;
+package com.rk.rkstuff.block.tank;
 
-import com.rk.rkstuff.block.IBlockBevelSmallInverted;
+import com.rk.rkstuff.block.IBlockBevelLarge;
 import com.rk.rkstuff.proxy.ClientProxy;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -9,10 +9,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
-public class BlockFusionCaseBevelSmallInverted extends BlockFusionCase implements IBlockBevelSmallInverted {
-
-    public BlockFusionCaseBevelSmallInverted() {
-        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
+public class BlockTankBevelLarge extends BlockTank implements IBlockBevelLarge {
+    public BlockTankBevelLarge() {
+        super(Material.iron, Reference.BLOCK_TANK_BEVEL_LARGE);
     }
 
     @Override
@@ -38,12 +37,11 @@ public class BlockFusionCaseBevelSmallInverted extends BlockFusionCase implement
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         return blockIcon;
     }
-
 }

@@ -10,9 +10,14 @@ public class CoolantStack {
         this.temperature = temperature;
     }
 
+    public void add(int amount, float temperature) {
+        this.temperature = (this.amount * this.temperature + amount * temperature) / (this.amount + amount);
+        this.amount += amount;
+    }
+
     public void add(CoolantStack stack) {
-        this.temperature = (this.amount * this.temperature + stack.amount * stack.temperature) / (this.amount + stack.amount);
-        this.amount += stack.amount;
+        this.add(stack.amount, stack.temperature);
+        stack.amount = 0;
     }
 
     public void add(CoolantStack stack, int amount) {

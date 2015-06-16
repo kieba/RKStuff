@@ -6,7 +6,7 @@ import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.tank.block.*;
 import com.rk.rkstuff.util.RKLog;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.material.Material;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -161,7 +161,7 @@ public class TileTankAdapter extends TileMultiBlockMaster {
                     return null;
                 }
             } else {
-                if (!(worldObj.getBlock(pos.x, pos.y, pos.z) == Blocks.air)) {
+                if (!(worldObj.getBlock(pos.x, pos.y, pos.z).getMaterial() == Material.air)) {
                     return null;
                 }
             }
@@ -172,6 +172,17 @@ public class TileTankAdapter extends TileMultiBlockMaster {
                 tmpBounds.getWidthX() > 2 &&
                 tmpBounds.getWidthZ() > 2))
             return null;
+
+        //check border
+        MultiBlockHelper.Bounds extendedBounds = tmpBounds.clone();
+        extendedBounds.extendDirections(1);
+
+        for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : extendedBounds) {
+            if (!pos.isBorder()) continue;
+            if (worldObj.getBlock(pos.x, pos.y, pos.z) instanceof ITankBlock) {
+                return null;
+            }
+        }
 
 
         return tmpBounds;

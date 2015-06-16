@@ -65,8 +65,7 @@ public class BlockFusionCase extends BlockRK implements IFusionCaseBlock {
 
     private void checkMultiStructure(World world, int x, int y, int z) {
         MultiBlockHelper.Bounds b = new MultiBlockHelper.Bounds(x, y, z);
-        b.add(x - 1, y - 1, z - 1);
-        b.add(x + 1, y + 1, z + 1);
+        b.extendDirections(1);
         for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos p : b) {
             if (FusionHelper.isValidCoreBlock(world, p.x, p.y, p.z)) {
                 //we found a core block, now we will follow the core to the control block

@@ -60,14 +60,8 @@ public class BlockFusionControlCase extends BlockRK implements IFusionControlCas
             tmpBounds.add(controlPos.x + direction.offsetX * i, controlPos.y + direction.offsetY * i, controlPos.z + direction.offsetZ * i);
         }
 
-        int xMin = tmpBounds.getMinX();
-        int yMin = tmpBounds.getMinY();
-        int zMin = tmpBounds.getMinZ();
-        int xMax = tmpBounds.getMaxX();
-        int yMax = tmpBounds.getMaxY();
-        int zMax = tmpBounds.getMaxZ();
         for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos bp : tmpBounds) {
-            if (bp.x == xMin || bp.x == xMax || bp.y == yMin || bp.y == yMax || bp.z == zMin || bp.z == zMax) {
+            if (bp.isBorder()) {
                 if (world.getBlock(bp.x, bp.y, bp.z) instanceof BlockFusionControlMaster) {
                     TileEntity t = world.getTileEntity(bp.x, bp.y, bp.z);
                     if (t instanceof TileFusionControlMaster) {

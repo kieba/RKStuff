@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockTank extends BlockRK implements ITankBlock {
     public BlockTank() {
-        super(Material.iron, Reference.BLOCK_TANK);
+        super(Material.glass, Reference.BLOCK_TANK);
     }
 
     protected BlockTank(Material material, String blockName) {
@@ -41,8 +41,13 @@ public class BlockTank extends BlockRK implements ITankBlock {
     }
 
     @Override
+    public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+        return false;
+    }
+
+    @Override
     public boolean isOpaqueCube() {
-        return true;
+        return false;
     }
 
     private TileTankAdapter getTankAdapter(IBlockAccess access, int x, int y, int z, int meta) {
@@ -88,5 +93,10 @@ public class BlockTank extends BlockRK implements ITankBlock {
                 adapter.reset();
             }
         }
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
     }
 }

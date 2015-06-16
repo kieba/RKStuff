@@ -166,6 +166,14 @@ public class MultiBlockHelper {
             return newBounds;
         }
 
+        public void extendDirections(int count) {
+            minX -= count;
+            minY -= count;
+            minZ -= count;
+            maxX += count;
+            maxY += count;
+            maxZ += count;
+        }
 
         @Override
         public Iterator<BlockIterator.BoundsPos> iterator() {
@@ -191,6 +199,7 @@ public class MultiBlockHelper {
             data.writeLast(maxY);
             data.writeLast(maxZ);
         }
+
 
         public class BlockIterator implements Iterator<BlockIterator.BoundsPos> {
             private int xOffset, yOffset, zOffset;

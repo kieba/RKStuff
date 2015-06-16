@@ -361,12 +361,7 @@ public class FusionHelper {
     public static boolean iterateControl(FusionStructure setup, IFusionPosVisitor visitor) {
         FusionPos p = new FusionPos();
         MultiBlockHelper.Bounds extendedBounds = setup.controlBounds.clone();
-        extendedBounds.setMinX(extendedBounds.getMinX() - 1);
-        extendedBounds.setMinY(extendedBounds.getMinY() - 1);
-        extendedBounds.setMinZ(extendedBounds.getMinZ() - 1);
-        extendedBounds.setMaxX(extendedBounds.getMaxX() + 1);
-        extendedBounds.setMaxY(extendedBounds.getMaxY() + 1);
-        extendedBounds.setMaxZ(extendedBounds.getMaxZ() + 1);
+        extendedBounds.extendDirections(1);
 
         int xMin = extendedBounds.getMinX();
         int yMin = extendedBounds.getMinY();
@@ -376,7 +371,7 @@ public class FusionHelper {
         int zMax = extendedBounds.getMaxZ();
         for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos bp : extendedBounds) {
             p.p = bp;
-            if (bp.x == xMin || bp.x == xMax || bp.y == yMin || bp.y == yMax || bp.z == zMin || bp.z == zMax) {
+            if (bp.isBorder()) {
                 p.isCase = false;
                 p.isCore = false;
             } else if (bp.x == (xMin + 1) || bp.x == (xMax - 1) || bp.y == (yMin + 1) || bp.y == (yMax - 1) || bp.z == (zMin + 1) || bp.z == (zMax - 1)) {

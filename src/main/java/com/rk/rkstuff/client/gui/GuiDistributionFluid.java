@@ -1,7 +1,7 @@
 package com.rk.rkstuff.client.gui;
 
-import com.rk.rkstuff.container.ContainerDistributionFluid;
-import com.rk.rkstuff.tile.TileDistributionFluid;
+import com.rk.rkstuff.distribution.ContainerDistributionFluid;
+import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiDistributionFluid extends GuiDistribution {

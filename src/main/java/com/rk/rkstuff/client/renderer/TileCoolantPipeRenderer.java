@@ -1,7 +1,7 @@
 package com.rk.rkstuff.client.renderer;
 
 import com.rk.rkstuff.client.model.ModelPipe;
-import com.rk.rkstuff.tile.TileCoolantPipe;
+import com.rk.rkstuff.coolant.tile.TileCoolantPipe;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;

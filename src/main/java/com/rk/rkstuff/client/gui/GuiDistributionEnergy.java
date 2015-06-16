@@ -1,7 +1,7 @@
 package com.rk.rkstuff.client.gui;
 
-import com.rk.rkstuff.container.ContainerDistributionEnergy;
-import com.rk.rkstuff.tile.TileDistributionEnergy;
+import com.rk.rkstuff.distribution.ContainerDistributionEnergy;
+import com.rk.rkstuff.distribution.tile.TileDistributionEnergy;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiDistributionEnergy extends GuiDistribution {

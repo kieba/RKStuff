@@ -1,6 +1,6 @@
 package com.rk.rkstuff.network.message;
 
-import com.rk.rkstuff.helper.RKLog;
+import com.rk.rkstuff.util.RKLog;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

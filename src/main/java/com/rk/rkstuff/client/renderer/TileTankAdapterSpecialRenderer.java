@@ -1,7 +1,7 @@
 package com.rk.rkstuff.client.renderer;
 
 import com.rk.rkstuff.RkStuff;
-import com.rk.rkstuff.tile.tank.TileTankAdapter;
+import com.rk.rkstuff.tank.tile.TileTankAdapter;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

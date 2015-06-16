@@ -1,13 +1,13 @@
 package com.rk.rkstuff.client.gui;
 
-import com.rk.rkstuff.container.ContainerBoiler;
-import com.rk.rkstuff.container.ContainerDistributionEnergy;
-import com.rk.rkstuff.container.ContainerDistributionFluid;
-import com.rk.rkstuff.container.ContainerSolar;
-import com.rk.rkstuff.tile.TileBoilerBaseMaster;
-import com.rk.rkstuff.tile.TileDistributionEnergy;
-import com.rk.rkstuff.tile.TileDistributionFluid;
-import com.rk.rkstuff.tile.TileSolarMaster;
+import com.rk.rkstuff.boiler.ContainerBoiler;
+import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
+import com.rk.rkstuff.distribution.ContainerDistributionEnergy;
+import com.rk.rkstuff.distribution.ContainerDistributionFluid;
+import com.rk.rkstuff.distribution.tile.TileDistributionEnergy;
+import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
+import com.rk.rkstuff.solar.ContainerSolar;
+import com.rk.rkstuff.solar.tile.TileSolarMaster;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;

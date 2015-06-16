@@ -1,6 +1,7 @@
 package com.rk.rkstuff.helper;
 
 import com.rk.rkstuff.network.message.ICustomMessage;
+import com.rk.rkstuff.util.Pos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;

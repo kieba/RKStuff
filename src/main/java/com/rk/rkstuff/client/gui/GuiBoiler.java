@@ -1,8 +1,8 @@
 package com.rk.rkstuff.client.gui;
 
-import com.rk.rkstuff.container.ContainerBoiler;
+import com.rk.rkstuff.boiler.ContainerBoiler;
+import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.helper.GuiHelper;
-import com.rk.rkstuff.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.util.Textures;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;

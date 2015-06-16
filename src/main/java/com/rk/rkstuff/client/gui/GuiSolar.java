@@ -1,8 +1,8 @@
 package com.rk.rkstuff.client.gui;
 
-import com.rk.rkstuff.container.ContainerSolar;
 import com.rk.rkstuff.helper.GuiHelper;
-import com.rk.rkstuff.tile.TileSolarMaster;
+import com.rk.rkstuff.solar.ContainerSolar;
+import com.rk.rkstuff.solar.tile.TileSolarMaster;
 import com.rk.rkstuff.util.Textures;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;

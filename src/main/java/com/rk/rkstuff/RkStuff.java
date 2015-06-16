@@ -1,12 +1,23 @@
 package com.rk.rkstuff;
 
-import com.rk.rkstuff.block.*;
-import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
-import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
-import com.rk.rkstuff.block.fusion.*;
-import com.rk.rkstuff.block.tank.*;
+import com.rk.rkstuff.boiler.block.*;
+import com.rk.rkstuff.boiler.tile.TileBoilerBaseInput;
+import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
+import com.rk.rkstuff.boiler.tile.TileBoilerBaseOutput;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.client.model.ModelPipe;
+import com.rk.rkstuff.coolant.block.BlockCoolantPipe;
+import com.rk.rkstuff.coolant.tile.TileCoolantPipe;
+import com.rk.rkstuff.core.block.BlockRK;
+import com.rk.rkstuff.distribution.block.BlockDistributionEnergy;
+import com.rk.rkstuff.distribution.block.BlockDistributionFluid;
+import com.rk.rkstuff.distribution.tile.TileDistributionEnergy;
+import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
+import com.rk.rkstuff.fusion.tank.*;
+import com.rk.rkstuff.fusion.tile.TileFusionCaseFluidIO;
+import com.rk.rkstuff.fusion.tile.TileFusionControlEnergyIO;
+import com.rk.rkstuff.fusion.tile.TileFusionControlItemIO;
+import com.rk.rkstuff.fusion.tile.TileFusionControlMaster;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.item.BucketBase;
@@ -14,12 +25,19 @@ import com.rk.rkstuff.item.ItemLinker;
 import com.rk.rkstuff.item.ItemRK;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.proxy.IProxy;
-import com.rk.rkstuff.tile.*;
-import com.rk.rkstuff.tile.fusion.TileFusionCaseFluidIO;
-import com.rk.rkstuff.tile.fusion.TileFusionControlEnergyIO;
-import com.rk.rkstuff.tile.fusion.TileFusionControlItemIO;
-import com.rk.rkstuff.tile.fusion.TileFusionControlMaster;
-import com.rk.rkstuff.tile.tank.TileTankAdapter;
+import com.rk.rkstuff.solar.block.BlockSolar;
+import com.rk.rkstuff.solar.block.BlockSolarInput;
+import com.rk.rkstuff.solar.block.BlockSolarMaster;
+import com.rk.rkstuff.solar.block.BlockSolarOutput;
+import com.rk.rkstuff.solar.tile.TileSolarInput;
+import com.rk.rkstuff.solar.tile.TileSolarMaster;
+import com.rk.rkstuff.solar.tile.TileSolarOutput;
+import com.rk.rkstuff.tank.block.*;
+import com.rk.rkstuff.tank.tile.TileTankAdapter;
+import com.rk.rkstuff.teleporter.block.BlockTeleporter;
+import com.rk.rkstuff.teleporter.tile.TileTeleporter;
+import com.rk.rkstuff.unused.fluid.BlockCoolCoolantFluid;
+import com.rk.rkstuff.unused.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -52,7 +70,7 @@ import java.util.Map;
 
 @Mod(modid = Reference.MOD_ID, version = Reference.VERSION, name = Reference.MOD_NAME)
 public class RkStuff {
-    
+
     public static Fluid coolCoolant;
     public static Block coolCoolantBlock;
     public static ItemBucket coolCoolantBucket;

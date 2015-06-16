@@ -1,11 +1,11 @@
 package com.rk.rkstuff.client.renderer;
 
-import com.rk.rkstuff.block.IBlockBevelLarge;
-import com.rk.rkstuff.block.IBlockBevelSmall;
-import com.rk.rkstuff.block.IBlockBevelSmallInverted;
 import com.rk.rkstuff.client.model.ModelBevelLarge;
 import com.rk.rkstuff.client.model.ModelBevelSmall;
 import com.rk.rkstuff.client.model.ModelBevelSmallInverted;
+import com.rk.rkstuff.core.block.IBlockBevelLarge;
+import com.rk.rkstuff.core.block.IBlockBevelSmall;
+import com.rk.rkstuff.core.block.IBlockBevelSmallInverted;
 import com.rk.rkstuff.proxy.ClientProxy;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;

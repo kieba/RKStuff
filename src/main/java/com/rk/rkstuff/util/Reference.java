@@ -31,7 +31,6 @@ public class Reference {
     public static final String BLOCK_DISTRIBUTION_ENERGY = "DistributionEnergy";
     public static final String BLOCK_DISTRIBUTION_FLUID = "DistributionFluid";
     public static final String BLOCK_TELEPORTER = "Teleporter";
-    public static final String BLOCK_MODEL_TEST = "ModelTest";
     public static final String BLOCK_FUSION_CORE = "FusionCore";
     public static final String BLOCK_FUSION_CASE = "FusionCase";
     public static final String BLOCK_FUSION_CASE_BEVEL_LARGE = "FusionCaseBevelLarge";
@@ -44,6 +43,8 @@ public class Reference {
     public static final String BLOCK_FUSION_CONTROL_ITEM_IO = "FusionControlItemIO";
     public static final String BLOCK_FUSION_CONTROL_MASTER = "FusionControlMaster";
 
+    public static final String BLOCK_COOLANT_PIPE = "CoolantPipe";
+
     /* TILE ENTITIES */
     public static final String TILE_SOLAR_OUTPUT = "TileSolarOutput";
     public static final String TILE_SOLAR_MASTER = "TileSolarMaster";
@@ -54,12 +55,13 @@ public class Reference {
     public static final String TILE_DISTRIBUTION_ENERGY = "TileDistributionEnergy";
     public static final String TILE_DISTRIBUTION_FLUID = "TileDistributionFluid";
     public static final String TILE_TELEPORTER = "TileTeleporter";
-    public static final String TILE_MODEL_TEST = "TileModelTest";
     public static final String TILE_FUSION_CASE_FLUID_IO = "TileFusionCaseFluidIO";
     public static final String TILE_FUSION_CONTROL_ENERGY_IO = "TileFusionControlEnergyIO";
     public static final String TILE_FUSION_CONTROL_ITEM_IO = "TileFusionControlItemIO";
     public static final String TILE_FUSION_CONTROL_MASTER = "TileFusionControlMaster";
     public static final String TILE_TANK_ADAPTER = "TileTankAdapter";
+
+    public static final String TILE_COOLANT_PIPE = "TileCoolantPipe";
     /* FLUIDS */
     public static final String FLUID_COOL_COOLANT = "CoolCoolant";
     public static final String FLUID_HOT_COOLANT = "HotCoolant";

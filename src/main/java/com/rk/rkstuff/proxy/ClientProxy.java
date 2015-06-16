@@ -1,17 +1,21 @@
 package com.rk.rkstuff.proxy;
 
+import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.client.renderer.BlockBevelRenderer;
-import com.rk.rkstuff.client.renderer.TileModelTestRenderer;
+import com.rk.rkstuff.client.renderer.ItemCoolantPipeRenderer;
+import com.rk.rkstuff.client.renderer.TileCoolantPipeRenderer;
 import com.rk.rkstuff.client.renderer.TileTankAdapterSpecialRenderer;
-import com.rk.rkstuff.tile.TileModelTest;
+import com.rk.rkstuff.tile.TileCoolantPipe;
 import com.rk.rkstuff.tile.TileTankAdapter;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraft.item.Item;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends CommonProxy {
 
     public static int blockFusionCaseRenderId = -1;
-    public static TileModelTestRenderer modelTestRenderer;
+    public static TileCoolantPipeRenderer coolantPipeRenderer;
     public static TileTankAdapterSpecialRenderer tankAdapterSpecialRenderer;
 
     @Override
@@ -21,15 +25,16 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void init() {
-        modelTestRenderer = new TileModelTestRenderer();
-        ClientRegistry.bindTileEntitySpecialRenderer(TileModelTest.class, modelTestRenderer);
+        coolantPipeRenderer = new TileCoolantPipeRenderer();
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCoolantPipe.class, coolantPipeRenderer);
 
-        //MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RkStuff.blockModelTest), new ItemModelTestRenderer());
         tankAdapterSpecialRenderer = new TileTankAdapterSpecialRenderer();
         ClientRegistry.bindTileEntitySpecialRenderer(TileTankAdapter.class, tankAdapterSpecialRenderer);
 
         blockFusionCaseRenderId = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(new BlockBevelRenderer());
+
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RkStuff.blockCoolantPipe), new ItemCoolantPipeRenderer());
     }
 
     @Override

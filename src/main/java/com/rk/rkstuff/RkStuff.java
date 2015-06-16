@@ -5,6 +5,7 @@ import com.rk.rkstuff.block.fluid.BlockCoolCoolantFluid;
 import com.rk.rkstuff.block.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.block.fusion.*;
 import com.rk.rkstuff.client.gui.GuiHandler;
+import com.rk.rkstuff.client.model.ModelPipe;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.item.BucketBase;
@@ -24,8 +25,11 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import dan200.computercraft.api.ComputerCraftAPI;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,6 +38,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -77,8 +82,6 @@ public class RkStuff {
     public static Block blockTankInteraction = new BlockTankInteraction();
     public static Block blockTankValve = new BlockTankValve();
 
-    public static Block blockModelTest = new BlockModelTest();
-
     public static Block blockFusionCase = new BlockFusionCase();
     public static Block blockFusionCaseBevelSmall = new BlockFusionCaseBevelSmall();
     public static Block blockFusionCaseBevelSmallInverted = new BlockFusionCaseBevelSmallInverted();
@@ -90,6 +93,8 @@ public class RkStuff {
     public static Block blockFusionControlItemIO = new BlockFusionControlItemIO();
     public static Block blockFusionControlMaster = new BlockFusionControlMaster();
     public static Block blockFusionCore = new BlockFusionCore();
+
+    public static Block blockCoolantPipe = new BlockCoolantPipe();
 
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
     public static Item itemSolarPanel = new ItemRK(Reference.ITEM_SOLAR_PANEL);
@@ -114,6 +119,7 @@ public class RkStuff {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(this);
 
         PacketHandler.init();
 
@@ -136,7 +142,6 @@ public class RkStuff {
         GameRegistry.registerBlock(blockFluidDistribution, Reference.BLOCK_DISTRIBUTION_FLUID);
 
         GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER);
-        GameRegistry.registerBlock(blockModelTest, Reference.BLOCK_MODEL_TEST);
         GameRegistry.registerBlock(blockTankAdapter, Reference.BLOCK_TANK_ADAPTER);
         GameRegistry.registerBlock(blockTank, Reference.BLOCK_TANK);
         GameRegistry.registerBlock(blockTankInteraction, Reference.BLOCK_TANK_INTERACTION);
@@ -154,6 +159,8 @@ public class RkStuff {
         GameRegistry.registerBlock(blockFusionControlMaster, Reference.BLOCK_FUSION_CONTROL_MASTER);
         GameRegistry.registerBlock(blockFusionCore, Reference.BLOCK_FUSION_CORE);
 
+        GameRegistry.registerBlock(blockCoolantPipe, Reference.BLOCK_COOLANT_PIPE);
+
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
         GameRegistry.registerTileEntity(TileSolarInput.class, Reference.TILE_SOLAR_INPUT);
@@ -168,7 +175,7 @@ public class RkStuff {
 
         GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER);
         GameRegistry.registerTileEntity(TileTankAdapter.class, Reference.TILE_TANK_ADAPTER);
-        GameRegistry.registerTileEntity(TileModelTest.class, Reference.TILE_MODEL_TEST);
+        GameRegistry.registerTileEntity(TileCoolantPipe.class, Reference.TILE_COOLANT_PIPE);
 
         GameRegistry.registerTileEntity(TileFusionCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO);
         GameRegistry.registerTileEntity(TileFusionControlEnergyIO.class, Reference.TILE_FUSION_CONTROL_ENERGY_IO);
@@ -221,6 +228,13 @@ public class RkStuff {
                 FluidHelper.water = e.getValue();
             }
         }
+    }
+
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    public void textureHook(TextureStitchEvent.Post event) {
+        if (event.map.getTextureType() == 0) ModelPipe.init();
     }
 
 

@@ -7,6 +7,7 @@ import com.rk.rkstuff.core.block.IBlockBevelLarge;
 import com.rk.rkstuff.core.block.IBlockBevelSmall;
 import com.rk.rkstuff.core.block.IBlockBevelSmallInverted;
 import com.rk.rkstuff.proxy.ClientProxy;
+import com.rk.rkstuff.tank.block.BlockTankAdapter;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -24,7 +25,7 @@ public class BlockBevelRenderer implements ISimpleBlockRenderingHandler {
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         IIcon icon = block.getIcon(0, 0);
         Tessellator.instance.startDrawingQuads();
-        if (block instanceof IBlockBevelSmall) {
+        if (block instanceof IBlockBevelSmall || block instanceof BlockTankAdapter) {
             modelBevelSmall.render(icon, 0.5f, 0.5f, 0.5f, 0);
         } else if (block instanceof IBlockBevelSmallInverted) {
             modelBevelSmallInverted.render(icon, 0.5f, 0.5f, 0.5f, 0);
@@ -48,7 +49,7 @@ public class BlockBevelRenderer implements ISimpleBlockRenderingHandler {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         int meta = world.getBlockMetadata(x, y, z);
         IIcon icon = block.getIcon(0, 0);
-        if (block instanceof IBlockBevelSmall) {
+        if (block instanceof IBlockBevelSmall || block instanceof BlockTankAdapter) {
             modelBevelSmall.render(icon, x + 0.5f, y + 0.5f, z + 0.5f, meta);
         } else if (block instanceof IBlockBevelSmallInverted) {
             modelBevelSmallInverted.render(icon, x + 0.5f, y + 0.5f, z + 0.5f, meta);

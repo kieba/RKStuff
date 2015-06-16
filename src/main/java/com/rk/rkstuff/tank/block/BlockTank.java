@@ -4,10 +4,12 @@ import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.tank.tile.TileTankAdapter;
 import com.rk.rkstuff.util.Reference;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockTank extends BlockRK implements ITankBlock {
@@ -43,29 +45,48 @@ public class BlockTank extends BlockRK implements ITankBlock {
         return true;
     }
 
-    protected TileTankAdapter getTankAdapter(int x, int y, int z, int meta) {
+    private TileTankAdapter getTankAdapter(IBlockAccess access, int x, int y, int z, int meta) {
         if (meta == 0) return null;
-        //Search on same Level
-        return null;
-    }
-
-    private TileTankAdapter levelSearch(int x, int y, int z, int meta) {
         MultiBlockHelper.Bounds tmp = new MultiBlockHelper.Bounds(x, y, z);
-        for (ForgeDirection direction : new ForgeDirection[]{ForgeDirection.NORTH, ForgeDirection.EAST}) {
+        for (ForgeDirection direction : new ForgeDirection[]{ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST}) {
             int i = 1;
-            /*while (isValidTankBlock(xCoord + direction.offsetX * i, yCoord, zCoord + direction.offsetZ * i)) {
+            while (isValidTankBlock(access, x + direction.offsetX * i, y, z + direction.offsetZ * i)) {
                 i++;
             }
             i--;
-            tmpBounds.add(xCoord + direction.offsetX * i, yCoord, zCoord + direction.offsetZ * i);
-            direction = direction.getOpposite();
-            tmpBounds.add(xCoord + direction.offsetX * i, yCoord, zCoord + direction.offsetZ * i);
-            */
+            tmp.add(x + direction.offsetX * i, y, z + direction.offsetZ * i);
         }
 
+        for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : tmp) {
+            Block block = access.getBlock(pos.x, pos.y, pos.z);
+            if (block instanceof BlockTankAdapter) {
+                return (TileTankAdapter) access.getTileEntity(pos.x, pos.y, pos.z);
+            }
+        }
 
-        return null;
+        int i = 1;
+        while (access.getBlock(tmp.getMinX(), tmp.getMinY() - i, tmp.getMinZ()) instanceof ITankBlock) {
+            i++;
+        }
+        i--;
+
+        if (i == 0) return null;
+
+        return getTankAdapter(access, tmp.getMinX(), tmp.getMinY() - i, tmp.getMinZ(), meta);
     }
 
+    public boolean isValidTankBlock(IBlockAccess world, int x, int y, int z) {
+        Block block = world.getBlock(x, y, z);
+        return block instanceof ITankBlock;
+    }
 
+    @Override
+    public void onNeighborBlockChange(World access, int x, int y, int z, Block oldBlock) {
+        TileTankAdapter adapter = getTankAdapter(access, x, y, z, access.getBlockMetadata(x, y, z));
+        if (adapter != null) {
+            if (!adapter.checkMultiBlockForm()) {
+                adapter.reset();
+            }
+        }
+    }
 }

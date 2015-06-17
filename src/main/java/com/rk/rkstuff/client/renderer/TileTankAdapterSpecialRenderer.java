@@ -14,6 +14,11 @@ public class TileTankAdapterSpecialRenderer extends TileEntitySpecialRenderer {
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
         TileTankAdapter tankAdapter = (TileTankAdapter) tile;
+        int radius = tankAdapter.getInnerRadius();
+        float fillHeight = tankAdapter.getFillHeight();
+
+        if (fillHeight == 0.0f) return;
+
         this.bindTexture(TextureMap.locationBlocksTexture);
         IIcon coolCoolant = RkStuff.coolCoolant.getIcon();
         Tessellator tessellator = Tessellator.instance;
@@ -22,8 +27,6 @@ public class TileTankAdapterSpecialRenderer extends TileEntitySpecialRenderer {
 
         tessellator.startDrawingQuads();
 
-        int radius = tankAdapter.getInnerRadius();
-        float fillHeight = tankAdapter.getFillHeight();
 
         GL11.glEnable(GL11.GL_BLEND);
 

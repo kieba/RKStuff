@@ -305,7 +305,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
 
         @Override
         public String getMethodDescription() {
-            return "Returns the storage of coolCoolant[mB].\n\tUsage: getCoolCoolant();";
+            return "Returns the storage of fluidCoolant[mB].\n\tUsage: getCoolCoolant();";
         }
 
         @Override
@@ -326,7 +326,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
 
         @Override
         public String getMethodDescription() {
-            return "\tReturns the maximum storage of coolCoolant[mB].\n\tUsage: getMaxCoolCoolant();";
+            return "\tReturns the maximum storage of fluidCoolant[mB].\n\tUsage: getMaxCoolCoolant();";
         }
 
         @Override
@@ -347,7 +347,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
 
         @Override
         public String getMethodDescription() {
-            return "\tReturns the storage of hotCoolant[mB].\n\tUsage: getHotCoolant();";
+            return "\tReturns the storage of fluidUsedCoolant[mB].\n\tUsage: getHotCoolant();";
         }
 
         @Override
@@ -368,7 +368,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
 
         @Override
         public String getMethodDescription() {
-            return "\tReturns the maximum storage of hotCoolant[mB].\n\tUsage: getMaxHotCoolant();";
+            return "\tReturns the maximum storage of fluidUsedCoolant[mB].\n\tUsage: getMaxHotCoolant();";
         }
 
         @Override
@@ -389,7 +389,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
 
         @Override
         public String getMethodDescription() {
-            return "\tReturns the amount of hotCoolant[mB] produced per tick.\n\tUsage: getProduction();";
+            return "\tReturns the amount of fluidUsedCoolant[mB] produced per tick.\n\tUsage: getProduction();";
         }
 
         @Override

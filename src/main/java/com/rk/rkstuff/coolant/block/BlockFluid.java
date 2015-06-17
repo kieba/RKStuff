@@ -1,4 +1,4 @@
-package com.rk.rkstuff.unused.fluid;
+package com.rk.rkstuff.coolant.block;
 
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -39,8 +39,8 @@ public class BlockFluid extends BlockFluidClassic {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister register) {
-        stillIcon = register.registerIcon(Reference.MOD_ID + ":fluid/Fluid_" + getFluid().getName() +"_Still");
-        flowingIcon = register.registerIcon(Reference.MOD_ID  + ":fluid/Fluid_" + getFluid().getName() + "_Flow");
+        stillIcon = register.registerIcon(Reference.MOD_ID + ":fluid/" + getFluid().getName() + "_Still");
+        flowingIcon = register.registerIcon(Reference.MOD_ID + ":fluid/" + getFluid().getName() + "_Flow");
         getFluid().setIcons(stillIcon, flowingIcon);
     }
 

@@ -178,6 +178,6 @@ public class BlockCoolantPipe extends BlockRK implements ITileEntityProvider {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return RkStuff.coolCoolant.getFlowingIcon();
+        return RkStuff.fluidCoolant.getFlowingIcon();
     }
 }

@@ -6,7 +6,9 @@ import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.boiler.tile.TileBoilerBaseOutput;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.client.model.ModelPipe;
+import com.rk.rkstuff.coolant.block.BlockCoolantFluid;
 import com.rk.rkstuff.coolant.block.BlockCoolantPipe;
+import com.rk.rkstuff.coolant.block.BlockUsedCoolantFluid;
 import com.rk.rkstuff.coolant.tile.TileCoolantPipe;
 import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.distribution.block.BlockDistributionEnergy;
@@ -38,8 +40,6 @@ import com.rk.rkstuff.tank.tile.TileTankInteraction;
 import com.rk.rkstuff.tank.tile.TileTankValve;
 import com.rk.rkstuff.teleporter.block.BlockTeleporter;
 import com.rk.rkstuff.teleporter.tile.TileTeleporter;
-import com.rk.rkstuff.unused.fluid.BlockCoolCoolantFluid;
-import com.rk.rkstuff.unused.fluid.BlockHotCoolantFluid;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -73,12 +73,12 @@ import java.util.Map;
 @Mod(modid = Reference.MOD_ID, version = Reference.VERSION, name = Reference.MOD_NAME)
 public class RkStuff {
 
-    public static Fluid coolCoolant;
-    public static Block coolCoolantBlock;
-    public static ItemBucket coolCoolantBucket;
-    public static Fluid hotCoolant;
-    public static Block hotCoolantBlock;
-    public static ItemBucket hotCoolantBucket;
+    public static Fluid fluidCoolant;
+    public static Block fluidCoolantBlock;
+    public static ItemBucket fluidCoolantBucket;
+    public static Fluid fluidUsedCoolant;
+    public static Block fluidUsedCoolantBlock;
+    public static ItemBucket fluidUsedCoolantBucket;
 
     public static Block blockMachineBlock = new BlockRK(Material.iron, Reference.BLOCK_MACHINE_BLOCK);
     public static Block blockPortlandite = new BlockRK(Material.iron, Reference.BLOCK_PORTLANDITE);
@@ -270,27 +270,27 @@ public class RkStuff {
     private void registerFluids(){
         MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 
-        coolCoolant = new Fluid(Reference.FLUID_COOL_COOLANT);
-        FluidRegistry.registerFluid(coolCoolant);
-        coolCoolantBlock = new BlockCoolCoolantFluid(coolCoolant);
-        GameRegistry.registerBlock(coolCoolantBlock, coolCoolantBlock.getUnlocalizedName().substring(5));
-        coolCoolant.setUnlocalizedName(coolCoolantBlock.getUnlocalizedName());
-        coolCoolantBucket = new BucketBase(coolCoolantBlock, "Bucket" + Reference.FLUID_COOL_COOLANT);
-        GameRegistry.registerItem(coolCoolantBucket, "Bucket" + Reference.FLUID_COOL_COOLANT);
-        FluidContainerRegistry.registerFluidContainer(coolCoolant, new ItemStack(coolCoolantBucket), new ItemStack(Items.bucket));
-        BucketHandler.INSTANCE.buckets.put(coolCoolantBlock, coolCoolantBucket);
+        fluidCoolant = new Fluid(Reference.FLUID_COOLANT);
+        FluidRegistry.registerFluid(fluidCoolant);
+        fluidCoolantBlock = new BlockCoolantFluid(fluidCoolant);
+        GameRegistry.registerBlock(fluidCoolantBlock, fluidCoolantBlock.getUnlocalizedName().substring(5));
+        fluidCoolant.setUnlocalizedName(fluidCoolantBlock.getUnlocalizedName());
+        fluidCoolantBucket = new BucketBase(fluidCoolantBlock, "Bucket" + Reference.FLUID_COOLANT);
+        GameRegistry.registerItem(fluidCoolantBucket, "Bucket" + Reference.FLUID_COOLANT);
+        FluidContainerRegistry.registerFluidContainer(fluidCoolant, new ItemStack(fluidCoolantBucket), new ItemStack(Items.bucket));
+        BucketHandler.INSTANCE.buckets.put(fluidCoolantBlock, fluidCoolantBucket);
 
 
-        hotCoolant = new Fluid(Reference.FLUID_HOT_COOLANT);
-        hotCoolant.setTemperature(2000);
-        FluidRegistry.registerFluid(hotCoolant);
-        hotCoolantBlock = new BlockHotCoolantFluid(hotCoolant);
-        GameRegistry.registerBlock(hotCoolantBlock, hotCoolantBlock.getUnlocalizedName().substring(5));
-        hotCoolant.setUnlocalizedName(hotCoolantBlock.getUnlocalizedName());
-        hotCoolantBucket = new BucketBase(hotCoolantBlock, "Bucket" + Reference.FLUID_HOT_COOLANT);
-        GameRegistry.registerItem(hotCoolantBucket, "Bucket" + Reference.FLUID_HOT_COOLANT);
-        FluidContainerRegistry.registerFluidContainer(hotCoolant, new ItemStack(hotCoolantBucket), new ItemStack(Items.bucket));
-        BucketHandler.INSTANCE.buckets.put(hotCoolantBlock, hotCoolantBucket);
+        fluidUsedCoolant = new Fluid(Reference.FLUID_USED_COOLANT);
+        fluidUsedCoolant.setTemperature(2000);
+        FluidRegistry.registerFluid(fluidUsedCoolant);
+        fluidUsedCoolantBlock = new BlockUsedCoolantFluid(fluidUsedCoolant);
+        GameRegistry.registerBlock(fluidUsedCoolantBlock, fluidUsedCoolantBlock.getUnlocalizedName().substring(5));
+        fluidUsedCoolant.setUnlocalizedName(fluidUsedCoolantBlock.getUnlocalizedName());
+        fluidUsedCoolantBucket = new BucketBase(fluidUsedCoolantBlock, "Bucket" + Reference.FLUID_USED_COOLANT);
+        GameRegistry.registerItem(fluidUsedCoolantBucket, "Bucket" + Reference.FLUID_USED_COOLANT);
+        FluidContainerRegistry.registerFluidContainer(fluidUsedCoolant, new ItemStack(fluidUsedCoolantBucket), new ItemStack(Items.bucket));
+        BucketHandler.INSTANCE.buckets.put(fluidUsedCoolantBlock, fluidUsedCoolantBucket);
     }
 
     private void registerRecipes() {
@@ -313,6 +313,6 @@ public class RkStuff {
         cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(Blocks.sand, 1, 1), new ItemStack(Items.clay_ball), new ItemStack(blockPortlandite, 2));
         cofh.api.modhelpers.ThermalExpansionHelper.addInsolatorRecipe(1600, new ItemStack(itemPotash), new ItemStack(blockPortlandite), new ItemStack(itemPotassiumHydroxide));
         cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(itemPotassiumHydroxide), new ItemStack(Items.leather), new ItemStack(itemGlycerine));
-        cofh.api.modhelpers.ThermalExpansionHelper.addCrucibleRecipe(1600, new ItemStack(itemGlycerine), new FluidStack(coolCoolant, 1000));
+        cofh.api.modhelpers.ThermalExpansionHelper.addCrucibleRecipe(1600, new ItemStack(itemGlycerine), new FluidStack(fluidCoolant, 1000));
     }
 }

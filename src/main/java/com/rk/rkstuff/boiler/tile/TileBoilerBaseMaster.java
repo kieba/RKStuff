@@ -179,8 +179,8 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
         super.writeToNBT(data);
         data.setInteger("steam", steamStorage);
         data.setInteger("water", waterStorage);
-        data.setInteger("coolCoolant", coolCoolantStorage);
-        data.setInteger("hotCoolant", hotCoolantStorage);
+        data.setInteger("fluidCoolant", coolCoolantStorage);
+        data.setInteger("fluidUsedCoolant", hotCoolantStorage);
         data.setInteger("heat", heatEnergy);
     }
 
@@ -189,8 +189,8 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
         super.readFromNBT(data);
         steamStorage = data.getInteger("steam");
         waterStorage = data.getInteger("water");
-        coolCoolantStorage = data.getInteger("coolCoolant");
-        hotCoolantStorage = data.getInteger("hotCoolant");
+        coolCoolantStorage = data.getInteger("fluidCoolant");
+        hotCoolantStorage = data.getInteger("fluidUsedCoolant");
         heatEnergy = data.getInteger("heat");
     }
 
@@ -200,7 +200,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
         if(FluidHelper.isWater(resource.getFluid())) {
             amount = Math.min(resource.amount, getMaxWaterStorage() - waterStorage);
             if(doFill) waterStorage += amount;
-        } else if(FluidHelper.isHotCoolant(resource.getFluid())) {
+        } else if(FluidHelper.isUsedCoolant(resource.getFluid())) {
             amount = Math.min(resource.amount, getMaxCoolantStorage() - hotCoolantStorage);
             if(doFill) hotCoolantStorage += amount;
         }
@@ -216,13 +216,13 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     public FluidStack drainCoolCoolant(int maxDrain, boolean doDrain) {
         int amount = Math.min(maxDrain, coolCoolantStorage);
         if(doDrain) coolCoolantStorage -= amount;
-        return new FluidStack(RkStuff.coolCoolant, amount);
+        return new FluidStack(RkStuff.fluidCoolant, amount);
     }
 
     public boolean canFill(Fluid fluid) {
         if(FluidHelper.isWater(fluid)) {
             return waterStorage < getMaxWaterStorage();
-        } else if(FluidHelper.isHotCoolant(fluid)) {
+        } else if(FluidHelper.isUsedCoolant(fluid)) {
             return hotCoolantStorage < getMaxCoolantStorage();
         }
         return false;
@@ -239,7 +239,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     public FluidTankInfo[] getTankInfoInput() {
         return new FluidTankInfo[] {
                 new FluidTankInfo(new FluidStack(FluidHelper.water, waterStorage), getMaxWaterStorage()),
-                new FluidTankInfo(new FluidStack(RkStuff.hotCoolant, hotCoolantStorage), getMaxCoolantStorage())
+                new FluidTankInfo(new FluidStack(RkStuff.fluidUsedCoolant, hotCoolantStorage), getMaxCoolantStorage())
         };
     }
 
@@ -251,7 +251,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
 
     public FluidTankInfo[] getTankInfoCoolCoolant() {
         return new FluidTankInfo[] {
-                new FluidTankInfo(new FluidStack(RkStuff.coolCoolant, coolCoolantStorage), getMaxCoolantStorage())
+                new FluidTankInfo(new FluidStack(RkStuff.fluidCoolant, coolCoolantStorage), getMaxCoolantStorage())
         };
     }
 
@@ -480,7 +480,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
 
         @Override
         public String getMethodDescription() {
-            return "\tReturns the storage of coolCoolant[mB].\n\tUsage: getCoolCoolant();";
+            return "\tReturns the storage of fluidCoolant[mB].\n\tUsage: getCoolCoolant();";
         }
 
         @Override
@@ -501,7 +501,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
 
         @Override
         public String getMethodDescription() {
-            return "\tReturns the maximum storage of coolCoolant[mB].\n\tUsage: getMaxCoolCoolant();";
+            return "\tReturns the maximum storage of fluidCoolant[mB].\n\tUsage: getMaxCoolCoolant();";
         }
 
         @Override
@@ -522,7 +522,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
 
         @Override
         public String getMethodDescription() {
-            return "\tReturns the storage of hotCoolant[mB].\n\tUsage: getHotCoolant();";
+            return "\tReturns the storage of fluidUsedCoolant[mB].\n\tUsage: getHotCoolant();";
         }
 
         @Override
@@ -543,7 +543,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
 
         @Override
         public String getMethodDescription() {
-            return "\tReturns the maximum storage of hotCoolant[mB].\n\tUsage: getMaxHotCoolant();";
+            return "\tReturns the maximum storage of fluidUsedCoolant[mB].\n\tUsage: getMaxHotCoolant();";
         }
 
         @Override

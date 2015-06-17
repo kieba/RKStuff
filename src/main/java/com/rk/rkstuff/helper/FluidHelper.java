@@ -16,12 +16,12 @@ public class FluidHelper {
         return fluid == steam;
     }
 
-    public static boolean isHotCoolant(Fluid fluid) {
-        return fluid.getID() == RkStuff.hotCoolant.getID();
+    public static boolean isUsedCoolant(Fluid fluid) {
+        return fluid.getID() == RkStuff.fluidUsedCoolant.getID();
     }
 
-    public static boolean isCoolCoolant(Fluid fluid) {
-        return fluid.getID() == RkStuff.coolCoolant.getID();
+    public static boolean isCoolant(Fluid fluid) {
+        return fluid.getID() == RkStuff.fluidCoolant.getID();
     }
 
     public static boolean isWater(Fluid fluid) {

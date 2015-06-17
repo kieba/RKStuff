@@ -158,7 +158,7 @@ public class ModelPipe {
             vertexPoints[i] = new PositionTextureVertex(adapterPoints[i], 0.0F, 0.0F);
         }
 
-        IIcon i = RkStuff.coolCoolant.getStillIcon();
+        IIcon i = RkStuff.fluidCoolant.getStillIcon();
         int[] texBounds = getTextureBounds(i);
 
         float scaleU = (float) Math.floor(1.0F / (i.getMaxU() - i.getMinU()) * FLUID_TEX_SIZE);

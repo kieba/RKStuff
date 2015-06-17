@@ -1,9 +1,9 @@
-tile.CoolCoolant.name=Cool Coolant
-fluid.tile.CoolCoolant=Cool Coolant
-tile.HotCoolant.name=Hot Coolant
-fluid.tile.HotCoolant=Hot Coolant
-item.BucketHotCoolant.name=Hot Coolant Bucket
-item.BucketCoolCoolant.name=Cool Coolant Bucket
+tile.FluidCoolant.name=Coolant
+fluid.tile.FluidCoolant=Coolant
+tile.FluidUsedCoolant.name=Used Coolant
+fluid.tile.FluidUsedCoolant=Used Coolant
+item.BucketFluidUsedCoolant.name=Used Coolant Bucket
+item.BucketFluidCoolant.name=Coolant Bucket
 
 tile.MachineBlock.name=Machine Block
 tile.Portlandite.name=Portlandite (Ca(OH)2)

@@ -47,7 +47,7 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
         if(hasMaster()) {
             if(outputSteam && FluidHelper.isSteam(resource.getFluid())) {
                 return drain(from, resource.amount, doDrain);
-            } else if(!outputSteam && FluidHelper.isCoolCoolant(resource.getFluid())) {
+            } else if (!outputSteam && FluidHelper.isCoolant(resource.getFluid())) {
                 return drain(from, resource.amount, doDrain);
             }
         }
@@ -77,7 +77,7 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
             if(outputSteam) {
                 return FluidHelper.isSteam(fluid) && master.canDrainSteam();
             } else  {
-                return FluidHelper.isCoolCoolant(fluid) && master.canDrainCoolCoolant();
+                return FluidHelper.isCoolant(fluid) && master.canDrainCoolCoolant();
             }
         }
         return false;

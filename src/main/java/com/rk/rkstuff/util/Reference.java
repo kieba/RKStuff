@@ -67,8 +67,8 @@ public class Reference {
 
     public static final String TILE_COOLANT_PIPE = "TileCoolantPipe";
     /* FLUIDS */
-    public static final String FLUID_COOL_COOLANT = "CoolCoolant";
-    public static final String FLUID_HOT_COOLANT = "HotCoolant";
+    public static final String FLUID_COOLANT = "FluidCoolant";
+    public static final String FLUID_USED_COOLANT = "FluidUsedCoolant";
 
     /* ITEMS */
     public static final String ITEM_VALVE = "Valve";

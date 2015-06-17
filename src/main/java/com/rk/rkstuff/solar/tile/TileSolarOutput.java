@@ -26,7 +26,7 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
         if (master == null) return null;
         if (from == ForgeDirection.UP) return null;
-        if (resource.getFluid().equals(RkStuff.hotCoolant)) {
+        if (resource.getFluid().equals(RkStuff.fluidUsedCoolant)) {
             TileSolarMaster master = getMaster();
             int amount = resource.amount;
             amount = (int) Math.min(amount, Math.floor(master.getHotCoolantTank()));
@@ -34,7 +34,7 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
             if (doDrain) {
                 master.setHotCoolantTank(master.getHotCoolantTank() - amount);
             }
-            return new FluidStack(RkStuff.hotCoolant, amount);
+            return new FluidStack(RkStuff.fluidUsedCoolant, amount);
         }
         return null;
     }
@@ -48,7 +48,7 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
         if (doDrain) {
             master.setHotCoolantTank(master.getHotCoolantTank() - amount);
         }
-        return new FluidStack(RkStuff.hotCoolant, amount);
+        return new FluidStack(RkStuff.fluidUsedCoolant, amount);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
         if (master == null) return null;
-        return new FluidTankInfo[]{new FluidTankInfo(new FluidStack(RkStuff.hotCoolant, (int) Math.round(getMaster().getHotCoolantTank())), getMaster().getMaxTankCapacity())};
+        return new FluidTankInfo[]{new FluidTankInfo(new FluidStack(RkStuff.fluidUsedCoolant, (int) Math.round(getMaster().getHotCoolantTank())), getMaster().getMaxTankCapacity())};
     }
 
     public TileSolarMaster getMaster() {
@@ -103,7 +103,7 @@ public class TileSolarOutput extends TileRK implements IFluidHandler, IMultiBloc
         if (master != null && master.getHotCoolantTank() > 1) {
             for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
                 if (direction == ForgeDirection.UP) continue;
-                int moveAmount = FluidHelper.insertFluidIntoNeighbourFluidHandler(this, direction, new FluidStack(RkStuff.hotCoolant, Math.min((int) master.getHotCoolantTank(), 500)), true);
+                int moveAmount = FluidHelper.insertFluidIntoNeighbourFluidHandler(this, direction, new FluidStack(RkStuff.fluidUsedCoolant, Math.min((int) master.getHotCoolantTank(), 500)), true);
                 master.setHotCoolantTank(master.getHotCoolantTank() - moveAmount);
                 if (master.getHotCoolantTank() < 1) break;
             }

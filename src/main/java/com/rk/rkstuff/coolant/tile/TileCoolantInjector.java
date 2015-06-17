@@ -14,7 +14,7 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileCoolantInjector extends TileRK implements IFluidHandler {
+public class TileCoolantInjector extends TileRK implements IFluidHandler, ICoolantReceiver {
 
     private static final int MAX_COOLANT_AMOUNT = 2000;
     private ICoolantReceiver[] neighbours = new ICoolantReceiver[6];
@@ -61,6 +61,7 @@ public class TileCoolantInjector extends TileRK implements IFluidHandler {
         if (scale > 1.0f) scale = 1.0f;
 
         for (int i = 0; i < 6; i++) {
+            if (neighbours[i] == null) continue;
             ICoolantReceiver rcv = neighbours[i];
             int amount = (int) Math.floor(maxInput[i] * scale);
             int received = rcv.receiveCoolant(ForgeDirection.values()[i], amount, coolantStack.getTemperature(), false);
@@ -131,5 +132,15 @@ public class TileCoolantInjector extends TileRK implements IFluidHandler {
         return new FluidTankInfo[]{
                 new FluidTankInfo(new FluidStack(RkStuff.fluidCoolant, coolantStack.getAmount()), MAX_COOLANT_AMOUNT)
         };
+    }
+
+    @Override
+    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public boolean canReceive(ForgeDirection from) {
+        return false;
     }
 }

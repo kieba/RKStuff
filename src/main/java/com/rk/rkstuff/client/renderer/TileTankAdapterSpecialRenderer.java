@@ -20,7 +20,13 @@ public class TileTankAdapterSpecialRenderer extends TileEntitySpecialRenderer {
         if (fillHeight == 0.0f) return;
 
         this.bindTexture(TextureMap.locationBlocksTexture);
-        IIcon coolCoolant = RkStuff.fluidCoolant.getIcon();
+        IIcon fluidIicon;
+        if (tankAdapter.isFluidStack()) {
+            fluidIicon = tankAdapter.getCurrentFluidStack().getFluid().getIcon();
+        } else {
+            fluidIicon = RkStuff.fluidCoolant.getIcon();
+        }
+
         Tessellator tessellator = Tessellator.instance;
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
@@ -33,20 +39,20 @@ public class TileTankAdapterSpecialRenderer extends TileEntitySpecialRenderer {
         //North
         for (int yOffset = 0; yOffset < fillHeight; yOffset++) {
             for (int xOffset = -radius; xOffset < radius + 1; xOffset++) {
-                tessellator.addVertexWithUV(xOffset, yOffset + 1, -radius, coolCoolant.getMinU(), coolCoolant.getMinV());
-                tessellator.addVertexWithUV(xOffset, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), -radius, coolCoolant.getMinU(), coolCoolant.getMinV() + (coolCoolant.getMaxV() - coolCoolant.getMinV()) * (yOffset + 1 > fillHeight ? fillHeight % 1 : 1));
-                tessellator.addVertexWithUV(xOffset + 1, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), -radius, coolCoolant.getMaxU(), coolCoolant.getMinV() + (coolCoolant.getMaxV() - coolCoolant.getMinV()) * (yOffset + 1 > fillHeight ? fillHeight % 1 : 1));
-                tessellator.addVertexWithUV(xOffset + 1, yOffset + 1, -radius, coolCoolant.getMaxU(), coolCoolant.getMinV());
+                tessellator.addVertexWithUV(xOffset, yOffset + 1, -radius, fluidIicon.getMinU(), fluidIicon.getMinV());
+                tessellator.addVertexWithUV(xOffset, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), -radius, fluidIicon.getMinU(), fluidIicon.getMinV() + (fluidIicon.getMaxV() - fluidIicon.getMinV()) * (yOffset + 1 > fillHeight ? fillHeight % 1 : 1));
+                tessellator.addVertexWithUV(xOffset + 1, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), -radius, fluidIicon.getMaxU(), fluidIicon.getMinV() + (fluidIicon.getMaxV() - fluidIicon.getMinV()) * (yOffset + 1 > fillHeight ? fillHeight % 1 : 1));
+                tessellator.addVertexWithUV(xOffset + 1, yOffset + 1, -radius, fluidIicon.getMaxU(), fluidIicon.getMinV());
             }
         }
 
         //West
         for (int yOffset = 0; yOffset < fillHeight; yOffset++) {
             for (int zOffset = -radius; zOffset < radius + 1; zOffset++) {
-                tessellator.addVertexWithUV(-radius, yOffset + 1, zOffset + 1, coolCoolant.getMinU(), coolCoolant.getMinV());
-                tessellator.addVertexWithUV(-radius, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), zOffset + 1, coolCoolant.getMinU(), coolCoolant.getMaxV());
-                tessellator.addVertexWithUV(-radius, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), zOffset, coolCoolant.getMaxU(), coolCoolant.getMaxV());
-                tessellator.addVertexWithUV(-radius, yOffset + 1, zOffset, coolCoolant.getMaxU(), coolCoolant.getMinV());
+                tessellator.addVertexWithUV(-radius, yOffset + 1, zOffset + 1, fluidIicon.getMinU(), fluidIicon.getMinV());
+                tessellator.addVertexWithUV(-radius, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), zOffset + 1, fluidIicon.getMinU(), fluidIicon.getMaxV());
+                tessellator.addVertexWithUV(-radius, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), zOffset, fluidIicon.getMaxU(), fluidIicon.getMaxV());
+                tessellator.addVertexWithUV(-radius, yOffset + 1, zOffset, fluidIicon.getMaxU(), fluidIicon.getMinV());
             }
         }
 
@@ -54,29 +60,29 @@ public class TileTankAdapterSpecialRenderer extends TileEntitySpecialRenderer {
         //South
         for (int yOffset = 0; yOffset < fillHeight; yOffset++) {
             for (int xOffset = -radius; xOffset < radius + 1; xOffset++) {
-                tessellator.addVertexWithUV(xOffset + 1, yOffset + 1, radius + 1, coolCoolant.getMaxU(), coolCoolant.getMinV());
-                tessellator.addVertexWithUV(xOffset + 1, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), radius + 1, coolCoolant.getMaxU(), coolCoolant.getMaxV());
-                tessellator.addVertexWithUV(xOffset, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), radius + 1, coolCoolant.getMinU(), coolCoolant.getMaxV());
-                tessellator.addVertexWithUV(xOffset, yOffset + 1, radius + 1, coolCoolant.getMinU(), coolCoolant.getMinV());
+                tessellator.addVertexWithUV(xOffset + 1, yOffset + 1, radius + 1, fluidIicon.getMaxU(), fluidIicon.getMinV());
+                tessellator.addVertexWithUV(xOffset + 1, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), radius + 1, fluidIicon.getMaxU(), fluidIicon.getMaxV());
+                tessellator.addVertexWithUV(xOffset, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), radius + 1, fluidIicon.getMinU(), fluidIicon.getMaxV());
+                tessellator.addVertexWithUV(xOffset, yOffset + 1, radius + 1, fluidIicon.getMinU(), fluidIicon.getMinV());
             }
         }
 
         //East
         for (int yOffset = 0; yOffset < fillHeight; yOffset++) {
             for (int zOffset = -radius; zOffset < radius + 1; zOffset++) {
-                tessellator.addVertexWithUV(radius + 1, yOffset + 1, zOffset, coolCoolant.getMaxU(), coolCoolant.getMinV());
-                tessellator.addVertexWithUV(radius + 1, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), zOffset, coolCoolant.getMaxU(), coolCoolant.getMaxV());
-                tessellator.addVertexWithUV(radius + 1, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), zOffset + 1, coolCoolant.getMinU(), coolCoolant.getMaxV());
-                tessellator.addVertexWithUV(radius + 1, yOffset + 1, zOffset + 1, coolCoolant.getMinU(), coolCoolant.getMinV());
+                tessellator.addVertexWithUV(radius + 1, yOffset + 1, zOffset, fluidIicon.getMaxU(), fluidIicon.getMinV());
+                tessellator.addVertexWithUV(radius + 1, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), zOffset, fluidIicon.getMaxU(), fluidIicon.getMaxV());
+                tessellator.addVertexWithUV(radius + 1, yOffset + 1 + (yOffset + 1 > fillHeight ? fillHeight % 1 : 1), zOffset + 1, fluidIicon.getMinU(), fluidIicon.getMaxV());
+                tessellator.addVertexWithUV(radius + 1, yOffset + 1, zOffset + 1, fluidIicon.getMinU(), fluidIicon.getMinV());
             }
         }
 
         for (int xOffset = -radius; xOffset < radius + 1; xOffset++) {
             for (int zOffset = -radius; zOffset < radius + 1; zOffset++) {
-                tessellator.addVertexWithUV(xOffset, fillHeight + 1, zOffset, coolCoolant.getMinU(), coolCoolant.getMinV());
-                tessellator.addVertexWithUV(xOffset, fillHeight + 1, zOffset + 1, coolCoolant.getMinU(), coolCoolant.getMaxV());
-                tessellator.addVertexWithUV(xOffset + 1, fillHeight + 1, zOffset + 1, coolCoolant.getMaxU(), coolCoolant.getMaxV());
-                tessellator.addVertexWithUV(xOffset + 1, fillHeight + 1, zOffset, coolCoolant.getMaxU(), coolCoolant.getMinV());
+                tessellator.addVertexWithUV(xOffset, fillHeight + 1, zOffset, fluidIicon.getMinU(), fluidIicon.getMinV());
+                tessellator.addVertexWithUV(xOffset, fillHeight + 1, zOffset + 1, fluidIicon.getMinU(), fluidIicon.getMaxV());
+                tessellator.addVertexWithUV(xOffset + 1, fillHeight + 1, zOffset + 1, fluidIicon.getMaxU(), fluidIicon.getMaxV());
+                tessellator.addVertexWithUV(xOffset + 1, fillHeight + 1, zOffset, fluidIicon.getMaxU(), fluidIicon.getMinV());
             }
         }
         tessellator.draw();

@@ -1,7 +1,6 @@
 package com.rk.rkstuff.coolant.tile;
 
 import com.rk.rkstuff.coolant.CoolantStack;
-import com.rk.rkstuff.core.tile.INeighbourListener;
 import com.rk.rkstuff.core.tile.TileRK;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -10,7 +9,7 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileCoolantPipe extends TileRK implements ICoolantReceiver, INeighbourListener {
+public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
 
     private static final int COOLANT_CAPACITY = 2000;
     private ICoolantReceiver[] neighbours = new ICoolantReceiver[6];
@@ -22,6 +21,8 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, INeighb
     @Override
     public void updateEntity() {
         super.updateEntity();
+
+        if (worldObj.isRemote) return;
 
         int[] maxInput = new int[6];
         int[] outputSides = new int[6];
@@ -87,7 +88,6 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, INeighb
         }
     }
 
-    @Override
     public void onNeighborTileChange(ForgeDirection dir) {
         if (worldObj.isRemote) return;
         int side = dir.ordinal();
@@ -121,6 +121,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, INeighb
             isConnected[i] = ((connected >> i) & 0x01) == 0x01;
             hasAdapter[i] = ((adapter >> i) & 0x01) == 0x01;
         }
+        coolant.readFromNBT("coolant", tag);
     }
 
     @Override
@@ -136,6 +137,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, INeighb
 
         tag.setInteger("isConnected", connected);
         tag.setInteger("hasAdapter", adapter);
+        coolant.writeToNBT("coolant", tag);
     }
 
     @Override

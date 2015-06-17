@@ -3,7 +3,6 @@ package com.rk.rkstuff.coolant.block;
 import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.coolant.tile.TileCoolantPipe;
 import com.rk.rkstuff.core.block.BlockRK;
-import com.rk.rkstuff.core.tile.INeighbourListener;
 import com.rk.rkstuff.util.Reference;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -61,8 +60,8 @@ public class BlockCoolantPipe extends BlockRK implements ITileEntityProvider {
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             if (dir.offsetX == offsetX && dir.offsetY == offsetY && dir.offsetZ == offsetZ) {
                 TileEntity tileEntity = world.getTileEntity(x, y, z);
-                if (tileEntity instanceof INeighbourListener) {
-                    ((INeighbourListener) tileEntity).onNeighborTileChange(dir.getOpposite());
+                if (tileEntity instanceof TileCoolantPipe) {
+                    ((TileCoolantPipe) tileEntity).onNeighborTileChange(dir.getOpposite());
                     break;
                 }
             }

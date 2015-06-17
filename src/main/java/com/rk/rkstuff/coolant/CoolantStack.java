@@ -1,5 +1,7 @@
 package com.rk.rkstuff.coolant;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 public class CoolantStack {
 
     private int amount;
@@ -36,5 +38,15 @@ public class CoolantStack {
 
     public float getTemperature() {
         return temperature;
+    }
+
+    public void writeToNBT(String name, NBTTagCompound tag) {
+        tag.setInteger(name + "Amount", amount);
+        tag.setFloat(name + "Temp", temperature);
+    }
+
+    public void readFromNBT(String name, NBTTagCompound tag) {
+        amount = tag.getInteger(name + "Amount");
+        temperature = tag.getFloat(name + "Temp");
     }
 }

@@ -20,7 +20,7 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if(hasGui() && !playerInGui.isEmpty()) {
+        if (!worldObj.isRemote && hasGui() && !playerInGui.isEmpty()) {
             if(tick > GUI_UPDATE_RATE) {
                 updateGuiInformation();
             } else {

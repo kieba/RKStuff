@@ -6,9 +6,9 @@ import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.boiler.tile.TileBoilerBaseOutput;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.client.model.ModelPipe;
-import com.rk.rkstuff.coolant.block.BlockCoolantFluid;
-import com.rk.rkstuff.coolant.block.BlockCoolantPipe;
-import com.rk.rkstuff.coolant.block.BlockUsedCoolantFluid;
+import com.rk.rkstuff.coolant.block.*;
+import com.rk.rkstuff.coolant.tile.TileCoolantExtractor;
+import com.rk.rkstuff.coolant.tile.TileCoolantInjector;
 import com.rk.rkstuff.coolant.tile.TileCoolantPipe;
 import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.distribution.block.BlockDistributionEnergy;
@@ -119,6 +119,8 @@ public class RkStuff {
     public static Block blockFusionCore = new BlockFusionCore();
 
     public static Block blockCoolantPipe = new BlockCoolantPipe();
+    public static Block blockCoolantInjector = new BlockCoolantInjector();
+    public static Block blockCoolantExtractor = new BlockCoolantExtractor();
 
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
     public static Item itemSolarPanel = new ItemRK(Reference.ITEM_SOLAR_PANEL);
@@ -186,6 +188,8 @@ public class RkStuff {
         GameRegistry.registerBlock(blockFusionCore, Reference.BLOCK_FUSION_CORE);
 
         GameRegistry.registerBlock(blockCoolantPipe, Reference.BLOCK_COOLANT_PIPE);
+        GameRegistry.registerBlock(blockCoolantInjector, Reference.BLOCK_COOLANT_INJECTOR);
+        GameRegistry.registerBlock(blockCoolantExtractor, Reference.BLOCK_COOLANT_EXTRACTOR);
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
@@ -203,12 +207,15 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileTankAdapter.class, Reference.TILE_TANK_ADAPTER);
         GameRegistry.registerTileEntity(TileTankInteraction.class, Reference.TILE_TANK_INTERACTION);
         GameRegistry.registerTileEntity(TileTankValve.class, Reference.TILE_TANK_VALVE);
-        GameRegistry.registerTileEntity(TileCoolantPipe.class, Reference.TILE_COOLANT_PIPE);
 
         GameRegistry.registerTileEntity(TileFusionCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO);
         GameRegistry.registerTileEntity(TileFusionControlEnergyIO.class, Reference.TILE_FUSION_CONTROL_ENERGY_IO);
         GameRegistry.registerTileEntity(TileFusionControlItemIO.class, Reference.TILE_FUSION_CONTROL_ITEM_IO);
         GameRegistry.registerTileEntity(TileFusionControlMaster.class, Reference.TILE_FUSION_CONTROL_MASTER);
+
+        GameRegistry.registerTileEntity(TileCoolantPipe.class, Reference.TILE_COOLANT_PIPE);
+        GameRegistry.registerTileEntity(TileCoolantInjector.class, Reference.TILE_COOLANT_INJECTOR);
+        GameRegistry.registerTileEntity(TileCoolantExtractor.class, Reference.TILE_COOLANT_EXTRACTOR);
 
         //Fluids
         registerFluids();

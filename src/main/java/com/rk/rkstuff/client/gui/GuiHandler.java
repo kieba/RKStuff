@@ -8,6 +8,8 @@ import com.rk.rkstuff.distribution.tile.TileDistributionEnergy;
 import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
 import com.rk.rkstuff.solar.ContainerSolar;
 import com.rk.rkstuff.solar.tile.TileSolarMaster;
+import com.rk.rkstuff.tank.ContainerTankInteraction;
+import com.rk.rkstuff.tank.tile.TileTankInteraction;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,6 +27,8 @@ public class GuiHandler implements IGuiHandler {
             return new ContainerDistributionEnergy(player, (TileDistributionEnergy) world.getTileEntity(x, y, z));
         } else if(ID == Reference.GUI_ID_DISTRIBUTION_FLUID) {
             return new ContainerDistributionFluid(player, (TileDistributionFluid) world.getTileEntity(x, y, z));
+        } else if (ID == Reference.GUI_ID_TANK_INTERACTION) {
+            return new ContainerTankInteraction(player, (TileTankInteraction) world.getTileEntity(x, y, z));
         }
         return null;
     }
@@ -39,6 +43,8 @@ public class GuiHandler implements IGuiHandler {
             return new GuiDistributionEnergy(player, (TileDistributionEnergy) world.getTileEntity(x, y, z));
         } else if(ID == Reference.GUI_ID_DISTRIBUTION_FLUID) {
             return new GuiDistributionFluid(player, (TileDistributionFluid) world.getTileEntity(x, y, z));
+        } else if (ID == Reference.GUI_ID_TANK_INTERACTION) {
+            return new GuiTankInteraction(player, (TileTankInteraction) world.getTileEntity(x, y, z));
         }
         return null;
     }

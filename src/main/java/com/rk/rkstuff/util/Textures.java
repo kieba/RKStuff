@@ -11,6 +11,7 @@ public class Textures {
     public static final String MODEL_PATH = Reference.MOD_ID.toLowerCase() + ":textures/models/";
     public static final String GUI_PATH = Reference.MOD_ID.toLowerCase() + ":textures/gui/";
 
+    public static ResourceLocation TANK_INTERACTION_GUI = new ResourceLocation(GUI_PATH + "TankInteractionGUI.png");
     public static ResourceLocation SOLAR_GUI = new ResourceLocation(GUI_PATH + "SolarGUI.png");
     public static ResourceLocation BOILER_GUI = new ResourceLocation(GUI_PATH + "BoilerGUI.png");
     public static ResourceLocation DISTRIBUTION_GUI = new ResourceLocation(GUI_PATH + "DistributionGUI.png");

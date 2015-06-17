@@ -62,6 +62,8 @@ public class Reference {
     public static final String TILE_FUSION_CONTROL_ITEM_IO = "TileFusionControlItemIO";
     public static final String TILE_FUSION_CONTROL_MASTER = "TileFusionControlMaster";
     public static final String TILE_TANK_ADAPTER = "TileTankAdapter";
+    public static final String TILE_TANK_VALVE = "TileTankValve";
+    public static final String TILE_TANK_INTERACTION = "TileInteraction";
 
     public static final String TILE_COOLANT_PIPE = "TileCoolantPipe";
     /* FLUIDS */
@@ -85,5 +87,6 @@ public class Reference {
     public static final int GUI_ID_BOILER = 1;
     public static final int GUI_ID_DISTRIBUTION_ENERGY = 2;
     public static final int GUI_ID_DISTRIBUTION_FLUID = 3;
+    public static final int GUI_ID_TANK_INTERACTION = 4;
 
 }

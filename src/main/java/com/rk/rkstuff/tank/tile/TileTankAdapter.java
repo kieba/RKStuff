@@ -1,23 +1,32 @@
 package com.rk.rkstuff.tank.tile;
 
 import com.rk.rkstuff.RkStuff;
+import com.rk.rkstuff.coolant.CoolantStack;
+import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.helper.MultiBlockHelper;
-import com.rk.rkstuff.tank.block.*;
+import com.rk.rkstuff.tank.block.BlockTankAdapter;
+import com.rk.rkstuff.tank.block.BlockTankBevelLarge;
+import com.rk.rkstuff.tank.block.BlockTankBevelSmall;
+import com.rk.rkstuff.tank.block.ITankBlock;
 import com.rk.rkstuff.util.RKLog;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
 public class TileTankAdapter extends TileMultiBlockMaster {
     private int maxStorage = 0;
-    private int currentStorage = 18000;
-    private Fluid currentFluid;
+    private FluidStack currentFluidStack;
+    private CoolantStack currentCoolantStack;
 
     @Override
     protected boolean hasGui() {
@@ -51,13 +60,20 @@ public class TileTankAdapter extends TileMultiBlockMaster {
 
     public float getFillHeight() {
         if (maxStorage == 0) return 0;
-        return getInnerHeight() * ((float) currentStorage / maxStorage);
+        return getInnerHeight() * ((float) getCurrentStorage() / maxStorage);
     }
 
     @Override
     protected MultiBlockHelper.Bounds setupStructure() {
         MultiBlockHelper.Bounds bounds = computeMultiStructureBounds();
         for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos pos : bounds) {
+            if (worldObj.getBlock(pos.x, pos.y, pos.z) instanceof ITileEntityProvider) {
+                TileEntity entity = worldObj.getTileEntity(pos.x, pos.y, pos.y);
+                if (entity instanceof IMultiBlockMasterListener) {
+                    ((IMultiBlockMasterListener) entity).registerMaster(this);
+                }
+            }
+
             if (pos.isEdge()) {
                 int meta = 0;
                 if (pos.y == bounds.getMinY()) meta |= (0x01 << 1);
@@ -214,9 +230,11 @@ public class TileTankAdapter extends TileMultiBlockMaster {
                 }
                 worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 0, 2);
 
-                if (block instanceof BlockTankValve ||
-                        block instanceof BlockTankInteraction) {
-                    //TODO: Do someting
+                if (block instanceof ITileEntityProvider) {
+                    TileEntity entity = worldObj.getTileEntity(pos.x, pos.y, pos.y);
+                    if (entity instanceof IMultiBlockMasterListener) {
+                        ((IMultiBlockMasterListener) entity).unregisterMaster();
+                    }
                 }
             }
         }
@@ -231,22 +249,44 @@ public class TileTankAdapter extends TileMultiBlockMaster {
     public void readData(IOStream data) throws IOException {
         if (data.available() == 0) {
             bounds = null;
-            currentStorage = 18000;
+            currentCoolantStack = null;
+            currentFluidStack = null;
             maxStorage = 0;
             return;
         }
         bounds = new MultiBlockHelper.Bounds(0, 0, 0);
         bounds.readData(data);
+        if (data.readFirstBoolean()) { //hasFluidStack
+            currentFluidStack = new FluidStack(FluidRegistry.getFluid(data.readFirstInt()), data.readFirstInt());
+        }
+
+        if (data.readFirstBoolean()) {
+            currentCoolantStack = new CoolantStack(data.readFirstInt(), data.readFirstFloat());
+        }
         maxStorage = data.readFirstInt();
-        currentStorage = data.readFirstInt();
     }
 
     @Override
     public void writeData(IOStream data) {
         if (bounds == null) return;
         bounds.writeData(data);
+        if (currentFluidStack != null) {
+            data.writeLast(true);
+            data.writeLast(currentFluidStack.getFluid().getID());
+            data.writeLast(currentFluidStack.amount);
+        } else {
+            data.writeLast(false);
+        }
+
+        if (currentCoolantStack != null) {
+            data.writeLast(true);
+            data.writeLast(currentCoolantStack.getAmount());
+            data.writeLast(currentCoolantStack.getTemperature());
+        } else {
+            data.writeLast(false);
+        }
+
         data.writeLast(maxStorage);
-        data.writeLast(currentStorage);
     }
 
     @Override
@@ -254,5 +294,124 @@ public class TileTankAdapter extends TileMultiBlockMaster {
         return AxisAlignedBB.getBoundingBox(xCoord - getInnerRadius(), yCoord, zCoord - getInnerRadius(), xCoord + getInnerRadius() + 1, yCoord + getInnerHeight() + 1, zCoord + getInnerRadius() + 1);
     }
 
+    @Override
+    public void readFromNBT(NBTTagCompound data) {
+        super.readFromNBT(data);
+        String type = data.getString("storageType");
+        if (type.equals("coolant")) {
+            int amount = data.getInteger("amount");
+            float temperature = data.getFloat("temperature");
+            currentCoolantStack = new CoolantStack(amount, temperature);
+        } else if (type.equals("fluid")) {
+            int amount = data.getInteger("amount");
+            int fluidId = data.getInteger("fluidId");
+            currentFluidStack = new FluidStack(FluidRegistry.getFluid(fluidId), amount);
+        }
+    }
 
+    @Override
+    public void writeToNBT(NBTTagCompound data) {
+        super.writeToNBT(data);
+        if (currentCoolantStack != null) {
+            data.setString("storageType", "coolant");
+            data.setInteger("amount", currentCoolantStack.getAmount());
+            data.setFloat("temperature", currentCoolantStack.getTemperature());
+        } else if (currentFluidStack != null) {
+            data.setString("storageType", "fluid");
+            data.setInteger("amount", currentFluidStack.amount);
+            data.setInteger("fluidId", currentFluidStack.getFluidID());
+        } else {
+            data.setString("storageType", "none");
+        }
+    }
+
+    public boolean isCoolantStack() {
+        return currentCoolantStack != null;
+    }
+
+    public boolean isFluidStack() {
+        return currentFluidStack != null;
+    }
+
+    public Object getStorageStack() {
+        if (isCoolantStack()) {
+            return currentCoolantStack;
+        } else if (isFluidStack()) {
+            return currentFluidStack;
+        }
+        return null;
+    }
+
+    public FluidStack getCurrentFluidStack() {
+        return currentFluidStack;
+    }
+
+    public CoolantStack getCurrentCoolantStack() {
+        return currentCoolantStack;
+    }
+
+    public int getCurrentStorage() {
+        if (currentFluidStack != null) {
+            return currentFluidStack.amount;
+        } else if (currentCoolantStack != null) {
+            return currentCoolantStack.getAmount();
+        } else {
+            return 0;
+        }
+    }
+
+    public int getMaxStorage() {
+        return maxStorage;
+    }
+
+    public int addFluid(FluidStack resource, boolean doFill) {
+        if (isCoolantStack()) return 0;
+        int maxAmount = resource.amount;
+        maxAmount = Math.min(maxAmount, getMaxStorage());
+        if (currentFluidStack == null) {
+            if (doFill) {
+                currentFluidStack = new FluidStack(resource.getFluid(), maxAmount);
+            }
+            return maxAmount;
+        } else {
+            if (currentFluidStack.getFluid().equals(resource.getFluid())) {
+                maxAmount = Math.min(maxAmount, maxStorage - currentFluidStack.amount);
+                if (doFill) {
+                    currentFluidStack.amount += maxAmount;
+                }
+            }
+        }
+        return 0;
+    }
+
+    public FluidStack drainFluid(int maxAmount, boolean doDrain) {
+        if (!isFluidStack()) return null;
+        int amount = Math.max(maxAmount, currentFluidStack.amount);
+        if (doDrain) {
+            currentFluidStack.amount -= amount;
+            if (currentFluidStack.amount == 0) {
+                currentFluidStack = null;
+            }
+        }
+        return new FluidStack(currentFluidStack.getFluid(), amount);
+    }
+
+
+    public int receiveCoolant(int max, float temperature, boolean simulate) {
+        if (isFluidStack()) return 0;
+        int maxAmount = Math.min(max, getMaxStorage() - getCurrentStorage());
+        if (!simulate) {
+            if (currentCoolantStack == null) {
+                currentCoolantStack = new CoolantStack(maxAmount, temperature);
+            } else {
+                currentCoolantStack.add(max, temperature);
+            }
+        }
+        return maxAmount;
+    }
+
+
+    public boolean canReceive() {
+        return !isFluidStack();
+    }
 }

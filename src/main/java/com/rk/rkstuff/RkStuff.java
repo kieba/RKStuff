@@ -34,6 +34,8 @@ import com.rk.rkstuff.solar.tile.TileSolarMaster;
 import com.rk.rkstuff.solar.tile.TileSolarOutput;
 import com.rk.rkstuff.tank.block.*;
 import com.rk.rkstuff.tank.tile.TileTankAdapter;
+import com.rk.rkstuff.tank.tile.TileTankInteraction;
+import com.rk.rkstuff.tank.tile.TileTankValve;
 import com.rk.rkstuff.teleporter.block.BlockTeleporter;
 import com.rk.rkstuff.teleporter.tile.TileTeleporter;
 import com.rk.rkstuff.unused.fluid.BlockCoolCoolantFluid;
@@ -199,6 +201,8 @@ public class RkStuff {
 
         GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER);
         GameRegistry.registerTileEntity(TileTankAdapter.class, Reference.TILE_TANK_ADAPTER);
+        GameRegistry.registerTileEntity(TileTankInteraction.class, Reference.TILE_TANK_INTERACTION);
+        GameRegistry.registerTileEntity(TileTankValve.class, Reference.TILE_TANK_VALVE);
         GameRegistry.registerTileEntity(TileCoolantPipe.class, Reference.TILE_COOLANT_PIPE);
 
         GameRegistry.registerTileEntity(TileFusionCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO);

@@ -14,10 +14,6 @@ public class BlockTankBevelLarge extends BlockTank implements IBlockBevelLarge {
         super(Material.iron, Reference.BLOCK_TANK_BEVEL_LARGE);
     }
 
-    @Override
-    public boolean isOpaqueCube() {
-        return false;
-    }
 
     @Override
     public boolean renderAsNormalBlock() {
@@ -43,5 +39,15 @@ public class BlockTankBevelLarge extends BlockTank implements IBlockBevelLarge {
     @Override
     public IIcon getIcon(int side, int meta) {
         return blockIcon;
+    }
+
+    @Override
+    public int getRenderBlockPass() {
+        return 0;
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
     }
 }

@@ -45,7 +45,7 @@ public class BlockTank extends BlockRK implements ITankBlock {
 
     @Override
     public boolean isOpaqueCube() {
-        return false;
+        return true;
     }
 
     private TileTankAdapter getTankAdapter(IBlockAccess access, int x, int y, int z, int meta) {
@@ -95,6 +95,11 @@ public class BlockTank extends BlockRK implements ITankBlock {
 
     @Override
     public boolean renderAsNormalBlock() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public int getRenderBlockPass() {
+        return 1;
     }
 }

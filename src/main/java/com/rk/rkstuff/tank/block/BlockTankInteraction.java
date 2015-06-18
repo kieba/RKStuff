@@ -46,4 +46,14 @@ public class BlockTankInteraction extends BlockRK implements ITankBlock, ITileEn
         if (meta == 0) return icons[0];
         return icons[1];
     }
+
+    @Override
+    public int getRenderBlockPass() {
+        return 0;
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
 }

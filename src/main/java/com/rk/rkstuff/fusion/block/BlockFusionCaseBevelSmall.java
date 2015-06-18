@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class BlockFusionCaseBevelSmall extends BlockFusionCase implements IBlockBevelSmall {
 
     public BlockFusionCaseBevelSmall() {
-        super(Material.iron, Reference.BLOCK_TANK_BEVEL_SMALL);
+        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class BlockFusionCaseBevelSmall extends BlockFusionCase implements IBlock
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":block/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
     }
 
     @Override

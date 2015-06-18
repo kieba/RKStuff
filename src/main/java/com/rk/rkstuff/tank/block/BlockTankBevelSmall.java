@@ -11,7 +11,7 @@ import net.minecraft.util.IIcon;
 
 public class BlockTankBevelSmall extends BlockTank implements IBlockBevelSmall {
     public BlockTankBevelSmall() {
-        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);
+        super(Material.iron, Reference.BLOCK_TANK_BEVEL_SMALL);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class BlockTankBevelSmall extends BlockTank implements IBlockBevelSmall {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
     }
 
     @Override

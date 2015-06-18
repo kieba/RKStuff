@@ -42,6 +42,7 @@ public class BlockBoilerBase extends BlockRK implements IBoilerBaseBlock {
             return icons[1];
         }
     }
+
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block changeBlock) {
         int meta = world.getBlockMetadata(x, y, z);

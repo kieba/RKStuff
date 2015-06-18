@@ -3,15 +3,19 @@ package com.rk.rkstuff.fusion.block;
 import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.fusion.tile.TileFusionControlMaster;
 import com.rk.rkstuff.util.Reference;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class BlockFusionControlMaster extends BlockRK implements ITileEntityProvider, IFusionControlCaseBlock {
+
+    private IIcon[] icons = new IIcon[2];
 
     public BlockFusionControlMaster() {
         super(Material.iron, Reference.BLOCK_FUSION_CONTROL_MASTER);
@@ -23,9 +27,16 @@ public class BlockFusionControlMaster extends BlockRK implements ITileEntityProv
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_MASTER + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_MASTER + 2);
+    }
+
+    @Override
     public IIcon getIcon(int side, int meta) {
-        if (meta == 0) return Blocks.emerald_ore.getIcon(0, 0);
-        return Blocks.emerald_block.getIcon(0, 0);
+        if (meta == 0) return icons[0];
+        return icons[1];
     }
 
     @Override

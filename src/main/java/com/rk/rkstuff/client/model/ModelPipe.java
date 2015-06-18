@@ -32,7 +32,7 @@ public class ModelPipe {
     //blockSide - quads
     private static TexturedQuad[][] liquidQuads = new TexturedQuad[6][];
 
-    private static final String TEXTURE_PATH = Reference.MOD_ID + ":textures/blocks/pipe/";
+    private static final String TEXTURE_PATH = Reference.MOD_ID + ":textures/blocks/coolant/pipe/";
     private static final ResourceLocation[] TEXTURES = new ResourceLocation[]{
             new ResourceLocation(TEXTURE_PATH + "pipe0.png"),
             new ResourceLocation(TEXTURE_PATH + "pipe1.png"),

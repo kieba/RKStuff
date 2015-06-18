@@ -4,15 +4,19 @@ import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.tank.tile.TileTankAdapter;
 import com.rk.rkstuff.util.Reference;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockTank extends BlockRK implements ITankBlock {
+    private IIcon[] icons = new IIcon[2];
+
     public BlockTank() {
         super(Material.glass, Reference.BLOCK_TANK);
     }
@@ -22,22 +26,16 @@ public class BlockTank extends BlockRK implements ITankBlock {
     }
 
     @Override
-    public IIcon getIcon(int side, int meta) {
-        if (meta == 0) {
-            return Blocks.coal_ore.getIcon(side, meta);
-        } else {
-            return Blocks.glass.getIcon(side, meta);
-        }
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK + 2);
     }
 
     @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        int meta = world.getBlockMetadata(x, y, z);
-        if (meta == 0) {
-            return Blocks.coal_ore.getIcon(world, x, y, z, side);
-        } else {
-            return Blocks.glass.getIcon(world, x, y, z, side);
-        }
+    public IIcon getIcon(int side, int meta) {
+        if (meta == 0) return icons[0];
+        return icons[1];
     }
 
     @Override

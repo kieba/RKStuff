@@ -37,7 +37,7 @@ public class BlockTankBevelLarge extends BlockTank implements IBlockBevelLarge {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":block/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
     }
 
     @Override

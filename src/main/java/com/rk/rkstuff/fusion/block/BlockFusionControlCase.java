@@ -7,15 +7,19 @@ import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
 import com.rk.rkstuff.util.RKLog;
 import com.rk.rkstuff.util.Reference;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockFusionControlCase extends BlockRK implements IFusionControlCaseBlock {
+
+    private IIcon[] icons = new IIcon[2];
 
     public BlockFusionControlCase() {
         super(Material.iron, Reference.BLOCK_FUSION_CONTROL_CASE);
@@ -26,9 +30,16 @@ public class BlockFusionControlCase extends BlockRK implements IFusionControlCas
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_CASE + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_CASE + 2);
+    }
+
+    @Override
     public IIcon getIcon(int side, int meta) {
-        if (meta == 0) return Blocks.coal_ore.getIcon(0, 0);
-        return Blocks.coal_block.getIcon(0, 0);
+        if (meta == 0) return icons[0];
+        return icons[1];
     }
 
     @Override

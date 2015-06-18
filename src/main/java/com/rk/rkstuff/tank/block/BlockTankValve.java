@@ -37,22 +37,9 @@ public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityPr
     }
 
     @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof TileTankValve) {
-            TileTankValve valveTile = (TileTankValve) tile;
-            if (valveTile.isOutput()) {
-                return icons[1];
-            } else {
-                return icons[0];
-            }
-        }
-        return getIcon(side, 0);
-    }
-
-    @Override
     public IIcon getIcon(int side, int meta) {
-        return icons[0];
+        if (meta == 0) return icons[0];
+        return icons[1];
     }
 
     @Override

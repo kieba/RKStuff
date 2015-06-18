@@ -10,7 +10,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockRK extends Block {
@@ -44,12 +43,6 @@ public class BlockRK extends Block {
                 break;
             }
         }
-    }
-
-    @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TileRK) ((TileRK) te).onBlockAdded();
     }
 
 }

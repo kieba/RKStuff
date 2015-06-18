@@ -89,6 +89,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
     public void onNeighborChange(ForgeDirection dir) {
         super.onNeighborChange(dir);
         if (worldObj.isRemote) return;
+
         int side = dir.ordinal();
         TileEntity te = getNeighbour(side);
         if (te instanceof ICoolantReceiver) {

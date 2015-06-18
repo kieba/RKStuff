@@ -18,16 +18,22 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
     private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<EntityPlayerMP>(0);
     private TileEntity[] neighbours = new TileEntity[6];
     private int tick = 0;
+    private boolean hadFirstUpdate = false;
 
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (!worldObj.isRemote && hasGui() && !playerInGui.isEmpty()) {
+        if (worldObj.isRemote) return;
+        if (hasGui() && !playerInGui.isEmpty()) {
             if(tick > GUI_UPDATE_RATE) {
                 updateGuiInformation();
             } else {
                 tick++;
             }
+        }
+        if (!hadFirstUpdate) {
+            onFirstUpdate();
+            hadFirstUpdate = true;
         }
     }
 
@@ -55,6 +61,10 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         return false;
     }
 
+    public void sendGuiUpdate() {
+        tick = GUI_UPDATE_RATE + 1;
+    }
+
     public Pos getPosition(){
         return new Pos(xCoord, yCoord, zCoord);
     }
@@ -75,13 +85,6 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         return neighbours[side];
     }
 
-    public void onBlockAdded() {
-        if (worldObj.isRemote || !cacheNeighbours()) return;
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            onNeighborChange(dir);
-        }
-    }
-
     public void onNeighborChange(ForgeDirection dir) {
         if (worldObj.isRemote || !cacheNeighbours()) return;
         int side = dir.ordinal();
@@ -89,5 +92,11 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         int y = yCoord + dir.offsetY;
         int z = zCoord + dir.offsetZ;
         neighbours[side] = worldObj.getTileEntity(x, y, z);
+    }
+
+    protected void onFirstUpdate() {
+        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+            onNeighborChange(dir);
+        }
     }
 }

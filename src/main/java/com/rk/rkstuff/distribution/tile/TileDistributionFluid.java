@@ -18,9 +18,9 @@ public class TileDistributionFluid extends TileDistribution implements IFluidHan
         if(mode == 0) {
             amount = 10;
         } else if(mode == 1) {
-            amount = 100;
+            amount = 50;
         } else {
-            amount = 1000;
+            amount = 250;
         }
         maxOutputAbs[side] += amount;
     }
@@ -45,9 +45,9 @@ public class TileDistributionFluid extends TileDistribution implements IFluidHan
         if(mode == 0) {
             amount = 10;
         } else if(mode == 1) {
-            amount = 100;
+            amount = 50;
         } else {
-            amount = 1000;
+            amount = 250;
         }
         maxOutputAbs[side] -= amount;
         if(maxOutputAbs[side] < 0) maxOutputAbs[side] = 0;
@@ -152,7 +152,7 @@ public class TileDistributionFluid extends TileDistribution implements IFluidHan
     }
 
     private int fill(ForgeDirection dir, Fluid fluid, int amount, boolean doFill) {
-        TileEntity tile = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+        TileEntity tile = getNeighbour(dir.ordinal());
         if(tile instanceof IFluidHandler) {
             return ((IFluidHandler) tile).fill(dir.getOpposite(), new FluidStack(fluid, amount), doFill);
         }

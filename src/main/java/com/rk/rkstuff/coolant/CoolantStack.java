@@ -40,6 +40,11 @@ public class CoolantStack {
         return temperature;
     }
 
+    public void set(int amount, float temperature) {
+        this.amount = amount;
+        this.temperature = temperature;
+    }
+
     public void writeToNBT(String name, NBTTagCompound tag) {
         tag.setInteger(name + "Amount", amount);
         tag.setFloat(name + "Temp", temperature);

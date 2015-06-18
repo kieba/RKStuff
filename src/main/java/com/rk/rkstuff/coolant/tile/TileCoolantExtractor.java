@@ -50,7 +50,7 @@ public class TileCoolantExtractor extends TileRK implements IFluidHandler, ICool
     }
 
     @Override
-    public boolean canReceive(ForgeDirection from) {
+    public boolean canConnect(ForgeDirection from) {
         return true;
     }
 

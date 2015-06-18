@@ -2,8 +2,10 @@ package com.rk.rkstuff.client.gui;
 
 import com.rk.rkstuff.boiler.ContainerBoiler;
 import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
+import com.rk.rkstuff.distribution.ContainerDistributionCoolant;
 import com.rk.rkstuff.distribution.ContainerDistributionEnergy;
 import com.rk.rkstuff.distribution.ContainerDistributionFluid;
+import com.rk.rkstuff.distribution.tile.TileDistributionCoolant;
 import com.rk.rkstuff.distribution.tile.TileDistributionEnergy;
 import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
 import com.rk.rkstuff.solar.ContainerSolar;
@@ -27,6 +29,8 @@ public class GuiHandler implements IGuiHandler {
             return new ContainerDistributionEnergy(player, (TileDistributionEnergy) world.getTileEntity(x, y, z));
         } else if(ID == Reference.GUI_ID_DISTRIBUTION_FLUID) {
             return new ContainerDistributionFluid(player, (TileDistributionFluid) world.getTileEntity(x, y, z));
+        } else if (ID == Reference.GUI_ID_DISTRIBUTION_COOLANT) {
+            return new ContainerDistributionCoolant(player, (TileDistributionCoolant) world.getTileEntity(x, y, z));
         } else if (ID == Reference.GUI_ID_TANK_INTERACTION) {
             return new ContainerTankInteraction(player, (TileTankInteraction) world.getTileEntity(x, y, z));
         }
@@ -43,6 +47,8 @@ public class GuiHandler implements IGuiHandler {
             return new GuiDistributionEnergy(player, (TileDistributionEnergy) world.getTileEntity(x, y, z));
         } else if(ID == Reference.GUI_ID_DISTRIBUTION_FLUID) {
             return new GuiDistributionFluid(player, (TileDistributionFluid) world.getTileEntity(x, y, z));
+        } else if (ID == Reference.GUI_ID_DISTRIBUTION_COOLANT) {
+            return new GuiDistributionCoolant(player, (TileDistributionCoolant) world.getTileEntity(x, y, z));
         } else if (ID == Reference.GUI_ID_TANK_INTERACTION) {
             return new GuiTankInteraction(player, (TileTankInteraction) world.getTileEntity(x, y, z));
         }

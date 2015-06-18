@@ -11,8 +11,10 @@ import com.rk.rkstuff.coolant.tile.TileCoolantExtractor;
 import com.rk.rkstuff.coolant.tile.TileCoolantInjector;
 import com.rk.rkstuff.coolant.tile.TileCoolantPipe;
 import com.rk.rkstuff.core.block.BlockRK;
+import com.rk.rkstuff.distribution.block.BlockDistributionCoolant;
 import com.rk.rkstuff.distribution.block.BlockDistributionEnergy;
 import com.rk.rkstuff.distribution.block.BlockDistributionFluid;
+import com.rk.rkstuff.distribution.tile.TileDistributionCoolant;
 import com.rk.rkstuff.distribution.tile.TileDistributionEnergy;
 import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
 import com.rk.rkstuff.fusion.block.*;
@@ -94,8 +96,9 @@ public class RkStuff {
     public static BlockBoilerBaseMaster blockBoilerBaseMaster = new BlockBoilerBaseMaster();
     public static Block blockBoilerTank = new BlockBoilerTank();
 
-    public static BlockDistributionEnergy blockEnergyDistribution = new BlockDistributionEnergy();
-    public static BlockDistributionFluid blockFluidDistribution = new BlockDistributionFluid();
+    public static BlockDistributionEnergy blockDistributionEnergy = new BlockDistributionEnergy();
+    public static BlockDistributionFluid blockDistributionFluid = new BlockDistributionFluid();
+    public static BlockDistributionCoolant blockDistributionCoolant = new BlockDistributionCoolant();
 
     public static Block blockTeleporter = new BlockTeleporter();
 
@@ -164,8 +167,9 @@ public class RkStuff {
         GameRegistry.registerBlock(blockBoilerBaseMaster, Reference.BLOCK_BOILER_BASE_MASTER);
         GameRegistry.registerBlock(blockBoilerTank, Reference.BLOCK_BOILER_TANK);
 
-        GameRegistry.registerBlock(blockEnergyDistribution, Reference.BLOCK_DISTRIBUTION_ENERGY);
-        GameRegistry.registerBlock(blockFluidDistribution, Reference.BLOCK_DISTRIBUTION_FLUID);
+        GameRegistry.registerBlock(blockDistributionEnergy, Reference.BLOCK_DISTRIBUTION_ENERGY);
+        GameRegistry.registerBlock(blockDistributionFluid, Reference.BLOCK_DISTRIBUTION_FLUID);
+        GameRegistry.registerBlock(blockDistributionCoolant, Reference.BLOCK_DISTRIBUTION_COOLANT);
 
         GameRegistry.registerBlock(blockTeleporter, Reference.BLOCK_TELEPORTER);
         GameRegistry.registerBlock(blockTankAdapter, Reference.BLOCK_TANK_ADAPTER);
@@ -202,6 +206,7 @@ public class RkStuff {
 
         GameRegistry.registerTileEntity(TileDistributionEnergy.class, Reference.TILE_DISTRIBUTION_ENERGY);
         GameRegistry.registerTileEntity(TileDistributionFluid.class, Reference.TILE_DISTRIBUTION_FLUID);
+        GameRegistry.registerTileEntity(TileDistributionCoolant.class, Reference.TILE_DISTRIBUTION_COOLANT);
 
         GameRegistry.registerTileEntity(TileTeleporter.class, Reference.TILE_TELEPORTER);
         GameRegistry.registerTileEntity(TileTankAdapter.class, Reference.TILE_TANK_ADAPTER);
@@ -236,8 +241,9 @@ public class RkStuff {
         //ComputerCraft Provider
         ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockSolarMaster);
         ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockBoilerBaseMaster);
-        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockEnergyDistribution);
-        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockFluidDistribution);
+        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockDistributionEnergy);
+        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockDistributionFluid);
+        ComputerCraftAPI.registerPeripheralProvider(RkStuff.blockDistributionCoolant);
 
         //Recipes
         registerRecipes();

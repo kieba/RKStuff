@@ -93,6 +93,7 @@ public class Reference {
     public static final int GUI_ID_BOILER = 1;
     public static final int GUI_ID_DISTRIBUTION_ENERGY = 2;
     public static final int GUI_ID_DISTRIBUTION_FLUID = 3;
-    public static final int GUI_ID_TANK_INTERACTION = 4;
+    public static final int GUI_ID_DISTRIBUTION_COOLANT = 4;
+    public static final int GUI_ID_TANK_INTERACTION = 5;
 
 }

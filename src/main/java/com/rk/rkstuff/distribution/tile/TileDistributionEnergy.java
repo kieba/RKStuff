@@ -1,7 +1,6 @@
 package com.rk.rkstuff.distribution.tile;
 
 import cofh.api.energy.IEnergyReceiver;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Arrays;
@@ -26,7 +25,7 @@ public class TileDistributionEnergy extends TileDistribution implements IEnergyR
             int side = dir.ordinal();
             maxOutput[side] = 0;
             if(isOutput(side)) {
-                receiver[side] = getIEnergyReceiver(dir);
+                receiver[side] = getIEnergyReceiver(dir.ordinal());
                 if(receiver[side] != null) {
                     int maxInput = receiver[side].receiveEnergy(dir.getOpposite(), Integer.MAX_VALUE, true);
                     if(isOutputLimitRelative()) {
@@ -89,14 +88,10 @@ public class TileDistributionEnergy extends TileDistribution implements IEnergyR
         return !isDisabled(from.ordinal());
     }
 
-    private IEnergyReceiver getIEnergyReceiver(ForgeDirection dir) {
-        TileEntity tile = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-        if(tile instanceof IEnergyReceiver) {
-            return (IEnergyReceiver) tile;
-        }
+    private IEnergyReceiver getIEnergyReceiver(int side) {
+        if (getNeighbour(side) instanceof IEnergyReceiver) return (IEnergyReceiver) getNeighbour(side);
         return null;
     }
-
 
     @Override
     protected void addOutputAbs(int side, int mode) {
@@ -155,6 +150,5 @@ public class TileDistributionEnergy extends TileDistribution implements IEnergyR
         maxOutputRel[side] -= amount;
         if(maxOutputRel[side] < 0) maxOutputRel[side] = 0.0f;
     }
-
 
 }

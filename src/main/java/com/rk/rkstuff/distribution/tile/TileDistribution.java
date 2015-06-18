@@ -20,13 +20,13 @@ import java.io.IOException;
 })
 public abstract class TileDistribution extends TileRK implements IGuiActionMessage, IPeripheral {
 
-    private static final LuaException INVALID_PRIORITY_EXCEPTION = new LuaException("Invalid priority! Valid:\n[1 .. 5]");
-    private static final LuaException INVALID_ABS_OUTPUT_EXCEPTION = new LuaException("Invalid absolute output! Valid:\n>=0 OR -1 = Infinite");
-    private static final LuaException INVALID_REL_OUTPUT_EXCEPTION = new LuaException("Invalid relative output! Valid:\n[0.0 .. 1.0]");
+    protected static final LuaException INVALID_PRIORITY_EXCEPTION = new LuaException("Invalid priority! Valid:\n[1 .. 5]");
+    protected static final LuaException INVALID_ABS_OUTPUT_EXCEPTION = new LuaException("Invalid absolute output! Valid:\n>=0 OR -1 = Infinite");
+    protected static final LuaException INVALID_REL_OUTPUT_EXCEPTION = new LuaException("Invalid relative output! Valid:\n[0.0 .. 1.0]");
 
     public static final int ABS_OUTPUT_INFINITE = -1;
 
-    private static CCHelper.CCMethods METHODS = new CCHelper.CCMethods();
+    protected static CCHelper.CCMethods METHODS = new CCHelper.CCMethods();
     static {
         METHODS.add(new CCHelper.CCMethodDoc(METHODS));
         METHODS.add(new CCMethodGetSideType());
@@ -42,7 +42,7 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
         METHODS.add(new CCMethodGetAvgOutput());
     }
 
-    private static int HISTORY_SIZE = 60;
+    protected static int HISTORY_SIZE = 60;
 
     public enum SideType {
         INPUT, OUTPUT, DISABLED
@@ -63,20 +63,23 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
     public void updateEntity() {
         super.updateEntity();
         if(!worldObj.isRemote) {
+            updateHistory();
+        }
+    }
 
-            int tmp = 0;
-            for (int i = 0; i < 6; i++) {
-                tmp += outputted[i];
-                outputted[i] = 0;
-            }
+    protected void updateHistory() {
+        int tmp = 0;
+        for (int i = 0; i < 6; i++) {
+            tmp += outputted[i];
+            outputted[i] = 0;
+        }
 
-            sum -= history[historyIdx];
-            history[historyIdx++] = tmp;
-            sum += tmp;
+        sum -= history[historyIdx];
+        history[historyIdx++] = tmp;
+        sum += tmp;
 
-            if(historyIdx >= history.length) {
-                historyIdx = 0;
-            }
+        if (historyIdx >= history.length) {
+            historyIdx = 0;
         }
     }
 

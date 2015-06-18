@@ -66,9 +66,9 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
     }
 
     @Override
-    public boolean canReceive(ForgeDirection from) {
+    public boolean canConnect(ForgeDirection from) {
         if (master == null) return false;
-        return !isOutput() && master.canReceive();
+        return true;
     }
 
     @Override

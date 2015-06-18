@@ -427,7 +427,4 @@ public class TileTankAdapter extends TileMultiBlockMaster {
         }
     }
 
-    public boolean canReceive() {
-        return !isFluidStack();
-    }
 }

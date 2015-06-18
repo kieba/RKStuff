@@ -318,7 +318,7 @@ public abstract class GuiDistribution<T extends TileDistribution & IGuiActionMes
         }
         GL11.glPopMatrix();
 
-        String str = getAvgOutputString(tile.getAvgOutputPerTick());
+        String str = getAvgOutputString(tile);
         int strWidth = fontRendererObj.getStringWidth(str);
         fontRendererObj.drawString(str, 87 - (strWidth / 2), 73, 4210752);
     }
@@ -339,5 +339,5 @@ public abstract class GuiDistribution<T extends TileDistribution & IGuiActionMes
         return String.format("%c: %,d", c, value);
     }
 
-    protected abstract String getAvgOutputString(float avgOutput);
+    protected abstract String getAvgOutputString(T tile);
 }

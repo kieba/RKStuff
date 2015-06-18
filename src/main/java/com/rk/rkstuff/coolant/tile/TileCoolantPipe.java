@@ -30,7 +30,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
             ICoolantReceiver rcv = getICoolantReceiver(i);
             if (rcv == null) {
                 maxInput[i] = 0;
-            } else if (rcv.canReceive(ForgeDirection.values()[i])) {
+            } else if (rcv.canConnect(ForgeDirection.values()[i])) {
                 int p;
                 if (rcv instanceof TileCoolantPipe) {
                     p = ((TileCoolantPipe) rcv).getPressure();
@@ -169,7 +169,8 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
     }
 
     @Override
-    public boolean canReceive(ForgeDirection from) {
+    public boolean canConnect(ForgeDirection from) {
         return true;
     }
+
 }

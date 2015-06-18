@@ -5,6 +5,11 @@ fluid.tile.FluidUsedCoolant=Used Coolant
 item.BucketFluidUsedCoolant.name=Used Coolant Bucket
 item.BucketFluidCoolant.name=Coolant Bucket
 
+tile.CoolantPipe.name=Coolant Pipe
+tile.CoolantInjector.name=Coolant Injector
+tile.CoolantExtractor.name=Coolant Extractor
+
+
 tile.MachineBlock.name=Machine Block
 tile.Portlandite.name=Portlandite (Ca(OH)2)
 
@@ -22,7 +27,28 @@ tile.BoilerBaseOutput.name=Boiler Output
 tile.BoilerBaseMaster.name=Boiler Master
 tile.DistributionEnergy.name=Energy Distributor
 tile.DistributionFluid.name=Fluid Distributor
+tile.DistributionCoolant.name=Coolant Distributor
 tile.Teleporter.name=Player Teleporter
+
+tile.TankAdapter.name=Tank Adapter
+tile.Tank.name=Tank
+tile.TankInteraction.name=Tank Interaction
+tile.TankValve.name=Tank Valve
+tile.TankBevelLarge.name=Tank
+tile.TankBevelSmall.name=Tank
+
+tile.FusionCase.name=Fusion Case
+tile.FusionCaseBevelSmall.name=Fusion Case
+tile.FusionCaseBevelSmallInverted.name=Fusion Case
+tile.FusionCaseBevelLarge.name=Fusion Case
+tile.FusionCaseFluidIO.name=Fusion Fluid IO
+tile.FusionControlCase.name=Fusion Control Case
+tile.FusionControlCore.name=Fusion Control Core
+tile.FusionControlEnergyIO.name=Fusion Energy IO
+tile.FusionControlItemIO.name=Fusion Item IO
+tile.FusionControlMaster.name=Fusion Master
+tile.FusionCore.name=Fusion Core
+
 
 item.Valve.name=Valve
 

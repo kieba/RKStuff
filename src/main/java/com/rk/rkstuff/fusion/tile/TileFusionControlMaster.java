@@ -19,11 +19,6 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
     private FusionHelper.FusionStructure setup;
 
     @Override
-    protected boolean hasGui() {
-        return false;
-    }
-
-    @Override
     public boolean checkMultiBlockForm() {
         return createFusionStructure() != null;
     }

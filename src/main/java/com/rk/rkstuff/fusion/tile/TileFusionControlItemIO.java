@@ -30,11 +30,6 @@ public class TileFusionControlItemIO extends TileRK implements IMultiBlockMaster
     }
 
     @Override
-    protected boolean hasGui() {
-        return false;
-    }
-
-    @Override
     public void readData(IOStream data) throws IOException {
 
     }

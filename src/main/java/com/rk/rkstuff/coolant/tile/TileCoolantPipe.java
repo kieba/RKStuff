@@ -12,7 +12,6 @@ import java.io.IOException;
 public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
 
     private static final int COOLANT_CAPACITY = 2000;
-    private ICoolantReceiver[] neighbours = new ICoolantReceiver[6];
     private boolean[] isConnected = new boolean[6];
     private boolean[] hasAdapter = new boolean[6];
     private int pressure = Integer.MAX_VALUE;
@@ -21,7 +20,6 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
     @Override
     public void updateEntity() {
         super.updateEntity();
-
         if (worldObj.isRemote) return;
 
         int[] maxInput = new int[6];
@@ -29,7 +27,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
         int index = 0;
         int minPressure = Integer.MAX_VALUE;
         for (int i = 0; i < 6; i++) {
-            ICoolantReceiver rcv = neighbours[i];
+            ICoolantReceiver rcv = getICoolantReceiver(i);
             if (rcv == null) {
                 maxInput[i] = 0;
             } else if (rcv.canReceive(ForgeDirection.values()[i])) {
@@ -53,7 +51,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
             int totalInput = 0;
             for (int i = 0; i < index; i++) {
                 int side = outputSides[i];
-                ICoolantReceiver rcv = neighbours[side];
+                ICoolantReceiver rcv = getICoolantReceiver(side);
                 maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true);
                 totalInput += maxInput[i];
             }
@@ -63,7 +61,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
 
             for (int i = 0; i < index; i++) {
                 int side = outputSides[i];
-                ICoolantReceiver rcv = neighbours[side];
+                ICoolantReceiver rcv = getICoolantReceiver(side);
                 int amount = (int) Math.floor(maxInput[i] * scale);
                 int received = rcv.receiveCoolant(ForgeDirection.values()[i], amount, coolant.getTemperature(), false);
                 coolant.remove(received);
@@ -78,29 +76,25 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
         }
     }
 
+    private ICoolantReceiver getICoolantReceiver(int side) {
+        if (getNeighbour(side) instanceof ICoolantReceiver) return (ICoolantReceiver) getNeighbour(side);
+        return null;
+    }
+
     public int getPressure() {
         return pressure;
     }
 
-    public void onBlockPlaced() {
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            onNeighborTileChange(dir);
-        }
-    }
-
-    public void onNeighborTileChange(ForgeDirection dir) {
+    @Override
+    public void onNeighborChange(ForgeDirection dir) {
+        super.onNeighborChange(dir);
         if (worldObj.isRemote) return;
         int side = dir.ordinal();
-        int x = xCoord + dir.offsetX;
-        int y = yCoord + dir.offsetY;
-        int z = zCoord + dir.offsetZ;
-        TileEntity te = worldObj.getTileEntity(x, y, z);
+        TileEntity te = getNeighbour(side);
         if (te instanceof ICoolantReceiver) {
-            neighbours[side] = (ICoolantReceiver) te;
             isConnected[side] = true;
             hasAdapter[side] = !(te instanceof TileCoolantPipe);
         } else {
-            neighbours[side] = null;
             isConnected[side] = false;
             hasAdapter[side] = false;
         }
@@ -108,8 +102,8 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
     }
 
     @Override
-    protected boolean hasGui() {
-        return false;
+    protected boolean cacheNeighbours() {
+        return true;
     }
 
     @Override

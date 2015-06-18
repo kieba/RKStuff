@@ -7,6 +7,7 @@ import com.rk.rkstuff.util.Pos;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
     public static int GUI_UPDATE_RATE = 10;
 
     private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<EntityPlayerMP>(0);
+    private TileEntity[] neighbours = new TileEntity[6];
     private int tick = 0;
 
     @Override
@@ -45,7 +47,13 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         playerInGui.remove(player);
     }
 
-    protected abstract boolean hasGui();
+    protected boolean hasGui() {
+        return false;
+    }
+
+    protected boolean cacheNeighbours() {
+        return false;
+    }
 
     public Pos getPosition(){
         return new Pos(xCoord, yCoord, zCoord);
@@ -61,5 +69,25 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         if (!tileEntityInvalid) {
             invalidate();
         }
+    }
+
+    protected TileEntity getNeighbour(int side) {
+        return neighbours[side];
+    }
+
+    public void onBlockAdded() {
+        if (worldObj.isRemote || !cacheNeighbours()) return;
+        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+            onNeighborChange(dir);
+        }
+    }
+
+    public void onNeighborChange(ForgeDirection dir) {
+        if (worldObj.isRemote || !cacheNeighbours()) return;
+        int side = dir.ordinal();
+        int x = xCoord + dir.offsetX;
+        int y = yCoord + dir.offsetY;
+        int z = zCoord + dir.offsetZ;
+        neighbours[side] = worldObj.getTileEntity(x, y, z);
     }
 }

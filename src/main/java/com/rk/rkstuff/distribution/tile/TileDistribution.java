@@ -184,6 +184,11 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
     }
 
     @Override
+    protected boolean cacheNeighbours() {
+        return true;
+    }
+
+    @Override
     public void receiveGuiAction(IOStream data) throws IOException {
         int id = data.readFirstInt();
         if(id >= 0 && id < 6) {

@@ -1,5 +1,6 @@
 package com.rk.rkstuff.solar.tile;
 
+import com.rk.rkstuff.coolant.tile.ICoolantConnection;
 import com.rk.rkstuff.coolant.tile.ICoolantReceiver;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
@@ -10,7 +11,7 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileSolarOutput extends TileRK implements IMultiBlockMasterListener {
+public class TileSolarOutput extends TileRK implements IMultiBlockMasterListener, ICoolantConnection {
     private TileSolarMaster master;
 
     @Override
@@ -62,5 +63,11 @@ public class TileSolarOutput extends TileRK implements IMultiBlockMasterListener
                 master.getCoolantBuffer().remove(received);
             }
         }
+    }
+
+    @Override
+    public boolean canConnect(ForgeDirection from) {
+        if (from == ForgeDirection.UP) return false;
+        return true;
     }
 }

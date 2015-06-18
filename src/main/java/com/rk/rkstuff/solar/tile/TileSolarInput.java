@@ -49,7 +49,7 @@ public class TileSolarInput extends TileRK implements ICoolantReceiver, IMultiBl
     }
 
     @Override
-    public boolean canReceive(ForgeDirection from) {
+    public boolean canConnect(ForgeDirection from) {
         if (from == ForgeDirection.UP) {
             return false;
         }

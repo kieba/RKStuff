@@ -7,6 +7,7 @@ import com.rk.rkstuff.util.Pos;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 
@@ -15,17 +16,24 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
     public static int GUI_UPDATE_RATE = 10;
 
     private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<EntityPlayerMP>(0);
+    private TileEntity[] neighbours = new TileEntity[6];
     private int tick = 0;
+    private boolean hadFirstUpdate = false;
 
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (!worldObj.isRemote && hasGui() && !playerInGui.isEmpty()) {
+        if (worldObj.isRemote) return;
+        if (hasGui() && !playerInGui.isEmpty()) {
             if(tick > GUI_UPDATE_RATE) {
                 updateGuiInformation();
             } else {
                 tick++;
             }
+        }
+        if (!hadFirstUpdate) {
+            onFirstUpdate();
+            hadFirstUpdate = true;
         }
     }
 
@@ -45,7 +53,17 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         playerInGui.remove(player);
     }
 
-    protected abstract boolean hasGui();
+    protected boolean hasGui() {
+        return false;
+    }
+
+    protected boolean cacheNeighbours() {
+        return false;
+    }
+
+    public void sendGuiUpdate() {
+        tick = GUI_UPDATE_RATE + 1;
+    }
 
     public Pos getPosition(){
         return new Pos(xCoord, yCoord, zCoord);
@@ -60,6 +78,25 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
     public void onChunkUnload() {
         if (!tileEntityInvalid) {
             invalidate();
+        }
+    }
+
+    protected TileEntity getNeighbour(int side) {
+        return neighbours[side];
+    }
+
+    public void onNeighborChange(ForgeDirection dir) {
+        if (worldObj.isRemote || !cacheNeighbours()) return;
+        int side = dir.ordinal();
+        int x = xCoord + dir.offsetX;
+        int y = yCoord + dir.offsetY;
+        int z = zCoord + dir.offsetZ;
+        neighbours[side] = worldObj.getTileEntity(x, y, z);
+    }
+
+    protected void onFirstUpdate() {
+        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+            onNeighborChange(dir);
         }
     }
 }

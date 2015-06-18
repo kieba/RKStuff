@@ -13,11 +13,13 @@ public class TileTankInteraction extends TileRK implements IMultiBlockMasterList
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
         master = (TileTankAdapter) tileMaster;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
     public void unregisterMaster() {
         master = null;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
 

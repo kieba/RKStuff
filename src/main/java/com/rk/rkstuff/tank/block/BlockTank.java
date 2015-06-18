@@ -95,7 +95,7 @@ public class BlockTank extends BlockRK implements ITankBlock {
 
     @Override
     public boolean renderAsNormalBlock() {
-        return true;
+        return false;
     }
 
     @Override

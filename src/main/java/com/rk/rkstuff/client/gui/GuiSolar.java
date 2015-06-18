@@ -29,12 +29,10 @@ public class GuiSolar extends GuiContainer {
         int y = (this.height - SIZE_Y) / 2;
         drawTexturedModalRect(x, y, 0, 0, SIZE_X,  SIZE_Y);
 
-        int coolCoolantPx = (int)Math.round(MAX * tile.getCoolCoolantTank() / tile.getMaxTankCapacity());
-        int hotCoolantPx = (int)Math.round(MAX * tile.getHotCoolantTank() / tile.getMaxTankCapacity());
+        int coolantPx = (int) Math.round(MAX * tile.getCoolantBuffer().getAmount() / tile.getMaxTankCapacity());
         int prodPx = (int)Math.round(MAX * tile.getProductionLastTick() / tile.getProductionMaximal());
 
-        drawTexturedModalRect(x + 26, y + 71 - coolCoolantPx, 176, MAX - coolCoolantPx, 34,  coolCoolantPx);
-        drawTexturedModalRect(x + 116, y + 71 - hotCoolantPx, 210, MAX - hotCoolantPx, 34,  hotCoolantPx);
+        drawTexturedModalRect(x + 26, y + 71 - coolantPx, 176, MAX - coolantPx, 34, coolantPx);
         drawTexturedModalRect(x + 82, y + 71 - prodPx, 244, MAX - prodPx, 12,  prodPx);
 
         int yMin = y + 18;
@@ -42,14 +40,8 @@ public class GuiSolar extends GuiContainer {
         if(GuiHelper.isInArea(mouseX, mouseY, x + 26, yMin, x + 60, yMax)) {
             //draw tooltip cool coolant
             List<String> list = new ArrayList<String>(2);
-            list.add("Cool Coolant:");
-            list.add(String.format("%d/%d mB", Math.round(tile.getCoolCoolantTank()), Math.round(tile.getMaxTankCapacity())));
-            this.func_146283_a(list, mouseX, mouseY);
-        } else if(GuiHelper.isInArea(mouseX, mouseY, x + 116, yMin, x + 150, yMax)) {
-            //draw tooltip hot coolant
-            List<String> list = new ArrayList<String>(2);
-            list.add("Hot Coolant:");
-            list.add(String.format("%d/%d mB", Math.round(tile.getHotCoolantTank()), Math.round(tile.getMaxTankCapacity())));
+            list.add("Coolant:");
+            list.add(String.format("%d/%d mB(%.2f C°)", Math.round(tile.getCoolantBuffer().getAmount()), Math.round(tile.getMaxTankCapacity()), tile.getCoolantBuffer().getTemperature()));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(GuiHelper.isInArea(mouseX, mouseY, x + 82, yMin, x + 94, yMax)) {
             //draw tooltip prod

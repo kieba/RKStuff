@@ -24,6 +24,6 @@ public class GuiTankInteraction extends GuiContainer {
         int y = (this.height - SIZE_Y) / 2;
         drawTexturedModalRect(x, y, 0, 0, SIZE_X, SIZE_Y);
 
-        fontRendererObj.drawString("Current: " + tile, x + 10, y + 10, 0x00000000);
+        fontRendererObj.drawString("Storage: " + ((tile.getMaster() != null) ? tile.getMaster().getCurrentStorage() : "none"), x + 10, y + 10, 0x00000000);
     }
 }

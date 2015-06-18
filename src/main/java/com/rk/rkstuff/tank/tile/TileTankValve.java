@@ -68,8 +68,7 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
     @Override
     public boolean canReceive(ForgeDirection from) {
         if (master == null) return false;
-        if (isOutput()) return false;
-        return master.canReceive();
+        return !isOutput() && master.canReceive();
     }
 
     @Override
@@ -106,7 +105,7 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
                 for (int i = 0; i < 6; i++) {
                     if (!(neighbours[i] instanceof IFluidHandler)) continue;
                     IFluidHandler rcv = (IFluidHandler) neighbours[i];
-                    maxInput[i] = rcv.fill(ForgeDirection.values()[i], master.getCurrentFluidStack(), false);
+                    maxInput[i] = rcv.fill(ForgeDirection.values()[i].getOpposite(), master.getCurrentFluidStack(), false);
                     totalInput += maxInput[i];
                 }
 
@@ -117,7 +116,7 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
                     if (!(neighbours[i] instanceof IFluidHandler)) continue;
                     IFluidHandler rcv = (IFluidHandler) neighbours[i];
                     int amount = (int) Math.floor(maxInput[i] * scale);
-                    rcv.fill(ForgeDirection.values()[i], master.drainFluid(amount, true), true);
+                    rcv.fill(ForgeDirection.values()[i].getOpposite(), master.drainFluid(amount, true), true);
                 }
             }
         }
@@ -172,8 +171,8 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        if (master.isCoolantStack()) return false;
         if (master == null) return false;
+        if (master.isCoolantStack()) return false;
         if (master.isFluidStack() && master.getCurrentFluidStack().getFluid().equals(fluid)) {
             return !isOutput();
         }
@@ -182,8 +181,8 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        if (master.isCoolantStack()) return false;
         if (master == null) return false;
+        if (master.isCoolantStack()) return false;
         if (master.isFluidStack() && master.getCurrentFluidStack().getFluid().equals(fluid)) {
             return isOutput();
         }

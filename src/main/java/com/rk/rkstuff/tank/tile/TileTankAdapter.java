@@ -386,6 +386,8 @@ public class TileTankAdapter extends TileMultiBlockMaster {
                 if (doFill) {
                     currentFluidStack.amount += maxAmount;
                 }
+            } else {
+                return 0;
             }
         }
         return maxAmount;

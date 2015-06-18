@@ -28,7 +28,11 @@ public class TileTankInteraction extends TileRK implements IMultiBlockMasterList
 
     @Override
     public void readData(IOStream data) throws IOException {
-
+        if (data.readFirstBoolean()) {
+            master = (TileTankAdapter) worldObj.getTileEntity(data.readFirstInt(), data.readFirstInt(), data.readFirstInt());
+        } else {
+            master = null;
+        }
     }
 
     public boolean hasMaster() {
@@ -41,6 +45,13 @@ public class TileTankInteraction extends TileRK implements IMultiBlockMasterList
 
     @Override
     public void writeData(IOStream data) {
-
+        if (hasMaster()) {
+            data.writeLast(true);
+            data.writeLast(master.xCoord);
+            data.writeLast(master.yCoord);
+            data.writeLast(master.zCoord);
+        } else {
+            data.writeLast(false);
+        }
     }
 }

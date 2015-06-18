@@ -1,5 +1,6 @@
 package com.rk.rkstuff.solar.tile;
 
+import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.helper.CCHelper;
@@ -30,22 +31,21 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     private static CCHelper.CCMethods METHODS = new CCHelper.CCMethods();
     static {
         METHODS.add(new CCHelper.CCMethodDoc(METHODS));
-        METHODS.add(new CCMethodGetCoolCoolant());
         METHODS.add(new CCMethodGetMaxCoolCoolant());
-        METHODS.add(new CCMethodGetHotCoolant());
         METHODS.add(new CCMethodGetMaxHotCoolant());
         METHODS.add(new CCMethodGetProduction());
     }
 
+    private static int MAX_MB_PER_PANEL = 100;
+    private static int BUFFER_MB_PER_PANEL = 1000;
+
     private int countSolarPanels;
-    private static double MAX_MB_PER_PANEL = 1;
-    private static int MAX_TANK_MB_PER_PANEL = 1000;
+    private int countSolarPanelsWithSky = 0;
+    private CoolantStack coolantBuffer = new CoolantStack();
+    private int coolantBufferMax = 0;
     private double productionLastTick = 0;
 
-    private double coolCoolantTank = 0;
-    private double hotCoolantTank = 0;
 
-    private int lastSkyCount = 0;
     private int tick = 0;
 
     @Override
@@ -79,8 +79,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
             }
         }
         countSolarPanels = tmpBounds.getWidthX() * tmpBounds.getWidthZ();
-        hotCoolantTank = Math.min(hotCoolantTank, getMaxTankCapacity());
-        coolCoolantTank = Math.min(coolCoolantTank, getMaxTankCapacity());
+        coolantBufferMax = countSolarPanels * BUFFER_MB_PER_PANEL;
         return tmpBounds;
     }
 
@@ -143,46 +142,29 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         }
     }
 
-    public double getCoolCoolantTank() {
-        return coolCoolantTank;
-    }
-
-    public void setCoolCoolantTank(double coolCoolantTank) {
-        this.coolCoolantTank = coolCoolantTank;
-    }
-
-    public double getHotCoolantTank() {
-        return hotCoolantTank;
-    }
-
-    public void setHotCoolantTank(double hotCoolantTank) {
-        this.hotCoolantTank = hotCoolantTank;
+    public CoolantStack getCoolantBuffer() {
+        return coolantBuffer;
     }
 
     public int getCountCurrentSkySeeingSolarPanel() {
         if (tick % 20 == 0) {
-            lastSkyCount = 0;
+            countSolarPanelsWithSky = 0;
             for (Pos pos : bounds) {
                 if (worldObj.canBlockSeeTheSky(pos.x, pos.y + 1, pos.z)) {
-                    lastSkyCount++;
+                    countSolarPanelsWithSky++;
                 }
             }
         }
-        return lastSkyCount;
+        return countSolarPanelsWithSky;
     }
 
 
     @Override
     protected void updateMaster() {
         tick++;
-        double amountConvert = getCountCurrentSkySeeingSolarPanel() * getCurrentProductionPerSolar();
-
-        amountConvert = Math.min(amountConvert, getMaxTankCapacity() - hotCoolantTank);
-        amountConvert = Math.min(amountConvert, coolCoolantTank);
-
-        productionLastTick = amountConvert;
-        hotCoolantTank += amountConvert;
-        coolCoolantTank -= amountConvert;
+        int energy = (int) (getCountCurrentSkySeeingSolarPanel() * getCurrentProductionPerSolar() * 1000);// (0.0 - 1.0) * countSolarWithSky
+        productionLastTick = energy;
+        coolantBuffer.addEnergy(energy);
 
         if (tick % 20 == 0) {
             tick = 0;
@@ -192,15 +174,13 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     @Override
     public void readFromNBT(NBTTagCompound data) {
         super.readFromNBT(data);
-        coolCoolantTank = data.getDouble("coolCoolantAmount");
-        hotCoolantTank = data.getDouble("hotCoolantAmount");
+        coolantBuffer.readFromNBT("coolantBuffer", data);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound data) {
         super.writeToNBT(data);
-        data.setDouble("coolCoolantAmount", coolCoolantTank);
-        data.setDouble("hotCoolantAmount", hotCoolantTank);
+        coolantBuffer.writeToNBT("coolantBuffer", data);
     }
 
     private boolean isValidMultiblock(int x, int y, int z){
@@ -215,7 +195,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
 
 
     public int getMaxTankCapacity() {
-        return MAX_TANK_MB_PER_PANEL * countSolarPanels;
+        return BUFFER_MB_PER_PANEL * countSolarPanels;
     }
 
 
@@ -224,7 +204,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     }
 
     public double getProductionMaximal() {
-        return MAX_MB_PER_PANEL * countSolarPanels;
+        return MAX_MB_PER_PANEL * countSolarPanels * 1000;
     }
 
     private double getCurrentProductionPerSolar() {
@@ -247,22 +227,31 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     @Override
     public void writeData(IOStream data) {
         data.writeLast(countSolarPanels);
-        data.writeLast(getCoolCoolantTank());
-        data.writeLast(getHotCoolantTank());
         data.writeLast(getProductionLastTick());
+        coolantBuffer.writeData(data);
     }
 
     @Override
     public void readData(IOStream data) throws IOException {
         countSolarPanels = data.readFirstInt();
-        coolCoolantTank = data.readFirstDouble();
-        hotCoolantTank = data.readFirstDouble();
-        productionLastTick = data.readLastDouble();
+        productionLastTick = data.readFirstDouble();
+        coolantBuffer.readData(data);
+        coolantBufferMax = countSolarPanels * BUFFER_MB_PER_PANEL;
     }
 
     @Override
     public String getType() {
         return Reference.TILE_SOLAR_MASTER;
+    }
+
+    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+        maxAmount = Math.min(maxAmount, coolantBufferMax - coolantBuffer.getAmount());
+        maxAmount = Math.min(maxAmount, MAX_MB_PER_PANEL * countSolarPanels);
+        if (!simulate) {
+            coolantBuffer.add(maxAmount, temperature);
+        }
+
+        return maxAmount;
     }
 
     @Override
@@ -296,27 +285,6 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         return this.hashCode() == other.hashCode();
     }
 
-    private static class CCMethodGetCoolCoolant implements CCHelper.ICCMethod<TileSolarMaster> {
-
-        @Override
-        public String getMethodName() {
-            return "getCoolCoolant";
-        }
-
-        @Override
-        public String getMethodDescription() {
-            return "Returns the storage of fluidCoolant[mB].\n\tUsage: getCoolCoolant();";
-        }
-
-        @Override
-        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) throws LuaException {
-            if(arguments == null || arguments.length != 0) {
-                throw CCHelper.INVALID_ARGUMENT_EXCEPTION;
-            }
-            return new Object[] { tile.getCoolCoolantTank()};
-        }
-    }
-
     private static class CCMethodGetMaxCoolCoolant implements CCHelper.ICCMethod<TileSolarMaster> {
 
         @Override
@@ -335,27 +303,6 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
                 throw CCHelper.INVALID_ARGUMENT_EXCEPTION;
             }
             return new Object[] { tile.getMaxTankCapacity() };
-        }
-    }
-
-    private static class CCMethodGetHotCoolant implements CCHelper.ICCMethod<TileSolarMaster> {
-
-        @Override
-        public String getMethodName() {
-            return "getHotCoolant";
-        }
-
-        @Override
-        public String getMethodDescription() {
-            return "\tReturns the storage of fluidUsedCoolant[mB].\n\tUsage: getHotCoolant();";
-        }
-
-        @Override
-        public Object[] callMethod(IComputerAccess computer, ILuaContext context, Object[] arguments, TileSolarMaster tile) throws LuaException {
-            if(arguments == null || arguments.length != 0) {
-                throw CCHelper.INVALID_ARGUMENT_EXCEPTION;
-            }
-            return new Object[] { tile.getHotCoolantTank()};
         }
     }
 

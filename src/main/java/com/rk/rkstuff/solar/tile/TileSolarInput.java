@@ -1,65 +1,17 @@
 package com.rk.rkstuff.solar.tile;
 
-import com.rk.rkstuff.RkStuff;
+import com.rk.rkstuff.coolant.tile.ICoolantReceiver;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlockMasterListener {
+public class TileSolarInput extends TileRK implements ICoolantReceiver, IMultiBlockMasterListener {
     private TileSolarMaster master;
 
-
-    @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        if (from == ForgeDirection.UP) return 0;
-        if (master == null) return 0;
-        if (resource.getFluid().equals(RkStuff.fluidCoolant)) {
-            TileSolarMaster master = getMaster();
-            int amount = resource.amount;
-            amount = Math.min(amount, master.getMaxTankCapacity() - (int) Math.ceil(master.getCoolCoolantTank()));
-            if (amount < 0) return 0;
-            if (doFill) {
-                master.setCoolCoolantTank(master.getCoolCoolantTank() + amount);
-            }
-            return amount;
-        }
-        return 0;
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        return null;
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        return null;
-    }
-
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-        if (from == ForgeDirection.UP) return false;
-        return true;
-    }
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return false;
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        if (master == null) return null;
-        return new FluidTankInfo[]{new FluidTankInfo(new FluidStack(RkStuff.fluidCoolant, (int) Math.round(getMaster().getCoolCoolantTank())), getMaster().getMaxTankCapacity())};
-    }
 
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
@@ -88,5 +40,19 @@ public class TileSolarInput extends TileRK implements IFluidHandler, IMultiBlock
     @Override
     public void writeData(IOStream data) {
 
+    }
+
+    @Override
+    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+        if (master == null) return 0;
+        return master.receiveCoolant(from, maxAmount, temperature, simulate);
+    }
+
+    @Override
+    public boolean canReceive(ForgeDirection from) {
+        if (from == ForgeDirection.UP) {
+            return false;
+        }
+        return true;
     }
 }

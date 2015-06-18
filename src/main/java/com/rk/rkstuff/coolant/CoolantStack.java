@@ -1,6 +1,9 @@
 package com.rk.rkstuff.coolant;
 
 import net.minecraft.nbt.NBTTagCompound;
+import rk.com.core.io.IOStream;
+
+import java.io.IOException;
 
 public class CoolantStack {
 
@@ -10,6 +13,10 @@ public class CoolantStack {
     public CoolantStack(int amount, float temperature) {
         this.amount = amount;
         this.temperature = temperature;
+    }
+
+    public CoolantStack() {
+        this(0, 0);
     }
 
     public void add(int amount, float temperature) {
@@ -40,6 +47,11 @@ public class CoolantStack {
         return temperature;
     }
 
+    public void addEnergy(int energy) {
+        if (amount == 0.0) return;
+        temperature += energy / (float) amount;
+    }
+
     public void writeToNBT(String name, NBTTagCompound tag) {
         tag.setInteger(name + "Amount", amount);
         tag.setFloat(name + "Temp", temperature);
@@ -48,5 +60,15 @@ public class CoolantStack {
     public void readFromNBT(String name, NBTTagCompound tag) {
         amount = tag.getInteger(name + "Amount");
         temperature = tag.getFloat(name + "Temp");
+    }
+
+    public void writeData(IOStream data) {
+        data.writeLast(amount);
+        data.writeLast(temperature);
+    }
+
+    public void readData(IOStream data) throws IOException {
+        amount = data.readFirstInt();
+        temperature = data.readFirstFloat();
     }
 }

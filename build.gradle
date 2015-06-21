@@ -1,6 +1,16 @@
+apply plugin: 'forge'
+
+apply from: 'gradle/scripts/dependencies.gradle'
+apply from: 'gradle/scripts/artifacts.gradle'
+apply from: 'gradle/scripts/autoinstallruntime.gradle'
+apply from: 'gradle/scripts/integration.gradle'
+apply from: 'gradle/scripts/optional.gradle'
+
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
+
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -15,47 +25,31 @@ buildscript {
     }
 }
 
-ext.configFile = file "build.properties"
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 7200, 'hours'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
+
+/*ext.configFile = file "gradle.properties"
 configFile.withReader {
     // Load config.  It shall from now be referenced as simply config or project.config
     def prop = new Properties()
     prop.load(it)
     project.ext.config = new ConfigSlurper().parse prop
-}
-
-repositories {
-    ivy {
-        name 'CoFHLib'
-        artifactPattern "http://addons-origin.cursecdn.com/files/${config.cofhlib.cf}/[module]-[revision].[ext]"
-    }
-}
-
-apply plugin: 'forge'
+}*/
 
 version = "1.0"
 group= "com.rk.rkstuff" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "rkstuff"
 
 minecraft {
-    version = "1.7.10-10.13.3.1408-1.7.10"
-    runDir = "eclipse"
+    version = minecraft_version + "-" + forge_version
+    runDir = "run"
 }
 
-dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    compile group: 'cofh', name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
-}
 
 processResources
 {
@@ -75,7 +69,4 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-}
-dependencies {
-    compile files('libs/RKCore.jar')
 }

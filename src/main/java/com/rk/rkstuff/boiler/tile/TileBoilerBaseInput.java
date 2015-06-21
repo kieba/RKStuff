@@ -1,5 +1,6 @@
 package com.rk.rkstuff.boiler.tile;
 
+import com.rk.rkstuff.coolant.tile.ICoolantReceiver;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
@@ -12,7 +13,7 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileBoilerBaseInput extends TileRK implements IMultiBlockMasterListener, IFluidHandler {
+public class TileBoilerBaseInput extends TileRK implements IMultiBlockMasterListener, IFluidHandler, ICoolantReceiver {
 
     private TileBoilerBaseMaster master;
 
@@ -57,12 +58,6 @@ public class TileBoilerBaseInput extends TileRK implements IMultiBlockMasterList
     }
 
     @Override
-    protected boolean hasGui() {
-        return false;
-    }
-
-
-    @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
         master = (TileBoilerBaseMaster) tileMaster;
     }
@@ -78,5 +73,18 @@ public class TileBoilerBaseInput extends TileRK implements IMultiBlockMasterList
 
     @Override
     public void writeData(IOStream data) {
+    }
+
+    @Override
+    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+        if (hasMaster()) {
+            return master.receiveCoolant(from, maxAmount, temperature, simulate);
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean canConnect(ForgeDirection from) {
+        return true;
     }
 }

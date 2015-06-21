@@ -92,7 +92,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
 
         int side = dir.ordinal();
         TileEntity te = getNeighbour(side);
-        if (te instanceof ICoolantReceiver) {
+        if (te instanceof ICoolantConnection && ((ICoolantConnection) te).canConnect(dir)) {
             isConnected[side] = true;
             hasAdapter[side] = !(te instanceof TileCoolantPipe);
         } else {

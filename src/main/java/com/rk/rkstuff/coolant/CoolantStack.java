@@ -20,6 +20,7 @@ public class CoolantStack {
     }
 
     public void add(int amount, float temperature) {
+        if (amount == 0) return;
         this.temperature = (this.amount * this.temperature + amount * temperature) / (this.amount + amount);
         this.amount += amount;
     }
@@ -36,6 +37,7 @@ public class CoolantStack {
     public CoolantStack remove(int amount) {
         int a = Math.min(amount, this.amount);
         this.amount -= a;
+        if (this.amount == 0) this.temperature = 0.0f;
         return new CoolantStack(a, this.temperature);
     }
 
@@ -50,11 +52,6 @@ public class CoolantStack {
     public void set(int amount, float temperature) {
         this.amount = amount;
         this.temperature = temperature;
-    }
-
-    public void addEnergy(int energy) {
-        if (amount == 0.0) return;
-        temperature += energy / (float) amount;
     }
 
     public void writeToNBT(String name, NBTTagCompound tag) {

@@ -1,5 +1,6 @@
 package com.rk.rkstuff.boiler.tile;
 
+import com.rk.rkstuff.coolant.tile.ICoolantConnection;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
@@ -7,6 +8,7 @@ import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.ICustomMessage;
 import com.rk.rkstuff.network.message.MessageCustom;
+import com.rk.rkstuff.util.RKLog;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -18,7 +20,7 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterListener, IFluidHandler, ICustomMessage {
+public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterListener, IFluidHandler, ICoolantConnection, ICustomMessage {
 
     private TileBoilerBaseMaster master;
     //if true => outputSteam else coldCoolant
@@ -26,6 +28,7 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
 
     public void toggleOutput() {
         outputSteam = !outputSteam;
+        RKLog.info("Output Steam: " + outputSteam);
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
@@ -38,6 +41,15 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
     }
 
     @Override
+    public void updateEntity() {
+        super.updateEntity();
+        if (hasMaster() && !outputSteam) {
+            int amount = FluidHelper.outputCoolantToNeighbours(neighbours, master.getMaxOutputCoolant(), master.getTemperature());
+            master.drainCoolant(amount);
+        }
+    }
+
+    @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         return 0;
     }
@@ -46,8 +58,6 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
         if(hasMaster()) {
             if(outputSteam && FluidHelper.isSteam(resource.getFluid())) {
-                return drain(from, resource.amount, doDrain);
-            } else if (!outputSteam && FluidHelper.isCoolant(resource.getFluid())) {
                 return drain(from, resource.amount, doDrain);
             }
         }
@@ -59,8 +69,6 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
         if(hasMaster()) {
             if(outputSteam) {
                 return master.drainSteam(maxDrain, doDrain);
-            } else {
-                return master.drainCoolCoolant(maxDrain, doDrain);
             }
         }
         return null;
@@ -75,9 +83,7 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
         if(hasMaster()) {
             if(outputSteam) {
-                return FluidHelper.isSteam(fluid) && master.canDrainSteam();
-            } else  {
-                return FluidHelper.isCoolant(fluid) && master.canDrainCoolCoolant();
+                return FluidHelper.isSteam(fluid);
             }
         }
         return false;
@@ -87,9 +93,7 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
         if(hasMaster()) {
             if(outputSteam) {
-                return master.getTankInfoSteam();
-            } else {
-                return master.getTankInfoCoolCoolant();
+                return master.getTankInfoOutput();
             }
         }
         return new FluidTankInfo[0];
@@ -124,8 +128,8 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
     }
 
     @Override
-    protected boolean hasGui() {
-        return false;
+    protected boolean cacheNeighbours() {
+        return true;
     }
 
     @Override
@@ -136,5 +140,10 @@ public class TileBoilerBaseOutput extends TileRK implements IMultiBlockMasterLis
     @Override
     public void unregisterMaster() {
         master = null;
+    }
+
+    @Override
+    public boolean canConnect(ForgeDirection from) {
+        return true;
     }
 }

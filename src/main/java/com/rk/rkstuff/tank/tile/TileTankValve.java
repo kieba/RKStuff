@@ -1,9 +1,11 @@
 package com.rk.rkstuff.tank.tile;
 
+import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.coolant.tile.ICoolantReceiver;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
+import com.rk.rkstuff.helper.FluidHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -77,26 +79,9 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
         if (worldObj.isRemote) return;
 
         if (isOutput()) {
-            if (master.isCoolantStack() && master.getCurrentCoolantStack().getAmount() > 0) {
-                int totalInput = 0;
-                int[] maxInput = new int[6];
-                for (int i = 0; i < 6; i++) {
-                    if (!(neighbours[i] instanceof ICoolantReceiver)) continue;
-                    ICoolantReceiver rcv = (ICoolantReceiver) neighbours[i];
-                    maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true);
-                    totalInput += maxInput[i];
-                }
-
-                float scale = master.getCurrentCoolantStack().getAmount() / (float) totalInput;
-                if (scale > 1.0f) scale = 1.0f;
-
-                for (int i = 0; i < 6; i++) {
-                    if (!(neighbours[i] instanceof ICoolantReceiver)) continue;
-                    ICoolantReceiver rcv = (ICoolantReceiver) neighbours[i];
-                    int amount = (int) Math.floor(maxInput[i] * scale);
-                    int received = rcv.receiveCoolant(ForgeDirection.values()[i], amount, master.getCurrentCoolantStack().getTemperature(), false);
-                    master.removeCoolant(received);
-                }
+            if (master.isCoolantStack()) {
+                CoolantStack stack = master.getCurrentCoolantStack();
+                stack.remove(FluidHelper.outputCoolantToNeighbours(neighbours, stack.getAmount(), stack.getTemperature()));
             }
 
             if (master.isFluidStack() && master.getCurrentFluidStack().amount > 0) {

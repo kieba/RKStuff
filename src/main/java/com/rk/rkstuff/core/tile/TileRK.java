@@ -16,7 +16,7 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
     public static int GUI_UPDATE_RATE = 10;
 
     private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<EntityPlayerMP>(0);
-    private TileEntity[] neighbours = new TileEntity[6];
+    protected TileEntity[] neighbours = new TileEntity[6];
     private int tick = 0;
     private boolean hadFirstUpdate = false;
 

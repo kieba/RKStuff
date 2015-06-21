@@ -36,6 +36,8 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         METHODS.add(new CCMethodGetProduction());
     }
 
+    private static float SCALE = 1.75f;
+    private static float MAX_SOLAR_TEMPERATURE = 500.0f;
     private static int MAX_MB_PER_PANEL = 100;
     private static int BUFFER_MB_PER_PANEL = 1000;
 
@@ -162,9 +164,17 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     @Override
     protected void updateMaster() {
         tick++;
-        int energy = (int) (getCountCurrentSkySeeingSolarPanel() * getCurrentProductionPerSolar() * 1000);// (0.0 - 1.0) * countSolarWithSky
+        float energy = SCALE * getCountCurrentSkySeeingSolarPanel() * getCurrentProductionPerSolar();// (0.0 - 1.0) * countSolarWithSky
         productionLastTick = energy;
-        coolantBuffer.addEnergy(energy);
+
+        float coolantEnergy = coolantBuffer.getAmount() * coolantBuffer.getTemperature();
+        coolantEnergy += energy;
+
+        float newTemp = coolantEnergy / coolantBuffer.getAmount();
+        if (newTemp > MAX_SOLAR_TEMPERATURE) newTemp = MAX_SOLAR_TEMPERATURE;
+
+        coolantBuffer.set(coolantBuffer.getAmount(), newTemp);
+
 
         if (tick % 20 == 0) {
             tick = 0;
@@ -207,13 +217,13 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         return MAX_MB_PER_PANEL * countSolarPanels * 1000;
     }
 
-    private double getCurrentProductionPerSolar() {
+    private float getCurrentProductionPerSolar() {
         long time = worldObj.getWorldTime();
         time += 2000;
         time %= 24000;
 
         if (time <= 16000) {
-            return (0.42 - 0.5 * Math.cos(2 * Math.PI * time / 16000) + 0.08 * Math.cos(4 * Math.PI * time / 16000)) * MAX_MB_PER_PANEL;
+            return (float) (0.42 - 0.5 * Math.cos(2 * Math.PI * time / 16000) + 0.08 * Math.cos(4 * Math.PI * time / 16000)) * MAX_MB_PER_PANEL;
         } else {
             return 0;
         }

@@ -1,11 +1,11 @@
 package com.rk.rkstuff.solar.tile;
 
+import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.coolant.tile.ICoolantConnection;
-import com.rk.rkstuff.coolant.tile.ICoolantReceiver;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
-import net.minecraft.tileentity.TileEntity;
+import com.rk.rkstuff.helper.FluidHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
@@ -41,27 +41,9 @@ public class TileSolarOutput extends TileRK implements IMultiBlockMasterListener
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (master != null && master.getCoolantBuffer().getAmount() > 1) {
-            int totalInput = 0;
-            int[] maxInput = new int[6];
-            for (int i = 0; i < 6; i++) {
-                TileEntity te = getNeighbour(i);
-                if (te == null || !(te instanceof ICoolantReceiver) || te instanceof TileSolarInput) continue;
-                ICoolantReceiver rcv = (ICoolantReceiver) te;
-                maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true);
-                totalInput += maxInput[i];
-            }
-
-            float scale = master.getCoolantBuffer().getAmount() / (float) totalInput;
-            if (scale > 1.0f) scale = 1.0f;
-
-            for (int i = 0; i < 6; i++) {
-                if (maxInput[i] == 0) continue;
-                ICoolantReceiver rcv = (ICoolantReceiver) getNeighbour(i);
-                int amount = (int) Math.floor(maxInput[i] * scale);
-                int received = rcv.receiveCoolant(ForgeDirection.values()[i], amount, master.getCoolantBuffer().getTemperature(), false);
-                master.getCoolantBuffer().remove(received);
-            }
+        if (master != null) {
+            CoolantStack stack = master.getCoolantBuffer();
+            stack.remove(FluidHelper.outputCoolantToNeighbours(neighbours, stack.getAmount(), stack.getTemperature()));
         }
     }
 

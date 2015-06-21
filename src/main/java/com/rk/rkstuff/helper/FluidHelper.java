@@ -1,6 +1,7 @@
 package com.rk.rkstuff.helper;
 
 import com.rk.rkstuff.RkStuff;
+import com.rk.rkstuff.coolant.tile.ICoolantReceiver;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -38,5 +39,29 @@ public class FluidHelper {
         return insertFluidIntoNeighbourFluidHandler(source, ForgeDirection.VALID_DIRECTIONS[direction], fluidStack, doFill);
     }
 
+    public static int outputCoolantToNeighbours(TileEntity[] neighbours, int maxAmount, float temperature) {
+        if (maxAmount == 0) return 0;
+        int totalInput = 0;
+        int[] maxInput = new int[6];
+        for (int i = 0; i < 6; i++) {
+            if (!(neighbours[i] instanceof ICoolantReceiver)) continue;
+            ICoolantReceiver rcv = (ICoolantReceiver) neighbours[i];
+            maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true);
+            totalInput += maxInput[i];
+        }
+
+        float scale = maxAmount / (float) totalInput;
+        if (scale > 1.0f) scale = 1.0f;
+
+        int outputted = 0;
+        for (int i = 0; i < 6; i++) {
+            if (!(neighbours[i] instanceof ICoolantReceiver)) continue;
+            ICoolantReceiver rcv = (ICoolantReceiver) neighbours[i];
+            int amount = (int) Math.floor(maxInput[i] * scale);
+            outputted += rcv.receiveCoolant(ForgeDirection.values()[i], amount, temperature, false);
+        }
+
+        return outputted;
+    }
 
 }

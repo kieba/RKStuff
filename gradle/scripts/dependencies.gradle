@@ -65,16 +65,17 @@ repositories {
         artifactPattern "http://addons-origin.cursecdn.com/files/${cofhlib_cf}/[module]-[revision].[ext]"
     }
 
+    ivy {
+        name 'CoFHCore'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${cofhcore_cf}/[module]-[revision].[ext]"
+    }
+
+    ivy {
+        name 'ComputerCraft'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${computercraft_cf}/[module][revision].[ext]"
+    }
+
 //  CurseForge DNS for TE is not available or I am just being unlucky, code part can stay since this is applicable to any other curseforge mod though
-//    ivy {
-//        name = "CoFHLib"
-//        artifactPattern "http://addons.cursecdn.com/files/2212/893/[module]-[revision].[ext]"
-//    }
-//
-//    ivy {
-//        name = "CoFHCore"
-//        artifactPattern "http://addons.cursecdn.com/files/2212/895/[module]-[revision].[ext]"
-//    }
 
 //    ivy {
 //        name = "ThermalExpansion"
@@ -105,8 +106,9 @@ dependencies {
 //    mods name: 'ThermalExpansion', version: "[${minecraft_version}]${texpansion_version}-dev", ext: 'jar'
 //    mods name: 'ThermalFoundation', version: "[${minecraft_version}]${tfoundation_version}-dev", ext: 'jar'
 
-//    compile name: 'CoFHCore', version: "[${minecraft_version}]${cofhcore_version}-dev", ext: 'jar'
+    compile name: 'CoFHCore', version: "[${minecraft_version}]${cofhcore_version}-dev", ext: 'jar'
     compile group: 'cofh', name: 'CoFHLib', version: cofhlib_version, ext: 'jar'
+    compile name: 'ComputerCraft', version: computercraft_version, ext: 'jar'
     compile "codechicken:ForgeMultipart:${minecraft_version}-${fmp_version}:dev"
     compile "codechicken:CodeChickenLib:${minecraft_version}-${code_chicken_lib_version}:dev"
     compile "codechicken:CodeChickenCore:${minecraft_version}-${code_chicken_core_version}:dev"
@@ -128,7 +130,7 @@ dependencies {
     compile(group: 'api', name: 'craftguide', version: "${api_craftguide_version}")
     compile(group: 'api', name: 'immibis', version: "${api_immibis_version}")
     compile(group: 'api', name: 'mfr', version: "${api_mfr_version}")
-    compile(group: 'api', name: 'railcraft', version: "${api_railcraft_version}")
+//    compile(group: 'api', name: 'railcraft', version: "${api_railcraft_version}")
     compile(group: 'api', name: 'rf', version: "${api_rf_version}")
 
     testCompile "junit:junit:4.11"

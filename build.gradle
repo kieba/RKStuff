@@ -45,7 +45,7 @@ group= "com.rk.rkstuff" // http://maven.apache.org/guides/mini/guide-naming-conv
 archivesBaseName = "rkstuff"
 
 minecraft {
-    version = minecraft_version + "-" + forge_version
+    version = minecraft_version + "-" + forge_version + "-" + minecraft_version
     runDir = "run"
 }
 

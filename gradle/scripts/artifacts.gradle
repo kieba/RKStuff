@@ -23,7 +23,7 @@ task devJar(type: Jar) {
     }
 
     from(sourceSets.main.output) {
-        include "**"
+        include "com/rk/**"
         include "assets/**"
         include 'mcmod.info'
     }

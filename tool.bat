@@ -2,13 +2,14 @@
 
 echo.1:Debug
 echo.2:Release
+echo.9:CleanUp
 set /P MeineVariable=
 if %MeineVariable%==1 goto debug
 if %MeineVariable%==2 goto release
-if %MeineVariable%==9 goto init
+if %MeineVariable%==9 goto cleanUp
 
 echo %MeineVariable%
-:init
+:cleanUp
 gradlew cleanCache
 goto end
 

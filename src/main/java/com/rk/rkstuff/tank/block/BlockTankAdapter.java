@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockTankAdapter extends BlockRK implements ITileEntityProvider, ITankBlock {
@@ -52,4 +53,8 @@ public class BlockTankAdapter extends BlockRK implements ITileEntityProvider, IT
         return icons[1];
     }
 
+    @Override
+    public TileEntity getMasterTileEntity(IBlockAccess access, int x, int y, int z, int meta) {
+        return access.getTileEntity(x, y, z);
+    }
 }

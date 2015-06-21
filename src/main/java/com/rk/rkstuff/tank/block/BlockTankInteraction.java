@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockTankInteraction extends BlockRK implements ITankBlock, ITileEntityProvider {
@@ -55,5 +56,11 @@ public class BlockTankInteraction extends BlockRK implements ITankBlock, ITileEn
     @Override
     public boolean isOpaqueCube() {
         return false;
+    }
+
+    @Override
+    public TileEntity getMasterTileEntity(IBlockAccess access, int x, int y, int z, int meta) {
+        if (meta == 0) return null;
+        return ((TileTankInteraction) access.getTileEntity(x, y, z)).getMaster();
     }
 }

@@ -9,6 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -48,8 +49,12 @@ public class BlockTank extends BlockRK implements ITankBlock {
         return true;
     }
 
+    protected boolean isBuild(int meta) {
+        return meta != 0;
+    }
+
     private TileTankAdapter getTankAdapter(IBlockAccess access, int x, int y, int z, int meta) {
-        if (meta == 0) return null;
+        isBuild(meta);
         MultiBlockHelper.Bounds tmp = new MultiBlockHelper.Bounds(x, y, z);
         for (ForgeDirection direction : new ForgeDirection[]{ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST}) {
             int i = 1;
@@ -101,5 +106,10 @@ public class BlockTank extends BlockRK implements ITankBlock {
     @Override
     public int getRenderBlockPass() {
         return 1;
+    }
+
+    @Override
+    public TileEntity getMasterTileEntity(IBlockAccess access, int x, int y, int z, int meta) {
+        return getTankAdapter(access, x, y, z, meta);
     }
 }

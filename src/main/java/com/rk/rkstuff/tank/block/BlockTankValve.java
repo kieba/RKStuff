@@ -1,5 +1,6 @@
 package com.rk.rkstuff.tank.block;
 
+import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.tank.tile.TileTankValve;
 import com.rk.rkstuff.util.Reference;
@@ -18,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityProvider {
-    private IIcon[] icons = new IIcon[2];
+    private IIcon[] icons = new IIcon[3];
 
     public BlockTankValve() {
         super(Material.iron, Reference.BLOCK_TANK_VALVE);
@@ -34,12 +35,26 @@ public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityPr
     public void registerBlockIcons(IIconRegister iconRegister) {
         icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_VALVE + 1);
         icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_VALVE + 2);
+        icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_VALVE + 3);
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (meta == 0) return icons[0];
-        return icons[1];
+        return icons[0];
+    }
+
+    @Override
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof TileTankValve) {
+            TileTankValve valveTile = (TileTankValve) tile;
+            if (valveTile.isOutput()) {
+                return icons[1];
+            } else {
+                return icons[2];
+            }
+        }
+        return getIcon(side, 0);
     }
 
     @Override
@@ -76,4 +91,9 @@ public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityPr
         return true;
     }
 
+    @Override
+    public TileEntity getMasterTileEntity(IBlockAccess access, int x, int y, int z, int meta) {
+        if (meta == 0) return null;
+        return ((BlockTank) RkStuff.blockTank).getMasterTileEntity(access, x, y, z, meta);
+    }
 }

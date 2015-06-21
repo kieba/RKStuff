@@ -67,9 +67,8 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
 
     @Override
     protected void updateMaster() {
-        if (waterStorage == 0) return;
-        if (steamStorage >= maxSteamStorage) return;
-        if (coolantStack.getAmount() > 0 && coolantStack.getTemperature() >= NEEDED_TEMPERATURE) {
+
+        if (coolantStack.getAmount() > 0 && coolantStack.getTemperature() >= NEEDED_TEMPERATURE && waterStorage != 0 && steamStorage < maxSteamStorage) {
             //convert water to steam
             int hotWater = (int) Math.floor(SCALE * (coolantStack.getAmount() * (NEEDED_TEMPERATURE - coolantStack.getTemperature())) / (WATER_TEMPERATURE - NEEDED_TEMPERATURE));
             hotWater = Math.min(hotWater, waterStorage);

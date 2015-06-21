@@ -50,4 +50,9 @@ public class BlockTankBevelSmall extends BlockTank implements IBlockBevelSmall {
     public boolean isOpaqueCube() {
         return false;
     }
+
+    @Override
+    protected boolean isBuild(int meta) {
+        return true;
+    }
 }

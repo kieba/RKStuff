@@ -2,6 +2,7 @@ package com.rk.rkstuff.tank.tile;
 
 import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.coolant.CoolantStack;
+import com.rk.rkstuff.core.modinteraction.IWailaBodyProvider;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.helper.MultiBlockHelper;
@@ -10,9 +11,12 @@ import com.rk.rkstuff.tank.block.BlockTankBevelLarge;
 import com.rk.rkstuff.tank.block.BlockTankBevelSmall;
 import com.rk.rkstuff.tank.block.ITankBlock;
 import com.rk.rkstuff.util.RKLog;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -23,8 +27,9 @@ import net.minecraftforge.fluids.FluidStack;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
+import java.util.List;
 
-public class TileTankAdapter extends TileMultiBlockMaster {
+public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyProvider {
     private int maxStorage = 0;
     private FluidStack currentFluidStack;
     private CoolantStack currentCoolantStack;
@@ -142,7 +147,7 @@ public class TileTankAdapter extends TileMultiBlockMaster {
             }
 
         }
-        maxStorage = (bounds.getHeight() - 2) * (bounds.getWidthX() - 2) * (bounds.getWidthZ() - 2) * 1000;
+        maxStorage = (bounds.getHeight() - 2) * (bounds.getWidthX() - 2) * (bounds.getWidthZ() - 2) * 16000;
         RKLog.info(bounds);
         RKLog.info("MaxStorage: " + maxStorage);
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -427,4 +432,16 @@ public class TileTankAdapter extends TileMultiBlockMaster {
         }
     }
 
+    @Override
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currentBody, IWailaDataAccessor accessor, IWailaConfigHandler configHandler) {
+        if (isCoolantStack()) {
+            currentBody.add("Type: Coolant");
+            currentBody.add(String.format("Temperature: %.2f °C", getCurrentCoolantStack().getTemperature()));
+        } else if (isFluidStack()) {
+            currentBody.add("Type: Fluid");
+            currentBody.add("Fluid: " + getCurrentFluidStack().getFluid().getLocalizedName(getCurrentFluidStack()));
+        }
+        currentBody.add(String.format("Storage: %d/%d mB", getCurrentStorage(), getMaxStorage()));
+        return currentBody;
+    }
 }

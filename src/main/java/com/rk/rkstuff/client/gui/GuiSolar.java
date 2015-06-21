@@ -41,7 +41,7 @@ public class GuiSolar extends GuiContainer {
             //draw tooltip cool coolant
             List<String> list = new ArrayList<String>(2);
             list.add("Coolant:");
-            list.add(String.format("%d/%d mB(%.2f C°)", Math.round(tile.getCoolantBuffer().getAmount()), Math.round(tile.getMaxTankCapacity()), tile.getCoolantBuffer().getTemperature()));
+            list.add(String.format("%d/%d mB(%.2f °C)", Math.round(tile.getCoolantBuffer().getAmount()), Math.round(tile.getMaxTankCapacity()), tile.getCoolantBuffer().getTemperature()));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(GuiHelper.isInArea(mouseX, mouseY, x + 82, yMin, x + 94, yMax)) {
             //draw tooltip prod

@@ -1,4 +1,6 @@
 package com.rk.rkstuff.tank.block;
 
-public interface ITankBlock {
+import com.rk.rkstuff.core.block.IBlockMulti;
+
+public interface ITankBlock extends IBlockMulti {
 }

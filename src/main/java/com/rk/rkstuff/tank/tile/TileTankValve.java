@@ -32,6 +32,10 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
         master = null;
     }
 
+    public TileTankAdapter getMaster() {
+        return master;
+    }
+
     @Override
     public void writeToNBT(NBTTagCompound data) {
         super.writeToNBT(data);

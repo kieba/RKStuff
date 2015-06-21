@@ -35,7 +35,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
                 if (rcv instanceof TileCoolantPipe) {
                     p = ((TileCoolantPipe) rcv).getPressure();
                 } else {
-                    p = 0;
+                    p = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true) > 0 ? 0 : Integer.MAX_VALUE;
                 }
                 if (p < minPressure) {
                     minPressure = p;

@@ -47,6 +47,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -251,9 +252,11 @@ public class RkStuff {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-
         guiHandler = new GuiHandler();
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, guiHandler);
+
+        FMLInterModComms.sendMessage("Waila", "register", "com.rk.rkstuff.core.modinteraction.WailaTileHandler.callbackRegister");
+        FMLInterModComms.sendMessage("Waila", "register", "com.rk.rkstuff.core.modinteraction.WailaBlockHandler.callbackRegister");
 
         PROXY.init();
 

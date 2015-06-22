@@ -85,7 +85,7 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
         if (isOutput()) {
             if (master.isCoolantStack()) {
                 CoolantStack stack = master.getCurrentCoolantStack();
-                stack.remove(FluidHelper.outputCoolantToNeighbours(neighbours, stack.getAmount(), stack.getTemperature()));
+                master.removeCoolant(FluidHelper.outputCoolantToNeighbours(neighbours, stack.getAmount(), stack.getTemperature()));
             }
 
             if (master.isFluidStack() && master.getCurrentFluidStack().amount > 0) {

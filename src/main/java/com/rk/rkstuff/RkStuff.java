@@ -10,6 +10,7 @@ import com.rk.rkstuff.coolant.block.*;
 import com.rk.rkstuff.coolant.tile.TileCoolantExtractor;
 import com.rk.rkstuff.coolant.tile.TileCoolantInjector;
 import com.rk.rkstuff.coolant.tile.TileCoolantPipe;
+import com.rk.rkstuff.coolant.tile.TileHeatExchanger;
 import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.distribution.block.BlockDistributionCoolant;
 import com.rk.rkstuff.distribution.block.BlockDistributionEnergy;
@@ -125,6 +126,7 @@ public class RkStuff {
     public static Block blockCoolantPipe = new BlockCoolantPipe();
     public static Block blockCoolantInjector = new BlockCoolantInjector();
     public static Block blockCoolantExtractor = new BlockCoolantExtractor();
+    public static BlockHeatExchanger blockHeatExchanger = new BlockHeatExchanger();
 
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
     public static Item itemSolarPanel = new ItemRK(Reference.ITEM_SOLAR_PANEL);
@@ -195,6 +197,7 @@ public class RkStuff {
         GameRegistry.registerBlock(blockCoolantPipe, Reference.BLOCK_COOLANT_PIPE);
         GameRegistry.registerBlock(blockCoolantInjector, Reference.BLOCK_COOLANT_INJECTOR);
         GameRegistry.registerBlock(blockCoolantExtractor, Reference.BLOCK_COOLANT_EXTRACTOR);
+        GameRegistry.registerBlock(blockHeatExchanger, Reference.BLOCK_COOLANT_EXTRACTOR);
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
@@ -222,6 +225,7 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileCoolantPipe.class, Reference.TILE_COOLANT_PIPE);
         GameRegistry.registerTileEntity(TileCoolantInjector.class, Reference.TILE_COOLANT_INJECTOR);
         GameRegistry.registerTileEntity(TileCoolantExtractor.class, Reference.TILE_COOLANT_EXTRACTOR);
+        GameRegistry.registerTileEntity(TileHeatExchanger.class, Reference.TILE_HEAT_EXCHANGER);
 
         //Fluids
         registerFluids();

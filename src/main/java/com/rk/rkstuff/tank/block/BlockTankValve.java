@@ -48,10 +48,12 @@ public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityPr
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile instanceof TileTankValve) {
             TileTankValve valveTile = (TileTankValve) tile;
-            if (valveTile.isOutput()) {
-                return icons[1];
-            } else {
-                return icons[2];
+            if (valveTile.getMaster() != null) {
+                if (valveTile.isOutput()) {
+                    return icons[1];
+                } else {
+                    return icons[2];
+                }
             }
         }
         return getIcon(side, 0);

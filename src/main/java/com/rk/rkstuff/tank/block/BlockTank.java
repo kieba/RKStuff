@@ -56,8 +56,7 @@ public class BlockTank extends BlockRK implements ITankBlock {
 
     @Override
     public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
-        ForgeDirection forgeSide = ForgeDirection.values()[side];
-        if (access.getBlock(x + forgeSide.offsetX, y + forgeSide.offsetY, z + forgeSide.offsetZ) instanceof ITankBlock) {
+        if (access.getBlock(x, y, z) instanceof ITankBlock) {
             return false;
         }
         return true;

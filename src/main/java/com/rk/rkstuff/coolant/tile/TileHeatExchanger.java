@@ -153,6 +153,7 @@ public class TileHeatExchanger extends TileRK implements ICoolantReceiver, IReco
 
     @Override
     public boolean decrSide(int side) {
+        if (worldObj.isRemote) return false;
         config[side]--;
         if (config[side] == -1) config[side] = 2;
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -161,6 +162,7 @@ public class TileHeatExchanger extends TileRK implements ICoolantReceiver, IReco
 
     @Override
     public boolean incrSide(int side) {
+        if (worldObj.isRemote) return false;
         config[side] = (config[side] + 1) % 3;
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return true;
@@ -168,6 +170,7 @@ public class TileHeatExchanger extends TileRK implements ICoolantReceiver, IReco
 
     @Override
     public boolean setSide(int side, int config) {
+        if (worldObj.isRemote) return false;
         this.config[side] = config;
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return true;
@@ -175,6 +178,7 @@ public class TileHeatExchanger extends TileRK implements ICoolantReceiver, IReco
 
     @Override
     public boolean resetSides() {
+        if (worldObj.isRemote) return false;
         for (int i = 0; i < 6; i++) {
             config[i] = 0;
         }

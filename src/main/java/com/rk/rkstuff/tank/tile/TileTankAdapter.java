@@ -143,6 +143,10 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
                     worldObj.setBlock(pos.x, pos.y, pos.z, RkStuff.blockTankBevelLarge, 11, 2);
                     continue;
                 }
+                if (pos.y == bounds.getMinY()) {
+                    worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 2, 2);
+                    continue;
+                }
                 worldObj.setBlockMetadataWithNotify(pos.x, pos.y, pos.z, 1, 2);
             }
 

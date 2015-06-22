@@ -423,7 +423,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
             if (currentCoolantStack == null) {
                 currentCoolantStack = new CoolantStack(maxAmount, temperature);
             } else {
-                currentCoolantStack.add(max, temperature);
+                currentCoolantStack.add(maxAmount, temperature);
             }
         }
         return maxAmount;
@@ -440,7 +440,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
     public List<String> getWailaBody(ItemStack itemStack, List<String> currentBody, IWailaDataAccessor accessor, IWailaConfigHandler configHandler) {
         if (isCoolantStack()) {
             currentBody.add("Type: Coolant");
-            currentBody.add(String.format("Temperature: %.2f °C", getCurrentCoolantStack().getTemperature()));
+            currentBody.add(String.format("Temperature: %.2f Â°C", getCurrentCoolantStack().getTemperature()));
         } else if (isFluidStack()) {
             currentBody.add("Type: Fluid");
             currentBody.add("Fluid: " + getCurrentFluidStack().getFluid().getLocalizedName(getCurrentFluidStack()));

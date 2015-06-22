@@ -58,6 +58,7 @@ public class FluidHelper {
             if (!(neighbours[i] instanceof ICoolantReceiver)) continue;
             ICoolantReceiver rcv = (ICoolantReceiver) neighbours[i];
             int amount = (int) Math.floor(maxInput[i] * scale);
+            if (amount == 0) continue;
             outputted += rcv.receiveCoolant(ForgeDirection.values()[i], amount, temperature, false);
         }
 

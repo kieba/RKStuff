@@ -29,7 +29,7 @@ public class GuiSolar extends GuiContainer {
         int y = (this.height - SIZE_Y) / 2;
         drawTexturedModalRect(x, y, 0, 0, SIZE_X,  SIZE_Y);
 
-        int coolantPx = (int) Math.round(MAX * tile.getCoolantBuffer().getAmount() / tile.getMaxTankCapacity());
+        int coolantPx = Math.round(MAX * tile.getCoolantBuffer().getAmount() / tile.getMaxTankCapacity());
         int prodPx = (int)Math.round(MAX * tile.getProductionLastTick() / tile.getProductionMaximal());
 
         drawTexturedModalRect(x + 26, y + 71 - coolantPx, 176, MAX - coolantPx, 34, coolantPx);
@@ -41,7 +41,7 @@ public class GuiSolar extends GuiContainer {
             //draw tooltip cool coolant
             List<String> list = new ArrayList<String>(2);
             list.add("Coolant:");
-            list.add(String.format("%d/%d mB(%.2f °C)", Math.round(tile.getCoolantBuffer().getAmount()), Math.round(tile.getMaxTankCapacity()), tile.getCoolantBuffer().getTemperature()));
+            list.add(String.format("%d/%d mB(%.2f Â°C)", Math.round(tile.getCoolantBuffer().getAmount()), Math.round(tile.getMaxTankCapacity()), tile.getCoolantBuffer().getTemperature()));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(GuiHelper.isInArea(mouseX, mouseY, x + 82, yMin, x + 94, yMax)) {
             //draw tooltip prod

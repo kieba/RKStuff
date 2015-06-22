@@ -26,48 +26,43 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
         int[] outputSides = new int[6];
         int index = 0;
         int minPressure = Integer.MAX_VALUE;
+        int totalInput = 0;
         for (int i = 0; i < 6; i++) {
             ICoolantReceiver rcv = getICoolantReceiver(i);
             if (rcv == null) {
                 maxInput[i] = 0;
             } else if (rcv.canConnect(ForgeDirection.values()[i])) {
+                maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true);
+
                 int p;
                 if (rcv instanceof TileCoolantPipe) {
                     p = ((TileCoolantPipe) rcv).getPressure();
                 } else {
-                    p = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true) > 0 ? 0 : Integer.MAX_VALUE;
+                    p = maxInput[i] == 0 ? Integer.MAX_VALUE : 0;
                 }
+
                 if (p < minPressure) {
                     minPressure = p;
                     index = 0;
-                    outputSides[index++] = i;
-                } else if (p == minPressure) {
-                    outputSides[index++] = i;
+                    if (maxInput[i] > 0) outputSides[index++] = i;
+                } else if (p == minPressure && p != Integer.MAX_VALUE) {
+                    if (maxInput[i] > 0) outputSides[index++] = i;
                 }
             }
+            totalInput += maxInput[i];
         }
 
-        if (index > 0) {
-            int totalInput = 0;
-            for (int i = 0; i < index; i++) {
-                int side = outputSides[i];
-                ICoolantReceiver rcv = getICoolantReceiver(side);
-                maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true);
-                totalInput += maxInput[i];
-            }
-
+        if (index > 0 && totalInput > 0) {
             float scale = coolant.getAmount() / (float) totalInput;
             if (scale > 1.0f) scale = 1.0f;
-
             for (int i = 0; i < index; i++) {
                 int side = outputSides[i];
                 ICoolantReceiver rcv = getICoolantReceiver(side);
-                int amount = (int) Math.floor(maxInput[i] * scale);
-                int received = rcv.receiveCoolant(ForgeDirection.values()[i], amount, coolant.getTemperature(), false);
+                int amount = (int) Math.floor(maxInput[side] * scale);
+                int received = rcv.receiveCoolant(ForgeDirection.values()[side], amount, coolant.getTemperature(), false);
                 coolant.remove(received);
             }
         }
-
 
         if (minPressure == Integer.MAX_VALUE) {
             pressure = Integer.MAX_VALUE;

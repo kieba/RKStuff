@@ -15,6 +15,7 @@ public class Textures {
     public static ResourceLocation SOLAR_GUI = new ResourceLocation(GUI_PATH + "SolarGUI.png");
     public static ResourceLocation BOILER_GUI = new ResourceLocation(GUI_PATH + "BoilerGUI.png");
     public static ResourceLocation DISTRIBUTION_GUI = new ResourceLocation(GUI_PATH + "DistributionGUI.png");
+    public static ResourceLocation POWERED_FREEZER_GUI = new ResourceLocation(GUI_PATH + "PoweredFreezerGUI.png");
 
     @SideOnly(Side.CLIENT)
     public static void loadTexture(ResourceLocation location) {

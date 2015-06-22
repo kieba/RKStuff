@@ -99,4 +99,8 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
             onNeighborChange(dir);
         }
     }
+
+    protected void markBlockForUpdate() {
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
 }

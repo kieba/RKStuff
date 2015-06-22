@@ -29,6 +29,9 @@ public class Reference {
     public static final String BLOCK_TANK_VALVE = "TankValve";
     public static final String BLOCK_TANK_INTERACTION = "TankInteraction";
 
+    public static final String BLOCK_POWERED_FREEZER = "PoweredFreezer";
+    public static final String TILE_POWERED_FREEZER = "TilePoweredFreezer";
+
 
     public static final String BLOCK_DISTRIBUTION_ENERGY = "DistributionEnergy";
     public static final String BLOCK_DISTRIBUTION_FLUID = "DistributionFluid";
@@ -95,5 +98,6 @@ public class Reference {
     public static final int GUI_ID_DISTRIBUTION_FLUID = 3;
     public static final int GUI_ID_DISTRIBUTION_COOLANT = 4;
     public static final int GUI_ID_TANK_INTERACTION = 5;
+    public static final int GUI_ID_POWERED_FREEZER = 6;
 
 }

@@ -36,7 +36,8 @@ public class BlockTank extends BlockRK implements ITankBlock {
     @Override
     public IIcon getIcon(int side, int meta) {
         if (meta == 0) return icons[0];
-        return icons[1];
+        if (meta == 1) return icons[1];
+        return icons[0];
     }
 
     @Override
@@ -46,11 +47,20 @@ public class BlockTank extends BlockRK implements ITankBlock {
 
     @Override
     public boolean isOpaqueCube() {
-        return true;
+        return false;
     }
 
     protected boolean isBuild(int meta) {
         return meta != 0;
+    }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
+        ForgeDirection forgeSide = ForgeDirection.values()[side];
+        if (access.getBlock(x + forgeSide.offsetX, y + forgeSide.offsetY, z + forgeSide.offsetZ) instanceof ITankBlock) {
+            return false;
+        }
+        return true;
     }
 
     private TileTankAdapter getTankAdapter(IBlockAccess access, int x, int y, int z, int meta) {

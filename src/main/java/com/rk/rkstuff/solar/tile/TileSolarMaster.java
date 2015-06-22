@@ -164,22 +164,16 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     @Override
     protected void updateMaster() {
         tick++;
-
         if (coolantBuffer.getTemperature() < MAX_SOLAR_TEMPERATURE) {
             float energy = SCALE * getCountCurrentSkySeeingSolarPanel() * getCurrentProductionPerSolar();// (0.0 - 1.0) * countSolarWithSky
             productionLastTick = energy;
 
-            float coolantEnergy = coolantBuffer.getAmount() * coolantBuffer.getTemperature();
-            coolantEnergy += energy;
+            coolantBuffer.addEnergy(energy);
 
-            float newTemp = coolantEnergy / coolantBuffer.getAmount();
-            if (newTemp > MAX_SOLAR_TEMPERATURE) newTemp = MAX_SOLAR_TEMPERATURE;
-            coolantBuffer.set(coolantBuffer.getAmount(), newTemp);
+            if (coolantBuffer.getTemperature() > MAX_SOLAR_TEMPERATURE) {
+                coolantBuffer.set(coolantBuffer.getAmount(), MAX_SOLAR_TEMPERATURE);
+            }
         }
-
-
-
-
 
         if (tick % 20 == 0) {
             tick = 0;

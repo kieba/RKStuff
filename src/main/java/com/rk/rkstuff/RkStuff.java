@@ -204,7 +204,7 @@ public class RkStuff {
         GameRegistry.registerBlock(blockCoolantPipe, Reference.BLOCK_COOLANT_PIPE);
         GameRegistry.registerBlock(blockCoolantInjector, Reference.BLOCK_COOLANT_INJECTOR);
         GameRegistry.registerBlock(blockCoolantExtractor, Reference.BLOCK_COOLANT_EXTRACTOR);
-        GameRegistry.registerBlock(blockHeatExchanger, Reference.BLOCK_COOLANT_EXTRACTOR);
+        GameRegistry.registerBlock(blockHeatExchanger, Reference.BLOCK_HEAT_EXCHANGER);
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);

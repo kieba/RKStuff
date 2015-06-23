@@ -16,7 +16,7 @@ public class CoolantStack {
     }
 
     public CoolantStack() {
-        this(0, 0);
+        this(0, 20.0f);
     }
 
     public void add(int amount, float temperature) {
@@ -54,11 +54,15 @@ public class CoolantStack {
     }
 
     public void addEnergy(float energy) {
-        this.temperature = (getEnergy() + energy) / this.amount;
+        if (amount > 0) {
+            this.temperature = (getEnergy() + energy) / this.amount;
+        }
     }
 
     public void extractEnergy(float energy) {
-        this.temperature = (getEnergy() - energy) / this.amount;
+        if (amount > 0) {
+            this.temperature = (getEnergy() - energy) / this.amount;
+        }
     }
 
     public void set(int amount, float temperature) {

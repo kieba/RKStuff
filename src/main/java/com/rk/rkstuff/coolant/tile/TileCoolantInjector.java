@@ -32,7 +32,7 @@ public class TileCoolantInjector extends TileRK implements IFluidHandler, ICoola
             TileEntity te = getNeighbour(i);
             if (te == null || !(te instanceof ICoolantReceiver)) continue;
             ICoolantReceiver rcv = (ICoolantReceiver) te;
-            maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true);
+            maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), Integer.MAX_VALUE, 0.0f, true);
             totalInput += maxInput[i];
         }
 
@@ -43,7 +43,7 @@ public class TileCoolantInjector extends TileRK implements IFluidHandler, ICoola
             if (maxInput[i] == 0) continue;
             ICoolantReceiver rcv = (ICoolantReceiver) getNeighbour(i);
             int amount = (int) Math.floor(maxInput[i] * scale);
-            int received = rcv.receiveCoolant(ForgeDirection.values()[i], amount, 20.0f, false);
+            int received = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), amount, 20.0f, false);
             coolantStack.remove(received);
         }
 

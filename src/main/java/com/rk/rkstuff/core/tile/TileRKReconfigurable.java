@@ -16,6 +16,7 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
 
     public TileRKReconfigurable(BlockRKReconfigurable block) {
         this.block = block;
+        sideCache = getDefaultSideConfig().clone();
     }
 
     @Override

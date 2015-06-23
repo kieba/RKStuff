@@ -31,8 +31,8 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
             ICoolantReceiver rcv = getICoolantReceiver(i);
             if (rcv == null) {
                 maxInput[i] = 0;
-            } else if (rcv.canConnect(ForgeDirection.values()[i])) {
-                maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true);
+            } else if (rcv.canConnect(ForgeDirection.values()[i].getOpposite())) {
+                maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), Integer.MAX_VALUE, 0.0f, true);
 
                 int p;
                 if (rcv instanceof TileCoolantPipe) {
@@ -59,7 +59,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
                 int side = outputSides[i];
                 ICoolantReceiver rcv = getICoolantReceiver(side);
                 int amount = (int) Math.floor(maxInput[side] * scale);
-                int received = rcv.receiveCoolant(ForgeDirection.values()[side], amount, coolant.getTemperature(), false);
+                int received = rcv.receiveCoolant(ForgeDirection.values()[side].getOpposite(), amount, coolant.getTemperature(), false);
                 coolant.remove(received);
             }
         }
@@ -87,7 +87,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
 
         int side = dir.ordinal();
         TileEntity te = getNeighbour(side);
-        if (te instanceof ICoolantConnection && ((ICoolantConnection) te).canConnect(dir)) {
+        if (te instanceof ICoolantConnection && ((ICoolantConnection) te).canConnect(dir.getOpposite())) {
             isConnected[side] = true;
             hasAdapter[side] = !(te instanceof TileCoolantPipe);
         } else {

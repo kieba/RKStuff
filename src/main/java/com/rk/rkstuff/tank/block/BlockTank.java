@@ -63,7 +63,7 @@ public class BlockTank extends BlockRK implements ITankBlock {
     }
 
     private TileTankAdapter getTankAdapter(IBlockAccess access, int x, int y, int z, int meta) {
-        isBuild(meta);
+        if (!isBuild(meta)) return null;
         MultiBlockHelper.Bounds tmp = new MultiBlockHelper.Bounds(x, y, z);
         for (ForgeDirection direction : new ForgeDirection[]{ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST}) {
             int i = 1;

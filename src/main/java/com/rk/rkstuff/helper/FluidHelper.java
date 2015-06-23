@@ -46,7 +46,7 @@ public class FluidHelper {
         for (int i = 0; i < 6; i++) {
             if (!(neighbours[i] instanceof ICoolantReceiver)) continue;
             ICoolantReceiver rcv = (ICoolantReceiver) neighbours[i];
-            maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i], Integer.MAX_VALUE, 0.0f, true);
+            maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), Integer.MAX_VALUE, 0.0f, true);
             totalInput += maxInput[i];
         }
 
@@ -59,10 +59,35 @@ public class FluidHelper {
             ICoolantReceiver rcv = (ICoolantReceiver) neighbours[i];
             int amount = (int) Math.floor(maxInput[i] * scale);
             if (amount == 0) continue;
-            outputted += rcv.receiveCoolant(ForgeDirection.values()[i], amount, temperature, false);
+            outputted += rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), amount, temperature, false);
         }
 
         return outputted;
     }
 
+    public static int outputCoolantToNeighbours(TileEntity[] neighbours, byte[] sideCache, byte outputSide, int maxAmount, float temperature) {
+        if (maxAmount == 0) return 0;
+        int totalInput = 0;
+        int[] maxInput = new int[6];
+        for (int i = 0; i < 6; i++) {
+            if (!(neighbours[i] instanceof ICoolantReceiver) || sideCache[i] != outputSide) continue;
+            ICoolantReceiver rcv = (ICoolantReceiver) neighbours[i];
+            maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), Integer.MAX_VALUE, 0.0f, true);
+            totalInput += maxInput[i];
+        }
+
+        float scale = maxAmount / (float) totalInput;
+        if (scale > 1.0f) scale = 1.0f;
+
+        int outputted = 0;
+        for (int i = 0; i < 6; i++) {
+            if (!(neighbours[i] instanceof ICoolantReceiver) || sideCache[i] != outputSide) continue;
+            ICoolantReceiver rcv = (ICoolantReceiver) neighbours[i];
+            int amount = (int) Math.floor(maxInput[i] * scale);
+            if (amount == 0) continue;
+            outputted += rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), amount, temperature, false);
+        }
+
+        return outputted;
+    }
 }

@@ -117,7 +117,7 @@ public class TileHeatExchanger extends TileRK implements ICoolantReceiver, IReco
 
     @Override
     public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
-        if (config[from.getOpposite().ordinal()] != 1) return 0;
+        if (config[from.ordinal()] != 1) return 0;
         maxAmount = Math.min(maxAmount, MAX_IO);
         maxAmount = Math.min(maxAmount, MAX_STORAGE - coolantStack.getAmount());
         if (!simulate) {
@@ -128,7 +128,7 @@ public class TileHeatExchanger extends TileRK implements ICoolantReceiver, IReco
 
     @Override
     public boolean canConnect(ForgeDirection from) {
-        return config[from.getOpposite().ordinal()] != 0;
+        return config[from.ordinal()] != 0;
     }
 
     @Override

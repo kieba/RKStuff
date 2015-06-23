@@ -17,19 +17,20 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
 
     private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<EntityPlayerMP>(0);
     protected TileEntity[] neighbours = new TileEntity[6];
-    private int tick = 0;
     private boolean hadFirstUpdate = false;
+    private int updateInterval = 0;
 
     @Override
     public void updateEntity() {
         super.updateEntity();
         if (worldObj.isRemote) return;
         if (hasGui() && !playerInGui.isEmpty()) {
-            if(tick > GUI_UPDATE_RATE) {
+            if (worldObj.getWorldTime() % GUI_UPDATE_RATE == 0) {
                 updateGuiInformation();
-            } else {
-                tick++;
             }
+        }
+        if (updateInterval != 0 && worldObj.getWorldTime() % updateInterval == 0) {
+            markBlockForUpdate();
         }
         if (!hadFirstUpdate) {
             onFirstUpdate();
@@ -37,11 +38,14 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         }
     }
 
+    protected void setUpdateInterval(int updateInterval) {
+        this.updateInterval = updateInterval;
+    }
+
     public void updateGuiInformation() {
         for (EntityPlayerMP p : playerInGui) {
             PacketHandler.INSTANCE.sendTo(new MessageCustom(this), p);
         }
-        tick = 0;
     }
 
     public void registerPlayerGui(EntityPlayerMP player) {
@@ -61,9 +65,6 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         return false;
     }
 
-    public void sendGuiUpdate() {
-        tick = GUI_UPDATE_RATE + 1;
-    }
 
     public Pos getPosition(){
         return new Pos(xCoord, yCoord, zCoord);

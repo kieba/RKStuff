@@ -7,11 +7,7 @@ import com.rk.rkstuff.boiler.tile.TileBoilerBaseOutput;
 import com.rk.rkstuff.client.gui.GuiHandler;
 import com.rk.rkstuff.client.model.ModelPipe;
 import com.rk.rkstuff.coolant.block.*;
-import com.rk.rkstuff.coolant.tile.TileCoolantExtractor;
-import com.rk.rkstuff.coolant.tile.TileCoolantInjector;
-import com.rk.rkstuff.coolant.tile.TileCoolantPipe;
-import com.rk.rkstuff.coolant.tile.TilePoweredFreezer;
-import com.rk.rkstuff.coolant.tile.TileHeatExchanger;
+import com.rk.rkstuff.coolant.tile.*;
 import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.core.block.BlockRKReconfigurable;
 import com.rk.rkstuff.distribution.block.BlockDistributionCoolant;
@@ -115,6 +111,8 @@ public class RkStuff {
 
     public static BlockRKReconfigurable blockPoweredFreezer = new BlockPoweredFreezer();
 
+    public static Block blockCoolantMixer = new BlockCoolantMixer();
+
     public static Block blockFusionCase = new BlockFusionCase();
     public static Block blockFusionCaseBevelSmall = new BlockFusionCaseBevelSmall();
     public static Block blockFusionCaseBevelSmallInverted = new BlockFusionCaseBevelSmallInverted();
@@ -188,6 +186,9 @@ public class RkStuff {
 
         GameRegistry.registerBlock(blockPoweredFreezer, Reference.BLOCK_POWERED_FREEZER);
         GameRegistry.registerTileEntity(TilePoweredFreezer.class, Reference.TILE_POWERED_FREEZER);
+
+        GameRegistry.registerBlock(blockCoolantMixer, Reference.BLOCK_COOLANT_MIXER);
+        GameRegistry.registerTileEntity(TileCoolantMixer.class, Reference.TILE_COOLANT_MIXER);
 
         GameRegistry.registerBlock(blockFusionCase, Reference.BLOCK_FUSION_CASE);
         GameRegistry.registerBlock(blockFusionCaseBevelSmall, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);

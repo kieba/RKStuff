@@ -32,6 +32,9 @@ public class Reference {
     public static final String BLOCK_POWERED_FREEZER = "PoweredFreezer";
     public static final String TILE_POWERED_FREEZER = "TilePoweredFreezer";
 
+    public static final String BLOCK_COOLANT_MIXER = "CoolantMixer";
+    public static final String TILE_COOLANT_MIXER = "TileCoolantMixer";
+
 
     public static final String BLOCK_DISTRIBUTION_ENERGY = "DistributionEnergy";
     public static final String BLOCK_DISTRIBUTION_FLUID = "DistributionFluid";

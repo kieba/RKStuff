@@ -7,6 +7,9 @@ import java.io.IOException;
 
 public class CoolantStack {
 
+    public static final float MIN_TEMPERATURE = -273.15f;
+    public static final float MAX_TEMPERATURE = 3000.0f;
+
     private int amount;
     private float temperature;
 
@@ -23,6 +26,7 @@ public class CoolantStack {
         if (amount == 0) return;
         this.temperature = (this.amount * this.temperature + amount * temperature) / (this.amount + amount);
         this.amount += amount;
+        checkTemperatureBounds();
     }
 
     public void add(CoolantStack stack) {
@@ -58,17 +62,25 @@ public class CoolantStack {
         if (amount > 0) {
             this.temperature = (getEnergy() + energy) / this.amount;
         }
+        checkTemperatureBounds();
     }
 
     public void extractEnergy(float energy) {
         if (amount > 0) {
             this.temperature = (getEnergy() - energy) / this.amount;
         }
+        checkTemperatureBounds();
     }
 
     public void set(int amount, float temperature) {
         this.amount = amount;
         this.temperature = temperature;
+        checkTemperatureBounds();
+    }
+
+    private void checkTemperatureBounds() {
+        if (this.temperature < MIN_TEMPERATURE) this.temperature = MIN_TEMPERATURE;
+        if (this.temperature > MAX_TEMPERATURE) this.temperature = MAX_TEMPERATURE;
     }
 
     public void writeToNBT(String name, NBTTagCompound tag) {

@@ -1,28 +1,35 @@
 package com.rk.rkstuff.fusion.tile;
 
+import com.rk.rkstuff.coolant.tile.ICoolantReceiver;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
+import com.rk.rkstuff.util.RKLog;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileFusionCaseFluidIO extends TileRK implements IMultiBlockMasterListener, IFluidHandler {
+public class TileFusionCaseFluidIO extends TileRK implements IMultiBlockMasterListener, ICoolantReceiver {
 
     private TileFusionControlMaster master;
+    private int side;
 
     public boolean hasMaster() {
         return master != null;
     }
 
+    public int getSide() {
+        return side;
+    }
+
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
         master = (TileFusionControlMaster) tileMaster;
+        side = master.getSideForFluidIO(this);
+        if (side == -1) {
+            RKLog.error("Invalid side for TileFusionCaseFluidIO!");
+        }
     }
 
     @Override
@@ -41,32 +48,13 @@ public class TileFusionCaseFluidIO extends TileRK implements IMultiBlockMasterLi
     }
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        return 0;
+    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+        if (!hasMaster()) return 0;
+        return master.receiveCoolant(side, maxAmount, temperature, simulate);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        return null;
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        return null;
-    }
-
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return false;
-    }
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return false;
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        return new FluidTankInfo[0];
+    public boolean canConnect(ForgeDirection from) {
+        return hasMaster();
     }
 }

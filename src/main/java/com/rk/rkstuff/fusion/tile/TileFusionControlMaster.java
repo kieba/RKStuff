@@ -1,13 +1,14 @@
 package com.rk.rkstuff.fusion.tile;
 
 import com.rk.rkstuff.RkStuff;
+import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.fusion.FusionHelper;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
-import com.rk.rkstuff.util.RKLog;
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
@@ -16,7 +17,317 @@ import java.io.IOException;
 
 public class TileFusionControlMaster extends TileMultiBlockMaster {
 
+    private static final int FUSION_RING_SIDE_COUNT = 9;
+    private static final float MAX_ROUNDS_PER_TICK = 0.75f;
+
+    private static final int COOLANT_PER_FLUID_IO = 1000;
+
+    //deceleration per °C temperature difference between CoolantStack.MIN_TEMPERATURE and the current coolant temperature at the side
+    //the deceleration is applied after each movement! This will be called ((int)currentSpeed)-times per tick.
+    //if we have a efficiency of 0.9 and and a temperature of -200 °C we have a speed lost of about ~50% per round
+    private static final float DECELERATION_PER_CENTIGRADE_IN_PERCENT = 0.015f;
+
+    //the amount of heat energy produced when the mass travels though a block with a speed of 1
+    //the heat energy will added to the coolantStack of the side (coolantEnergy = coolant.amount * coolant.temperature)
+    //1 FluidIO Block has a capacity of 1000mB!
+    //if we have 1000mB coolant (at each side) with a temp of -270°C we can run the fusion reactor at max speed for ~25 sec without cooling! (side length = 5)
+    private static final float HEAT_ENERGY_PER_SPEED = 100.0f;
+
     private FusionHelper.FusionStructure setup;
+    private int[] maxCoolantStorage = new int[FUSION_RING_SIDE_COUNT];
+    private CoolantStack[] coolant = new CoolantStack[FUSION_RING_SIDE_COUNT];
+
+    private float efficiency;
+    //max speed is MAX_ROUNDS_PER_TICK rounds per tick (if the setting is optimal!)
+    private float maxSpeed; //in blocks per tick
+    private float currentSpeed; //in blocks per tick
+    private float currentMass; //the mass of the object which will be accelerated
+    private int currentRingSide;
+    private int currentSidePosition;
+    private int controlLength;
+    private int totalLength;
+    private boolean isCollideMode;
+
+    @Override
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+        for (int i = 0; i < FUSION_RING_SIDE_COUNT; i++) {
+            coolant[i].writeToNBT("coolant" + i, tag);
+        }
+        tag.setFloat("speed", currentSpeed);
+        tag.setFloat("mass", currentMass);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+        for (int i = 0; i < FUSION_RING_SIDE_COUNT; i++) {
+            coolant[i] = new CoolantStack();
+            coolant[i].readFromNBT("coolant" + i, tag);
+        }
+        currentSpeed = tag.getFloat("speed");
+        currentMass = tag.getFloat("mass");
+    }
+
+    @Override
+    protected void updateMaster() {
+        if (isCollideMode) {
+            if (hasWork()) {
+                work();
+            } else {
+                this.currentMass += injectMass();
+            }
+        } else {
+            this.currentMass += injectMass();
+            if (hasWork()) work();
+        }
+    }
+
+    private void resetWork() {
+        currentMass = 0;
+        currentSpeed = 0.0f;
+        setCenter();
+    }
+
+    private boolean hasWork() {
+        return currentMass >= 0.0f;
+    }
+
+    private void work() {
+        int maxSteps = (int) currentSpeed;
+        if (maxSteps == 0) {
+            if (currentSpeed == 0.0f) {
+                //initial acceleration for the mass
+                accelerate();
+                maxSteps = (int) currentSpeed;
+            } else {
+                onToSlow();
+                resetWork();
+            }
+
+        }
+        for (int s = 0; s < maxSteps; s++) {
+            moveToNextPosition();
+            heatUpSide();
+            deceleration();
+            if (isControlCenter()) {
+                if (isCollideMode) {
+                    if (doCollide()) {
+                        collide();
+                        resetWork();
+                    } else {
+                        accelerate();
+                    }
+                } else {
+                    this.currentMass -= produce();
+                    if (currentMass <= 0.0f) {
+                        resetWork();
+                    } else {
+                        accelerate();
+                    }
+                }
+            }
+        }
+    }
+
+    private void accelerate() {
+        float energy = 0.5f * currentMass * currentSpeed * currentSpeed;
+        float maxSpeedEnergy = 0.5f * currentMass * maxSpeed * maxSpeed;
+        energy += getAccelerationEnergy(maxSpeedEnergy - energy);
+        currentSpeed = (float) Math.sqrt(2.0f * energy / currentMass);
+        if (currentSpeed > maxSpeed) currentSpeed = maxSpeed;
+    }
+
+    private void deceleration() {
+        //control side does not need to be cooled -> no deceleration
+        if (!isControlSide()) {
+            float temperature = coolant[currentRingSide].getTemperature();
+            //the coolant does only work if there are more than 100 mB in the side
+            if (coolant[currentRingSide].getAmount() <= 100) temperature = 20.0f;
+            float tempDiff = Math.abs(CoolantStack.MIN_TEMPERATURE - temperature);
+            currentSpeed = currentSpeed * (1.0f - ((tempDiff * DECELERATION_PER_CENTIGRADE_IN_PERCENT * efficiency) / totalLength));
+        }
+    }
+
+    private void heatUpSide() {
+        if (!isControlSide()) {
+            float heatEnergy = ((HEAT_ENERGY_PER_SPEED * currentSpeed) / (efficiency * totalLength));
+            coolant[currentRingSide].addEnergy(heatEnergy);
+        }
+    }
+
+    //returns the amount of mass that should be injected into the system
+    protected float injectMass() {
+
+        return 0.0f;
+    }
+
+    //returns the mass of the material which should be removed from the current mass
+    protected float produce() {
+
+        return 0.0f;
+    }
+
+    protected void collide() {
+
+    }
+
+    protected void onInitialize() {
+
+    }
+
+    protected void onUnInitialize() {
+
+    }
+
+    //this is called if the speed drops below 1, which means we have not enough energy to accelerate the mass for one round
+    protected void onToSlow() {
+
+    }
+
+    //maxEnergy returns the energy needed to accelerate the mass to maxSpeed
+    //return the energy used per acceleration, depends on the control core setting
+    protected float getAccelerationEnergy(float maxEnergy) {
+
+        return 0.0f;
+    }
+
+    protected boolean isCollideMode() {
+        return true;
+    }
+
+    protected float getMass() {
+        return currentMass;
+    }
+
+    protected float getSpeed() {
+        return currentSpeed;
+    }
+
+    protected float getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    protected float getEfficiency() {
+        return efficiency;
+    }
+
+    protected float getTotalLength() {
+        return totalLength;
+    }
+
+    private boolean isControlCenter() {
+        if (isControlSide()) {
+            if (currentSidePosition == (controlLength / 2)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void setCenter() {
+        this.currentRingSide = FUSION_RING_SIDE_COUNT;
+        this.currentSidePosition = (controlLength / 2);
+    }
+
+    private boolean isControlSide() {
+        return currentRingSide == FUSION_RING_SIDE_COUNT;
+    }
+
+    private boolean doCollide() {
+        return currentSpeed >= maxSpeed;
+    }
+
+    /**
+     * @return true if the side changes
+     */
+    private void moveToNextPosition() {
+        int sideLength;
+
+        if (isControlSide()) {
+            sideLength = controlLength;
+        } else {
+            sideLength = setup.lengths[currentRingSide];
+        }
+
+        currentSidePosition++;
+
+        if (sideLength >= currentSidePosition) {
+            currentSidePosition = 0;
+
+            if (isControlSide()) {
+                currentRingSide = 0;
+            } else {
+                currentRingSide++;
+            }
+        }
+    }
+
+    private void initialize() {
+        if (setup.startDir.xOff != 0) {
+            controlLength = setup.controlBounds.getWidthX();
+        } else {
+            controlLength = setup.controlBounds.getWidthZ();
+        }
+
+        totalLength = 0;
+        for (int i = 0; i < FUSION_RING_SIDE_COUNT; i++) {
+            totalLength += setup.lengths[i];
+        }
+        totalLength += controlLength;
+
+        float avgLength = totalLength / 8.0f;
+
+        //the smaller the average deviation from the average side length the better
+        float avgDev = 0.0f;
+        for (int i = 1; i < FUSION_RING_SIDE_COUNT - 1; i++) {
+            avgDev += Math.abs(setup.lengths[i] - avgLength);
+        }
+
+        avgDev += Math.abs(controlLength + setup.lengths[0] + setup.lengths[FUSION_RING_SIDE_COUNT - 1] - avgLength);
+
+        efficiency = 1.0f;
+        if (avgDev != 0.0f) efficiency = 1.0f - (avgDev / avgLength);
+
+        //max speed is MAX_ROUNDS_PER_TICK rounds per tick (if the setting is optimal!)
+        maxSpeed = totalLength * efficiency * MAX_ROUNDS_PER_TICK;
+        isCollideMode = isCollideMode();
+        onInitialize();
+    }
+
+    private void unInitialize() {
+        resetWork();
+        efficiency = 0.0f;
+        maxSpeed = 0.0f;
+        isCollideMode = false;
+        totalLength = 0;
+        controlLength = 0;
+        onUnInitialize();
+    }
+
+    public int receiveCoolant(int side, int maxAmount, float temperature, boolean simulate) {
+        CoolantStack stack = coolant[side];
+        maxAmount = Math.min(maxAmount, maxCoolantStorage[side] - stack.getAmount());
+        if (!simulate) {
+            stack.add(maxAmount, temperature);
+        }
+        return maxAmount;
+    }
+
+    public int getSideForFluidIO(final TileFusionCaseFluidIO tile) {
+        final int[] side = {-1};
+        FusionHelper.iterateRingCore(setup, new FusionHelper.IFusionPosVisitor() {
+            @Override
+            public boolean visit(FusionHelper.FusionPos pos) {
+                if (pos.p.x == tile.xCoord && pos.p.z == tile.zCoord) {
+                    side[0] = pos.side;
+                    return false;
+                }
+                return true;
+            }
+        });
+        return side[0];
+    }
 
     @Override
     public boolean checkMultiBlockForm() {
@@ -84,8 +395,7 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
     @Override
     protected MultiBlockHelper.Bounds setupStructure() {
         setup = createFusionStructure();
-        RKLog.info("Setup FusionCore structure!!!!!");
-
+        final int[] fluidIOTiles = new int[FUSION_RING_SIDE_COUNT];
         if (setup != null) {
             FusionHelper.iterateControl(setup, new FusionHelper.IFusionPosVisitor() {
                 @Override
@@ -110,25 +420,37 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
                             }
                         } else {
                             worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 2);
-                            TileFusionControlMaster.this.registerMaster(pos.p.x, pos.p.y, pos.p.z, 1);
+                            TileEntity tile = TileFusionControlMaster.this.registerMaster(pos.p.x, pos.p.y, pos.p.z, 1);
+                            if (tile instanceof TileFusionCaseFluidIO) {
+                                fluidIOTiles[((TileFusionCaseFluidIO) tile).getSide()]++;
+                            }
                         }
                     }
                     return true;
                 }
             });
-        }
 
+            for (int i = 0; i < FUSION_RING_SIDE_COUNT; i++) {
+                maxCoolantStorage[i] = fluidIOTiles[i] * COOLANT_PER_FLUID_IO;
+                if (coolant[i].getAmount() > maxCoolantStorage[i])
+                    coolant[i].set(maxCoolantStorage[i], coolant[i].getTemperature());
+            }
+
+            initialize();
+        }
         return null;
     }
 
-    private void registerMaster(int x, int y, int z, int meta) {
+    private TileEntity registerMaster(int x, int y, int z, int meta) {
         Block b = worldObj.getBlock(x, y, z);
         if (b.hasTileEntity(meta)) {
             TileEntity tile = worldObj.getTileEntity(x, y, z);
             if (tile instanceof IMultiBlockMasterListener) {
                 ((IMultiBlockMasterListener) tile).registerMaster(this);
+                return tile;
             }
         }
+        return null;
     }
 
     private void unregisterMaster(int x, int y, int z, int meta) {
@@ -143,7 +465,6 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
     @Override
     protected void resetStructure() {
-        RKLog.info("Reset FusionCore structure!!!!!");
         FusionHelper.iterateControl(setup, new FusionHelper.IFusionPosVisitor() {
             @Override
             public boolean visit(FusionHelper.FusionPos pos) {
@@ -167,11 +488,7 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
                 return true;
             }
         });
-    }
-
-    @Override
-    protected void updateMaster() {
-
+        unInitialize();
     }
 
     @Override

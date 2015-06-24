@@ -9,7 +9,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockFusionCaseBevelSmallInverted extends BlockFusionCase implements IBlockBevelSmallInverted {
 
@@ -56,5 +58,10 @@ public class BlockFusionCaseBevelSmallInverted extends BlockFusionCase implement
             world.setBlockMetadataWithNotify(x, y, z, meta, 3);
         }
         return true;
+    }
+
+    @Override
+    public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+        return false;
     }
 }

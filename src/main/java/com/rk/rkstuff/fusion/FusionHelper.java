@@ -83,6 +83,7 @@ public class FusionHelper {
         public int bevelMeta;
         public Block bevelBlock;
         public boolean isBevelBlock;
+        public int side;
 
         public FusionPos clone() {
             FusionPos newPos = new FusionPos();
@@ -92,8 +93,26 @@ public class FusionHelper {
             newPos.isBevelBlock = this.isBevelBlock;
             newPos.bevelMeta = this.bevelMeta;
             newPos.bevelBlock = this.bevelBlock;
+            newPos.side = this.side;
             return newPos;
         }
+    }
+
+    public static boolean iterateRingCore(FusionStructure setup, IFusionPosVisitor visitor) {
+        FusionCoreDir dir = setup.startDir;
+        FusionPos pos = new FusionPos();
+        pos.isCore = true;
+        pos.p = new Pos(setup.ringStart.x, setup.ringStart.y, setup.ringStart.z);
+        for (int i = 0; i < setup.lengths.length; i++) {
+            pos.side = i;
+            if (!visitor.visit(pos)) {
+                return false;
+            }
+            pos.p.x += dir.xOff * setup.lengths[i];
+            pos.p.z += dir.zOff * setup.lengths[i];
+            dir = dir.getNext(false);
+        }
+        return true;
     }
 
     public static boolean iterateRing(FusionStructure setup, IFusionPosVisitor visitor) {
@@ -101,6 +120,7 @@ public class FusionHelper {
         Pos start = new Pos(setup.ringStart.x, setup.ringStart.y, setup.ringStart.z);
         for (int i = 0; i < setup.lengths.length; i++) {
             FusionPos pos = new FusionPos();
+            pos.side = i;
             pos.p = new Pos(0, 0, 0);
             if (!dir.isEdge()) {
                 if (dir.xOff != 0) {

@@ -41,7 +41,9 @@ import com.rk.rkstuff.tank.tile.TileTankInteraction;
 import com.rk.rkstuff.tank.tile.TileTankValve;
 import com.rk.rkstuff.teleporter.block.BlockTeleporter;
 import com.rk.rkstuff.teleporter.tile.TileTeleporter;
+import com.rk.rkstuff.util.RKLog;
 import com.rk.rkstuff.util.Reference;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -70,6 +72,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 @Mod(modid = Reference.MOD_ID, version = Reference.VERSION, name = Reference.MOD_NAME)
@@ -260,6 +263,20 @@ public class RkStuff {
 
         //Recipes
         registerRecipes();
+
+        try {
+            if (Loader.isModLoaded("BuildCraft|Transport")) {
+                Class clazz = Class.forName("buildcraft.transport.ItemFacade");
+                Method blacklistFacade = clazz.getDeclaredMethod("blacklistFacade", String.class);
+                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockTankBevelSmall));
+                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockTankBevelLarge));
+                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockFusionCaseBevelSmall));
+                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockFusionCaseBevelSmallInverted));
+                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockFusionCaseBevelLarge));
+            }
+        } catch (Exception e) {
+            RKLog.error(e);
+        }
     }
 
     @EventHandler

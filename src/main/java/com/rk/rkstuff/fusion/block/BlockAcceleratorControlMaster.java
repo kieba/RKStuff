@@ -1,7 +1,7 @@
 package com.rk.rkstuff.fusion.block;
 
 import com.rk.rkstuff.core.block.BlockRK;
-import com.rk.rkstuff.fusion.tile.TileFusionControlMaster;
+import com.rk.rkstuff.fusion.tile.TileAcceleratorControlMaster;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,17 +13,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockFusionControlMaster extends BlockRK implements ITileEntityProvider, IFusionControlCaseBlock {
+public class BlockAcceleratorControlMaster extends BlockRK implements ITileEntityProvider, IAcceleratorControlCaseBlock {
 
     private IIcon[] icons = new IIcon[2];
 
-    public BlockFusionControlMaster() {
+    public BlockAcceleratorControlMaster() {
         super(Material.iron, Reference.BLOCK_FUSION_CONTROL_MASTER);
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return new TileFusionControlMaster();
+        return new TileAcceleratorControlMaster();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class BlockFusionControlMaster extends BlockRK implements ITileEntityProv
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
-            TileFusionControlMaster tile = (TileFusionControlMaster) world.getTileEntity(x, y, z);
+            TileAcceleratorControlMaster tile = (TileAcceleratorControlMaster) world.getTileEntity(x, y, z);
             tile.onBlockActivated(player.isSneaking());
         }
         return true;

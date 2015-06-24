@@ -1,6 +1,6 @@
 package com.rk.rkstuff.fusion.block;
 
-import com.rk.rkstuff.fusion.tile.TileFusionControlItemIO;
+import com.rk.rkstuff.fusion.tile.TileAcceleratorCaseFluidIO;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -11,24 +11,24 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockFusionControlItemIO extends BlockFusionControlCase implements ITileEntityProvider {
+public class BlockAcceleratorCaseFluidIO extends BlockAcceleratorCase implements ITileEntityProvider {
 
     private IIcon[] icons = new IIcon[2];
 
-    public BlockFusionControlItemIO() {
-        super(Material.iron, Reference.BLOCK_FUSION_CONTROL_ITEM_IO);
+    public BlockAcceleratorCaseFluidIO() {
+        super(Material.iron, Reference.BLOCK_FUSION_CASE_FLUID_IO);
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return new TileFusionControlItemIO();
+        return new TileAcceleratorCaseFluidIO();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_ITEM_IO + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_ITEM_IO + 2);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CASE_FLUID_IO + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CASE_FLUID_IO + 2);
     }
 
     @Override

@@ -17,10 +17,10 @@ import com.rk.rkstuff.distribution.tile.TileDistributionCoolant;
 import com.rk.rkstuff.distribution.tile.TileDistributionEnergy;
 import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
 import com.rk.rkstuff.fusion.block.*;
-import com.rk.rkstuff.fusion.tile.TileFusionCaseFluidIO;
-import com.rk.rkstuff.fusion.tile.TileFusionControlEnergyIO;
-import com.rk.rkstuff.fusion.tile.TileFusionControlItemIO;
-import com.rk.rkstuff.fusion.tile.TileFusionControlMaster;
+import com.rk.rkstuff.fusion.tile.TileAcceleratorCaseFluidIO;
+import com.rk.rkstuff.fusion.tile.TileAcceleratorControlEnergyIO;
+import com.rk.rkstuff.fusion.tile.TileAcceleratorControlItemIO;
+import com.rk.rkstuff.fusion.tile.TileAcceleratorControlMaster;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.item.BucketBase;
@@ -116,17 +116,17 @@ public class RkStuff {
 
     public static Block blockCoolantMixer = new BlockCoolantMixer();
 
-    public static Block blockFusionCase = new BlockFusionCase();
-    public static Block blockFusionCaseBevelSmall = new BlockFusionCaseBevelSmall();
-    public static Block blockFusionCaseBevelSmallInverted = new BlockFusionCaseBevelSmallInverted();
-    public static Block blockFusionCaseBevelLarge = new BlockFusionCaseBevelLarge();
-    public static Block blockFusionCaseFluidIO = new BlockFusionCaseFluidIO();
-    public static Block blockFusionControlCase = new BlockFusionControlCase();
-    public static Block blockFusionControlCore = new BlockFusionControlCore();
-    public static Block blockFusionControlEnergyIO = new BlockFusionControlEnergyIO();
-    public static Block blockFusionControlItemIO = new BlockFusionControlItemIO();
-    public static Block blockFusionControlMaster = new BlockFusionControlMaster();
-    public static Block blockFusionCore = new BlockFusionCore();
+    public static Block blockAcceleratorCase = new BlockAcceleratorCase();
+    public static Block blockAcceleratorCaseBevelSmall = new BlockAcceleratorCaseBevelSmall();
+    public static Block blockAcceleratorCaseBevelSmallInverted = new BlockAcceleratorCaseBevelSmallInverted();
+    public static Block blockAcceleratorCaseBevelLarge = new BlockAcceleratorCaseBevelLarge();
+    public static Block blockAcceleratorCaseFluidIO = new BlockAcceleratorCaseFluidIO();
+    public static Block blockAcceleratorControlCase = new BlockAcceleratorControlCase();
+    public static Block blockAcceleratorControlCore = new BlockAcceleratorControlCore();
+    public static Block blockAcceleratorControlEnergyIO = new BlockAcceleratorControlEnergyIO();
+    public static Block blockAcceleratorControlItemIO = new BlockAcceleratorControlItemIO();
+    public static Block blockAcceleratorControlMaster = new BlockAcceleratorControlMaster();
+    public static Block blockAcceleratorCore = new BlockAcceleratorCore();
 
     public static Block blockCoolantPipe = new BlockCoolantPipe();
     public static Block blockCoolantInjector = new BlockCoolantInjector();
@@ -193,17 +193,17 @@ public class RkStuff {
         GameRegistry.registerBlock(blockCoolantMixer, Reference.BLOCK_COOLANT_MIXER);
         GameRegistry.registerTileEntity(TileCoolantMixer.class, Reference.TILE_COOLANT_MIXER);
 
-        GameRegistry.registerBlock(blockFusionCase, Reference.BLOCK_FUSION_CASE);
-        GameRegistry.registerBlock(blockFusionCaseBevelSmall, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
-        GameRegistry.registerBlock(blockFusionCaseBevelSmallInverted, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);
-        GameRegistry.registerBlock(blockFusionCaseBevelLarge, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
-        GameRegistry.registerBlock(blockFusionCaseFluidIO, Reference.BLOCK_FUSION_CASE_FLUID_IO);
-        GameRegistry.registerBlock(blockFusionControlCase, Reference.BLOCK_FUSION_CONTROL_CASE);
-        GameRegistry.registerBlock(blockFusionControlCore, Reference.BLOCK_FUSION_CONTROL_CORE);
-        GameRegistry.registerBlock(blockFusionControlEnergyIO, Reference.BLOCK_FUSION_CONTROL_ENERGY_IO);
-        GameRegistry.registerBlock(blockFusionControlItemIO, Reference.BLOCK_FUSION_CONTROL_ITEM_IO);
-        GameRegistry.registerBlock(blockFusionControlMaster, Reference.BLOCK_FUSION_CONTROL_MASTER);
-        GameRegistry.registerBlock(blockFusionCore, Reference.BLOCK_FUSION_CORE);
+        GameRegistry.registerBlock(blockAcceleratorCase, Reference.BLOCK_FUSION_CASE);
+        GameRegistry.registerBlock(blockAcceleratorCaseBevelSmall, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
+        GameRegistry.registerBlock(blockAcceleratorCaseBevelSmallInverted, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);
+        GameRegistry.registerBlock(blockAcceleratorCaseBevelLarge, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
+        GameRegistry.registerBlock(blockAcceleratorCaseFluidIO, Reference.BLOCK_FUSION_CASE_FLUID_IO);
+        GameRegistry.registerBlock(blockAcceleratorControlCase, Reference.BLOCK_FUSION_CONTROL_CASE);
+        GameRegistry.registerBlock(blockAcceleratorControlCore, Reference.BLOCK_FUSION_CONTROL_CORE);
+        GameRegistry.registerBlock(blockAcceleratorControlEnergyIO, Reference.BLOCK_FUSION_CONTROL_ENERGY_IO);
+        GameRegistry.registerBlock(blockAcceleratorControlItemIO, Reference.BLOCK_FUSION_CONTROL_ITEM_IO);
+        GameRegistry.registerBlock(blockAcceleratorControlMaster, Reference.BLOCK_FUSION_CONTROL_MASTER);
+        GameRegistry.registerBlock(blockAcceleratorCore, Reference.BLOCK_FUSION_CORE);
 
         GameRegistry.registerBlock(blockCoolantPipe, Reference.BLOCK_COOLANT_PIPE);
         GameRegistry.registerBlock(blockCoolantInjector, Reference.BLOCK_COOLANT_INJECTOR);
@@ -228,10 +228,10 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileTankInteraction.class, Reference.TILE_TANK_INTERACTION);
         GameRegistry.registerTileEntity(TileTankValve.class, Reference.TILE_TANK_VALVE);
 
-        GameRegistry.registerTileEntity(TileFusionCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO);
-        GameRegistry.registerTileEntity(TileFusionControlEnergyIO.class, Reference.TILE_FUSION_CONTROL_ENERGY_IO);
-        GameRegistry.registerTileEntity(TileFusionControlItemIO.class, Reference.TILE_FUSION_CONTROL_ITEM_IO);
-        GameRegistry.registerTileEntity(TileFusionControlMaster.class, Reference.TILE_FUSION_CONTROL_MASTER);
+        GameRegistry.registerTileEntity(TileAcceleratorCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO);
+        GameRegistry.registerTileEntity(TileAcceleratorControlEnergyIO.class, Reference.TILE_FUSION_CONTROL_ENERGY_IO);
+        GameRegistry.registerTileEntity(TileAcceleratorControlItemIO.class, Reference.TILE_FUSION_CONTROL_ITEM_IO);
+        GameRegistry.registerTileEntity(TileAcceleratorControlMaster.class, Reference.TILE_FUSION_CONTROL_MASTER);
 
         GameRegistry.registerTileEntity(TileCoolantPipe.class, Reference.TILE_COOLANT_PIPE);
         GameRegistry.registerTileEntity(TileCoolantInjector.class, Reference.TILE_COOLANT_INJECTOR);
@@ -270,9 +270,9 @@ public class RkStuff {
                 Method blacklistFacade = clazz.getDeclaredMethod("blacklistFacade", String.class);
                 blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockTankBevelSmall));
                 blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockTankBevelLarge));
-                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockFusionCaseBevelSmall));
-                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockFusionCaseBevelSmallInverted));
-                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockFusionCaseBevelLarge));
+                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockAcceleratorCaseBevelSmall));
+                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockAcceleratorCaseBevelSmallInverted));
+                blacklistFacade.invoke(clazz, Block.blockRegistry.getNameForObject(RkStuff.blockAcceleratorCaseBevelLarge));
             }
         } catch (Exception e) {
             RKLog.error(e);

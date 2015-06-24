@@ -1,18 +1,18 @@
 package com.rk.rkstuff.fusion;
 
 import com.rk.rkstuff.RkStuff;
-import com.rk.rkstuff.fusion.block.IFusionCaseBlock;
-import com.rk.rkstuff.fusion.block.IFusionControlCaseBlock;
-import com.rk.rkstuff.fusion.block.IFusionControlCoreBlock;
-import com.rk.rkstuff.fusion.block.IFusionCoreBlock;
+import com.rk.rkstuff.fusion.block.IAcceleratorCaseBlock;
+import com.rk.rkstuff.fusion.block.IAcceleratorControlCaseBlock;
+import com.rk.rkstuff.fusion.block.IAcceleratorControlCoreBlock;
+import com.rk.rkstuff.fusion.block.IAcceleratorCoreBlock;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
-public class FusionHelper {
+public class AcceleratorHelper {
 
-    public enum FusionCoreDir {
+    public enum AcceleratorCoreDir {
         //ordered clockwise
         XpZz(1, 0),
         XpZn(1, -1),
@@ -26,12 +26,12 @@ public class FusionHelper {
         public int xOff;
         public int zOff;
 
-        FusionCoreDir(int xOff, int zOff) {
+        AcceleratorCoreDir(int xOff, int zOff) {
             this.xOff = xOff;
             this.zOff = zOff;
         }
 
-        public FusionCoreDir opposite() {
+        public AcceleratorCoreDir opposite() {
             switch (this) {
                 case XpZz:
                     return XnZz;
@@ -53,12 +53,12 @@ public class FusionHelper {
             return null;
         }
 
-        public FusionCoreDir getNext(boolean clockwise) {
+        public AcceleratorCoreDir getNext(boolean clockwise) {
             if (clockwise) {
-                if (this.ordinal() == 0) return FusionCoreDir.values()[FusionCoreDir.values().length - 1];
-                return FusionCoreDir.values()[this.ordinal() - 1];
+                if (this.ordinal() == 0) return AcceleratorCoreDir.values()[AcceleratorCoreDir.values().length - 1];
+                return AcceleratorCoreDir.values()[this.ordinal() - 1];
             } else {
-                return FusionCoreDir.values()[(this.ordinal() + 1) % FusionCoreDir.values().length];
+                return AcceleratorCoreDir.values()[(this.ordinal() + 1) % AcceleratorCoreDir.values().length];
             }
         }
 
@@ -68,16 +68,16 @@ public class FusionHelper {
 
     }
 
-    public static class FusionStructure {
+    public static class AcceleratorStructure {
         public Pos ringStart;
         public Pos ringEnd;
-        public FusionCoreDir startDir;
-        public int[] lengths = new int[9]; //FusionCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
+        public AcceleratorCoreDir startDir;
+        public int[] lengths = new int[9]; //AcceleratorCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
         public MultiBlockHelper.Bounds controlBounds;
         public Pos master;
     }
 
-    public static class FusionPos {
+    public static class AcceleratorPos {
         public Pos p;
         public boolean isCore, isCase;
         public int bevelMeta;
@@ -85,8 +85,8 @@ public class FusionHelper {
         public boolean isBevelBlock;
         public int side;
 
-        public FusionPos clone() {
-            FusionPos newPos = new FusionPos();
+        public AcceleratorPos clone() {
+            AcceleratorPos newPos = new AcceleratorPos();
             newPos.p = this.p.clone();
             newPos.isCore = this.isCore;
             newPos.isCase = this.isCase;
@@ -98,9 +98,9 @@ public class FusionHelper {
         }
     }
 
-    public static boolean iterateRingCore(FusionStructure setup, IFusionPosVisitor visitor) {
-        FusionCoreDir dir = setup.startDir;
-        FusionPos pos = new FusionPos();
+    public static boolean iterateRingCore(AcceleratorStructure setup, IAcceleratorPosVisitor visitor) {
+        AcceleratorCoreDir dir = setup.startDir;
+        AcceleratorPos pos = new AcceleratorPos();
         pos.isCore = true;
         pos.p = new Pos(setup.ringStart.x, setup.ringStart.y, setup.ringStart.z);
         for (int i = 0; i < setup.lengths.length; i++) {
@@ -115,11 +115,11 @@ public class FusionHelper {
         return true;
     }
 
-    public static boolean iterateRing(FusionStructure setup, IFusionPosVisitor visitor) {
-        FusionCoreDir dir = setup.startDir;
+    public static boolean iterateRing(AcceleratorStructure setup, IAcceleratorPosVisitor visitor) {
+        AcceleratorCoreDir dir = setup.startDir;
         Pos start = new Pos(setup.ringStart.x, setup.ringStart.y, setup.ringStart.z);
         for (int i = 0; i < setup.lengths.length; i++) {
-            FusionPos pos = new FusionPos();
+            AcceleratorPos pos = new AcceleratorPos();
             pos.side = i;
             pos.p = new Pos(0, 0, 0);
             if (!dir.isEdge()) {
@@ -133,7 +133,7 @@ public class FusionHelper {
                             pos.isCase = !pos.isCore && Math.abs(yOff) != 2 && Math.abs(zOff) != 2;
                             pos.isBevelBlock = pos.isCase && yOff != 0 && zOff != 0;
                             if (pos.isBevelBlock) {
-                                pos.bevelBlock = RkStuff.blockFusionCaseBevelLarge;
+                                pos.bevelBlock = RkStuff.blockAcceleratorCaseBevelLarge;
                                 pos.bevelMeta = (zOff == 1) ? 1 : 0;
                                 pos.bevelMeta |= (yOff == 1) ? 0x04 : 0;
                             }
@@ -152,7 +152,7 @@ public class FusionHelper {
                             pos.isCase = !pos.isCore && Math.abs(yOff) != 2 && Math.abs(xOff) != 2;
                             pos.isBevelBlock = pos.isCase && yOff != 0 && xOff != 0;
                             if (pos.isBevelBlock) {
-                                pos.bevelBlock = RkStuff.blockFusionCaseBevelLarge;
+                                pos.bevelBlock = RkStuff.blockAcceleratorCaseBevelLarge;
                                 pos.bevelMeta = (xOff == 1) ? 2 : 3;
                                 pos.bevelMeta |= (yOff == 1) ? 0x04 : 0;
                             }
@@ -193,7 +193,7 @@ public class FusionHelper {
                         pos.isBevelBlock = pos.isCase && Math.abs(yOff) <= 1 && (zOff == -2 || zOff == -1 || zOff == 1);
                         if (pos.isBevelBlock) {
                             if (yOff == 0 && zOff == -2) {
-                                pos.bevelBlock = RkStuff.blockFusionCaseBevelLarge;
+                                pos.bevelBlock = RkStuff.blockAcceleratorCaseBevelLarge;
                                 if (dir.xOff == 1 && dir.zOff == 1) {
                                     pos.bevelMeta = 0;
                                 } else if (dir.xOff == 1 && dir.zOff == -1) {
@@ -205,26 +205,26 @@ public class FusionHelper {
                                 }
                                 pos.bevelMeta |= 0x08;
                             } else if (zOff == -1 && yOff != 0) {
-                                pos.bevelBlock = RkStuff.blockFusionCaseBevelSmallInverted;
+                                pos.bevelBlock = RkStuff.blockAcceleratorCaseBevelSmallInverted;
                                 pos.bevelMeta = (dir.xOff == 1) ? 0x01 : 0;
                                 pos.bevelMeta |= (yOff == 1) ? 0x02 : 0;
                                 pos.bevelMeta |= (dir.zOff == -1) ? 0x04 : 0;
                             } else if (zOff == -2) {
-                                pos.bevelBlock = RkStuff.blockFusionCaseBevelSmall;
+                                pos.bevelBlock = RkStuff.blockAcceleratorCaseBevelSmall;
                                 pos.bevelMeta = (dir.xOff == 1) ? 0x01 : 0;
                                 pos.bevelMeta |= (yOff == 1) ? 0x02 : 0;
                                 pos.bevelMeta |= (dir.zOff == -1) ? 0x04 : 0;
                             } else if (yOff != 0 && zOff == 1) {
-                                pos.bevelBlock = RkStuff.blockFusionCaseBevelSmallInverted;
+                                pos.bevelBlock = RkStuff.blockAcceleratorCaseBevelSmallInverted;
                                 pos.bevelMeta = (dir.xOff == -1) ? 0x01 : 0;
                                 pos.bevelMeta |= (yOff == 1) ? 0x02 : 0;
                                 pos.bevelMeta |= (dir.zOff == 1) ? 0x04 : 0;
 
-                                first = RkStuff.blockFusionCaseBevelLarge;
-                                last = RkStuff.blockFusionCaseBevelLarge;
+                                first = RkStuff.blockAcceleratorCaseBevelLarge;
+                                last = RkStuff.blockAcceleratorCaseBevelLarge;
 
-                                FusionCoreDir dirFirst = dir.getNext(!swap);
-                                FusionCoreDir dirLast = dir.getNext(swap);
+                                AcceleratorCoreDir dirFirst = dir.getNext(!swap);
+                                AcceleratorCoreDir dirLast = dir.getNext(swap);
                                 if (swap) {
                                     dirFirst = dirFirst.opposite();
                                     dirLast = dirLast.opposite();
@@ -252,7 +252,7 @@ public class FusionHelper {
                                 metaLast |= (yOff == 1) ? 0x04 : 0;
                             } else {
                                 pos.isBevelBlock = false;
-                                pos.bevelBlock = RkStuff.blockFusionCase;
+                                pos.bevelBlock = RkStuff.blockAcceleratorCase;
                                 pos.bevelMeta = 0;
                             }
                         }
@@ -268,7 +268,7 @@ public class FusionHelper {
                         }
 
                         pos.isBevelBlock = false;
-                        pos.bevelBlock = RkStuff.blockFusionCase;
+                        pos.bevelBlock = RkStuff.blockAcceleratorCase;
                         pos.bevelMeta = 0;
                     }
 
@@ -278,7 +278,7 @@ public class FusionHelper {
                     pos.isBevelBlock = pos.isCase;
                     if (pos.isBevelBlock) {
                         if (yOff == 0) {
-                            pos.bevelBlock = RkStuff.blockFusionCaseBevelLarge;
+                            pos.bevelBlock = RkStuff.blockAcceleratorCaseBevelLarge;
                             if (dir.xOff == 1 && dir.zOff == 1) {
                                 pos.bevelMeta = 1;
                             } else if (dir.xOff == 1 && dir.zOff == -1) {
@@ -290,7 +290,7 @@ public class FusionHelper {
                             }
                             pos.bevelMeta |= 0x08;
                         } else {
-                            pos.bevelBlock = RkStuff.blockFusionCaseBevelSmall;
+                            pos.bevelBlock = RkStuff.blockAcceleratorCaseBevelSmall;
                             pos.bevelMeta = (dir.xOff == -1) ? 0x01 : 0;
                             pos.bevelMeta |= (yOff == 1) ? 0x02 : 0;
                             pos.bevelMeta |= (dir.zOff == 1) ? 0x04 : 0;
@@ -344,8 +344,8 @@ public class FusionHelper {
         return true;
     }
 
-    private static boolean visitBlocks(FusionCoreDir dir, FusionPos start, int length, IFusionPosVisitor visitor) {
-        FusionPos currentPos = start.clone();
+    private static boolean visitBlocks(AcceleratorCoreDir dir, AcceleratorPos start, int length, IAcceleratorPosVisitor visitor) {
+        AcceleratorPos currentPos = start.clone();
         for (int i = 0; i < length; i++) {
             if (!visitor.visit(currentPos)) {
                 return false;
@@ -356,8 +356,8 @@ public class FusionHelper {
         return true;
     }
 
-    private static boolean visitBlocks(FusionCoreDir dir, FusionPos start, int length, IFusionPosVisitor visitor, Block first, Block last, int metaFirst, int metaLast) {
-        FusionPos currentPos = start.clone();
+    private static boolean visitBlocks(AcceleratorCoreDir dir, AcceleratorPos start, int length, IAcceleratorPosVisitor visitor, Block first, Block last, int metaFirst, int metaLast) {
+        AcceleratorPos currentPos = start.clone();
         for (int i = 0; i < length; i++) {
             if (i == 0) {
                 currentPos.bevelBlock = first;
@@ -378,8 +378,8 @@ public class FusionHelper {
         return true;
     }
 
-    public static boolean iterateControl(FusionStructure setup, IFusionPosVisitor visitor) {
-        FusionPos p = new FusionPos();
+    public static boolean iterateControl(AcceleratorStructure setup, IAcceleratorPosVisitor visitor) {
+        AcceleratorPos p = new AcceleratorPos();
         MultiBlockHelper.Bounds extendedBounds = setup.controlBounds.clone();
         extendedBounds.extendDirections(1);
 
@@ -408,35 +408,35 @@ public class FusionHelper {
         return true;
     }
 
-    public interface IFusionPosVisitor {
+    public interface IAcceleratorPosVisitor {
 
-        public boolean visit(FusionPos pos);
+        public boolean visit(AcceleratorPos pos);
 
     }
 
     public static boolean isValidControlBlock(World world, int x, int y, int z) {
         Block b = world.getBlock(x, y, z);
-        return b instanceof IFusionControlCoreBlock || b instanceof IFusionControlCaseBlock;
+        return b instanceof IAcceleratorControlCoreBlock || b instanceof IAcceleratorControlCaseBlock;
     }
 
     public static boolean isValidControlCoreBlock(World world, int x, int y, int z) {
         Block b = world.getBlock(x, y, z);
-        return b instanceof IFusionControlCoreBlock;
+        return b instanceof IAcceleratorControlCoreBlock;
     }
 
     public static boolean isValidControlCaseBlock(World world, int x, int y, int z) {
         Block b = world.getBlock(x, y, z);
-        return b instanceof IFusionControlCaseBlock;
+        return b instanceof IAcceleratorControlCaseBlock;
     }
 
     public static boolean isValidCoreBlock(World world, int x, int y, int z) {
         Block b = world.getBlock(x, y, z);
-        return b instanceof IFusionCoreBlock;
+        return b instanceof IAcceleratorCoreBlock;
     }
 
     public static boolean isValidCaseBlock(World world, int x, int y, int z) {
         Block b = world.getBlock(x, y, z);
-        return b instanceof IFusionCaseBlock;
+        return b instanceof IAcceleratorCaseBlock;
     }
 
     public static boolean isValidCaseOrCoreControlBlock(World world, int x, int y, int z) {
@@ -444,7 +444,7 @@ public class FusionHelper {
     }
 
     public static boolean isValidCaseOrCoreControlBlock(Block b) {
-        return b instanceof IFusionControlCaseBlock || b instanceof IFusionControlCoreBlock;
+        return b instanceof IAcceleratorControlCaseBlock || b instanceof IAcceleratorControlCoreBlock;
     }
 
     public static boolean isValidCaseOrCoreBlock(World world, int x, int y, int z) {
@@ -452,6 +452,6 @@ public class FusionHelper {
     }
 
     public static boolean isValidCaseOrCoreBlock(Block b) {
-        return b instanceof IFusionCaseBlock || b instanceof IFusionCoreBlock;
+        return b instanceof IAcceleratorCaseBlock || b instanceof IAcceleratorCoreBlock;
     }
 }

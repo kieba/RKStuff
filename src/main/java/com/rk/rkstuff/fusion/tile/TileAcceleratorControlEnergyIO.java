@@ -9,9 +9,9 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileFusionControlEnergyIO extends TileRK implements IMultiBlockMasterListener, IEnergyHandler {
+public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBlockMasterListener, IEnergyHandler {
 
-    private TileFusionControlMaster master;
+    private TileAcceleratorControlMaster master;
 
     public boolean hasMaster() {
         return master != null;
@@ -19,7 +19,7 @@ public class TileFusionControlEnergyIO extends TileRK implements IMultiBlockMast
 
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
-        master = (TileFusionControlMaster) tileMaster;
+        master = (TileAcceleratorControlMaster) tileMaster;
     }
 
     @Override

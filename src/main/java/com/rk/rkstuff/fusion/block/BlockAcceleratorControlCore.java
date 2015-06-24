@@ -8,19 +8,19 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
-public class BlockFusionCore extends BlockRK implements IFusionCoreBlock {
+public class BlockAcceleratorControlCore extends BlockRK implements IAcceleratorControlCoreBlock {
 
     private IIcon[] icons = new IIcon[2];
 
-    public BlockFusionCore() {
-        super(Material.iron, Reference.BLOCK_FUSION_CORE);
+    public BlockAcceleratorControlCore() {
+        super(Material.iron, Reference.BLOCK_FUSION_CONTROL_CORE);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CORE + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CORE + 2);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_CORE + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_CORE + 2);
     }
 
     @Override
@@ -28,5 +28,4 @@ public class BlockFusionCore extends BlockRK implements IFusionCoreBlock {
         if (meta == 0) return icons[0];
         return icons[1];
     }
-
 }

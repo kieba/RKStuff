@@ -1,6 +1,6 @@
 package com.rk.rkstuff.fusion.block;
 
-import com.rk.rkstuff.core.block.IBlockBevelSmallInverted;
+import com.rk.rkstuff.core.block.IBlockBevelLarge;
 import com.rk.rkstuff.proxy.ClientProxy;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -11,10 +11,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockFusionCaseBevelSmallInverted extends BlockFusionCase implements IBlockBevelSmallInverted {
+public class BlockAcceleratorCaseBevelLarge extends BlockAcceleratorCase implements IBlockBevelLarge {
 
-    public BlockFusionCaseBevelSmallInverted() {
-        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
+    public BlockAcceleratorCaseBevelLarge() {
+        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
     }
 
     @Override
@@ -52,9 +52,10 @@ public class BlockFusionCaseBevelSmallInverted extends BlockFusionCase implement
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             int meta = world.getBlockMetadata(x, y, z);
-            meta = (meta + 1) % 8;
+            meta = (meta + 1) % 12;
             world.setBlockMetadataWithNotify(x, y, z, meta, 3);
         }
         return true;
     }
+
 }

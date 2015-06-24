@@ -1,6 +1,6 @@
 package com.rk.rkstuff.fusion.block;
 
-import com.rk.rkstuff.core.block.IBlockBevelSmall;
+import com.rk.rkstuff.core.block.IBlockBevelSmallInverted;
 import com.rk.rkstuff.proxy.ClientProxy;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -11,10 +11,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockFusionCaseBevelSmall extends BlockFusionCase implements IBlockBevelSmall {
+public class BlockAcceleratorCaseBevelSmallInverted extends BlockAcceleratorCase implements IBlockBevelSmallInverted {
 
-    public BlockFusionCaseBevelSmall() {
-        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);
+    public BlockAcceleratorCaseBevelSmallInverted() {
+        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
     }
 
     @Override
@@ -57,5 +57,4 @@ public class BlockFusionCaseBevelSmall extends BlockFusionCase implements IBlock
         }
         return true;
     }
-
 }

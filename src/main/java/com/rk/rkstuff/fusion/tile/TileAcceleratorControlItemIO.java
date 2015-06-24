@@ -11,9 +11,9 @@ import rk.com.core.io.IOStream;
 import java.io.IOException;
 import java.util.List;
 
-public class TileFusionControlItemIO extends TileRK implements IMultiBlockMasterListener, IInventoryHandler {
+public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockMasterListener, IInventoryHandler {
 
-    private TileFusionControlMaster master;
+    private TileAcceleratorControlMaster master;
 
     public boolean hasMaster() {
         return master != null;
@@ -21,7 +21,7 @@ public class TileFusionControlItemIO extends TileRK implements IMultiBlockMaster
 
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
-        master = (TileFusionControlMaster) tileMaster;
+        master = (TileAcceleratorControlMaster) tileMaster;
     }
 
     @Override

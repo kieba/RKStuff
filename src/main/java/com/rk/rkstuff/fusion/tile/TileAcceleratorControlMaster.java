@@ -4,7 +4,7 @@ import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
-import com.rk.rkstuff.fusion.FusionHelper;
+import com.rk.rkstuff.fusion.AcceleratorHelper;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
 import net.minecraft.block.Block;
@@ -15,7 +15,7 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileFusionControlMaster extends TileMultiBlockMaster {
+public class TileAcceleratorControlMaster extends TileMultiBlockMaster {
 
     private static final int FUSION_RING_SIDE_COUNT = 9;
     private static final float MAX_ROUNDS_PER_TICK = 0.75f;
@@ -33,7 +33,7 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
     //if we have 1000mB coolant (at each side) with a temp of -270°C we can run the fusion reactor at max speed for ~25 sec without cooling! (side length = 5)
     private static final float HEAT_ENERGY_PER_SPEED = 100.0f;
 
-    private FusionHelper.FusionStructure setup;
+    private AcceleratorHelper.AcceleratorStructure setup;
     private int[] maxCoolantStorage = new int[FUSION_RING_SIDE_COUNT];
     private CoolantStack[] coolant = new CoolantStack[FUSION_RING_SIDE_COUNT];
 
@@ -314,11 +314,11 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         return maxAmount;
     }
 
-    public int getSideForFluidIO(final TileFusionCaseFluidIO tile) {
+    public int getSideForFluidIO(final TileAcceleratorCaseFluidIO tile) {
         final int[] side = {-1};
-        FusionHelper.iterateRingCore(setup, new FusionHelper.IFusionPosVisitor() {
+        AcceleratorHelper.iterateRingCore(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
             @Override
-            public boolean visit(FusionHelper.FusionPos pos) {
+            public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                 if (pos.p.x == tile.xCoord && pos.p.z == tile.zCoord) {
                     side[0] = pos.side;
                     return false;
@@ -331,15 +331,15 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
     @Override
     public boolean checkMultiBlockForm() {
-        return createFusionStructure() != null;
+        return createAcceleratorStructure() != null;
     }
 
     public void onBlockActivated(boolean shift) {
         /*
         if (!shift) {
-            FusionHelper.iterateControl(setup, new FusionHelper.IFusionPosVisitor() {
+            AcceleratorHelper.iterateControl(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
                 @Override
-                public boolean visit(FusionHelper.FusionPos pos) {
+                public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                     if (pos.isCore) {
                         worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, Blocks.air);
                     } else if (pos.isCase) {
@@ -351,9 +351,9 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
                 }
             });
 
-            FusionHelper.iterateRing(setup, new FusionHelper.IFusionPosVisitor() {
+            AcceleratorHelper.iterateRing(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
                 @Override
-                public boolean visit(FusionHelper.FusionPos pos) {
+                public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                     if (pos.isCore) {
                         worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, Blocks.air);
                     } else if (pos.isCase) {
@@ -365,25 +365,25 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
                 }
             });
         } else if (setup != null) {
-            FusionHelper.iterateControl(setup, new FusionHelper.IFusionPosVisitor() {
+            AcceleratorHelper.iterateControl(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
                 @Override
-                public boolean visit(FusionHelper.FusionPos pos) {
+                public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                     if (pos.isCore) {
-                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionControlCore);
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockAcceleratorControlCore);
                     } else if (pos.isCase) {
-                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionControlCase);
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockAcceleratorControlCase);
                     }
                     return true;
                 }
             });
 
-            FusionHelper.iterateRing(setup, new FusionHelper.IFusionPosVisitor() {
+            AcceleratorHelper.iterateRing(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
                 @Override
-                public boolean visit(FusionHelper.FusionPos pos) {
+                public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                     if (pos.isCore) {
-                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionCore);
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockAcceleratorCore);
                     } else if (pos.isCase) {
-                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionCase);
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockAcceleratorCase);
                     }
                     return true;
                 }
@@ -394,22 +394,22 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
     @Override
     protected MultiBlockHelper.Bounds setupStructure() {
-        setup = createFusionStructure();
+        setup = createAcceleratorStructure();
         final int[] fluidIOTiles = new int[FUSION_RING_SIDE_COUNT];
         if (setup != null) {
-            FusionHelper.iterateControl(setup, new FusionHelper.IFusionPosVisitor() {
+            AcceleratorHelper.iterateControl(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
                 @Override
-                public boolean visit(FusionHelper.FusionPos pos) {
+                public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                     if (pos.isCore || pos.isCase) {
                         worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 2);
-                        TileFusionControlMaster.this.registerMaster(pos.p.x, pos.p.y, pos.p.z, 1);
+                        TileAcceleratorControlMaster.this.registerMaster(pos.p.x, pos.p.y, pos.p.z, 1);
                     }
                     return true;
                 }
             });
-            FusionHelper.iterateRing(setup, new FusionHelper.IFusionPosVisitor() {
+            AcceleratorHelper.iterateRing(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
                 @Override
-                public boolean visit(FusionHelper.FusionPos pos) {
+                public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                     if (pos.isCore) {
                         worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 2);
                     } else if (pos.isCase) {
@@ -420,9 +420,9 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
                             }
                         } else {
                             worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 2);
-                            TileEntity tile = TileFusionControlMaster.this.registerMaster(pos.p.x, pos.p.y, pos.p.z, 1);
-                            if (tile instanceof TileFusionCaseFluidIO) {
-                                fluidIOTiles[((TileFusionCaseFluidIO) tile).getSide()]++;
+                            TileEntity tile = TileAcceleratorControlMaster.this.registerMaster(pos.p.x, pos.p.y, pos.p.z, 1);
+                            if (tile instanceof TileAcceleratorCaseFluidIO) {
+                                fluidIOTiles[((TileAcceleratorCaseFluidIO) tile).getSide()]++;
                             }
                         }
                     }
@@ -465,25 +465,25 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
     @Override
     protected void resetStructure() {
-        FusionHelper.iterateControl(setup, new FusionHelper.IFusionPosVisitor() {
+        AcceleratorHelper.iterateControl(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
             @Override
-            public boolean visit(FusionHelper.FusionPos pos) {
+            public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                 worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 2);
-                TileFusionControlMaster.this.unregisterMaster(pos.p.x, pos.p.y, pos.p.z, 0);
+                TileAcceleratorControlMaster.this.unregisterMaster(pos.p.x, pos.p.y, pos.p.z, 0);
                 return true;
             }
         });
 
-        FusionHelper.iterateRing(setup, new FusionHelper.IFusionPosVisitor() {
+        AcceleratorHelper.iterateRing(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
             @Override
-            public boolean visit(FusionHelper.FusionPos pos) {
+            public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                 if (pos.isBevelBlock) {
                     if (!worldObj.isAirBlock(pos.p.x, pos.p.y, pos.p.z)) {
-                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockFusionCase, 0, 2);
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockAcceleratorCase, 0, 2);
                     }
                 } else if (pos.isCase || pos.isCore) {
                     worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 2);
-                    TileFusionControlMaster.this.unregisterMaster(pos.p.x, pos.p.y, pos.p.z, 0);
+                    TileAcceleratorControlMaster.this.unregisterMaster(pos.p.x, pos.p.y, pos.p.z, 0);
                 }
                 return true;
             }
@@ -501,68 +501,68 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
     }
 
-    public boolean checkFusionControl() {
+    public boolean checkAcceleratorControl() {
         if (!isBuild()) return false;
-        boolean isValid = FusionHelper.iterateControl(setup, new FusionHelper.IFusionPosVisitor() {
+        boolean isValid = AcceleratorHelper.iterateControl(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
             @Override
-            public boolean visit(FusionHelper.FusionPos pos) {
+            public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                 if (pos.isCore) {
-                    return FusionHelper.isValidControlCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return AcceleratorHelper.isValidControlCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 } else if (pos.isCase) {
-                    return FusionHelper.isValidControlCaseBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return AcceleratorHelper.isValidControlCaseBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 } else {
-                    return !FusionHelper.isValidCaseOrCoreControlBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return !AcceleratorHelper.isValidCaseOrCoreControlBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 }
             }
         });
         return isValid;
     }
 
-    public boolean checkFusionRing() {
+    public boolean checkAcceleratorRing() {
         if (!isBuild()) return false;
-        boolean isValid = FusionHelper.iterateRing(setup, new FusionHelper.IFusionPosVisitor() {
+        boolean isValid = AcceleratorHelper.iterateRing(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
             @Override
-            public boolean visit(FusionHelper.FusionPos pos) {
+            public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                 if (pos.isCore) {
-                    return FusionHelper.isValidCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return AcceleratorHelper.isValidCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 } else if (pos.isCase) {
                     if (pos.isBevelBlock) {
                         Block b = worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z);
-                        if (b == RkStuff.blockFusionCaseBevelLarge) {
+                        if (b == RkStuff.blockAcceleratorCaseBevelLarge) {
                             return true;
                         }
-                        if (b == RkStuff.blockFusionCaseBevelSmall) {
+                        if (b == RkStuff.blockAcceleratorCaseBevelSmall) {
                             return true;
                         }
-                        if (b == RkStuff.blockFusionCaseBevelSmallInverted) {
+                        if (b == RkStuff.blockAcceleratorCaseBevelSmallInverted) {
                             return true;
                         }
                         return false;
                     } else {
-                        return FusionHelper.isValidCaseBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                        return AcceleratorHelper.isValidCaseBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                     }
                 } else {
-                    return !FusionHelper.isValidCaseOrCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return !AcceleratorHelper.isValidCaseOrCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 }
             }
         });
         return isValid;
     }
 
-    private FusionHelper.FusionStructure createFusionStructure() {
-        FusionHelper.FusionStructure fs = new FusionHelper.FusionStructure();
-        if (!createFusionControl(fs)) return null;
-        if (!createFusionRing(fs)) return null;
+    private AcceleratorHelper.AcceleratorStructure createAcceleratorStructure() {
+        AcceleratorHelper.AcceleratorStructure fs = new AcceleratorHelper.AcceleratorStructure();
+        if (!createAcceleratorControl(fs)) return null;
+        if (!createAcceleratorRing(fs)) return null;
         return fs;
     }
 
-    private boolean createFusionControl(FusionHelper.FusionStructure fs) {
+    private boolean createAcceleratorControl(AcceleratorHelper.AcceleratorStructure fs) {
         MultiBlockHelper.Bounds tmpBounds = new MultiBlockHelper.Bounds(xCoord, yCoord, zCoord);
 
         //get fusion control base bounds
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             int i = 1;
-            while (FusionHelper.isValidControlBlock(worldObj, xCoord + direction.offsetX * i, yCoord + direction.offsetY * i, zCoord + direction.offsetZ * i)) {
+            while (AcceleratorHelper.isValidControlBlock(worldObj, xCoord + direction.offsetX * i, yCoord + direction.offsetY * i, zCoord + direction.offsetZ * i)) {
                 i++;
             }
             i--;
@@ -583,18 +583,18 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
         fs.controlBounds = tmpBounds;
 
-        //check if there are other FusionControlBlocks around the control base, if true don't build the structure
-        //and check if the fusion control base is surrounded by IFusionCaseBlocks
-        //and check if there are only IFusionCoreBlocks in the fusion control base
-        isValid = FusionHelper.iterateControl(fs, new FusionHelper.IFusionPosVisitor() {
+        //check if there are other AcceleratorControlBlocks around the control base, if true don't build the structure
+        //and check if the fusion control base is surrounded by IAcceleratorCaseBlocks
+        //and check if there are only IAcceleratorCoreBlocks in the fusion control base
+        isValid = AcceleratorHelper.iterateControl(fs, new AcceleratorHelper.IAcceleratorPosVisitor() {
             @Override
-            public boolean visit(FusionHelper.FusionPos pos) {
+            public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                 if (pos.isCore) {
-                    return FusionHelper.isValidControlCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return AcceleratorHelper.isValidControlCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 } else if (pos.isCase) {
-                    return FusionHelper.isValidControlCaseBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return AcceleratorHelper.isValidControlCaseBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 } else {
-                    return !FusionHelper.isValidCaseOrCoreControlBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return !AcceleratorHelper.isValidCaseOrCoreControlBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 }
             }
         });
@@ -602,8 +602,8 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         return isValid;
     }
 
-    private boolean createFusionRing(FusionHelper.FusionStructure fs) {
-        //first we search for IFusionCoreBlocks and compute the bounds for the IFusionCoreBlocks
+    private boolean createAcceleratorRing(AcceleratorHelper.AcceleratorStructure fs) {
+        //first we search for IAcceleratorCoreBlocks and compute the bounds for the IAcceleratorCoreBlocks
         int y = fs.controlBounds.getMinY() + 2; //the fusion control base has a height of 5
         boolean isValid = false;
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -612,25 +612,25 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
             if (dir.offsetX == 1) {
                 int z = fs.controlBounds.getMinZ() + 2;
-                if (followFusionCoreBlocks(fs, fs.controlBounds.getMaxX() + 1, y, z, fs.controlBounds.getMinX() - 1, y, z, FusionHelper.FusionCoreDir.XpZz)) {
+                if (followAcceleratorCoreBlocks(fs, fs.controlBounds.getMaxX() + 1, y, z, fs.controlBounds.getMinX() - 1, y, z, AcceleratorHelper.AcceleratorCoreDir.XpZz)) {
                     isValid = true;
                     break;
                 }
             } else if (dir.offsetZ == 1) {
                 int x = fs.controlBounds.getMinX() + 2;
-                if (followFusionCoreBlocks(fs, x, y, fs.controlBounds.getMaxZ() + 1, x, y, fs.controlBounds.getMinZ() - 1, FusionHelper.FusionCoreDir.XzZp)) {
+                if (followAcceleratorCoreBlocks(fs, x, y, fs.controlBounds.getMaxZ() + 1, x, y, fs.controlBounds.getMinZ() - 1, AcceleratorHelper.AcceleratorCoreDir.XzZp)) {
                     isValid = true;
                     break;
                 }
             } else if (dir.offsetX == -1) {
                 int z = fs.controlBounds.getMinZ() + 2;
-                if (followFusionCoreBlocks(fs, fs.controlBounds.getMinX() - 1, y, z, fs.controlBounds.getMaxX() + 1, y, z, FusionHelper.FusionCoreDir.XnZz)) {
+                if (followAcceleratorCoreBlocks(fs, fs.controlBounds.getMinX() - 1, y, z, fs.controlBounds.getMaxX() + 1, y, z, AcceleratorHelper.AcceleratorCoreDir.XnZz)) {
                     isValid = true;
                     break;
                 }
             } else if (dir.offsetZ == -1) {
                 int x = fs.controlBounds.getMinX() + 2;
-                if (followFusionCoreBlocks(fs, x, y, fs.controlBounds.getMinZ() - 1, x, y, fs.controlBounds.getMaxZ() + 1, FusionHelper.FusionCoreDir.XzZn)) {
+                if (followAcceleratorCoreBlocks(fs, x, y, fs.controlBounds.getMinZ() - 1, x, y, fs.controlBounds.getMaxZ() + 1, AcceleratorHelper.AcceleratorCoreDir.XzZn)) {
                     isValid = true;
                     break;
                 }
@@ -639,15 +639,15 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
 
         if (!isValid) return false;
 
-        isValid = FusionHelper.iterateRing(fs, new FusionHelper.IFusionPosVisitor() {
+        isValid = AcceleratorHelper.iterateRing(fs, new AcceleratorHelper.IAcceleratorPosVisitor() {
             @Override
-            public boolean visit(FusionHelper.FusionPos pos) {
+            public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                 if (pos.isCore) {
-                    return FusionHelper.isValidCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return AcceleratorHelper.isValidCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 } else if (pos.isCase) {
-                    return FusionHelper.isValidCaseBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return AcceleratorHelper.isValidCaseBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 } else {
-                    return !FusionHelper.isValidCaseOrCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
+                    return !AcceleratorHelper.isValidCaseOrCoreBlock(worldObj, pos.p.x, pos.p.y, pos.p.z);
                 }
             }
         });
@@ -655,9 +655,9 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         return isValid;
     }
 
-    private boolean followFusionCoreBlocks(FusionHelper.FusionStructure fs, int xSrc, int ySrc, int zSrc, int xDst, int yDst, int zDst, FusionHelper.FusionCoreDir dir) {
-        if (!FusionHelper.isValidCoreBlock(worldObj, xSrc, ySrc, zSrc)) return false;
-        if (!FusionHelper.isValidCoreBlock(worldObj, xDst, yDst, zDst)) return false;
+    private boolean followAcceleratorCoreBlocks(AcceleratorHelper.AcceleratorStructure fs, int xSrc, int ySrc, int zSrc, int xDst, int yDst, int zDst, AcceleratorHelper.AcceleratorCoreDir dir) {
+        if (!AcceleratorHelper.isValidCoreBlock(worldObj, xSrc, ySrc, zSrc)) return false;
+        if (!AcceleratorHelper.isValidCoreBlock(worldObj, xDst, yDst, zDst)) return false;
         fs.ringStart = new Pos(xSrc, ySrc, zSrc);
         fs.ringEnd = new Pos(xDst, yDst, zDst);
         fs.startDir = dir;
@@ -667,7 +667,7 @@ public class TileFusionControlMaster extends TileMultiBlockMaster {
         Pos current = new Pos(xSrc - dir.xOff, ySrc, zSrc - dir.zOff);
         while (index < fs.lengths.length) {
             length = 0;
-            while (FusionHelper.isValidCoreBlock(worldObj, current.x + dir.xOff, ySrc, current.z + dir.zOff)) {
+            while (AcceleratorHelper.isValidCoreBlock(worldObj, current.x + dir.xOff, ySrc, current.z + dir.zOff)) {
                 length++;
                 current.x += dir.xOff;
                 current.z += dir.zOff;

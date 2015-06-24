@@ -10,9 +10,9 @@ import rk.com.core.io.IOStream;
 
 import java.io.IOException;
 
-public class TileFusionCaseFluidIO extends TileRK implements IMultiBlockMasterListener, ICoolantReceiver {
+public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMasterListener, ICoolantReceiver {
 
-    private TileFusionControlMaster master;
+    private TileAcceleratorControlMaster master;
     private int side;
 
     public boolean hasMaster() {
@@ -25,10 +25,10 @@ public class TileFusionCaseFluidIO extends TileRK implements IMultiBlockMasterLi
 
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
-        master = (TileFusionControlMaster) tileMaster;
+        master = (TileAcceleratorControlMaster) tileMaster;
         side = master.getSideForFluidIO(this);
         if (side == -1) {
-            RKLog.error("Invalid side for TileFusionCaseFluidIO!");
+            RKLog.error("Invalid side for TileAcceleratorCaseFluidIO!");
         }
     }
 

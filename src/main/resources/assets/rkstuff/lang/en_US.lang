@@ -37,17 +37,17 @@ tile.TankValve.name=Tank Valve
 tile.TankBevelLarge.name=Tank
 tile.TankBevelSmall.name=Tank
 
-tile.FusionCase.name=Fusion Case
-tile.FusionCaseBevelSmall.name=Fusion Case
-tile.FusionCaseBevelSmallInverted.name=Fusion Case
-tile.FusionCaseBevelLarge.name=Fusion Case
-tile.FusionCaseFluidIO.name=Fusion Fluid IO
-tile.FusionControlCase.name=Fusion Control Case
-tile.FusionControlCore.name=Fusion Control Core
-tile.FusionControlEnergyIO.name=Fusion Energy IO
-tile.FusionControlItemIO.name=Fusion Item IO
-tile.FusionControlMaster.name=Fusion Master
-tile.FusionCore.name=Fusion Core
+tile.AcceleratorCase.name=Accelerator Case
+tile.AcceleratorCaseBevelSmall.name=Accelerator Case
+tile.AcceleratorCaseBevelSmallInverted.name=Accelerator Case
+tile.AcceleratorCaseBevelLarge.name=Accelerator Case
+tile.AcceleratorCaseFluidIO.name=Accelerator Fluid IO
+tile.AcceleratorControlCase.name=Accelerator Control Case
+tile.AcceleratorControlCore.name=Accelerator Control Core
+tile.AcceleratorControlEnergyIO.name=Accelerator Energy IO
+tile.AcceleratorControlItemIO.name=Accelerator Item IO
+tile.AcceleratorControlMaster.name=Accelerator Master
+tile.AcceleratorCore.name=Accelerator Core
 
 
 item.Valve.name=Valve

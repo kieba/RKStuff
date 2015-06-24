@@ -1,8 +1,8 @@
 package com.rk.rkstuff.fusion.block;
 
 import com.rk.rkstuff.core.block.BlockRK;
-import com.rk.rkstuff.fusion.FusionHelper;
-import com.rk.rkstuff.fusion.tile.TileFusionControlMaster;
+import com.rk.rkstuff.fusion.AcceleratorHelper;
+import com.rk.rkstuff.fusion.tile.TileAcceleratorControlMaster;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
 import com.rk.rkstuff.util.RKLog;
@@ -16,14 +16,14 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockFusionCase extends BlockRK implements IFusionCaseBlock {
+public class BlockAcceleratorCase extends BlockRK implements IAcceleratorCaseBlock {
     private IIcon[] icons = new IIcon[2];
 
-    public BlockFusionCase() {
+    public BlockAcceleratorCase() {
         super(Material.iron, Reference.BLOCK_FUSION_CASE);
     }
 
-    protected BlockFusionCase(Material m, String name) {
+    protected BlockAcceleratorCase(Material m, String name) {
         super(m, name);
     }
 
@@ -48,22 +48,22 @@ public class BlockFusionCase extends BlockRK implements IFusionCaseBlock {
             return;
         }
 
-        if (block.getMaterial() == Material.air || FusionHelper.isValidCaseOrCoreBlock(block)) {
+        if (block.getMaterial() == Material.air || AcceleratorHelper.isValidCaseOrCoreBlock(block)) {
             checkMultiStructure(world, x, y, z);
         }
 
-        /* this way is more efficient, but the other way works for all IFusionCaseBlocks
+        /* this way is more efficient, but the other way works for all IAcceleratorCaseBlocks
         for (ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
-            if (FusionHelper.isValidCoreBlock(world, x + d.offsetX, y + d.offsetY, z + d.offsetZ)) {
+            if (AcceleratorHelper.isValidCoreBlock(world, x + d.offsetX, y + d.offsetY, z + d.offsetZ)) {
                 ForgeDirection o = d.getOpposite();
-                if (FusionHelper.isValidCaseOrCoreBlock(world, x + o.offsetX, y + o.offsetY, z + o.offsetZ)) {
+                if (AcceleratorHelper.isValidCaseOrCoreBlock(world, x + o.offsetX, y + o.offsetY, z + o.offsetZ)) {
                     checkMultiStructure(world, x, y, z); //without master.checkMultiBlockForm()
                     return;
                 }
 
                 for (ForgeDirection n : ForgeDirection.VALID_DIRECTIONS) {
                     if (n == d || n == o) continue;
-                    if (!FusionHelper.isValidCaseBlock(world, x + n.offsetX, y + n.offsetY, z + n.offsetZ)) {
+                    if (!AcceleratorHelper.isValidCaseBlock(world, x + n.offsetX, y + n.offsetY, z + n.offsetZ)) {
                         checkMultiStructure(world, x, y, z); //without master.checkMultiBlockForm()
                         return;
                     }
@@ -78,12 +78,12 @@ public class BlockFusionCase extends BlockRK implements IFusionCaseBlock {
         MultiBlockHelper.Bounds b = new MultiBlockHelper.Bounds(x, y, z);
         b.extendDirections(1);
         for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos p : b) {
-            if (FusionHelper.isValidCoreBlock(world, p.x, p.y, p.z)) {
+            if (AcceleratorHelper.isValidCoreBlock(world, p.x, p.y, p.z)) {
                 //we found a core block, now we will follow the core to the control block
                 Pos controlPos = followCoreBlocks(world, p.x, p.y, p.z);
                 if (controlPos != null) {
-                    TileFusionControlMaster master = BlockFusionControlCase.getMasterFromControlPos(world, controlPos);
-                    if (master != null && !master.checkFusionRing()) {
+                    TileAcceleratorControlMaster master = BlockAcceleratorControlCase.getMasterFromControlPos(world, controlPos);
+                    if (master != null && !master.checkAcceleratorRing()) {
                         master.reset();
                         break;
                     }
@@ -93,11 +93,11 @@ public class BlockFusionCase extends BlockRK implements IFusionCaseBlock {
     }
 
     private Pos followCoreBlocks(World world, int x, int y, int z) {
-        FusionHelper.FusionCoreDir oldDir = FusionHelper.FusionCoreDir.XnZn;
-        FusionHelper.FusionCoreDir dir = FusionHelper.FusionCoreDir.XnZn;
+        AcceleratorHelper.AcceleratorCoreDir oldDir = AcceleratorHelper.AcceleratorCoreDir.XnZn;
+        AcceleratorHelper.AcceleratorCoreDir dir = AcceleratorHelper.AcceleratorCoreDir.XnZn;
         boolean stop = false;
         while (!stop) {
-            while (FusionHelper.isValidCoreBlock(world, x + dir.xOff, y, z + dir.zOff)) {
+            while (AcceleratorHelper.isValidCoreBlock(world, x + dir.xOff, y, z + dir.zOff)) {
                 x += dir.xOff;
                 z += dir.zOff;
                 oldDir = dir;
@@ -112,7 +112,7 @@ public class BlockFusionCase extends BlockRK implements IFusionCaseBlock {
         for (ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
             if (d == ForgeDirection.DOWN) continue;
             if (d == ForgeDirection.UP) continue;
-            if (FusionHelper.isValidControlCaseBlock(world, x + d.offsetX, y, z + d.offsetZ)) {
+            if (AcceleratorHelper.isValidControlCaseBlock(world, x + d.offsetX, y, z + d.offsetZ)) {
                 return new Pos(x + d.offsetX, y, z + d.offsetZ);
             }
         }

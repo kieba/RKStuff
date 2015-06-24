@@ -8,8 +8,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockTankBevelLarge extends BlockTank implements IBlockBevelLarge {
     public BlockTankBevelLarge() {
@@ -58,8 +56,4 @@ public class BlockTankBevelLarge extends BlockTank implements IBlockBevelLarge {
         return true;
     }
 
-    @Override
-    public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
-        return false;
-    }
 }

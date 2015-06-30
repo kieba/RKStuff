@@ -44,12 +44,13 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
                 if (p < minPressure) {
                     minPressure = p;
                     index = 0;
+                    totalInput = maxInput[i];
                     if (maxInput[i] > 0) outputSides[index++] = i;
                 } else if (p == minPressure && p != Integer.MAX_VALUE) {
                     if (maxInput[i] > 0) outputSides[index++] = i;
+                    totalInput += maxInput[i];
                 }
             }
-            totalInput += maxInput[i];
         }
 
         if (index > 0 && totalInput > 0) {

@@ -21,21 +21,14 @@ public class Reference {
     public static final String BLOCK_BOILER_BASE_OUTPUT = "BoilerBaseOutput";
     public static final String BLOCK_BOILER_BASE_INPUT = "BoilerBaseInput";
     public static final String BLOCK_BOILER_BASE_MASTER = "BoilerBaseMaster";
-
     public static final String BLOCK_TANK_ADAPTER = "TankAdapter";
     public static final String BLOCK_TANK_BEVEL_LARGE = "TankBevelLarge";
     public static final String BLOCK_TANK_BEVEL_SMALL = "TankBevelSmall";
     public static final String BLOCK_TANK = "Tank";
     public static final String BLOCK_TANK_VALVE = "TankValve";
     public static final String BLOCK_TANK_INTERACTION = "TankInteraction";
-
     public static final String BLOCK_POWERED_FREEZER = "PoweredFreezer";
-    public static final String TILE_POWERED_FREEZER = "TilePoweredFreezer";
-
     public static final String BLOCK_COOLANT_MIXER = "CoolantMixer";
-    public static final String TILE_COOLANT_MIXER = "TileCoolantMixer";
-
-
     public static final String BLOCK_DISTRIBUTION_ENERGY = "DistributionEnergy";
     public static final String BLOCK_DISTRIBUTION_FLUID = "DistributionFluid";
     public static final String BLOCK_DISTRIBUTION_COOLANT = "DistributionCoolant";
@@ -80,6 +73,9 @@ public class Reference {
     public static final String TILE_COOLANT_INJECTOR = "TileCoolantInjector";
     public static final String TILE_COOLANT_EXTRACTOR = "TileCoolantExtractor";
     public static final String TILE_HEAT_EXCHANGER = "TileHeatExchanger";
+
+    public static final String TILE_COOLANT_MIXER = "TileCoolantMixer";
+    public static final String TILE_POWERED_FREEZER = "TilePoweredFreezer";
 
     /* FLUIDS */
     public static final String FLUID_COOLANT = "FluidCoolant";

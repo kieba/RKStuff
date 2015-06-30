@@ -7,7 +7,9 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import net.minecraftforge.common.util.ForgeDirection;
+import rk.com.core.io.IOStream;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class TileDistributionCoolant extends TileDistribution implements ICoolantReceiver {
@@ -79,10 +81,22 @@ public class TileDistributionCoolant extends TileDistribution implements ICoolan
         if (maxOutputRel[side] < 0) maxOutputRel[side] = 0.0f;
     }
 
+    @Override
+    public void writeData(IOStream data) {
+        super.writeData(data);
+        data.writeLast(temperatureSum);
+    }
+
+    @Override
+    public void readData(IOStream data) throws IOException {
+        super.readData(data);
+        temperatureSum = data.readFirstFloat();
+    }
+
     protected void updateHistory() {
         temperatureSum -= temperatureHistory[historyIdx];
-        temperatureHistory[historyIdx + 1] = coolantOutputted.getTemperature();
-        temperatureSum += temperatureHistory[historyIdx + 1];
+        temperatureHistory[historyIdx] = coolantOutputted.getTemperature();
+        temperatureSum += temperatureHistory[historyIdx];
         coolantOutputted.set(0, 0.0f);
         super.updateHistory();
     }

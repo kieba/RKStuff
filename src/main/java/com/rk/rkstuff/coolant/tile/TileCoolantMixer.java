@@ -8,6 +8,7 @@ import com.rk.rkstuff.helper.FluidHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
@@ -48,8 +49,10 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
     }
 
     @Override
-    protected void onFirstUpdate() {
-        super.onFirstUpdate();
+    public void updateEntity() {
+        super.updateEntity();
+
+        if (worldObj.isRemote) return;
 
         int productionVolume = Math.min(MAX_PRODUCTION_IO, MAX_COOLANT_PRODUCT_STORAGE - coolantStackProd.getAmount());
         productionVolume = Math.min(productionVolume, coolantStackRes1.getAmount() + coolantStackRes2.getAmount());
@@ -66,14 +69,6 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
 
         coolantStackProd.add(coolantStackRes1.remove(coolant1Usage));
         coolantStackProd.add(coolantStackRes2.remove(coolant2Usage));
-    }
-
-    @Override
-    public void updateEntity() {
-        super.updateEntity();
-
-        if (worldObj.isRemote) return;
-
 
         coolantStackProd.remove(FluidHelper.outputCoolantToNeighbours(neighbours, sideCache, SIDE_COOLANT_OUTPUT, coolantStackProd.getAmount(), coolantStackProd.getTemperature()));
     }
@@ -94,6 +89,22 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         coolantStackProd.readData(data);
         coolantStackRes1.readData(data);
         coolantStackRes2.readData(data);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound data) {
+        super.writeToNBT(data);
+        coolantStackProd.writeToNBT("coolantProd", data);
+        coolantStackRes1.writeToNBT("coolantRes1", data);
+        coolantStackRes2.writeToNBT("coolantRes2", data);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound data) {
+        super.readFromNBT(data);
+        coolantStackProd.readFromNBT("coolantProd", data);
+        coolantStackRes1.readFromNBT("coolantRes1", data);
+        coolantStackRes2.readFromNBT("coolantRes2", data);
     }
 
     @Override

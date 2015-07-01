@@ -49,6 +49,7 @@ public class Reference {
     public static final String BLOCK_COOLANT_INJECTOR = "CoolantInjector";
     public static final String BLOCK_COOLANT_EXTRACTOR = "CoolantExtractor";
     public static final String BLOCK_HEAT_EXCHANGER = "HeatExchanger";
+    public static final String BLOCK_HEAT_PUMP = "HeatPump";
 
     /* TILE ENTITIES */
     public static final String TILE_SOLAR_OUTPUT = "TileSolarOutput";
@@ -76,6 +77,7 @@ public class Reference {
 
     public static final String TILE_COOLANT_MIXER = "TileCoolantMixer";
     public static final String TILE_POWERED_FREEZER = "TilePoweredFreezer";
+    public static final String TILE_HEAT_PUMP = "TileHeatPump";
 
     /* FLUIDS */
     public static final String FLUID_COOLANT = "FluidCoolant";

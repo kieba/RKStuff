@@ -1,8 +1,8 @@
-package com.rk.rkstuff.fusion.block;
+package com.rk.rkstuff.accelerator.block;
 
+import com.rk.rkstuff.accelerator.AcceleratorHelper;
+import com.rk.rkstuff.accelerator.tile.TileAcceleratorMaster;
 import com.rk.rkstuff.core.block.BlockRK;
-import com.rk.rkstuff.fusion.AcceleratorHelper;
-import com.rk.rkstuff.fusion.tile.TileAcceleratorControlMaster;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
 import com.rk.rkstuff.util.RKLog;
@@ -22,7 +22,7 @@ public class BlockAcceleratorControlCase extends BlockRK implements IAccelerator
     private IIcon[] icons = new IIcon[2];
 
     public BlockAcceleratorControlCase() {
-        super(Material.iron, Reference.BLOCK_FUSION_CONTROL_CASE);
+        super(Material.iron, Reference.BLOCK_ACCELERATOR_CONTROL_CASE);
     }
 
     public BlockAcceleratorControlCase(Material m, String name) {
@@ -32,8 +32,8 @@ public class BlockAcceleratorControlCase extends BlockRK implements IAccelerator
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_CASE + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CONTROL_CASE + 2);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_CASE + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_CASE + 2);
     }
 
     @Override
@@ -50,19 +50,19 @@ public class BlockAcceleratorControlCase extends BlockRK implements IAccelerator
         }
 
         if (block.getMaterial() == Material.air || AcceleratorHelper.isValidCaseOrCoreControlBlock(block)) {
-            TileAcceleratorControlMaster master = BlockAcceleratorControlCase.getMasterFromControlPos(world, new Pos(x, y, z));
+            TileAcceleratorMaster master = BlockAcceleratorControlCase.getMasterFromControlPos(world, new Pos(x, y, z));
             if (master != null && !master.checkAcceleratorControl()) {
                 master.reset();
             }
         }
     }
 
-    public static TileAcceleratorControlMaster getMasterFromControlPos(World world, Pos controlPos) {
+    public static TileAcceleratorMaster getMasterFromControlPos(World world, Pos controlPos) {
         if (!(world.getBlock(controlPos.x, controlPos.y, controlPos.z) instanceof IAcceleratorControlCaseBlock))
             return null;
         MultiBlockHelper.Bounds tmpBounds = new MultiBlockHelper.Bounds(controlPos.x, controlPos.y, controlPos.z);
 
-        //get fusion control base bounds
+        //get accelerator control base bounds
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             int i = 1;
             while (AcceleratorHelper.isValidControlBlock(world, controlPos.x + direction.offsetX * i, controlPos.y + direction.offsetY * i, controlPos.z + direction.offsetZ * i)) {
@@ -74,10 +74,10 @@ public class BlockAcceleratorControlCase extends BlockRK implements IAccelerator
 
         for (MultiBlockHelper.Bounds.BlockIterator.BoundsPos bp : tmpBounds) {
             if (bp.isBorder()) {
-                if (world.getBlock(bp.x, bp.y, bp.z) instanceof BlockAcceleratorControlMaster) {
+                if (world.getBlock(bp.x, bp.y, bp.z) instanceof BlockLHCMaster) {
                     TileEntity t = world.getTileEntity(bp.x, bp.y, bp.z);
-                    if (t instanceof TileAcceleratorControlMaster) {
-                        return (TileAcceleratorControlMaster) t;
+                    if (t instanceof TileAcceleratorMaster) {
+                        return (TileAcceleratorMaster) t;
                     }
                 }
             }

@@ -1,8 +1,8 @@
-package com.rk.rkstuff.fusion.block;
+package com.rk.rkstuff.accelerator.block;
 
+import com.rk.rkstuff.accelerator.AcceleratorHelper;
+import com.rk.rkstuff.accelerator.tile.TileAcceleratorMaster;
 import com.rk.rkstuff.core.block.BlockRK;
-import com.rk.rkstuff.fusion.AcceleratorHelper;
-import com.rk.rkstuff.fusion.tile.TileAcceleratorControlMaster;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
 import com.rk.rkstuff.util.RKLog;
@@ -20,7 +20,7 @@ public class BlockAcceleratorCase extends BlockRK implements IAcceleratorCaseBlo
     private IIcon[] icons = new IIcon[2];
 
     public BlockAcceleratorCase() {
-        super(Material.iron, Reference.BLOCK_FUSION_CASE);
+        super(Material.iron, Reference.BLOCK_ACCELERATOR_CASE);
     }
 
     protected BlockAcceleratorCase(Material m, String name) {
@@ -31,8 +31,8 @@ public class BlockAcceleratorCase extends BlockRK implements IAcceleratorCaseBlo
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CASE + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CASE + 2);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CASE + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CASE + 2);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class BlockAcceleratorCase extends BlockRK implements IAcceleratorCaseBlo
                 //we found a core block, now we will follow the core to the control block
                 Pos controlPos = followCoreBlocks(world, p.x, p.y, p.z);
                 if (controlPos != null) {
-                    TileAcceleratorControlMaster master = BlockAcceleratorControlCase.getMasterFromControlPos(world, controlPos);
+                    TileAcceleratorMaster master = BlockAcceleratorControlCase.getMasterFromControlPos(world, controlPos);
                     if (master != null && !master.checkAcceleratorRing()) {
                         master.reset();
                         break;

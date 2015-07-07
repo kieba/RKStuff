@@ -228,6 +228,11 @@ public class MultiBlockHelper {
                 return tmp;
             }
 
+            @Override
+            public void remove() {
+                //TODO
+            }
+
             public class BoundsPos extends Pos{
                 private BoundsPos(int x, int y, int z) {
                     super(x, y, z);

@@ -1,6 +1,6 @@
-package com.rk.rkstuff.fusion.block;
+package com.rk.rkstuff.accelerator.block;
 
-import com.rk.rkstuff.core.block.IBlockBevelSmallInverted;
+import com.rk.rkstuff.core.block.IBlockBevelSmall;
 import com.rk.rkstuff.proxy.ClientProxy;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -11,10 +11,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorCaseBevelSmallInverted extends BlockAcceleratorCase implements IBlockBevelSmallInverted {
+public class BlockAcceleratorCaseBevelSmall extends BlockAcceleratorCase implements IBlockBevelSmall {
 
-    public BlockAcceleratorCaseBevelSmallInverted() {
-        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
+    public BlockAcceleratorCaseBevelSmall() {
+        super(Material.iron, Reference.BLOCK_ACCELERATOR_CASE_BEVEL_SMALL);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class BlockAcceleratorCaseBevelSmallInverted extends BlockAcceleratorCase
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
     }
 
     @Override
@@ -57,4 +57,5 @@ public class BlockAcceleratorCaseBevelSmallInverted extends BlockAcceleratorCase
         }
         return true;
     }
+
 }

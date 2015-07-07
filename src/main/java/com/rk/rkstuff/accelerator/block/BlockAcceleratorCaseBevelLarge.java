@@ -1,4 +1,4 @@
-package com.rk.rkstuff.fusion.block;
+package com.rk.rkstuff.accelerator.block;
 
 import com.rk.rkstuff.core.block.IBlockBevelLarge;
 import com.rk.rkstuff.proxy.ClientProxy;
@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class BlockAcceleratorCaseBevelLarge extends BlockAcceleratorCase implements IBlockBevelLarge {
 
     public BlockAcceleratorCaseBevelLarge() {
-        super(Material.iron, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
+        super(Material.iron, Reference.BLOCK_ACCELERATOR_CASE_BEVEL_LARGE);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class BlockAcceleratorCaseBevelLarge extends BlockAcceleratorCase impleme
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
     }
 
     @Override

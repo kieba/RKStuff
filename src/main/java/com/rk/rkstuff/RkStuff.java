@@ -1,5 +1,7 @@
 package com.rk.rkstuff;
 
+import com.rk.rkstuff.accelerator.block.*;
+import com.rk.rkstuff.accelerator.tile.*;
 import com.rk.rkstuff.boiler.block.*;
 import com.rk.rkstuff.boiler.tile.TileBoilerBaseInput;
 import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
@@ -16,11 +18,6 @@ import com.rk.rkstuff.distribution.block.BlockDistributionFluid;
 import com.rk.rkstuff.distribution.tile.TileDistributionCoolant;
 import com.rk.rkstuff.distribution.tile.TileDistributionEnergy;
 import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
-import com.rk.rkstuff.fusion.block.*;
-import com.rk.rkstuff.fusion.tile.TileAcceleratorCaseFluidIO;
-import com.rk.rkstuff.fusion.tile.TileAcceleratorControlEnergyIO;
-import com.rk.rkstuff.fusion.tile.TileAcceleratorControlItemIO;
-import com.rk.rkstuff.fusion.tile.TileAcceleratorControlMaster;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.item.BucketBase;
@@ -125,8 +122,9 @@ public class RkStuff {
     public static Block blockAcceleratorControlCore = new BlockAcceleratorControlCore();
     public static Block blockAcceleratorControlEnergyIO = new BlockAcceleratorControlEnergyIO();
     public static Block blockAcceleratorControlItemIO = new BlockAcceleratorControlItemIO();
-    public static Block blockAcceleratorControlMaster = new BlockAcceleratorControlMaster();
     public static Block blockAcceleratorCore = new BlockAcceleratorCore();
+    public static Block blockLHCMaster = new BlockLHCMaster();
+    public static Block blockFusionReactorMaster = new BlockFusionReactorMaster();
 
     public static Block blockCoolantPipe = new BlockCoolantPipe();
     public static Block blockCoolantInjector = new BlockCoolantInjector();
@@ -193,17 +191,18 @@ public class RkStuff {
         GameRegistry.registerBlock(blockCoolantMixer, Reference.BLOCK_COOLANT_MIXER);
         GameRegistry.registerTileEntity(TileCoolantMixer.class, Reference.TILE_COOLANT_MIXER);
 
-        GameRegistry.registerBlock(blockAcceleratorCase, Reference.BLOCK_FUSION_CASE);
-        GameRegistry.registerBlock(blockAcceleratorCaseBevelSmall, Reference.BLOCK_FUSION_CASE_BEVEL_LARGE);
-        GameRegistry.registerBlock(blockAcceleratorCaseBevelSmallInverted, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL);
-        GameRegistry.registerBlock(blockAcceleratorCaseBevelLarge, Reference.BLOCK_FUSION_CASE_BEVEL_SMALL_INVERTED);
-        GameRegistry.registerBlock(blockAcceleratorCaseFluidIO, Reference.BLOCK_FUSION_CASE_FLUID_IO);
-        GameRegistry.registerBlock(blockAcceleratorControlCase, Reference.BLOCK_FUSION_CONTROL_CASE);
-        GameRegistry.registerBlock(blockAcceleratorControlCore, Reference.BLOCK_FUSION_CONTROL_CORE);
-        GameRegistry.registerBlock(blockAcceleratorControlEnergyIO, Reference.BLOCK_FUSION_CONTROL_ENERGY_IO);
-        GameRegistry.registerBlock(blockAcceleratorControlItemIO, Reference.BLOCK_FUSION_CONTROL_ITEM_IO);
-        GameRegistry.registerBlock(blockAcceleratorControlMaster, Reference.BLOCK_FUSION_CONTROL_MASTER);
-        GameRegistry.registerBlock(blockAcceleratorCore, Reference.BLOCK_FUSION_CORE);
+        GameRegistry.registerBlock(blockAcceleratorCase, Reference.BLOCK_ACCELERATOR_CASE);
+        GameRegistry.registerBlock(blockAcceleratorCaseBevelSmall, Reference.BLOCK_ACCELERATOR_CASE_BEVEL_LARGE);
+        GameRegistry.registerBlock(blockAcceleratorCaseBevelSmallInverted, Reference.BLOCK_ACCELERATOR_CASE_BEVEL_SMALL);
+        GameRegistry.registerBlock(blockAcceleratorCaseBevelLarge, Reference.BLOCK_ACCELERATOR_CASE_BEVEL_SMALL_INVERTED);
+        GameRegistry.registerBlock(blockAcceleratorCaseFluidIO, Reference.BLOCK_ACCELERATOR_CASE_FLUID_IO);
+        GameRegistry.registerBlock(blockAcceleratorControlCase, Reference.BLOCK_ACCELERATOR_CONTROL_CASE);
+        GameRegistry.registerBlock(blockAcceleratorControlCore, Reference.BLOCK_ACCELERATOR_CONTROL_CORE);
+        GameRegistry.registerBlock(blockAcceleratorControlEnergyIO, Reference.BLOCK_ACCELERATOR_CONTROL_ENERGY_IO);
+        GameRegistry.registerBlock(blockAcceleratorControlItemIO, Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO);
+        GameRegistry.registerBlock(blockLHCMaster, Reference.BLOCK_LHC_MASTER);
+        GameRegistry.registerBlock(blockFusionReactorMaster, Reference.BLOCK_FUSION_REACTOR_MASTER);
+        GameRegistry.registerBlock(blockAcceleratorCore, Reference.BLOCK_ACCELERATOR_CORE);
 
         GameRegistry.registerBlock(blockCoolantPipe, Reference.BLOCK_COOLANT_PIPE);
         GameRegistry.registerBlock(blockCoolantInjector, Reference.BLOCK_COOLANT_INJECTOR);
@@ -228,10 +227,11 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileTankInteraction.class, Reference.TILE_TANK_INTERACTION);
         GameRegistry.registerTileEntity(TileTankValve.class, Reference.TILE_TANK_VALVE);
 
-        GameRegistry.registerTileEntity(TileAcceleratorCaseFluidIO.class, Reference.TILE_FUSION_CASE_FLUID_IO);
-        GameRegistry.registerTileEntity(TileAcceleratorControlEnergyIO.class, Reference.TILE_FUSION_CONTROL_ENERGY_IO);
-        GameRegistry.registerTileEntity(TileAcceleratorControlItemIO.class, Reference.TILE_FUSION_CONTROL_ITEM_IO);
-        GameRegistry.registerTileEntity(TileAcceleratorControlMaster.class, Reference.TILE_FUSION_CONTROL_MASTER);
+        GameRegistry.registerTileEntity(TileAcceleratorCaseFluidIO.class, Reference.TILE_ACCELERATOR_CASE_FLUID_IO);
+        GameRegistry.registerTileEntity(TileAcceleratorControlEnergyIO.class, Reference.TILE_ACCELERATOR_CONTROL_ENERGY_IO);
+        GameRegistry.registerTileEntity(TileAcceleratorControlItemIO.class, Reference.TILE_ACCELERATOR_CONTROL_ITEM_IO);
+        GameRegistry.registerTileEntity(TileLHCMaster.class, Reference.TILE_LHC_MASTER);
+        GameRegistry.registerTileEntity(TileFusionReactorMaster.class, Reference.TILE_FUSION_REACTOR_MASTER);
 
         GameRegistry.registerTileEntity(TileCoolantPipe.class, Reference.TILE_COOLANT_PIPE);
         GameRegistry.registerTileEntity(TileCoolantInjector.class, Reference.TILE_COOLANT_INJECTOR);
@@ -327,7 +327,6 @@ public class RkStuff {
 
 
         fluidUsedCoolant = new Fluid(Reference.FLUID_USED_COOLANT);
-        fluidUsedCoolant.setTemperature(2000);
         FluidRegistry.registerFluid(fluidUsedCoolant);
         fluidUsedCoolantBlock = new BlockUsedCoolantFluid(fluidUsedCoolant);
         GameRegistry.registerBlock(fluidUsedCoolantBlock, fluidUsedCoolantBlock.getUnlocalizedName().substring(5));

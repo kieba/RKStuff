@@ -1,4 +1,4 @@
-package com.rk.rkstuff.fusion.block;
+package com.rk.rkstuff.accelerator.block;
 
 public interface IAcceleratorControlCaseBlock {
 }

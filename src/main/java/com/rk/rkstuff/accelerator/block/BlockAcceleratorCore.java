@@ -1,4 +1,4 @@
-package com.rk.rkstuff.fusion.block;
+package com.rk.rkstuff.accelerator.block;
 
 import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.util.Reference;
@@ -13,14 +13,14 @@ public class BlockAcceleratorCore extends BlockRK implements IAcceleratorCoreBlo
     private IIcon[] icons = new IIcon[2];
 
     public BlockAcceleratorCore() {
-        super(Material.iron, Reference.BLOCK_FUSION_CORE);
+        super(Material.iron, Reference.BLOCK_ACCELERATOR_CORE);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CORE + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":fusion/" + Reference.BLOCK_FUSION_CORE + 2);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CORE + 1);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CORE + 2);
     }
 
     @Override

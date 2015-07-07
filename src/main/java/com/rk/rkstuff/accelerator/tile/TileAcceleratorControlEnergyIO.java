@@ -1,4 +1,4 @@
-package com.rk.rkstuff.fusion.tile;
+package com.rk.rkstuff.accelerator.tile;
 
 import cofh.api.energy.IEnergyHandler;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBlockMasterListener, IEnergyHandler {
 
-    private TileAcceleratorControlMaster master;
+    private TileAcceleratorMaster master;
 
     public boolean hasMaster() {
         return master != null;
@@ -19,7 +19,7 @@ public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBloc
 
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
-        master = (TileAcceleratorControlMaster) tileMaster;
+        master = (TileAcceleratorMaster) tileMaster;
     }
 
     @Override

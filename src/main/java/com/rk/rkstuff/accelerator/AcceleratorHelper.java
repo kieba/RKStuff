@@ -1,10 +1,10 @@
-package com.rk.rkstuff.fusion;
+package com.rk.rkstuff.accelerator;
 
 import com.rk.rkstuff.RkStuff;
-import com.rk.rkstuff.fusion.block.IAcceleratorCaseBlock;
-import com.rk.rkstuff.fusion.block.IAcceleratorControlCaseBlock;
-import com.rk.rkstuff.fusion.block.IAcceleratorControlCoreBlock;
-import com.rk.rkstuff.fusion.block.IAcceleratorCoreBlock;
+import com.rk.rkstuff.accelerator.block.IAcceleratorCaseBlock;
+import com.rk.rkstuff.accelerator.block.IAcceleratorControlCaseBlock;
+import com.rk.rkstuff.accelerator.block.IAcceleratorControlCoreBlock;
+import com.rk.rkstuff.accelerator.block.IAcceleratorCoreBlock;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
 import net.minecraft.block.Block;
@@ -69,10 +69,11 @@ public class AcceleratorHelper {
     }
 
     public static class AcceleratorStructure {
+        public int[] fluidIOs = new int[AcceleratorConfig.ACCELERATOR_SIDE_COUNT];
         public Pos ringStart;
         public Pos ringEnd;
         public AcceleratorCoreDir startDir;
-        public int[] lengths = new int[9]; //AcceleratorCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
+        public int[] lengths = new int[AcceleratorConfig.ACCELERATOR_SIDE_COUNT]; //AcceleratorCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
         public MultiBlockHelper.Bounds controlBounds;
         public Pos master;
     }
@@ -410,7 +411,7 @@ public class AcceleratorHelper {
 
     public interface IAcceleratorPosVisitor {
 
-        public boolean visit(AcceleratorPos pos);
+        boolean visit(AcceleratorPos pos);
 
     }
 

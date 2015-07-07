@@ -1,4 +1,4 @@
-package com.rk.rkstuff.fusion.tile;
+package com.rk.rkstuff.accelerator.tile;
 
 import cofh.api.inventory.IInventoryHandler;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockMasterListener, IInventoryHandler {
 
-    private TileAcceleratorControlMaster master;
+    private TileAcceleratorMaster master;
 
     public boolean hasMaster() {
         return master != null;
@@ -21,7 +21,7 @@ public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockM
 
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
-        master = (TileAcceleratorControlMaster) tileMaster;
+        master = (TileAcceleratorMaster) tileMaster;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.rk.rkstuff.fusion.tile;
+package com.rk.rkstuff.accelerator.tile;
 
 import com.rk.rkstuff.coolant.tile.ICoolantReceiver;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMasterListener, ICoolantReceiver {
 
-    private TileAcceleratorControlMaster master;
+    private TileAcceleratorMaster master;
     private int side;
 
     public boolean hasMaster() {
@@ -25,7 +25,7 @@ public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMas
 
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
-        master = (TileAcceleratorControlMaster) tileMaster;
+        master = (TileAcceleratorMaster) tileMaster;
         side = master.getSideForFluidIO(this);
         if (side == -1) {
             RKLog.error("Invalid side for TileAcceleratorCaseFluidIO!");

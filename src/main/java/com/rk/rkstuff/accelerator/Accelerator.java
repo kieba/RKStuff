@@ -5,6 +5,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class Accelerator {
 
+    public static final AcceleratorConfig DEFAULT_CONFIG = new AcceleratorConfig();
+
+    private AcceleratorConfig config;
     private AcceleratorHelper.AcceleratorStructure setup;
     private int[] maxCoolantStorage = new int[AcceleratorConfig.ACCELERATOR_SIDE_COUNT];
     private CoolantStack[] coolant = new CoolantStack[AcceleratorConfig.ACCELERATOR_SIDE_COUNT];
@@ -22,7 +25,8 @@ public class Accelerator {
     private boolean isCollideMode;
     private IAccelerator accelerator;
 
-    public Accelerator(IAccelerator collisionAccelerator) {
+    public Accelerator(IAccelerator collisionAccelerator, AcceleratorConfig config) {
+        this.config = config;
         this.accelerator = collisionAccelerator;
         this.isCollideMode = accelerator.isCollideMode();
     }
@@ -124,13 +128,13 @@ public class Accelerator {
             //the coolant does only work if there are more than 100 mB in the side
             if (coolant[currentRingSide].getAmount() <= 100) temperature = 20.0f;
             float tempDiff = Math.abs(CoolantStack.MIN_TEMPERATURE - temperature);
-            currentSpeed = currentSpeed * (1.0f - ((tempDiff * AcceleratorConfig.DECELERATION_PER_CENTIGRADE_IN_PERCENT * efficiency) / totalLength));
+            currentSpeed = currentSpeed * (1.0f - ((tempDiff * config.DECELERATION_PER_CENTIGRADE_IN_PERCENT * efficiency) / totalLength));
         }
     }
 
     private void heatUpSide() {
         if (!isControlSide()) {
-            float heatEnergy = ((AcceleratorConfig.HEAT_ENERGY_PER_SPEED * currentSpeed) / (efficiency * totalLength));
+            float heatEnergy = ((config.HEAT_ENERGY_PER_SPEED * currentSpeed) / (efficiency * totalLength));
             coolant[currentRingSide].addEnergy(heatEnergy);
         }
     }
@@ -235,12 +239,12 @@ public class Accelerator {
             if (avgDev != 0.0f) efficiency = 1.0f - (avgDev / avgLength);
 
             //max speed is MAX_ROUNDS_PER_TICK rounds per tick (if the setting is optimal!)
-            maxSpeed = totalLength * efficiency * AcceleratorConfig.MAX_ROUNDS_PER_TICK;
+            maxSpeed = totalLength * efficiency * config.MAX_ROUNDS_PER_TICK;
             accelerator.onInitialize();
             isInitialized = true;
 
             for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
-                maxCoolantStorage[i] = setup.fluidIOs[i] * AcceleratorConfig.COOLANT_PER_FLUID_IO;
+                maxCoolantStorage[i] = setup.fluidIOs[i] * config.COOLANT_PER_FLUID_IO;
                 if (coolant[i].getAmount() > maxCoolantStorage[i])
                     coolant[i].set(maxCoolantStorage[i], coolant[i].getTemperature());
             }

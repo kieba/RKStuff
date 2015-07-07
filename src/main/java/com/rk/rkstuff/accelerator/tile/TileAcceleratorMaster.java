@@ -31,7 +31,7 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        accelerator = new Accelerator(this);
+        accelerator = new Accelerator(this, Accelerator.DEFAULT_CONFIG);
         accelerator.readFromNBT("accelerator", tag);
     }
 

@@ -2,7 +2,6 @@ package com.rk.rkstuff.accelerator.tile;
 
 import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.accelerator.Accelerator;
-import com.rk.rkstuff.accelerator.AcceleratorConfig;
 import com.rk.rkstuff.accelerator.AcceleratorHelper;
 import com.rk.rkstuff.accelerator.IAccelerator;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
@@ -31,7 +30,7 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        accelerator = new Accelerator(this);
+        accelerator = new Accelerator(this, Accelerator.DEFAULT_CONFIG);
         accelerator.readFromNBT("accelerator", tag);
     }
 
@@ -352,12 +351,12 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
             }
 
             length = (index % 2 == 1) ? length + 1 : length - 1;
-            if (index == 0 || index == AcceleratorConfig.ACCELERATOR_SIDE_COUNT - 1) {//the side with the accelerator base can be shorter
-                if (length < AcceleratorConfig.MIN_START_END_LENGTH) {
+            if (index == 0 || index == Accelerator.DEFAULT_CONFIG.ACCELERATOR_SIDE_COUNT - 1) {//the side with the accelerator base can be shorter
+                if (length < Accelerator.DEFAULT_CONFIG.MIN_START_END_LENGTH) {
                     break;
                 }
             } else {
-                if (length < AcceleratorConfig.MIN_SIDE_LENGTH) {
+                if (length < Accelerator.DEFAULT_CONFIG.MIN_SIDE_LENGTH) {
                     break;
                 }
             }

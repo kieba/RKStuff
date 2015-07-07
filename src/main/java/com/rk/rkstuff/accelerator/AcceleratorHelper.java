@@ -69,11 +69,11 @@ public class AcceleratorHelper {
     }
 
     public static class AcceleratorStructure {
-        public int[] fluidIOs = new int[Accelerator.DEFAULT_CONFIG.ACCELERATOR_SIDE_COUNT];
+        public int[] fluidIOs = new int[AcceleratorConfig.ACCELERATOR_SIDE_COUNT];
         public Pos ringStart;
         public Pos ringEnd;
         public AcceleratorCoreDir startDir;
-        public int[] lengths = new int[Accelerator.DEFAULT_CONFIG.ACCELERATOR_SIDE_COUNT]; //AcceleratorCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
+        public int[] lengths = new int[AcceleratorConfig.ACCELERATOR_SIDE_COUNT]; //AcceleratorCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
         public MultiBlockHelper.Bounds controlBounds;
         public Pos master;
     }

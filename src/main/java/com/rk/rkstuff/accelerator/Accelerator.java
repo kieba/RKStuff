@@ -9,8 +9,8 @@ public class Accelerator {
 
     private AcceleratorConfig config;
     private AcceleratorHelper.AcceleratorStructure setup;
-    private int[] maxCoolantStorage = new int[config.ACCELERATOR_SIDE_COUNT];
-    private CoolantStack[] coolant = new CoolantStack[config.ACCELERATOR_SIDE_COUNT];
+    private int[] maxCoolantStorage = new int[AcceleratorConfig.ACCELERATOR_SIDE_COUNT];
+    private CoolantStack[] coolant = new CoolantStack[AcceleratorConfig.ACCELERATOR_SIDE_COUNT];
 
     private boolean isInitialized;
     private float efficiency;
@@ -32,7 +32,7 @@ public class Accelerator {
     }
 
     public void writeToNBT(String prefix, NBTTagCompound tag) {
-        for (int i = 0; i < config.ACCELERATOR_SIDE_COUNT; i++) {
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
             coolant[i].writeToNBT(prefix + "coolant" + i, tag);
         }
         tag.setFloat(prefix + "speed", currentSpeed);
@@ -40,7 +40,7 @@ public class Accelerator {
     }
 
     public void readFromNBT(String prefix, NBTTagCompound tag) {
-        for (int i = 0; i < config.ACCELERATOR_SIDE_COUNT; i++) {
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
             coolant[i] = new CoolantStack();
             coolant[i].readFromNBT(prefix + "coolant" + i, tag);
         }
@@ -173,12 +173,12 @@ public class Accelerator {
     }
 
     private void setCenter() {
-        this.currentRingSide = config.ACCELERATOR_SIDE_COUNT;
+        this.currentRingSide = AcceleratorConfig.ACCELERATOR_SIDE_COUNT;
         this.currentSidePosition = (controlLength / 2);
     }
 
     private boolean isControlSide() {
-        return currentRingSide == config.ACCELERATOR_SIDE_COUNT;
+        return currentRingSide == AcceleratorConfig.ACCELERATOR_SIDE_COUNT;
     }
 
     private boolean doCollide() {
@@ -220,7 +220,7 @@ public class Accelerator {
             }
 
             totalLength = 0;
-            for (int i = 0; i < config.ACCELERATOR_SIDE_COUNT; i++) {
+            for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
                 totalLength += setup.lengths[i];
             }
             totalLength += controlLength;
@@ -229,11 +229,11 @@ public class Accelerator {
 
             //the smaller the average deviation from the average side length the better
             float avgDev = 0.0f;
-            for (int i = 1; i < config.ACCELERATOR_SIDE_COUNT - 1; i++) {
+            for (int i = 1; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT - 1; i++) {
                 avgDev += Math.abs(setup.lengths[i] - avgLength);
             }
 
-            avgDev += Math.abs(controlLength + setup.lengths[0] + setup.lengths[config.ACCELERATOR_SIDE_COUNT - 1] - avgLength);
+            avgDev += Math.abs(controlLength + setup.lengths[0] + setup.lengths[AcceleratorConfig.ACCELERATOR_SIDE_COUNT - 1] - avgLength);
 
             efficiency = 1.0f;
             if (avgDev != 0.0f) efficiency = 1.0f - (avgDev / avgLength);
@@ -243,7 +243,7 @@ public class Accelerator {
             accelerator.onInitialize();
             isInitialized = true;
 
-            for (int i = 0; i < config.ACCELERATOR_SIDE_COUNT; i++) {
+            for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
                 maxCoolantStorage[i] = setup.fluidIOs[i] * config.COOLANT_PER_FLUID_IO;
                 if (coolant[i].getAmount() > maxCoolantStorage[i])
                     coolant[i].set(maxCoolantStorage[i], coolant[i].getTemperature());

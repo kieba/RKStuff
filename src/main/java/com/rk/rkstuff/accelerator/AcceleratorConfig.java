@@ -1,11 +1,13 @@
 package com.rk.rkstuff.accelerator;
 
-public class AcceleratorConfig {
+import java.io.Serializable;
 
-    public int ACCELERATOR_SIDE_COUNT = 9;
+public class AcceleratorConfig implements Serializable {
 
-    public int MIN_START_END_LENGTH = 2;
-    public int MIN_SIDE_LENGTH = 5;
+    public static final int ACCELERATOR_SIDE_COUNT = 9;
+
+    public static final int MIN_START_END_LENGTH = 2;
+    public static final int MIN_SIDE_LENGTH = 5;
 
     public int MAX_START_END_LENGTH = 22;
     public int MAX_SIDE_LENGTH = 25;

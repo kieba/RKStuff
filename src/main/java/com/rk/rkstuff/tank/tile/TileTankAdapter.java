@@ -45,14 +45,19 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
         return computeMultiStructureBounds() != null;
     }
 
-    public int getInnerRadius() {
+    public int getInnerRadiusX() {
         if (bounds == null) return 0;
         return (bounds.getWidthX() - 2) / 2;
     }
 
+    public int getInnerRadiusZ() {
+        if (bounds == null) return 0;
+        return (bounds.getWidthZ() - 2) / 2;
+    }
+
     public int getOuterRadius() {
         if (bounds == null) return 0;
-        return getInnerRadius() + 1;
+        return getInnerRadiusX() + 1;
     }
 
     public int getInnerHeight() {
@@ -309,7 +314,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
-        return AxisAlignedBB.getBoundingBox(xCoord - getInnerRadius(), yCoord, zCoord - getInnerRadius(), xCoord + getInnerRadius() + 1, yCoord + getInnerHeight() + 1, zCoord + getInnerRadius() + 1);
+        return AxisAlignedBB.getBoundingBox(xCoord - getInnerRadiusX(), yCoord, zCoord - getInnerRadiusX(), xCoord + getInnerRadiusX() + 1, yCoord + getInnerHeight() + 1, zCoord + getInnerRadiusX() + 1);
     }
 
     @Override

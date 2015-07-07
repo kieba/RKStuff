@@ -130,6 +130,7 @@ public class RkStuff {
     public static Block blockCoolantInjector = new BlockCoolantInjector();
     public static Block blockCoolantExtractor = new BlockCoolantExtractor();
     public static BlockHeatExchanger blockHeatExchanger = new BlockHeatExchanger();
+    public static BlockRKReconfigurable blockHeatPump = new BlockHeatPump();
 
     public static Item itemValve = new ItemRK(Reference.ITEM_VALVE);
     public static Item itemSolarPanel = new ItemRK(Reference.ITEM_SOLAR_PANEL);
@@ -208,6 +209,8 @@ public class RkStuff {
         GameRegistry.registerBlock(blockCoolantInjector, Reference.BLOCK_COOLANT_INJECTOR);
         GameRegistry.registerBlock(blockCoolantExtractor, Reference.BLOCK_COOLANT_EXTRACTOR);
         GameRegistry.registerBlock(blockHeatExchanger, Reference.BLOCK_HEAT_EXCHANGER);
+        GameRegistry.registerBlock(blockHeatPump, Reference.BLOCK_HEAT_PUMP);
+
 
         //TileEntities
         GameRegistry.registerTileEntity(TileSolarOutput.class, Reference.TILE_SOLAR_OUTPUT);
@@ -237,6 +240,7 @@ public class RkStuff {
         GameRegistry.registerTileEntity(TileCoolantInjector.class, Reference.TILE_COOLANT_INJECTOR);
         GameRegistry.registerTileEntity(TileCoolantExtractor.class, Reference.TILE_COOLANT_EXTRACTOR);
         GameRegistry.registerTileEntity(TileHeatExchanger.class, Reference.TILE_HEAT_EXCHANGER);
+        GameRegistry.registerTileEntity(TileHeatPump.class, Reference.TILE_HEAT_PUMP);
 
         //Fluids
         registerFluids();

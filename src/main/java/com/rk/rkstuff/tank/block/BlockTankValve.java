@@ -9,14 +9,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityProvider {
     private IIcon[] icons = new IIcon[3];
@@ -57,28 +54,6 @@ public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityPr
             }
         }
         return getIcon(side, 0);
-    }
-
-    @Override
-    public void onNeighborChange(IBlockAccess world, int x, int y, int z, int tileX, int tileY, int tileZ) {
-        int offsetX = x - tileX;
-        int offsetY = y - tileY;
-        int offsetZ = z - tileZ;
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            if (dir.offsetX == offsetX && dir.offsetY == offsetY && dir.offsetZ == offsetZ) {
-                TileEntity tileEntity = world.getTileEntity(x, y, z);
-                if (tileEntity instanceof TileTankValve) {
-                    ((TileTankValve) tileEntity).onNeighborTileChange(dir.getOpposite());
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TileTankValve) ((TileTankValve) te).onBlockPlaced();
     }
 
     @Override

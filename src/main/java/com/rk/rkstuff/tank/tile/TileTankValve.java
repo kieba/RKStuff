@@ -7,7 +7,6 @@ import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
 import com.rk.rkstuff.helper.FluidHelper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -20,7 +19,6 @@ import java.io.IOException;
 public class TileTankValve extends TileRK implements IMultiBlockMasterListener, IFluidHandler, ICoolantReceiver {
     private TileTankAdapter master;
     private boolean isOutput;
-    private TileEntity[] neighbours = new TileEntity[6];
 
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
@@ -31,6 +29,7 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
     public void unregisterMaster() {
         master = null;
     }
+
 
     public TileTankAdapter getMaster() {
         return master;
@@ -77,7 +76,14 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
     }
 
     @Override
+    protected boolean cacheNeighbours() {
+        return true;
+    }
+
+    @Override
     public void updateEntity() {
+        super.updateEntity();
+
         if (master == null) return;
         if (worldObj.isRemote) return;
 
@@ -107,23 +113,6 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
                     rcv.fill(ForgeDirection.values()[i].getOpposite(), master.drainFluid(amount, true), true);
                 }
             }
-        }
-    }
-
-    public void onNeighborTileChange(ForgeDirection dir) {
-        if (worldObj.isRemote) return;
-        int side = dir.ordinal();
-        int x = xCoord + dir.offsetX;
-        int y = yCoord + dir.offsetY;
-        int z = zCoord + dir.offsetZ;
-        TileEntity te = worldObj.getTileEntity(x, y, z);
-        neighbours[side] = te;
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-    }
-
-    public void onBlockPlaced() {
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            onNeighborTileChange(dir);
         }
     }
 

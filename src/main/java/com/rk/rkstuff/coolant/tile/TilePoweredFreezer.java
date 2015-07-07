@@ -9,6 +9,7 @@ import com.rk.rkstuff.helper.FluidHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
@@ -137,5 +138,17 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
         currentBody.add(String.format("Coolant: %d/%d mB", coolantStack.getAmount(), MAX_COOLANT_STORAGE));
         currentBody.add(String.format("Temperature: %.2f °C", coolantStack.getTemperature()));
         return currentBody;
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound data) {
+        super.writeToNBT(data);
+        coolantStack.writeToNBT("coolant", data);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound data) {
+        super.readFromNBT(data);
+        coolantStack.readFromNBT("coolant", data);
     }
 }

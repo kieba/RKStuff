@@ -15,16 +15,17 @@ public class BlockCoolantMixer extends BlockRKReconfigurable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileCoolantMixer(this);
     }
 
     @Override
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons = new IIcon[4];
+        icons = new IIcon[5];
         icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_COOLANT_MIXER + 1);
         icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_COOLANT_MIXER + 2);
         icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_COOLANT_MIXER + 3);
         icons[3] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_COOLANT_MIXER + 4);
+        icons[4] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_COOLANT_MIXER + 5);
     }
 }

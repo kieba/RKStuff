@@ -98,8 +98,8 @@ public class BlockTank extends BlockRK implements ITankBlock {
     }
 
     @Override
-    public void onNeighborBlockChange(World access, int x, int y, int z, Block oldBlock) {
-        TileTankAdapter adapter = getTankAdapter(access, x, y, z, access.getBlockMetadata(x, y, z));
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+        TileTankAdapter adapter = getTankAdapter(world, x, y, z, world.getBlockMetadata(x, y, z));
         if (adapter != null) {
             if (!adapter.checkMultiBlockForm()) {
                 adapter.reset();

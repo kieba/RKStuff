@@ -80,6 +80,7 @@ public class TileHeatExchanger extends TileRK implements ICoolantReceiver, IReco
         for (int i = 0; i < 6; i++) {
             config[i] = data.readFirstInt();
         }
+        markBlockForUpdate();
     }
 
     @Override

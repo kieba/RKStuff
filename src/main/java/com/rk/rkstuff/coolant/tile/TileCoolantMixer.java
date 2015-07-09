@@ -70,7 +70,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         coolantStackProd.add(coolantStackRes1.remove(coolant1Usage));
         coolantStackProd.add(coolantStackRes2.remove(coolant2Usage));
 
-        coolantStackProd.remove(FluidHelper.outputCoolantToNeighbours(neighbours, sideCache, SIDE_COOLANT_OUTPUT, coolantStackProd.getAmount(), coolantStackProd.getTemperature()));
+        coolantStackProd.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT, coolantStackProd.getAmount(), coolantStackProd.getTemperature()));
     }
 
     @Override
@@ -109,10 +109,10 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
 
     @Override
     public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
-        if (!(sideCache[from.ordinal()] == SIDE_COOLANT_INPUT1 || sideCache[from.ordinal()] == SIDE_COOLANT_INPUT2))
+        if (!(config[from.ordinal()] == SIDE_COOLANT_INPUT1 || config[from.ordinal()] == SIDE_COOLANT_INPUT2))
             return 0;
         CoolantStack stack;
-        if (sideCache[from.ordinal()] == SIDE_COOLANT_INPUT1) {
+        if (config[from.ordinal()] == SIDE_COOLANT_INPUT1) {
             stack = coolantStackRes1;
         } else {
             stack = coolantStackRes2;
@@ -127,9 +127,9 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
 
     @Override
     public boolean canConnect(ForgeDirection from) {
-        return sideCache[from.ordinal()] == SIDE_COOLANT_INPUT1 ||
-                sideCache[from.ordinal()] == SIDE_COOLANT_INPUT2 ||
-                sideCache[from.ordinal()] == SIDE_COOLANT_OUTPUT;
+        return config[from.ordinal()] == SIDE_COOLANT_INPUT1 ||
+                config[from.ordinal()] == SIDE_COOLANT_INPUT2 ||
+                config[from.ordinal()] == SIDE_COOLANT_OUTPUT;
     }
 
 

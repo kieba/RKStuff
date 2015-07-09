@@ -49,10 +49,10 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
 
     @Override
     public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
-        if (!(sideCache[from.ordinal()] == SIDE_COOLANT_INPUT1 || sideCache[from.ordinal()] == SIDE_COOLANT_INPUT2))
+        if (!(config[from.ordinal()] == SIDE_COOLANT_INPUT1 || config[from.ordinal()] == SIDE_COOLANT_INPUT2))
             return 0;
         CoolantStack stack;
-        if (sideCache[from.ordinal()] == SIDE_COOLANT_INPUT1) {
+        if (config[from.ordinal()] == SIDE_COOLANT_INPUT1) {
             stack = coolantStackRes1;
         } else {
             stack = coolantStackRes2;
@@ -67,10 +67,10 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
 
     @Override
     public boolean canConnect(ForgeDirection from) {
-        return sideCache[from.ordinal()] == SIDE_COOLANT_INPUT1 ||
-                sideCache[from.ordinal()] == SIDE_COOLANT_INPUT2 ||
-                sideCache[from.ordinal()] == SIDE_COOLANT_OUTPUT1 ||
-                sideCache[from.ordinal()] == SIDE_COOLANT_OUTPUT2;
+        return config[from.ordinal()] == SIDE_COOLANT_INPUT1 ||
+                config[from.ordinal()] == SIDE_COOLANT_INPUT2 ||
+                config[from.ordinal()] == SIDE_COOLANT_OUTPUT1 ||
+                config[from.ordinal()] == SIDE_COOLANT_OUTPUT2;
     }
 
     @Override
@@ -121,8 +121,8 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
         coolantStackRes1.extractEnergy(extractEnergy);
         coolantStackRes2.addEnergy(injectEnergy);
 
-        coolantStackRes1.remove(FluidHelper.outputCoolantToNeighbours(neighbours, sideCache, SIDE_COOLANT_OUTPUT1, MAX_COOLANT_IO, coolantStackRes1.getTemperature()));
-        coolantStackRes2.remove(FluidHelper.outputCoolantToNeighbours(neighbours, sideCache, SIDE_COOLANT_OUTPUT2, MAX_COOLANT_IO, coolantStackRes2.getTemperature()));
+        coolantStackRes1.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT1, MAX_COOLANT_IO, coolantStackRes1.getTemperature()));
+        coolantStackRes2.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT2, MAX_COOLANT_IO, coolantStackRes2.getTemperature()));
     }
 
 

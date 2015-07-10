@@ -8,7 +8,7 @@ import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.ISideConfigChangedMessage;
 import com.rk.rkstuff.network.message.MessageSideConfigChanged;
 import com.rk.rkstuff.util.RKLog;
-import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import rk.com.core.io.IOStream;
 
@@ -35,6 +35,25 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
     public void writeData(IOStream data) {
         data.writeLast(facing);
         data.writeLast(config);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound data) {
+        super.readFromNBT(data);
+
+        facing = data.getInteger("reconf_facing");
+        config = data.getByteArray("reconf_config");
+        if (config == null || config.length < 6) {
+            config = getDefaultSideConfig().clone();
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound data) {
+        super.writeToNBT(data);
+
+        data.setInteger("reconf_facing", facing);
+        data.setByteArray("reconf_config", config);
     }
 
     @Override
@@ -137,7 +156,7 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
         }
         config[side]++;
         config[side] = (byte) (config[side] % getNumConfig(side));
-        updateFacingConfigToAll();
+        updateFacingConfigToServer();
         return true;
     }
 
@@ -171,15 +190,12 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
         RKLog.info("UpdateConfig on Client:" + worldObj.isRemote);
         this.facing = newFacing;
         this.config = newConfig;
-        if (!worldObj.isRemote) {
-            markDirty();
-        } else {
-            markBlockForUpdate();
-        }
-    }
-
-    private void updateFacingConfigToAll() {
-        PacketHandler.INSTANCE.sendToAllAround(new MessageSideConfigChanged(this), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 100));
+        markDirty();
         markBlockForUpdate();
     }
+
+    private void updateFacingConfigToServer() {
+        PacketHandler.INSTANCE.sendToServer(new MessageSideConfigChanged(this));
+    }
+
 }

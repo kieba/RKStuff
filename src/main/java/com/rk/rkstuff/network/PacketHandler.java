@@ -20,7 +20,6 @@ public class PacketHandler {
         int index = 0;
         INSTANCE.registerMessage(MessageCustom.class, MessageCustom.class, index++, Side.CLIENT);
         INSTANCE.registerMessage(MessageGuiAction.class, MessageGuiAction.class, index++, Side.SERVER);
-        INSTANCE.registerMessage(MessageSideConfigChanged.class, MessageSideConfigChanged.class, index++, Side.CLIENT);
         INSTANCE.registerMessage(MessageSideConfigChanged.class, MessageSideConfigChanged.class, index++, Side.SERVER);
     }
 

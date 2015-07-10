@@ -51,12 +51,15 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
 
     @Override
     public void readData(IOStream data) throws IOException {
+        super.readData(data);
         coolantStack.readData(data);
         energyStorage = data.readFirstInt();
     }
 
     @Override
     public void writeData(IOStream data) {
+        super.writeData(data);
+
         coolantStack.writeData(data);
         data.writeLast(energyStorage);
     }

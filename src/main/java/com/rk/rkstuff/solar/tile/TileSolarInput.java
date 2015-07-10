@@ -28,7 +28,7 @@ public class TileSolarInput extends TileRK implements ICoolantReceiver, IMultiBl
     }
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return false;
     }
 

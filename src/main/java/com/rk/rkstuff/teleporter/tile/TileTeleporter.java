@@ -109,7 +109,7 @@ public class TileTeleporter extends TileRK implements IEnergyHandler {
     }
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return false;
     }
 

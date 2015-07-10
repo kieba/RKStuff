@@ -32,9 +32,10 @@ public class BlockCoolantMixer extends BlockRKReconfigurable {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-        if (world.getTileEntity(x, y, z) instanceof TileCoolantMixer) {
-            player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_COOLANT_MIXER, world, x, y, z);
+        if (!super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ)) {
+            if (world.getTileEntity(x, y, z) instanceof TileCoolantMixer) {
+                player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_COOLANT_MIXER, world, x, y, z);
+            }
         }
         return true;
     }

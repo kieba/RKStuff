@@ -40,7 +40,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
     }
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return true;
     }
 

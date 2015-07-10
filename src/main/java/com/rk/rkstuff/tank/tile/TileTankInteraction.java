@@ -24,7 +24,7 @@ public class TileTankInteraction extends TileRK implements IMultiBlockMasterList
 
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return true;
     }
 

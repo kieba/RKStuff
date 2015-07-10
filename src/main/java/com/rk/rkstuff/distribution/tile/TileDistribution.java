@@ -182,7 +182,7 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
     }
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return true;
     }
 

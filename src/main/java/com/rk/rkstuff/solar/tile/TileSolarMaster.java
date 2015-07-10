@@ -245,7 +245,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     }
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return true;
     }
 

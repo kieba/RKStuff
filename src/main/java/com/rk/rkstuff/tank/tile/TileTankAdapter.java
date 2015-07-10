@@ -36,7 +36,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
     private int tick = 0;
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return false;
     }
 

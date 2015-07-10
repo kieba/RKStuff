@@ -146,7 +146,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
     }
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return true;
     }
 

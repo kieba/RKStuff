@@ -405,7 +405,7 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
     }
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return true;
     }
 

@@ -39,33 +39,34 @@ public class BlockTeleporter extends BlockRK implements ITileEntityProvider {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-        if (world.isRemote) {
-            return true;
-        } else {
-            TileEntity tile = world.getTileEntity(x, y, z);
-            if (tile instanceof TileTeleporter) {
-                TileTeleporter tileTeleporter = (TileTeleporter) tile;
-                ItemStack stack = player.getHeldItem();
-                if (stack != null && stack.getItem() == RkStuff.itemLinker) {
-                    NBTTagCompound tag = stack.getTagCompound();
-                    if (tag != null && tag.hasKey("pos")) {
-                        if (tileTeleporter.setUUID(new UUID(tag.getLong("uuidMSB"), tag.getLong("uuidLSB")))) {
-                            //uuid set
-                            player.addChatMessage(new ChatComponentText("Teleporter-Link established!"));
+        if (!super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ)) {
+            if (world.isRemote) {
+                return true;
+            } else {
+                TileEntity tile = world.getTileEntity(x, y, z);
+                if (tile instanceof TileTeleporter) {
+                    TileTeleporter tileTeleporter = (TileTeleporter) tile;
+                    ItemStack stack = player.getHeldItem();
+                    if (stack != null && stack.getItem() == RkStuff.itemLinker) {
+                        NBTTagCompound tag = stack.getTagCompound();
+                        if (tag != null && tag.hasKey("pos")) {
+                            if (tileTeleporter.setUUID(new UUID(tag.getLong("uuidMSB"), tag.getLong("uuidLSB")))) {
+                                //uuid set
+                                player.addChatMessage(new ChatComponentText("Teleporter-Link established!"));
+                            } else {
+                                //uuid not set
+                                player.addChatMessage(new ChatComponentText("Teleporter-Link not established!"));
+                            }
                         } else {
-                            //uuid not set
-                            player.addChatMessage(new ChatComponentText("Teleporter-Link not established!"));
+                            if (tag == null) tag = new NBTTagCompound();
+                            tag.setLong("uuidMSB", tileTeleporter.getUuid().getMostSignificantBits());
+                            tag.setLong("uuidLSB", tileTeleporter.getUuid().getLeastSignificantBits());
+                            Pos pos = tileTeleporter.getPosition();
+                            tag.setIntArray("pos", new int[]{pos.x, pos.y, pos.z});
+                            tag.setString("dim", world.getWorldInfo().getWorldName());
+                            stack.setTagCompound(tag);
+                            player.addChatMessage(new ChatComponentText("Saved teleporter position!"));
                         }
-                    } else {
-                        if (tag == null) tag = new NBTTagCompound();
-                        tag.setLong("uuidMSB", tileTeleporter.getUuid().getMostSignificantBits());
-                        tag.setLong("uuidLSB", tileTeleporter.getUuid().getLeastSignificantBits());
-                        Pos pos = tileTeleporter.getPosition();
-                        tag.setIntArray("pos", new int[]{pos.x, pos.y, pos.z});
-                        tag.setString("dim", world.getWorldInfo().getWorldName());
-                        stack.setTagCompound(tag);
-                        player.addChatMessage(new ChatComponentText("Saved teleporter position!"));
                     }
                 }
             }

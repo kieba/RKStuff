@@ -48,7 +48,7 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
     }
 
     @Override
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return false;
     }
 

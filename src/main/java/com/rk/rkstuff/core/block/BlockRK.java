@@ -96,6 +96,10 @@ public class BlockRK extends Block {
     }
 
     public boolean canBeWrenched(World world, int x, int y, int z, int side, EntityPlayer player) {
+        TileRK tile = (TileRK) world.getTileEntity(x, y, z);
+        if (tile != null) {
+            return !tile.hasGui();
+        }
         return true;
     }
 
@@ -103,17 +107,22 @@ public class BlockRK extends Block {
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
 
-        if (!world.isRemote) {
+
             Item item = player.getCurrentEquippedItem() != null ? player.getCurrentEquippedItem().getItem() : null;
             if (item instanceof IToolWrench && ((IToolWrench) item).canWrench(player, x, y, z)) {
                 if (player.isSneaking()) {
-                    world.func_147480_a(x, y, z, true);
+                    if (!world.isRemote) {
+                        world.func_147480_a(x, y, z, true);
+                    }
+                    return true;
                 } else if (canBeWrenched(world, x, y, z, side, player)) {
-                    onWrench(world, x, y, z, side, player);
+                    if (!world.isRemote) {
+                        return onWrench(world, x, y, z, side, player);
+                    }
                 }
             }
-        }
-        return true;
+
+        return false;
     }
 
 }

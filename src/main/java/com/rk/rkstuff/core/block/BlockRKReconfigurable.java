@@ -36,9 +36,4 @@ public abstract class BlockRKReconfigurable extends BlockRK implements ITileEnti
         tile.incrSide(side);
         return true;
     }
-
-    @Override
-    public boolean canBeWrenched(World world, int x, int y, int z, int side, EntityPlayer player) {
-        return false;
-    }
 }

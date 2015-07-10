@@ -42,10 +42,11 @@ public class BlockLHCMaster extends BlockRK implements ITileEntityProvider, IAcc
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-        if (!world.isRemote) {
-            TileAcceleratorMaster tile = (TileAcceleratorMaster) world.getTileEntity(x, y, z);
-            tile.onBlockActivated(player.isSneaking());
+        if (!super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ)) {
+            if (!world.isRemote) {
+                TileAcceleratorMaster tile = (TileAcceleratorMaster) world.getTileEntity(x, y, z);
+                tile.onBlockActivated(player.isSneaking());
+            }
         }
         return true;
     }

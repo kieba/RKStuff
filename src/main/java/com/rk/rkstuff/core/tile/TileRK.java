@@ -57,7 +57,7 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         playerInGui.remove(player);
     }
 
-    protected boolean hasGui() {
+    public boolean hasGui() {
         return false;
     }
 

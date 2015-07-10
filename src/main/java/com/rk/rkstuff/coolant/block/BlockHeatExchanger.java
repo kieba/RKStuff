@@ -1,7 +1,7 @@
 package com.rk.rkstuff.coolant.block;
 
 import com.rk.rkstuff.coolant.tile.TileHeatExchanger;
-import com.rk.rkstuff.core.block.BlockRK;
+import com.rk.rkstuff.core.block.BlockRKReconfigurable;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -9,13 +9,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHeatExchanger extends BlockRK implements ITileEntityProvider {
+public class BlockHeatExchanger extends BlockRKReconfigurable implements ITileEntityProvider {
 
     public IIcon[] blockIcons = new IIcon[3];
 
@@ -28,14 +27,6 @@ public class BlockHeatExchanger extends BlockRK implements ITileEntityProvider {
         return new TileHeatExchanger();
     }
 
-    @Override
-    public boolean onWrench(World world, int x, int y, int z, int side, EntityPlayer player) {
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TileHeatExchanger) {
-            ((TileHeatExchanger) te).incrSide(side);
-        }
-        return true;
-    }
 
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {

@@ -2,7 +2,9 @@ package com.rk.rkstuff.client.gui;
 
 import com.rk.rkstuff.boiler.ContainerBoiler;
 import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
+import com.rk.rkstuff.coolant.ContainerCoolantMixer;
 import com.rk.rkstuff.coolant.ContainerPoweredFreezer;
+import com.rk.rkstuff.coolant.tile.TileCoolantMixer;
 import com.rk.rkstuff.coolant.tile.TilePoweredFreezer;
 import com.rk.rkstuff.distribution.ContainerDistributionCoolant;
 import com.rk.rkstuff.distribution.ContainerDistributionEnergy;
@@ -37,6 +39,8 @@ public class GuiHandler implements IGuiHandler {
             return new ContainerTankInteraction(player, (TileTankInteraction) world.getTileEntity(x, y, z));
         } else if (ID == Reference.GUI_ID_POWERED_FREEZER) {
             return new ContainerPoweredFreezer(player, (TilePoweredFreezer) world.getTileEntity(x, y, z));
+        } else if (ID == Reference.GUI_ID_COOLANT_MIXER) {
+            return new ContainerCoolantMixer(player, (TileCoolantMixer) world.getTileEntity(x, y, z));
         }
         return null;
     }
@@ -57,6 +61,8 @@ public class GuiHandler implements IGuiHandler {
             return new GuiTankInteraction(player, (TileTankInteraction) world.getTileEntity(x, y, z));
         } else if (ID == Reference.GUI_ID_POWERED_FREEZER) {
             return new GuiPoweredFreezer(player, (TilePoweredFreezer) world.getTileEntity(x, y, z));
+        } else if (ID == Reference.GUI_ID_COOLANT_MIXER) {
+            return new GuiCoolantMixer(player, (TileCoolantMixer) world.getTileEntity(x, y, z));
         }
         return null;
     }

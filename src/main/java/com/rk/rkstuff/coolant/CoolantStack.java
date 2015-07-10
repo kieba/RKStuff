@@ -102,4 +102,12 @@ public class CoolantStack {
         amount = data.readFirstInt();
         temperature = data.readFirstFloat();
     }
+
+    public boolean hasMinTemperature() {
+        return temperature <= MIN_TEMPERATURE;
+    }
+
+    public boolean hasMaxTemperature() {
+        return temperature >= MAX_TEMPERATURE;
+    }
 }

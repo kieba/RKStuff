@@ -7,7 +7,6 @@ import com.rk.rkstuff.core.block.BlockRKReconfigurable;
 import com.rk.rkstuff.network.PacketHandler;
 import com.rk.rkstuff.network.message.ISideConfigChangedMessage;
 import com.rk.rkstuff.network.message.MessageSideConfigChanged;
-import com.rk.rkstuff.util.RKLog;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import rk.com.core.io.IOStream;
@@ -139,6 +138,7 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
         return true;
     }
 
+    //on Clientside
     @Override
     public boolean decrSide(int side) {
         if (hasFacing() && side == facing) {
@@ -146,9 +146,11 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
         }
         config[side]--;
         config[side] = (byte) (config[side] % getNumConfig(side));
+        updateFacingConfigToServer();
         return true;
     }
 
+    //on Clientside
     @Override
     public boolean incrSide(int side) {
         if (hasFacing() && side == facing) {
@@ -166,6 +168,7 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
             return false;
         }
         this.config[side] = (byte) config;
+        updateFacingConfigToServer();
         return true;
     }
 
@@ -187,7 +190,6 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
 
     @Override
     public void receiveSideConfigChanged(int newFacing, byte[] newConfig) throws IOException {
-        RKLog.info("UpdateConfig on Client:" + worldObj.isRemote);
         this.facing = newFacing;
         this.config = newConfig;
         markDirty();

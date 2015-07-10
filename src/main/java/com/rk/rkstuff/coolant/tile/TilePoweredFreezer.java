@@ -79,7 +79,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
         super.updateEntity();
         if (worldObj.isRemote) return;
 
-        if (coolantStack.getAmount() > 0) {
+        if (coolantStack.getAmount() > 0 && !coolantStack.hasMinTemperature()) {
             int rfUsage = Math.min(MAX_RF_IO, energyStorage);
             energyStorage -= rfUsage;
             float negativeEnergy = rfUsage * TEMPERATURE_ENERGY_PER_RF;

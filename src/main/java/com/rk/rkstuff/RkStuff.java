@@ -112,7 +112,7 @@ public class RkStuff {
 
     public static BlockRKReconfigurable blockPoweredFreezer = new BlockPoweredFreezer();
 
-    public static Block blockCoolantMixer = new BlockCoolantMixer();
+    public static BlockRKReconfigurable blockCoolantMixer = new BlockCoolantMixer();
 
     public static Block blockAcceleratorCase = new BlockAcceleratorCase();
     public static Block blockAcceleratorCaseBevelSmall = new BlockAcceleratorCaseBevelSmall();

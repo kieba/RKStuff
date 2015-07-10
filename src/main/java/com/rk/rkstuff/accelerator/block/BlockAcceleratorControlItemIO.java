@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class BlockAcceleratorControlItemIO extends BlockAcceleratorControlCase implements ITileEntityProvider {
 
-    private IIcon[] icons = new IIcon[2];
+    private IIcon[] icons = new IIcon[6];
 
     public BlockAcceleratorControlItemIO() {
         super(Material.iron, Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO);
@@ -30,8 +30,12 @@ public class BlockAcceleratorControlItemIO extends BlockAcceleratorControlCase i
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO + "Input");
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO + "Output");
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO + "Output");
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO + "Slot1");
+        icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO + "Slot2");
+        icons[3] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO + "Slot3");
+        icons[4] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO + "Slot4");
+        icons[5] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO + "Slot5");
     }
 
     @Override
@@ -45,12 +49,11 @@ public class BlockAcceleratorControlItemIO extends BlockAcceleratorControlCase i
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (meta == 0) return icons[0];
-        return icons[1];
+        return icons[0];
     }
 
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        return icons[((TileAcceleratorControlItemIO) world.getTileEntity(x, y, z)).isOutput() ? 0 : 1];
+        return icons[((TileAcceleratorControlItemIO) world.getTileEntity(x, y, z)).getMode()];
     }
 }

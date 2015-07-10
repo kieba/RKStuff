@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class CoolantStack {
 
-    public static final float MIN_TEMPERATURE = -273.15f;
+    public static final float MIN_TEMPERATURE = 0.0f;
     public static final float MAX_TEMPERATURE = 3000.0f;
 
     private int amount;
@@ -102,4 +102,21 @@ public class CoolantStack {
         amount = data.readFirstInt();
         temperature = data.readFirstFloat();
     }
+
+    public float getTempCelsius() {
+        return toCelsius(getTemperature());
+    }
+
+    public float getTempFahrenheit() {
+        return toFahrenheit(getTemperature());
+    }
+
+    public static float toCelsius(float kelvin) {
+        return kelvin - 273.15f;
+    }
+
+    public static float toFahrenheit(float kelvin) {
+        return kelvin * 1.8f - 459.67f;
+    }
+
 }

@@ -296,7 +296,7 @@ public class Accelerator {
             isInitialized = true;
 
             for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
-                maxCoolantStorage[i] = setup.fluidIOs[i] * config.COOLANT_PER_FLUID_IO;
+                maxCoolantStorage[i] = config.COOLANT_STORAGE * setup.lengths[i];
                 if (coolant[i].getAmount() > maxCoolantStorage[i])
                     coolant[i].set(maxCoolantStorage[i], coolant[i].getTemperature());
             }

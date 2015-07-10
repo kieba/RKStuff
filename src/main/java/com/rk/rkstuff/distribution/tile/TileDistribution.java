@@ -197,7 +197,6 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
         if(id >= 0 && id < 6) {
             //SIDE BUTTONS
             this.changeSide(id);
-            worldObj.notifyBlockChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
             markDirty();
         } else if(id >= 6 && id < 12) {
             //PRIORITY BUTTONS
@@ -230,7 +229,7 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
 
     private void setSide(int side, int type) {
         sides[side] = type;
-        worldObj.notifyBlockChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
+        markDirty();
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 

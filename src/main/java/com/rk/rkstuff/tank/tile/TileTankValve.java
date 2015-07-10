@@ -54,12 +54,23 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
 
     @Override
     public void readData(IOStream data) throws IOException {
+        if (data.readFirstBoolean()) {
+            master = (TileTankAdapter) worldObj.getTileEntity(data.readFirstInt(), data.readFirstInt(), data.readFirstInt());
+        }
         isOutput = data.readFirstBoolean();
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
     public void writeData(IOStream data) {
+        if (master != null) {
+            data.writeLast(true);
+            data.writeLast(master.xCoord);
+            data.writeLast(master.yCoord);
+            data.writeLast(master.zCoord);
+        } else {
+            data.writeLast(false);
+        }
         data.writeLast(isOutput);
     }
 

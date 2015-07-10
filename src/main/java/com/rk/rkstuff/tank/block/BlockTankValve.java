@@ -30,9 +30,9 @@ public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityPr
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_VALVE + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_VALVE + 2);
-        icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_VALVE + 3);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_VALVE);
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_VALVE + "Input");
+        icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_VALVE + "Output");
     }
 
     @Override
@@ -46,7 +46,7 @@ public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityPr
         if (tile instanceof TileTankValve) {
             TileTankValve valveTile = (TileTankValve) tile;
             if (valveTile.getMaster() != null) {
-                if (valveTile.isOutput()) {
+                if (!valveTile.isOutput()) {
                     return icons[1];
                 } else {
                     return icons[2];

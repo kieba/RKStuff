@@ -44,7 +44,7 @@ public class BlockBoilerBase extends BlockRK implements IBoilerBaseBlock {
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block changeBlock) {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         int meta = world.getBlockMetadata(x, y, z);
         if (meta == 0) return;
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {

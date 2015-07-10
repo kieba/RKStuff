@@ -1,5 +1,6 @@
 package com.rk.rkstuff;
 
+import com.rk.rkstuff.accelerator.LHCRecipeRegistry;
 import com.rk.rkstuff.accelerator.block.*;
 import com.rk.rkstuff.accelerator.tile.*;
 import com.rk.rkstuff.boiler.block.*;
@@ -314,6 +315,14 @@ public class RkStuff {
         if (event.map.getTextureType() == 0) ModelPipe.init();
     }
 
+    @EventHandler
+    public void imcCallback(FMLInterModComms.IMCEvent event) {
+        for (final FMLInterModComms.IMCMessage imcMessage : event.getMessages()) {
+            if (imcMessage.key.equalsIgnoreCase("addLHCRecipe") && imcMessage.isNBTMessage()) {
+                LHCRecipeRegistry.addRecipe(imcMessage.getNBTValue());
+            }
+        }
+    }
 
 
     private void registerFluids(){

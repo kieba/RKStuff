@@ -36,7 +36,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
 
     public TilePoweredFreezer() {
         super(RkStuff.blockPoweredFreezer);
-        setUpdateInterval(20);
+        setUpdateInterval(10);
     }
 
     @Override
@@ -85,13 +85,13 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
 
         int max = Math.min(MAX_COOLANT_IO, coolantStack.getAmount());
         if (max > 0) {
-            coolantStack.remove(FluidHelper.outputCoolantToNeighbours(neighbours, sideCache, SIDE_COOLANT_OUTPUT, max, coolantStack.getTemperature()));
+            coolantStack.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT, max, coolantStack.getTemperature()));
         }
     }
 
     @Override
     public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
-        if (sideCache[from.ordinal()] != SIDE_COOLANT_INPUT) return 0;
+        if (config[from.ordinal()] != SIDE_COOLANT_INPUT) return 0;
         maxAmount = Math.min(maxAmount, MAX_COOLANT_IO);
         maxAmount = Math.min(maxAmount, MAX_COOLANT_STORAGE - coolantStack.getAmount());
         if (!simulate) {
@@ -102,8 +102,8 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
 
     @Override
     public boolean canConnect(ForgeDirection from) {
-        return sideCache[from.ordinal()] == SIDE_COOLANT_INPUT ||
-                sideCache[from.ordinal()] == SIDE_COOLANT_OUTPUT;
+        return config[from.ordinal()] == SIDE_COOLANT_INPUT ||
+                config[from.ordinal()] == SIDE_COOLANT_OUTPUT;
     }
 
     @Override
@@ -151,4 +151,6 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
         super.readFromNBT(data);
         coolantStack.readFromNBT("coolant", data);
     }
+
+
 }

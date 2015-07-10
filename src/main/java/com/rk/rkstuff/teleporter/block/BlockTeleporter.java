@@ -27,8 +27,8 @@ public class BlockTeleporter extends BlockRK implements ITileEntityProvider {
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block b) {
-        super.onNeighborBlockChange(world, x, y, z, b);
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+        super.onNeighborBlockChange(world, x, y, z, block);
         if (!world.isRemote && world.getStrongestIndirectPower(x, y, z) > 0) {
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileTeleporter) {

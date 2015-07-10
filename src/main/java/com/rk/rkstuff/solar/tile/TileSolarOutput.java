@@ -31,6 +31,7 @@ public class TileSolarOutput extends TileRK implements IMultiBlockMasterListener
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
         master = (TileSolarMaster) tileMaster;
+        master.addOutputTrigger(this);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class TileSolarOutput extends TileRK implements IMultiBlockMasterListener
     }
 
     @Override
-    public void updateEntity() {
+    public void updateEntityByMaster() {
         super.updateEntity();
         if (master != null) {
             CoolantStack stack = master.getCoolantBuffer();

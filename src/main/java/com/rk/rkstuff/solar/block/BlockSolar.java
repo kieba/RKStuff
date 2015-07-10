@@ -65,7 +65,7 @@ public class BlockSolar extends BlockRK implements ISolarBlock {
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block changeBlock) {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if (world.getBlockMetadata(x, y, z) == 0) return;
         int meta = world.getBlockMetadata(x, y, z);
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {

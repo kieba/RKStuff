@@ -5,6 +5,7 @@ import com.rk.rkstuff.accelerator.Accelerator;
 import com.rk.rkstuff.accelerator.AcceleratorConfig;
 import com.rk.rkstuff.accelerator.AcceleratorHelper;
 import com.rk.rkstuff.accelerator.IAccelerator;
+import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.helper.MultiBlockHelper;
@@ -16,6 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public abstract class TileAcceleratorMaster extends TileMultiBlockMaster implements IAccelerator {
 
@@ -38,6 +40,17 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
     @Override
     protected void updateMaster() {
         accelerator.update();
+
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
+            ArrayList<TileAcceleratorCaseFluidIO> fluidIOs = setup.fluidIOs.get(i);
+            for (int j = 0; j < fluidIOs.size(); j++) {
+                fluidIOs.get(i).handleOutput();
+            }
+        }
+    }
+
+    public CoolantStack getCoolantStack(int side) {
+        return accelerator.getCoolant(side);
     }
 
     public int receiveCoolant(int side, int maxAmount, float temperature, boolean simulate) {
@@ -71,6 +84,9 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
     @Override
     protected MultiBlockHelper.Bounds setupStructure() {
         setup = createAcceleratorStructure();
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
+            setup.fluidIOs.add(new ArrayList<TileAcceleratorCaseFluidIO>(1));
+        }
         if (setup != null) {
             AcceleratorHelper.iterateRing(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
                 @Override
@@ -149,7 +165,8 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
         if (tile instanceof IMultiBlockMasterListener) {
             ((IMultiBlockMasterListener) tile).registerMaster(this);
             if (tile instanceof TileAcceleratorCaseFluidIO) {
-                setup.fluidIOs[((TileAcceleratorCaseFluidIO) tile).getSide()]++;
+                int side = ((TileAcceleratorCaseFluidIO) tile).getSide();
+                setup.fluidIOs.get(side).add((TileAcceleratorCaseFluidIO) tile);
             }
         }
     }

@@ -1,9 +1,11 @@
 package com.rk.rkstuff.accelerator.tile;
 
+import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.coolant.tile.ICoolantReceiver;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
+import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.util.RKLog;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
@@ -14,6 +16,7 @@ public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMas
 
     private TileAcceleratorMaster master;
     private int side;
+    private boolean isOutput;
 
     public boolean hasMaster() {
         return master != null;
@@ -39,17 +42,42 @@ public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMas
 
     @Override
     public void readData(IOStream data) throws IOException {
-
+        isOutput = data.readFirstBoolean();
+        markBlockForUpdate();
     }
 
     @Override
     public void writeData(IOStream data) {
+        data.writeFirst(isOutput);
+    }
 
+    public void handleOutput() {
+        if (hasMaster() && isOutput) {
+            CoolantStack stack = master.getCoolantStack(side);
+            stack.remove(FluidHelper.outputCoolantToNeighbours(neighbours, stack.getAmount(), stack.getTemperature()));
+        }
+    }
+
+    public void toggleIOMode() {
+        if (!worldObj.isRemote) {
+            isOutput = !isOutput;
+            markDirty();
+            markBlockForUpdate();
+        }
+    }
+
+    public boolean isOutput() {
+        return isOutput;
+    }
+
+    @Override
+    protected boolean cacheNeighbours() {
+        return true;
     }
 
     @Override
     public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
-        if (!hasMaster()) return 0;
+        if (!hasMaster() || isOutput) return 0;
         return master.receiveCoolant(side, maxAmount, temperature, simulate);
     }
 

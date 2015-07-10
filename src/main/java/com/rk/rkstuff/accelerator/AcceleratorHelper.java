@@ -5,10 +5,13 @@ import com.rk.rkstuff.accelerator.block.IAcceleratorCaseBlock;
 import com.rk.rkstuff.accelerator.block.IAcceleratorControlCaseBlock;
 import com.rk.rkstuff.accelerator.block.IAcceleratorControlCoreBlock;
 import com.rk.rkstuff.accelerator.block.IAcceleratorCoreBlock;
+import com.rk.rkstuff.accelerator.tile.TileAcceleratorCaseFluidIO;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.util.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class AcceleratorHelper {
 
@@ -69,7 +72,7 @@ public class AcceleratorHelper {
     }
 
     public static class AcceleratorStructure {
-        public int[] fluidIOs = new int[AcceleratorConfig.ACCELERATOR_SIDE_COUNT];
+        public ArrayList<ArrayList<TileAcceleratorCaseFluidIO>> fluidIOs = new ArrayList<ArrayList<TileAcceleratorCaseFluidIO>>(AcceleratorConfig.ACCELERATOR_SIDE_COUNT);
         public Pos ringStart;
         public Pos ringEnd;
         public AcceleratorCoreDir startDir;

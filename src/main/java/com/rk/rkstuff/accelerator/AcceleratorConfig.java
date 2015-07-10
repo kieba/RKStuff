@@ -31,18 +31,16 @@ public class AcceleratorConfig implements Serializable {
 
     public float ENERGY_BASE = DEFAULT_ENERGY_BASE;
     public float ENERGY_MULTIPLIER = DEFAULT_ENERGY_MULTIPLIER;
-    public int COOLANT_PER_FLUID_IO = DEFAULT_COOLANT_PER_FLUID_IO;
+    public int COOLANT_STORAGE = DEFAULT_COOLANT_PER_FLUID_IO;
     public float MAX_ROUNDS_PER_TICK = DEFAULT_MAX_ROUNDS_PER_TICK;
 
     //deceleration per °C temperature difference between CoolantStack.MIN_TEMPERATURE and the current coolant temperature at the side
     //the deceleration is applied after each movement! This will be called ((int)currentSpeed)-times per tick.
-    //if we have a efficiency of 0.9 and and a temperature of -200 °C we have a speed lost of about ~50% per round
     public float DECELERATION_PER_CENTIGRADE_IN_PERCENT = DEFAULT_DECELERATION_PER_CENTIGRADE_IN_PERCENT;
 
     //the amount of heat energy produced when the mass travels though a block with a speed of 1
     //the heat energy will added to the coolantStack of the side (coolantEnergy = coolant.amount * coolant.temperature)
     //1 FluidIO Block has a capacity of 1000mB!
-    //if we have 1000mB coolant (at each side) with a temp of -270°C we can run the accelerator reactor at max speed for ~25 sec without cooling! (side length = 5)
     public float HEAT_ENERGY_PER_SPEED = DEFAULT_HEAT_ENERGY_PER_SPEED;
 
 }

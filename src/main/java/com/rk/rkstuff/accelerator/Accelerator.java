@@ -15,7 +15,7 @@ public class Accelerator {
     private boolean isInitialized;
     private float efficiency;
     //max speed is MAX_ROUNDS_PER_TICK rounds per tick (if the setting is optimal!)
-    private float maxSpeed; //in blocks per tick
+    private float maxSpeed = 0.0f; //in blocks per tick
     private float currentSpeed; //in blocks per tick
     private float currentMass; //the mass of the object which will be accelerated
     private int currentRingSide;
@@ -24,11 +24,18 @@ public class Accelerator {
     private int totalLength;
     private boolean isCollideMode;
     private IAccelerator accelerator;
+    private float producedHeatLastTick;
+    private float decelerationLastRound;
+    private float startSpeedLastRound;
+    private float endSpeedLastRound;
 
     public Accelerator(IAccelerator collisionAccelerator, AcceleratorConfig config) {
         this.config = config;
         this.accelerator = collisionAccelerator;
         this.isCollideMode = accelerator.isCollideMode();
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
+            coolant[i] = new CoolantStack();
+        }
     }
 
     public void writeToNBT(String prefix, NBTTagCompound tag) {
@@ -41,7 +48,6 @@ public class Accelerator {
 
     public void readFromNBT(String prefix, NBTTagCompound tag) {
         for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
-            coolant[i] = new CoolantStack();
             coolant[i].readFromNBT(prefix + "coolant" + i, tag);
         }
         currentSpeed = tag.getFloat(prefix + "speed");
@@ -54,9 +60,8 @@ public class Accelerator {
             if (hasWork()) {
                 work();
             } else {
-                float energy = 0.5f * currentMass * currentSpeed * currentSpeed;
                 this.currentMass += accelerator.injectMass();
-                this.currentSpeed = (float) Math.sqrt((energy * 2.0f) / this.currentMass);
+                this.currentSpeed = 0.0f;
             }
         } else {
             float energy = 0.5f * currentMass * currentSpeed * currentSpeed;
@@ -67,25 +72,31 @@ public class Accelerator {
     }
 
     private void resetWork() {
+        startSpeedLastRound = 0.0f;
+        endSpeedLastRound = 0.0f;
+        decelerationLastRound = 0.0f;
         currentMass = 0;
         currentSpeed = 0.0f;
         setCenter();
     }
 
     private boolean hasWork() {
-        return currentMass >= 0.0f;
+        return currentMass > 0.0f;
     }
 
     private void work() {
         int maxSteps = (int) currentSpeed;
-        if (maxSteps == 0) {
+        producedHeatLastTick = 0;
+        if (maxSteps <= 0) {
             if (currentSpeed == 0.0f) {
                 //initial acceleration for the mass
                 accelerate();
                 maxSteps = (int) currentSpeed;
             } else {
+                decelerationLastRound = (startSpeedLastRound - currentSpeed) / currentSpeed;
                 accelerator.onToSlow();
                 resetWork();
+                return;
             }
 
         }
@@ -96,29 +107,61 @@ public class Accelerator {
             if (isControlCenter()) {
                 if (isCollideMode) {
                     if (doCollide()) {
+                        decelerationLastRound = (startSpeedLastRound - currentSpeed) / startSpeedLastRound;
+                        accelerator.onRoundFinished();
                         accelerator.collide();
                         resetWork();
-                    } else {
-                        accelerate();
+                        return;
+                    } else if (accelerate()) {
+                        return;
                     }
                 } else {
                     this.currentMass -= accelerator.produce();
                     if (currentMass <= 0.0f) {
+                        decelerationLastRound = (startSpeedLastRound - currentSpeed) / startSpeedLastRound;
+                        accelerator.onRoundFinished();
                         resetWork();
-                    } else {
-                        accelerate();
+                        return;
+                    } else if (accelerate()) {
+                        return;
                     }
                 }
             }
         }
     }
 
-    private void accelerate() {
+    private boolean accelerate() {
+        accelerator.preAcceleration();
+        if (currentSpeed > 0.0f) {
+            decelerationLastRound = (startSpeedLastRound - currentSpeed) / startSpeedLastRound;
+            accelerator.onRoundFinished();
+            if (Math.abs(endSpeedLastRound - currentSpeed) < 0.5f) {
+                accelerator.onToSlow();
+                resetWork();
+                return true;
+            }
+        }
+
+        endSpeedLastRound = currentSpeed;
         float energy = 0.5f * currentMass * currentSpeed * currentSpeed;
-        float maxSpeedEnergy = 0.5f * currentMass * maxSpeed * maxSpeed;
-        energy += accelerator.getAccelerationEnergy(maxSpeedEnergy - energy);
+        float maxInjectableEnergy = config.ENERGY_BASE * (float) Math.pow(config.ENERGY_MULTIPLIER, setup.coreUpgradeAcceleration) * (float) Math.pow(efficiency, 2);
+        energy += Math.min(maxInjectableEnergy, accelerator.getAccelerationEnergy(maxInjectableEnergy));
         currentSpeed = (float) Math.sqrt(2.0f * energy / currentMass);
-        if (currentSpeed > maxSpeed) currentSpeed = maxSpeed;
+        startSpeedLastRound = currentSpeed;
+        accelerator.postAcceleration();
+        return false;
+    }
+
+    public float getLastRoundDeceleration() {
+        return decelerationLastRound;
+    }
+
+    public float getEndSpeedLastRound() {
+        return endSpeedLastRound;
+    }
+
+    public float getStartSpeedLastRound() {
+        return startSpeedLastRound;
     }
 
     private void deceleration() {
@@ -136,30 +179,35 @@ public class Accelerator {
         if (!isControlSide()) {
             float heatEnergy = ((config.HEAT_ENERGY_PER_SPEED * currentSpeed) / (efficiency * totalLength));
             coolant[currentRingSide].addEnergy(heatEnergy);
+            producedHeatLastTick += heatEnergy;
         }
     }
 
-    protected boolean isCollideMode() {
+    public boolean isCollideMode() {
         return true;
     }
 
-    protected float getMass() {
+    public float getMass() {
         return currentMass;
     }
 
-    protected float getSpeed() {
+    public float getSpeed() {
         return currentSpeed;
     }
 
-    protected float getMaxSpeed() {
+    public float getMaxSpeed() {
         return maxSpeed;
     }
 
-    protected float getEfficiency() {
+    public float getProducedHeatLastTick() {
+        return producedHeatLastTick;
+    }
+
+    public float getEfficiency() {
         return efficiency;
     }
 
-    protected float getTotalLength() {
+    public float getTotalLength() {
         return totalLength;
     }
 
@@ -199,7 +247,7 @@ public class Accelerator {
 
         currentSidePosition++;
 
-        if (sideLength >= currentSidePosition) {
+        if (currentSidePosition >= sideLength) {
             currentSidePosition = 0;
 
             if (isControlSide()) {
@@ -235,8 +283,12 @@ public class Accelerator {
 
             avgDev += Math.abs(controlLength + setup.lengths[0] + setup.lengths[AcceleratorConfig.ACCELERATOR_SIDE_COUNT - 1] - avgLength);
 
+            avgDev /= AcceleratorConfig.ACCELERATOR_SIDE_COUNT;
+
             efficiency = 1.0f;
-            if (avgDev != 0.0f) efficiency = 1.0f - (avgDev / avgLength);
+            if (avgDev != 0.0f) efficiency = 1.0f - 2.0f * (avgDev / avgLength);
+            efficiency += config.EFFICIENCY_PER_UPGRADE * setup.coreUpgradeEfficiency;
+            if (efficiency > 1.0f) efficiency = 1.0f;
 
             //max speed is MAX_ROUNDS_PER_TICK rounds per tick (if the setting is optimal!)
             maxSpeed = totalLength * efficiency * config.MAX_ROUNDS_PER_TICK;
@@ -273,5 +325,9 @@ public class Accelerator {
         return maxAmount;
     }
 
+
+    public CoolantStack getCoolant(int side) {
+        return coolant[side];
+    }
 
 }

@@ -5,9 +5,15 @@ public interface IAccelerator {
     //returns the amount of mass that should be injected into the system
     float injectMass();
 
+    void preAcceleration();
+
+    void postAcceleration();
+
     void onInitialize();
 
     void onUnInitialize();
+
+    void onRoundFinished();
 
     //this is called if the speed drops below 1, which means we have not enough energy to accelerate the mass for one round
     void onToSlow();

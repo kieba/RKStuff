@@ -12,12 +12,27 @@ public class TileLHCMaster extends TileAcceleratorMaster {
     }
 
     @Override
+    public void preAcceleration() {
+
+    }
+
+    @Override
+    public void postAcceleration() {
+
+    }
+
+    @Override
     public void onInitialize() {
 
     }
 
     @Override
     public void onUnInitialize() {
+
+    }
+
+    @Override
+    public void onRoundFinished() {
 
     }
 

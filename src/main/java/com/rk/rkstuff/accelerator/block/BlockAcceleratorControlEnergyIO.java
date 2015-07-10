@@ -1,5 +1,6 @@
 package com.rk.rkstuff.accelerator.block;
 
+import com.rk.rkstuff.accelerator.tile.TileAcceleratorCaseFluidIO;
 import com.rk.rkstuff.accelerator.tile.TileAcceleratorControlEnergyIO;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -7,8 +8,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockAcceleratorControlEnergyIO extends BlockAcceleratorControlCase implements ITileEntityProvider {
@@ -27,13 +30,27 @@ public class BlockAcceleratorControlEnergyIO extends BlockAcceleratorControlCase
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ENERGY_IO + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ENERGY_IO + 2);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ENERGY_IO + "Input");
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CONTROL_ENERGY_IO + "Output");
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (!world.isRemote && tile instanceof TileAcceleratorCaseFluidIO) {
+            ((TileAcceleratorCaseFluidIO) tile).toggleIOMode();
+        }
+        return true;
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
         if (meta == 0) return icons[0];
         return icons[1];
+    }
+
+    @Override
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
+        return icons[((TileAcceleratorControlEnergyIO) world.getTileEntity(x, y, z)).isOutput() ? 0 : 1];
     }
 }

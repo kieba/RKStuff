@@ -11,12 +11,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockTankInteraction extends BlockRK implements ITankBlock, ITileEntityProvider {
-    private IIcon[] icons = new IIcon[2];
 
     public BlockTankInteraction() {
         super(Material.iron, Reference.BLOCK_TANK_INTERACTION);
@@ -38,14 +36,7 @@ public class BlockTankInteraction extends BlockRK implements ITankBlock, ITileEn
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_INTERACTION + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_INTERACTION + 2);
-    }
-
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        if (meta == 0) return icons[0];
-        return icons[1];
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":tank/" + Reference.BLOCK_TANK_INTERACTION);
     }
 
     @Override

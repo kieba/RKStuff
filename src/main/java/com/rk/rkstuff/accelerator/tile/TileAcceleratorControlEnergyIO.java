@@ -12,6 +12,7 @@ import java.io.IOException;
 public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBlockMasterListener, IEnergyHandler {
 
     private TileAcceleratorMaster master;
+    private boolean isOutput;
 
     public boolean hasMaster() {
         return master != null;
@@ -29,12 +30,13 @@ public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBloc
 
     @Override
     public void readData(IOStream data) throws IOException {
-
+        isOutput = data.readFirstBoolean();
+        markBlockForUpdate();
     }
 
     @Override
     public void writeData(IOStream data) {
-
+        data.writeFirst(isOutput);
     }
 
     @Override
@@ -60,5 +62,17 @@ public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBloc
     @Override
     public boolean canConnectEnergy(ForgeDirection from) {
         return false;
+    }
+
+    public void toggleIOMode() {
+        if (!worldObj.isRemote) {
+            isOutput = !isOutput;
+            markDirty();
+            markBlockForUpdate();
+        }
+    }
+
+    public boolean isOutput() {
+        return isOutput;
     }
 }

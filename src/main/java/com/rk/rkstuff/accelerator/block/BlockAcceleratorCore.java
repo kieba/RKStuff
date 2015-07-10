@@ -6,11 +6,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 
 public class BlockAcceleratorCore extends BlockRK implements IAcceleratorCoreBlock {
-
-    private IIcon[] icons = new IIcon[2];
 
     public BlockAcceleratorCore() {
         super(Material.iron, Reference.BLOCK_ACCELERATOR_CORE);
@@ -19,14 +16,7 @@ public class BlockAcceleratorCore extends BlockRK implements IAcceleratorCoreBlo
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CORE + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CORE + 2);
-    }
-
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        if (meta == 0) return icons[0];
-        return icons[1];
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_ACCELERATOR_CORE);
     }
 
 }

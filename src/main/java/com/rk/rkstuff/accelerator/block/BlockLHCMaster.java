@@ -30,8 +30,8 @@ public class BlockLHCMaster extends BlockRK implements ITileEntityProvider, IAcc
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_LHC_MASTER + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_LHC_MASTER + 2);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_LHC_MASTER + "Normal");
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_LHC_MASTER + "Build");
     }
 
     @Override

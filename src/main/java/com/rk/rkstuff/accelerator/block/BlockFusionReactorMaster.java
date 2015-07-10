@@ -30,8 +30,8 @@ public class BlockFusionReactorMaster extends BlockRK implements ITileEntityProv
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_FUSION_REACTOR_MASTER + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_FUSION_REACTOR_MASTER + 2);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_FUSION_REACTOR_MASTER + "Normal");
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":accelerator/" + Reference.BLOCK_FUSION_REACTOR_MASTER + "Build");
     }
 
     @Override

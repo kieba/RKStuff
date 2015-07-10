@@ -6,6 +6,7 @@ import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.util.Reference;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -148,6 +149,10 @@ public class BlockCoolantPipe extends BlockRK implements ITileEntityProvider {
             bbs.add(AxisAlignedBB.getBoundingBox(cableMin, cableMin, cableMin, cableMax, cableMax, 1.0F));
         }
         return bbs;
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister iconRegister) {
     }
 
     @Override

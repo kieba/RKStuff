@@ -75,6 +75,8 @@ public class AcceleratorHelper {
         public AcceleratorCoreDir startDir;
         public int[] lengths = new int[AcceleratorConfig.ACCELERATOR_SIDE_COUNT]; //AcceleratorCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
         public MultiBlockHelper.Bounds controlBounds;
+        public int coreUpgradeAcceleration;
+        public int coreUpgradeEfficiency;
         public Pos master;
     }
 

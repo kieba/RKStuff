@@ -31,7 +31,14 @@ public abstract class BlockRKReconfigurable extends BlockRK implements ITileEnti
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entity, int side, float hitX, float hitY, float p_149727_9_) {
-        return super.onBlockActivated(world, x, y, z, entity, side, hitX, hitY, p_149727_9_);
+    public boolean onWrench(World world, int x, int y, int z, int side, EntityPlayer player) {
+        TileRKReconfigurable tile = (TileRKReconfigurable) world.getTileEntity(x, y, z);
+        tile.incrSide(side);
+        return true;
+    }
+
+    @Override
+    public boolean canBeWrenched(World world, int x, int y, int z, int side, EntityPlayer player) {
+        return false;
     }
 }

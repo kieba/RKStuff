@@ -46,6 +46,7 @@ public class BlockBoilerBaseMaster extends BlockRK implements ITileEntityProvide
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
         if(world.getTileEntity(x, y, z) instanceof TileBoilerBaseMaster) {
             player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_BOILER, world, x, y, z);
         }

@@ -38,7 +38,8 @@ public class BlockTeleporter extends BlockRK implements ITileEntityProvider {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
         if (world.isRemote) {
             return true;
         } else {

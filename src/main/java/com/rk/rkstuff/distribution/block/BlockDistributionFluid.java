@@ -33,6 +33,7 @@ public class BlockDistributionFluid extends BlockRK implements ITileEntityProvid
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
         if(world.getTileEntity(x, y, z) instanceof TileDistributionFluid) {
             player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_DISTRIBUTION_FLUID, world, x, y, z);
         }

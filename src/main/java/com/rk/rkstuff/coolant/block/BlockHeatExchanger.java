@@ -29,8 +29,7 @@ public class BlockHeatExchanger extends BlockRK implements ITileEntityProvider {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        if (world.isRemote) return true;
+    public boolean onWrench(World world, int x, int y, int z, int side, EntityPlayer player) {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileHeatExchanger) {
             ((TileHeatExchanger) te).incrSide(side);

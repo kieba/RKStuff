@@ -146,7 +146,7 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
         }
         config[side]--;
         config[side] = (byte) (config[side] % getNumConfig(side));
-        updateFacingConfigToServer();
+        updateFacingConfigToAll();
         return true;
     }
 
@@ -158,7 +158,7 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
         }
         config[side]++;
         config[side] = (byte) (config[side] % getNumConfig(side));
-        updateFacingConfigToServer();
+        updateFacingConfigToAll();
         return true;
     }
 
@@ -168,7 +168,7 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
             return false;
         }
         this.config[side] = (byte) config;
-        updateFacingConfigToServer();
+        updateFacingConfigToAll();
         return true;
     }
 
@@ -196,8 +196,13 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
         markBlockForUpdate();
     }
 
-    private void updateFacingConfigToServer() {
-        PacketHandler.INSTANCE.sendToServer(new MessageSideConfigChanged(this));
+    private void updateFacingConfigToAll() {
+        if (worldObj.isRemote) {
+            PacketHandler.INSTANCE.sendToServer(new MessageSideConfigChanged(this));
+        } else {
+            markBlockForUpdate();
+        }
+
     }
 
 }

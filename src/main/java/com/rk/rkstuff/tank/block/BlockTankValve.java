@@ -58,6 +58,7 @@ public class BlockTankValve extends BlockRK implements ITankBlock, ITileEntityPr
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
         if (!world.isRemote) {
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileTankValve) {

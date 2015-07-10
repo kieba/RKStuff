@@ -14,7 +14,7 @@ import java.util.List;
 public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockMasterListener, IInventoryHandler {
 
     private TileAcceleratorMaster master;
-    private boolean isOutput;
+    private int mode;
 
     public boolean hasMaster() {
         return master != null;
@@ -32,13 +32,13 @@ public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockM
 
     @Override
     public void readData(IOStream data) throws IOException {
-        isOutput = data.readFirstBoolean();
+        mode = data.readFirst();
         markBlockForUpdate();
     }
 
     @Override
     public void writeData(IOStream data) {
-        data.writeFirst(isOutput);
+        data.writeFirst(mode);
     }
 
     @Override
@@ -83,13 +83,18 @@ public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockM
 
     public void toggleIOMode() {
         if (!worldObj.isRemote) {
-            isOutput = !isOutput;
+            mode++;
+            mode %= 6;
             markDirty();
             markBlockForUpdate();
         }
     }
 
     public boolean isOutput() {
-        return isOutput;
+        return mode == 0;
+    }
+
+    public int getMode() {
+        return mode;
     }
 }

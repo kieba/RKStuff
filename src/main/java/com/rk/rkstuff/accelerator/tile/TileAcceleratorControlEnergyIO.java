@@ -41,6 +41,9 @@ public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBloc
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (hasMaster() && !isOutput()) {
+            return master.receiveEnergy(maxReceive, simulate);
+        }
         return 0;
     }
 
@@ -51,17 +54,23 @@ public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBloc
 
     @Override
     public int getEnergyStored(ForgeDirection from) {
+        if (hasMaster()) {
+            return master.getStoredEnergy();
+        }
         return 0;
     }
 
     @Override
     public int getMaxEnergyStored(ForgeDirection from) {
+        if (hasMaster()) {
+            return master.getMaxEnergyStorage();
+        }
         return 0;
     }
 
     @Override
     public boolean canConnectEnergy(ForgeDirection from) {
-        return false;
+        return true;
     }
 
     public void toggleIOMode() {

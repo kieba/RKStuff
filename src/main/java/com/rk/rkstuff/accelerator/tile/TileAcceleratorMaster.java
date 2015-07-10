@@ -23,6 +23,8 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
 
     private AcceleratorHelper.AcceleratorStructure setup;
     protected Accelerator accelerator;
+    protected int storedEnergy;
+    protected int maxEnergyStorage;
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
@@ -387,5 +389,20 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
         return isValid;
     }
 
+    public int getStoredEnergy() {
+        return storedEnergy;
+    }
+
+    public int getMaxEnergyStorage() {
+        return maxEnergyStorage;
+    }
+
+    public int receiveEnergy(int maxReceive, boolean simulate) {
+        int amount = Math.min(maxReceive, maxEnergyStorage - storedEnergy);
+        if (!simulate) {
+            storedEnergy += amount;
+        }
+        return amount;
+    }
 
 }

@@ -198,6 +198,7 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
             //SIDE BUTTONS
             this.changeSide(id);
             worldObj.notifyBlockChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
+            markDirty();
         } else if(id >= 6 && id < 12) {
             //PRIORITY BUTTONS
             this.changePriority(id - 6);

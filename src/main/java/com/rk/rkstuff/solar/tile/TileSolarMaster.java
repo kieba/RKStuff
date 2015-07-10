@@ -3,6 +3,7 @@ package com.rk.rkstuff.solar.tile;
 import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
+import com.rk.rkstuff.core.tile.TileRK;
 import com.rk.rkstuff.helper.CCHelper;
 import com.rk.rkstuff.helper.MultiBlockHelper;
 import com.rk.rkstuff.solar.block.BlockSolarInput;
@@ -22,6 +23,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 @Optional.InterfaceList({
         @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
@@ -47,6 +49,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     private int coolantBufferMax = 0;
     private double productionLastTick = 0;
 
+    private LinkedList<TileRK> outputTrigger = new LinkedList<TileRK>();
 
     private int tick = 0;
 
@@ -83,6 +86,16 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         countSolarPanels = tmpBounds.getWidthX() * tmpBounds.getWidthZ();
         coolantBufferMax = countSolarPanels * BUFFER_MB_PER_PANEL;
         return tmpBounds;
+    }
+
+    public void addOutputTrigger(TileRK entity) {
+        outputTrigger.add(entity);
+    }
+
+    private void triggerOutput() {
+        for (TileRK outTile : outputTrigger) {
+            outTile.updateEntityByMaster();
+        }
     }
 
     private MultiBlockHelper.Bounds computeMultiStructureBounds(){
@@ -142,6 +155,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
                 }
             }
         }
+        outputTrigger.clear();
     }
 
     public CoolantStack getCoolantBuffer() {
@@ -174,6 +188,8 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
                 coolantBuffer.set(coolantBuffer.getAmount(), MAX_SOLAR_TEMPERATURE);
             }
         }
+
+        triggerOutput();
 
         if (tick % 20 == 0) {
             tick = 0;
@@ -259,7 +275,6 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         if (!simulate) {
             coolantBuffer.add(maxAmount, temperature);
         }
-
         return maxAmount;
     }
 

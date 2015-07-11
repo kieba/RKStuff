@@ -1,5 +1,6 @@
 package com.rk.rkstuff.boiler.block;
 
+import cofh.lib.util.helpers.ServerHelper;
 import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.core.block.BlockRK;
@@ -47,7 +48,7 @@ public class BlockBoilerBaseMaster extends BlockRK implements ITileEntityProvide
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ)) {
-            if (world.getTileEntity(x, y, z) instanceof TileBoilerBaseMaster) {
+            if (world.getTileEntity(x, y, z) instanceof TileBoilerBaseMaster && ServerHelper.isServerWorld(world)) {
                 player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_BOILER, world, x, y, z);
             }
         }

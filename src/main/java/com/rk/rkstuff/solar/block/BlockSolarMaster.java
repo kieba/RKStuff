@@ -1,5 +1,6 @@
 package com.rk.rkstuff.solar.block;
 
+import cofh.lib.util.helpers.ServerHelper;
 import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.solar.tile.TileSolarMaster;
 import com.rk.rkstuff.util.Reference;
@@ -33,7 +34,7 @@ public class BlockSolarMaster extends BlockSolar implements ISolarBlock, ITileEn
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ)) {
-            if (world.getTileEntity(x, y, z) instanceof TileSolarMaster && ((TileSolarMaster) world.getTileEntity(x, y, z)).isBuild()) {
+            if (world.getTileEntity(x, y, z) instanceof TileSolarMaster && ((TileSolarMaster) world.getTileEntity(x, y, z)).isBuild() && ServerHelper.isServerWorld(world)) {
                 player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_SOLAR, world, x, y, z);
             }
         }

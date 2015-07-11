@@ -1,5 +1,6 @@
 package com.rk.rkstuff.tank.block;
 
+import cofh.lib.util.helpers.ServerHelper;
 import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.tank.tile.TileTankInteraction;
@@ -28,7 +29,7 @@ public class BlockTankInteraction extends BlockRK implements ITankBlock, ITileEn
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ)) {
-            if (world.getTileEntity(x, y, z) instanceof TileTankInteraction) {
+            if (world.getTileEntity(x, y, z) instanceof TileTankInteraction && ServerHelper.isServerWorld(world)) {
                 player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_TANK_INTERACTION, world, x, y, z);
             }
         }

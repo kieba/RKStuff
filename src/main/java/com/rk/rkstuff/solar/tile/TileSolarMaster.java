@@ -39,7 +39,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     }
 
     private static float SCALE = 1.75f;
-    private static float MAX_SOLAR_TEMPERATURE = 500.0f;
+    private static float MAX_SOLAR_TEMPERATURE = 773.15f;
     private static int MAX_MB_PER_PANEL = 100;
     private static int BUFFER_MB_PER_PANEL = 1000;
 

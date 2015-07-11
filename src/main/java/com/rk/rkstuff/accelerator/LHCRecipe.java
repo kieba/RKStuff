@@ -8,10 +8,12 @@ import java.util.Comparator;
 public class LHCRecipe {
     private ItemStack[] requirements;
     private ItemStack result;
+    private float requiredSpeed;
 
-    public LHCRecipe(ItemStack result, ItemStack... requirements) {
+    public LHCRecipe(ItemStack result, float reqSpeed, ItemStack... requirements) {
         this.result = result;
         this.requirements = requirements;
+        this.requiredSpeed = reqSpeed;
         Arrays.sort(requirements, new Comparator<ItemStack>() {
             @Override
             public int compare(ItemStack o1, ItemStack o2) {
@@ -22,6 +24,10 @@ public class LHCRecipe {
 
     public ItemStack getResult() {
         return result;
+    }
+
+    public float getRequiredSpeed() {
+        return requiredSpeed;
     }
 
     public ItemStack[] getRequirements() {

@@ -20,11 +20,12 @@ public class LHCRecipeRegistry {
         });
     }
 
-    public static void addRecipe(ItemStack result, ItemStack... requirements) {
-        addRecipe(new LHCRecipe(result, requirements));
+    public static void addRecipe(ItemStack result, float reqSpeed, ItemStack... requirements) {
+        addRecipe(new LHCRecipe(result, reqSpeed, requirements));
     }
 
     public static void addRecipe(NBTTagCompound data) {
+        float reqSpeed = data.getFloat("reqSpeed");
         ItemStack result = new ItemStack(Blocks.air);
         result.readFromNBT(data.getCompoundTag("result"));
 
@@ -32,14 +33,15 @@ public class LHCRecipeRegistry {
         for (int i = 0; i < requirements.length; i++) {
             requirements[i].readFromNBT(data.getCompoundTag("req" + i));
         }
-        addRecipe(result, requirements);
+        addRecipe(result, reqSpeed, requirements);
     }
 
-    public static LHCRecipe getRecipeExact(ItemStack result, ItemStack... requirements) {
+    public static LHCRecipe getRecipeExact(ItemStack result, float requiredSpeed, ItemStack... requirements) {
         for (LHCRecipe recipe : recipes) {
             if (!ItemStack.areItemStacksEqual(recipe.getResult(), result)) continue;
             if (requirements == null) continue;
             if (recipe.getRequirements().length != requirements.length) continue;
+            if (recipe.getRequiredSpeed() != requiredSpeed) continue;
             for (int i = 0; i < recipe.getRequirements().length; i++) {
                 if (!ItemStack.areItemStacksEqual(recipe.getRequirements()[i], requirements[i])) continue;
             }
@@ -48,7 +50,7 @@ public class LHCRecipeRegistry {
         return null;
     }
 
-    public static LHCRecipe getRecipeCrafting(ItemStack[] currentResources) {
+    public static LHCRecipe getRecipeCrafting(float speed, ItemStack[] currentResources) {
         recipe:
         for (LHCRecipe recipe : recipes) {
             for (ItemStack reqIS : recipe.getRequirements()) {
@@ -58,6 +60,7 @@ public class LHCRecipeRegistry {
                     }
                 }
             }
+            if (recipe.getRequiredSpeed() > speed) continue recipe;
             return recipe;
         }
         return null;

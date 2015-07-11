@@ -5,12 +5,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class RecipeHelper {
-    public static void addLHCRecipe(ItemStack result, ItemStack... requirements) {
+    public static void addLHCRecipe(ItemStack result, float requiredSpeed, ItemStack... requirements) {
         if (result != null && requirements != null) {
             if (requirements.length > 5) {
                 throw new IllegalArgumentException("Only 5 requirement items are allowed.");
             }
             NBTTagCompound nbt = new NBTTagCompound();
+            nbt.setFloat("reqSpeed", requiredSpeed);
             nbt.setTag("result", new NBTTagCompound());
             result.writeToNBT(nbt.getCompoundTag("result"));
             nbt.setInteger("req", requirements.length);

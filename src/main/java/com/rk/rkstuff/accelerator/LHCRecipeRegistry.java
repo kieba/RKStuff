@@ -20,12 +20,13 @@ public class LHCRecipeRegistry {
         });
     }
 
-    public static void addRecipe(ItemStack result, float reqSpeed, ItemStack... requirements) {
-        addRecipe(new LHCRecipe(result, reqSpeed, requirements));
+    public static void addRecipe(ItemStack result, float reqSpeed, float mass, ItemStack... requirements) {
+        addRecipe(new LHCRecipe(result, reqSpeed, mass, requirements));
     }
 
     public static void addRecipe(NBTTagCompound data) {
         float reqSpeed = data.getFloat("reqSpeed");
+        float mass = data.getFloat("mass");
         ItemStack result = new ItemStack(Blocks.air);
         result.readFromNBT(data.getCompoundTag("result"));
 
@@ -33,7 +34,7 @@ public class LHCRecipeRegistry {
         for (int i = 0; i < requirements.length; i++) {
             requirements[i].readFromNBT(data.getCompoundTag("req" + i));
         }
-        addRecipe(result, reqSpeed, requirements);
+        addRecipe(result, reqSpeed, mass, requirements);
     }
 
     public static LHCRecipe getRecipeExact(ItemStack result, float requiredSpeed, ItemStack... requirements) {

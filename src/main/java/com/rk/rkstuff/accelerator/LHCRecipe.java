@@ -11,10 +11,11 @@ public class LHCRecipe {
     private float requiredSpeed;
     private float mass;
 
-    public LHCRecipe(ItemStack result, float reqSpeed, ItemStack... requirements) {
+    public LHCRecipe(ItemStack result, float reqSpeed, float mass, ItemStack... requirements) {
         this.result = result;
         this.requirements = requirements;
         this.requiredSpeed = reqSpeed;
+        this.mass = mass;
         Arrays.sort(requirements, new Comparator<ItemStack>() {
             @Override
             public int compare(ItemStack o1, ItemStack o2) {

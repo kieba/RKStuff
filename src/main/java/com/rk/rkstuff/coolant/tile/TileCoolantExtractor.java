@@ -16,7 +16,7 @@ import java.io.IOException;
 public class TileCoolantExtractor extends TileRK implements IFluidHandler, ICoolantReceiver {
 
     private static final int MAX_COOLANT_AMOUNT = 2000;
-    private CoolantStack coolantStack = new CoolantStack(0, 20.0f);
+    private CoolantStack coolantStack = new CoolantStack();
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {

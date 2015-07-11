@@ -153,11 +153,11 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currentBody, IWailaDataAccessor accessor, IWailaConfigHandler configHandler) {
         currentBody.add(String.format("Coolant Prod: %d/%d mB", coolantStackProd.getAmount(), MAX_COOLANT_PRODUCT_STORAGE));
-        currentBody.add(String.format("Temperature Prod: %.2f °C", coolantStackProd.getTemperature()));
+        currentBody.add(String.format("Temperature Prod: %s", coolantStackProd.getFormattedString()));
         currentBody.add(String.format("Coolant Res1: %d/%d mB", coolantStackRes1.getAmount(), MAX_COOLANT_RESOURCE_STORAGE));
-        currentBody.add(String.format("Temperature Prod: %.2f °C", coolantStackRes1.getTemperature()));
+        currentBody.add(String.format("Temperature Prod: %s", coolantStackRes1.getFormattedString()));
         currentBody.add(String.format("Coolant Res2: %d/%d mB", coolantStackRes2.getAmount(), MAX_COOLANT_RESOURCE_STORAGE));
-        currentBody.add(String.format("Temperature Prod: %.2f °C", coolantStackRes2.getTemperature()));
+        currentBody.add(String.format("Temperature Prod: %s", coolantStackRes2.getFormattedString()));
 
         return currentBody;
     }

@@ -19,7 +19,7 @@ public class CoolantStack {
     }
 
     public CoolantStack() {
-        this(0, 20.0f);
+        this(0, 273.15f);
     }
 
     public void add(int amount, float temperature) {
@@ -125,6 +125,14 @@ public class CoolantStack {
 
     public static float toFahrenheit(float kelvin) {
         return kelvin * 1.8f - 459.67f;
+    }
+
+    public String getFormattedString() {
+        return toFormattedString(temperature);
+    }
+
+    public static String toFormattedString(float kelvin) {
+        return String.format("%.2f °C", toCelsius(kelvin));
     }
 
 }

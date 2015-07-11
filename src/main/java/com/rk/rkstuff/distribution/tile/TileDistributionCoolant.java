@@ -18,7 +18,7 @@ public class TileDistributionCoolant extends TileDistribution implements ICoolan
         METHODS.add(new CCMethodGetAvgTemperature());
     }
 
-    private CoolantStack coolantOutputted = new CoolantStack(0, 0.0f);
+    private CoolantStack coolantOutputted = new CoolantStack();
     private float[] temperatureHistory = new float[HISTORY_SIZE];
     private float temperatureSum = 0.0f;
 

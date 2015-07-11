@@ -1,5 +1,6 @@
 package com.rk.rkstuff.client.gui;
 
+import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.distribution.ContainerDistributionCoolant;
 import com.rk.rkstuff.distribution.tile.TileDistributionCoolant;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +13,7 @@ public class GuiDistributionCoolant extends GuiDistribution<TileDistributionCool
 
     @Override
     protected String getAvgOutputString(TileDistributionCoolant tile) {
-        return String.format("Output: %.2f mB/t @ %.2f °C", tile.getAvgOutputPerTick(), tile.getAvgTemperature());
+        return String.format("Output: %.2f mB/t @ " + CoolantStack.toFormattedString(tile.getAvgTemperature()), tile.getAvgOutputPerTick());
     }
 
 }

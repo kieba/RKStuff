@@ -139,7 +139,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
         currentBody.clear();
         currentBody.add(String.format("Energy: %d/%d RF", energyStorage, MAX_RK_STORAGE));
         currentBody.add(String.format("Coolant: %d/%d mB", coolantStack.getAmount(), MAX_COOLANT_STORAGE));
-        currentBody.add(String.format("Temperature: %.2f °C", coolantStack.getTemperature()));
+        currentBody.add(String.format("Temperature: %s", coolantStack.getFormattedString()));
         return currentBody;
     }
 

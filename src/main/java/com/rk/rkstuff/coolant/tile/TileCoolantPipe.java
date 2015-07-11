@@ -15,7 +15,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
     private boolean[] isConnected = new boolean[6];
     private boolean[] hasAdapter = new boolean[6];
     private int pressure = Integer.MAX_VALUE;
-    private CoolantStack coolant = new CoolantStack(0, 0);
+    private CoolantStack coolant = new CoolantStack();
 
     @Override
     public void updateEntity() {

@@ -2,6 +2,7 @@ package com.rk.rkstuff.client.gui;
 
 import com.rk.rkstuff.boiler.ContainerBoiler;
 import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
+import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.helper.GuiHelper;
 import com.rk.rkstuff.util.Textures;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -59,7 +60,7 @@ public class GuiBoiler extends GuiContainer {
             //draw tooltip prod
             List<String> list = new ArrayList<String>(2);
             list.add("Heat:");
-            list.add(String.format("%.2f °C", tile.getTemperature()));
+            list.add(CoolantStack.toFormattedString(tile.getTemperature()));
             this.func_146283_a(list, mouseX, mouseY);
         } else if(GuiHelper.isInArea(mouseX, mouseY, x + 116, yMin, x + 132, yMax)) {
             //draw tooltip prod

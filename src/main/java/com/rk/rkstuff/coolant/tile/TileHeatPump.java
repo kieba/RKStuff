@@ -27,8 +27,8 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
     private static int MAX_COOLANT_RESOURCE_STORAGE = 1000;
     private static int MAX_COOLANT_IO = 200;
 
-    private CoolantStack coolantStackRes1 = new CoolantStack(1000, 20);
-    private CoolantStack coolantStackRes2 = new CoolantStack(1000, 20);
+    private CoolantStack coolantStackRes1 = new CoolantStack();
+    private CoolantStack coolantStackRes2 = new CoolantStack();
 
     private int energyStorage = 0;
 
@@ -113,8 +113,8 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
 
         if (worldObj.isRemote) return;
 
-        float extractEff = (coolantStackRes1.getTemperature() + 270.0f) / CoolantStack.MAX_TEMPERATURE;
-        float injectEff = (float) Math.pow(1 - ((coolantStackRes2.getTemperature() + 270.0f) / CoolantStack.MAX_TEMPERATURE), 2);
+        float extractEff = (coolantStackRes1.getTemperature()) / CoolantStack.MAX_TEMPERATURE;
+        float injectEff = (float) Math.pow(1 - ((coolantStackRes2.getTemperature()) / CoolantStack.MAX_TEMPERATURE), 2);
         float extractEnergy = Math.abs(extractEff * coolantStackRes1.getEnergy()) * 0.001f;
         float injectEnergy = extractEnergy * injectEff;
 
@@ -129,9 +129,9 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currentBody, IWailaDataAccessor accessor, IWailaConfigHandler configHandler) {
         currentBody.add(String.format("Coolant Res1: %d/%d mB", coolantStackRes1.getAmount(), MAX_COOLANT_RESOURCE_STORAGE));
-        currentBody.add(String.format("Temperature Prod: %.2f °C", coolantStackRes1.getTemperature()));
+        currentBody.add(String.format("Temperature Prod: %s", coolantStackRes1.getFormattedString()));
         currentBody.add(String.format("Coolant Res2: %d/%d mB", coolantStackRes2.getAmount(), MAX_COOLANT_RESOURCE_STORAGE));
-        currentBody.add(String.format("Temperature Prod: %.2f °C", coolantStackRes2.getTemperature()));
+        currentBody.add(String.format("Temperature Prod: %s", coolantStackRes2.getFormattedString()));
 
         return currentBody;
     }

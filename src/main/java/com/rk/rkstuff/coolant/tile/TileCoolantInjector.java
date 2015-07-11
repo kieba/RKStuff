@@ -17,7 +17,7 @@ import java.io.IOException;
 public class TileCoolantInjector extends TileRK implements IFluidHandler, ICoolantConnection {
 
     private static final int MAX_COOLANT_AMOUNT = 2000;
-    private CoolantStack coolantStack = new CoolantStack(0, 20.0f);
+    private CoolantStack coolantStack = new CoolantStack();
 
     @Override
     public void updateEntity() {

@@ -9,6 +9,7 @@ public class LHCRecipe {
     private ItemStack[] requirements;
     private ItemStack result;
     private float requiredSpeed;
+    private float mass;
 
     public LHCRecipe(ItemStack result, float reqSpeed, ItemStack... requirements) {
         this.result = result;
@@ -28,6 +29,10 @@ public class LHCRecipe {
 
     public float getRequiredSpeed() {
         return requiredSpeed;
+    }
+
+    public float getMass() {
+        return mass;
     }
 
     public ItemStack[] getRequirements() {

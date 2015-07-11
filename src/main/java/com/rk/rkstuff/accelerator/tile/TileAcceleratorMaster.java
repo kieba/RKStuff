@@ -2,6 +2,7 @@ package com.rk.rkstuff.accelerator.tile;
 
 import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.accelerator.*;
+import com.rk.rkstuff.accelerator.block.IAcceleratorCaseBlock;
 import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
@@ -146,10 +147,10 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
                 Block block = worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z);
                 TileEntity tile = worldObj.getTileEntity(pos.p.x, pos.p.y, pos.p.z);
 
-                if (pos.isCase) {
+                if (pos.isCase && block instanceof IAcceleratorCaseBlock) {
                     if (pos.isBevelBlock) {
                         worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockAcceleratorCase, 0, 2);
-                    } else if (block == RkStuff.blockAcceleratorCase) {
+                    } else {
                         worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 2);
                     }
                 }

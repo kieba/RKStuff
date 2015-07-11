@@ -51,12 +51,12 @@ public class LHCRecipeRegistry {
         return null;
     }
 
-    public static LHCRecipe getRecipeCrafting(float speed, ItemStack[] currentResources) {
+    public static LHCRecipe getRecipeCrafting(float speed, ItemStack[] currentResources, int from, int to) {
         recipe:
         for (LHCRecipe recipe : recipes) {
             for (ItemStack reqIS : recipe.getRequirements()) {
-                for (ItemStack curIS : currentResources) {
-                    if (reqIS.getItem() != curIS.getItem() || reqIS.stackSize > curIS.stackSize) {
+                for (int i = from; i <= to; i++) {
+                    if (reqIS.getItem() != currentResources[i].getItem() || reqIS.stackSize > currentResources[i].stackSize) {
                         continue recipe;
                     }
                 }

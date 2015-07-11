@@ -51,7 +51,7 @@ public class GuiLHCMaster extends GuiContainer {
             //draw tooltip hot coolant
             List<String> list = new ArrayList<String>(2);
             list.add("Speed:");
-            list.add(String.format("%.2f/%.2f", tile.getSpeed(), tile.getMaxSpeed()));
+            list.add(String.format("%.2f/%.2f bps", tile.getSpeed(), tile.getMaxSpeed()));
             this.func_146283_a(list, mouseX, mouseY);
         } else if (GuiHelper.isInArea(mouseX, mouseY, x + 152, y + 16, x + 164, y + 69)) {
             //draw tooltip prod

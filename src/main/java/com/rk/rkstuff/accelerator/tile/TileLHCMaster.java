@@ -1,6 +1,8 @@
 package com.rk.rkstuff.accelerator.tile;
 
 import com.rk.rkstuff.accelerator.AcceleratorHelper;
+import com.rk.rkstuff.accelerator.LHCRecipe;
+import com.rk.rkstuff.accelerator.LHCRecipeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileLHCMaster extends TileAcceleratorMaster {
 
     private LHCInventory inventory = new LHCInventory();
+    private LHCRecipe currentRecipe;
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
@@ -25,6 +28,24 @@ public class TileLHCMaster extends TileAcceleratorMaster {
         inventory.readFromNBT("inv", tag);
     }
 
+    @Override
+    protected void updateMaster() {
+        super.updateMaster();
+
+        if (currentRecipe == null) {
+            currentRecipe = LHCRecipeRegistry.getRecipeCrafting(accelerator.getMaxSpeed(), inventory.stacks, 1, 5);
+            ItemStack result = currentRecipe.getResult();
+            if (inventory.stacks[0] != null && (!inventory.stacks[0].isItemEqual(result) ||
+                    (inventory.stacks[0].stackSize + result.stackSize) > result.getMaxStackSize())) {
+                currentRecipe = null;
+            } else {
+                for (ItemStack stack : currentRecipe.getRequirements()) {
+
+                }
+            }
+
+        }
+    }
 
     @Override
     public boolean hasGui() {
@@ -33,7 +54,8 @@ public class TileLHCMaster extends TileAcceleratorMaster {
 
     @Override
     public float injectMass() {
-        return 0;
+        if (currentRecipe == null) return 0.0f;
+        return currentRecipe.getMass();
     }
 
     @Override
@@ -75,7 +97,12 @@ public class TileLHCMaster extends TileAcceleratorMaster {
 
     @Override
     public void collide() {
-
+        if (inventory.stacks[0] == null) {
+            inventory.stacks[0] = currentRecipe.getResult().copy();
+        } else {
+            inventory.stacks[0].stackSize += currentRecipe.getResult().stackSize;
+        }
+        currentRecipe = null;
     }
 
     @Override

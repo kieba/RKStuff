@@ -411,5 +411,9 @@ public class RkStuff {
         cofh.api.modhelpers.ThermalExpansionHelper.addInsolatorRecipe(1600, new ItemStack(itemPotash), new ItemStack(blockPortlandite), new ItemStack(itemPotassiumHydroxide));
         cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(itemPotassiumHydroxide), new ItemStack(Items.leather), new ItemStack(itemGlycerine));
         cofh.api.modhelpers.ThermalExpansionHelper.addCrucibleRecipe(1600, new ItemStack(itemGlycerine), new FluidStack(fluidCoolant, 1000));
+
+
+        LHCRecipeRegistry.addRecipe(new ItemStack(Blocks.diamond_block), 40.0f, 0.1f, new ItemStack(Blocks.dirt), new ItemStack(Blocks.cobblestone));
+
     }
 }

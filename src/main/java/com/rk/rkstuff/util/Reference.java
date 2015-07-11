@@ -96,6 +96,8 @@ public class Reference {
     public static final String ITEM_POTASH = "Potash";
     public static final String ITEM_POTASSIUM_HYDROXIDE = "PotassiumHydroxide";
     public static final String ITEM_GLYCERINE = "Glycerine";
+    public static final String ITEM_MIXER = "Mixer";
+    public static final String ITEM_MIXER_BLADE = "MixerBlade";
 
     /* GUI's */
     public static final int GUI_ID_SOLAR = 0;

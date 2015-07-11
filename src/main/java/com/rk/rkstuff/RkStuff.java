@@ -70,6 +70,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.lang.reflect.Method;
@@ -144,6 +145,8 @@ public class RkStuff {
     public static Item itemPotash = new ItemRK(Reference.ITEM_POTASH);
     public static Item itemPotassiumHydroxide = new ItemRK(Reference.ITEM_POTASSIUM_HYDROXIDE);
     public static Item itemGlycerine = new ItemRK(Reference.ITEM_GLYCERINE);
+    public static Item itemMixer = new ItemRK(Reference.ITEM_MIXER);
+    public static Item itemMixerBlade = new ItemRK(Reference.ITEM_MIXER_BLADE);
 
     public static ItemLinker itemLinker = new ItemLinker();
 
@@ -261,6 +264,8 @@ public class RkStuff {
         GameRegistry.registerItem(itemPotash, Reference.ITEM_POTASH);
         GameRegistry.registerItem(itemPotassiumHydroxide, Reference.ITEM_POTASSIUM_HYDROXIDE);
         GameRegistry.registerItem(itemGlycerine, Reference.ITEM_GLYCERINE);
+        GameRegistry.registerItem(itemMixer, Reference.ITEM_MIXER);
+        GameRegistry.registerItem(itemMixerBlade, Reference.ITEM_MIXER_BLADE);
 
 
         //ComputerCraft Provider
@@ -311,6 +316,8 @@ public class RkStuff {
                 FluidHelper.water = e.getValue();
             }
         }
+
+
     }
 
 
@@ -356,22 +363,49 @@ public class RkStuff {
     }
 
     private void registerRecipes() {
-        GameRegistry.addShapedRecipe(new ItemStack(itemValve), " i ", "iii", 'i', Items.iron_ingot);
-        GameRegistry.addShapedRecipe(new ItemStack(blockMachineBlock), "iii", "iri", "iii", 'i', Items.iron_ingot, 'r', Items.redstone);
-        GameRegistry.addShapedRecipe(new ItemStack(itemControlUnit), "wrw", "rgr", "wrw", 'w', itemWire, 'r', Items.redstone, 'g', Items.gold_ingot);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemValve), " i ", "iii", 'i', "ingotIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachineBlock), "iii", "iri", "iii", 'i', "ingotIron", 'r', "dustRedstone"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemControlUnit), "wrw", "rgr", "wrw", 'w', itemWire, 'r', "dustRedstone", 'g', "ingotGold"));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemWire, 2), true, new Object[]{"   ", "ccc", "   ", 'c', "ingotCopper"}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemSolarPanel), true, new Object[]{"sts", "tct", "sts", 's', itemSolarTile, 't', "ingotTin", 'c', "ingotCopper"}));
         GameRegistry.addShapelessRecipe(new ItemStack(itemPotash), new ItemStack(itemWoodAsh), new ItemStack(Items.water_bucket.setContainerItem(Items.bucket)));
 
-        //Blockrecipes
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolar), true, new Object[]{"sss", "ibi", "iii", 's', itemSolarPanel, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarInput), true, new Object[]{"sss", "vbr", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', Items.redstone, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarOutput), true, new Object[]{"sss", "rbv", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', Items.redstone, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarMaster), true, new Object[]{"sss", "cbc", "iii", 's', itemSolarPanel, 'c', itemControlUnit, 'b', blockMachineBlock, 'i', Items.iron_ingot}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolar), true, new Object[]{"sss", "ibi", "iii", 's', itemSolarPanel, 'b', blockMachineBlock, 'i', "ingotIron"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarInput), true, new Object[]{"sss", "vbr", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', "dustRedstone", 'b', blockMachineBlock, 'i', "ingotIron"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarOutput), true, new Object[]{"sss", "rbv", "iii", 's', itemSolarPanel, 'v', itemValve, 'r', "dustRedstone", 'b', blockMachineBlock, 'i', "ingotIron"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSolarMaster), true, new Object[]{"sss", "cbc", "iii", 's', itemSolarPanel, 'c', itemControlUnit, 'b', blockMachineBlock, 'i', "ingotIron"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockDistributionEnergy), true, new Object[]{" i ", "cbc", "iii", 'c', itemControlUnit, 'b', blockMachineBlock, 'i', "dustRedstone"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockDistributionCoolant), true, new Object[]{" x ", "cbc", "iii", 'x', blockCoolantPipe, 'c', itemControlUnit, 'b', blockMachineBlock, 'i', "dustRedstone"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockDistributionFluid), true, new Object[]{" x ", "cbc", "iii", 'x', Items.bucket, 'c', itemControlUnit, 'b', blockMachineBlock, 'i', "dustRedstone"}));
 
-        //MachineRecipes
+
         cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(Items.redstone), new ItemStack(Items.dye, 1, 4), new ItemStack(itemSolarTile, 2));
-        GameRegistry.addSmelting(new ItemStack(Blocks.planks), new ItemStack(itemWoodAsh), 0.1f);
+        for (ItemStack item : OreDictionary.getOres("plankWood")) {
+            GameRegistry.addSmelting(item, new ItemStack(itemWoodAsh), 0.1f);
+        }
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCoolantPipe, 16), true, new Object[]{"iii", "ccc", "iii", 'i', "ingotIron", 'c', fluidCoolantBucket}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBoilerTank, 4), true, new Object[]{"iii", "i i", "iii", 'i', "ingotTin"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBoilerBase), true, new Object[]{"   ", "ixi", "iii", 'i', "ingotIron", 'x', blockBoilerTank}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBoilerBaseMaster), true, new Object[]{"   ", " x ", " i ", 'i', blockBoilerBase, 'x', itemControlUnit}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBoilerBaseInput), true, new Object[]{"   ", "ix ", "   ", 'i', blockBoilerBase, 'x', itemValve}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBoilerBaseOutput), true, new Object[]{"   ", " xi", "   ", 'i', blockBoilerBase, 'x', itemValve}));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTeleporter), true, new Object[]{" e ", "exe", " e ", 'e', Items.ender_pearl, 'x', blockMachineBlock}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemLinker), true, new Object[]{"   ", " p ", " s ", 'p', Items.ender_pearl, 's', "stickWood"}));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTank, 4), true, new Object[]{"gig", "i i", "gig", 'g', Blocks.glass, 'i', "ingotIron"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTankAdapter), true, new Object[]{"   ", " i ", " x ", 'i', itemControlUnit, 'x', blockTank}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTankValve), true, new Object[]{"   ", "xix", "   ", 'i', blockTank, 'x', itemValve}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTankInteraction), true, new Object[]{"   ", " i ", " x ", 'i', itemControlUnit, 'x', blockTank}));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMixerBlade), true, new Object[]{"   ", "itt", "   ", 'i', "ingotIron", 't', "ingotTin"}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMixer), true, new Object[]{" x ", "x x", " x ", 'x', itemMixerBlade}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCoolantMixer), true, new Object[]{" c ", "umu", " i ", 'c', fluidCoolantBucket, 'm', blockMachineBlock, 'i', itemMixer, 'u', itemControlUnit}));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCoolantInjector), true, new Object[]{" h ", " p ", "   ", 'h', Blocks.hopper, 'p', blockCoolantPipe}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCoolantExtractor), true, new Object[]{"   ", " p ", " h ", 'h', Blocks.hopper, 'p', blockCoolantPipe}));
+
         cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(Blocks.sand, 1, 1), new ItemStack(Items.clay_ball), new ItemStack(blockPortlandite, 2));
         cofh.api.modhelpers.ThermalExpansionHelper.addInsolatorRecipe(1600, new ItemStack(itemPotash), new ItemStack(blockPortlandite), new ItemStack(itemPotassiumHydroxide));
         cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(itemPotassiumHydroxide), new ItemStack(Items.leather), new ItemStack(itemGlycerine));

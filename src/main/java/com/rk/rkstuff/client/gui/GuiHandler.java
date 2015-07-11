@@ -1,5 +1,7 @@
 package com.rk.rkstuff.client.gui;
 
+import com.rk.rkstuff.accelerator.ContainerLHCMaster;
+import com.rk.rkstuff.accelerator.tile.TileLHCMaster;
 import com.rk.rkstuff.boiler.ContainerBoiler;
 import com.rk.rkstuff.boiler.tile.TileBoilerBaseMaster;
 import com.rk.rkstuff.coolant.ContainerCoolantMixer;
@@ -41,6 +43,8 @@ public class GuiHandler implements IGuiHandler {
             return new ContainerPoweredFreezer(player, (TilePoweredFreezer) world.getTileEntity(x, y, z));
         } else if (ID == Reference.GUI_ID_COOLANT_MIXER) {
             return new ContainerCoolantMixer(player, (TileCoolantMixer) world.getTileEntity(x, y, z));
+        } else if (ID == Reference.GUI_ID_LHC_MASTER) {
+            return new ContainerLHCMaster(player, (TileLHCMaster) world.getTileEntity(x, y, z));
         }
         return null;
     }
@@ -63,6 +67,8 @@ public class GuiHandler implements IGuiHandler {
             return new GuiPoweredFreezer(player, (TilePoweredFreezer) world.getTileEntity(x, y, z));
         } else if (ID == Reference.GUI_ID_COOLANT_MIXER) {
             return new GuiCoolantMixer(player, (TileCoolantMixer) world.getTileEntity(x, y, z));
+        } else if (ID == Reference.GUI_ID_LHC_MASTER) {
+            return new GuiLHCMaster(player, (TileLHCMaster) world.getTileEntity(x, y, z));
         }
         return null;
     }

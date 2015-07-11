@@ -44,12 +44,11 @@ public class BlockAcceleratorControlEnergyIO extends BlockAcceleratorControlCase
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (meta == 0) return icons[0];
-        return icons[1];
+        return icons[0];
     }
 
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        return icons[((TileAcceleratorControlEnergyIO) world.getTileEntity(x, y, z)).isOutput() ? 0 : 1];
+        return icons[((TileAcceleratorControlEnergyIO) world.getTileEntity(x, y, z)).isOutput() ? 1 : 0];
     }
 }

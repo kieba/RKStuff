@@ -35,8 +35,7 @@ public class BlockAcceleratorCaseFluidIO extends BlockAcceleratorCase implements
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        if (meta == 0) return icons[0];
-        return icons[1];
+        return icons[0];
     }
 
     @Override
@@ -50,6 +49,6 @@ public class BlockAcceleratorCaseFluidIO extends BlockAcceleratorCase implements
 
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        return icons[((TileAcceleratorCaseFluidIO) world.getTileEntity(x, y, z)).isOutput() ? 0 : 1];
+        return icons[((TileAcceleratorCaseFluidIO) world.getTileEntity(x, y, z)).isOutput() ? 1 : 0];
     }
 }

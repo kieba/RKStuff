@@ -1,10 +1,7 @@
 package com.rk.rkstuff.accelerator.tile;
 
 import com.rk.rkstuff.RkStuff;
-import com.rk.rkstuff.accelerator.Accelerator;
-import com.rk.rkstuff.accelerator.AcceleratorConfig;
-import com.rk.rkstuff.accelerator.AcceleratorHelper;
-import com.rk.rkstuff.accelerator.IAccelerator;
+import com.rk.rkstuff.accelerator.*;
 import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
@@ -22,20 +19,21 @@ import java.util.ArrayList;
 public abstract class TileAcceleratorMaster extends TileMultiBlockMaster implements IAccelerator {
 
     private AcceleratorHelper.AcceleratorStructure setup;
-    protected Accelerator accelerator;
-    protected int storedEnergy;
-    protected int maxEnergyStorage;
+    protected Accelerator accelerator = new Accelerator(this, Accelerator.DEFAULT_CONFIG);
+    protected int storedEnergyRF;
+    protected int maxEnergyStorageRF;
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
+        tag.setInteger("energy", storedEnergyRF);
         accelerator.writeToNBT("accelerator", tag);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        accelerator = new Accelerator(this, Accelerator.DEFAULT_CONFIG);
+        storedEnergyRF = tag.getInteger("energy");
         accelerator.readFromNBT("accelerator", tag);
     }
 
@@ -46,7 +44,7 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
         for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
             ArrayList<TileAcceleratorCaseFluidIO> fluidIOs = setup.fluidIOs.get(i);
             for (int j = 0; j < fluidIOs.size(); j++) {
-                fluidIOs.get(i).handleOutput();
+                fluidIOs.get(j).handleOutput();
             }
         }
     }
@@ -65,6 +63,7 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
             @Override
             public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
                 if (pos.p.x == tile.xCoord && pos.p.z == tile.zCoord) {
+
                     side[0] = pos.side;
                     return false;
                 }
@@ -93,18 +92,20 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
             AcceleratorHelper.iterateRing(setup, new AcceleratorHelper.IAcceleratorPosVisitor() {
                 @Override
                 public boolean visit(AcceleratorHelper.AcceleratorPos pos) {
-                    Block block = worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z);
-                    TileEntity tile = worldObj.getTileEntity(pos.p.x, pos.p.y, pos.p.z);
+                    if (pos.isCase) {
+                        Block block = worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z);
+                        TileEntity tile = worldObj.getTileEntity(pos.p.x, pos.p.y, pos.p.z);
 
-                    if (pos.isBevelBlock) {
-                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, pos.bevelBlock, pos.bevelMeta, 2);
-                        block = pos.bevelBlock;
-                    } else {
-                        worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 2);
+                        if (pos.isBevelBlock) {
+                            worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, pos.bevelBlock, pos.bevelMeta, 2);
+                            block = pos.bevelBlock;
+                        } else if (block == RkStuff.blockAcceleratorCase) {
+                            worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 2);
+                        }
+
+                        TileAcceleratorMaster.this.registerMaster(tile);
+                        setup(pos, block, tile);
                     }
-
-                    TileAcceleratorMaster.this.registerMaster(tile);
-                    setup(pos, block, tile);
                     return true;
                 }
             });
@@ -114,7 +115,16 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
                     Block block = worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z);
                     TileEntity tile = worldObj.getTileEntity(pos.p.x, pos.p.y, pos.p.z);
 
-                    worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 2);
+                    if (pos.isCore) {
+                        int meta = worldObj.getBlockMetadata(pos.p.x, pos.p.y, pos.p.z);
+                        if (meta == AcceleratorControlCoreTypes.EFFICIENCY.ordinal()) {
+                            setup.coreUpgradesEfficiency++;
+                        } else if (meta == AcceleratorControlCoreTypes.ENERGY.ordinal()) {
+                            setup.coreUpgradesEnergy++;
+                        }
+                    } else if (pos.isCase) {
+                        worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 1, 2);
+                    }
 
                     TileAcceleratorMaster.this.registerMaster(tile);
                     setup(pos, block, tile);
@@ -122,6 +132,7 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
                 }
             });
             accelerator.initialize(setup);
+            maxEnergyStorageRF = accelerator.getTotalLength() * 10000;
             return setup.controlBounds;
         }
         return null;
@@ -135,10 +146,12 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
                 Block block = worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z);
                 TileEntity tile = worldObj.getTileEntity(pos.p.x, pos.p.y, pos.p.z);
 
-                if (pos.isBevelBlock) {
-                    worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockAcceleratorCase, 0, 2);
-                } else if (pos.isCase || pos.isCore) {
-                    worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 2);
+                if (pos.isCase) {
+                    if (pos.isBevelBlock) {
+                        worldObj.setBlock(pos.p.x, pos.p.y, pos.p.z, RkStuff.blockAcceleratorCase, 0, 2);
+                    } else if (block == RkStuff.blockAcceleratorCase) {
+                        worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 2);
+                    }
                 }
 
                 TileAcceleratorMaster.this.unregisterMaster(tile);
@@ -152,7 +165,9 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
                 Block block = worldObj.getBlock(pos.p.x, pos.p.y, pos.p.z);
                 TileEntity tile = worldObj.getTileEntity(pos.p.x, pos.p.y, pos.p.z);
 
-                worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 2);
+                if (pos.isCase) {
+                    worldObj.setBlockMetadataWithNotify(pos.p.x, pos.p.y, pos.p.z, 0, 2);
+                }
 
                 TileAcceleratorMaster.this.unregisterMaster(tile);
                 reset(pos, block, tile);
@@ -160,6 +175,7 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
             }
         });
         accelerator.unInitialize();
+        maxEnergyStorageRF = 0;
         setup = null;
     }
 
@@ -185,12 +201,16 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
 
     @Override
     public void readData(IOStream data) throws IOException {
-
+        storedEnergyRF = data.readFirstInt();
+        maxEnergyStorageRF = data.readFirstInt();
+        accelerator.readData(data);
     }
 
     @Override
     public void writeData(IOStream data) {
-
+        data.writeLast(storedEnergyRF);
+        data.writeLast(maxEnergyStorageRF);
+        accelerator.writeData(data);
     }
 
     public boolean checkAcceleratorControl() {
@@ -389,18 +409,68 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
         return isValid;
     }
 
-    public int getStoredEnergy() {
-        return storedEnergy;
+    public int getStoredEnergyRF() {
+        return storedEnergyRF;
     }
 
-    public int getMaxEnergyStorage() {
-        return maxEnergyStorage;
+    public float getStoredEnergy() {
+        return storedEnergyRF / accelerator.getConfig().ENERGY_TO_RF_FACTOR;
+    }
+
+    public void removeEnergy(float amount) {
+        removeEnergyRF(amount * accelerator.getConfig().ENERGY_TO_RF_FACTOR);
+    }
+
+    public void removeEnergyRF(float amount) {
+        storedEnergyRF -= amount;
+        if (storedEnergyRF < 0) storedEnergyRF = 0;
+    }
+
+    public int getMaxEnergyStorageRF() {
+        return maxEnergyStorageRF;
     }
 
     public int receiveEnergy(int maxReceive, boolean simulate) {
-        int amount = Math.min(maxReceive, maxEnergyStorage - storedEnergy);
+        int amount = Math.min(maxReceive, maxEnergyStorageRF - storedEnergyRF);
         if (!simulate) {
-            storedEnergy += amount;
+            storedEnergyRF += amount;
+        }
+        return amount;
+    }
+
+    public float getSpeed() {
+        return accelerator.getSpeed();
+    }
+
+    public float getMaxSpeed() {
+        return accelerator.getMaxSpeed();
+    }
+
+    public int getTotalCoolant() {
+        int amount = 0;
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
+            amount += accelerator.getCoolant(i).getAmount();
+        }
+        return amount;
+    }
+
+    public CoolantStack getCoolant(int side) {
+        return accelerator.getCoolant(side);
+    }
+
+    public float getAvgCoolantTemp() {
+        CoolantStack c = new CoolantStack();
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
+            CoolantStack stack = accelerator.getCoolant(i);
+            c.add(stack.getAmount(), stack.getTemperature());
+        }
+        return c.getTemperature();
+    }
+
+    public int getTotalMaxCoolant() {
+        int amount = 0;
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
+            amount += accelerator.getMaxCoolant(i);
         }
         return amount;
     }

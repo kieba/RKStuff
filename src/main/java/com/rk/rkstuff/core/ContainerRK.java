@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 
 public abstract class ContainerRK<T extends TileRK> extends Container {
 
+    public static int PLAYER_INVENTORY_SLOTS = 36;
     protected T tile;
 
     public ContainerRK(EntityPlayer player, T tile) {

@@ -22,6 +22,7 @@ import com.rk.rkstuff.distribution.tile.TileDistributionFluid;
 import com.rk.rkstuff.handler.BucketHandler;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.item.BucketBase;
+import com.rk.rkstuff.item.ItemBlockAcceleratorControlCore;
 import com.rk.rkstuff.item.ItemLinker;
 import com.rk.rkstuff.item.ItemRK;
 import com.rk.rkstuff.network.PacketHandler;
@@ -206,7 +207,7 @@ public class RkStuff {
         GameRegistry.registerBlock(blockAcceleratorCaseBevelLarge, Reference.BLOCK_ACCELERATOR_CASE_BEVEL_SMALL_INVERTED);
         GameRegistry.registerBlock(blockAcceleratorCaseFluidIO, Reference.BLOCK_ACCELERATOR_CASE_FLUID_IO);
         GameRegistry.registerBlock(blockAcceleratorControlCase, Reference.BLOCK_ACCELERATOR_CONTROL_CASE);
-        GameRegistry.registerBlock(blockAcceleratorControlCore, Reference.BLOCK_ACCELERATOR_CONTROL_CORE);
+        GameRegistry.registerBlock(blockAcceleratorControlCore, ItemBlockAcceleratorControlCore.class, Reference.BLOCK_ACCELERATOR_CONTROL_CORE);
         GameRegistry.registerBlock(blockAcceleratorControlEnergyIO, Reference.BLOCK_ACCELERATOR_CONTROL_ENERGY_IO);
         GameRegistry.registerBlock(blockAcceleratorControlItemIO, Reference.BLOCK_ACCELERATOR_CONTROL_ITEM_IO);
         GameRegistry.registerBlock(blockLHCMaster, Reference.BLOCK_LHC_MASTER);

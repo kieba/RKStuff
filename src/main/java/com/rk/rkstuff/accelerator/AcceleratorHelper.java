@@ -78,8 +78,8 @@ public class AcceleratorHelper {
         public AcceleratorCoreDir startDir;
         public int[] lengths = new int[AcceleratorConfig.ACCELERATOR_SIDE_COUNT]; //AcceleratorCore is always an octagon, so we have 9 side lengths (the side with the control base needs 2 lengths
         public MultiBlockHelper.Bounds controlBounds;
-        public int coreUpgradeAcceleration;
-        public int coreUpgradeEfficiency;
+        public int coreUpgradesEnergy;
+        public int coreUpgradesEfficiency;
         public Pos master;
     }
 
@@ -111,12 +111,23 @@ public class AcceleratorHelper {
         pos.p = new Pos(setup.ringStart.x, setup.ringStart.y, setup.ringStart.z);
         for (int i = 0; i < setup.lengths.length; i++) {
             pos.side = i;
-            if (!visitor.visit(pos)) {
-                return false;
+            for (int j = 0; j < setup.lengths[i]; j++) {
+                if (!visitor.visit(pos)) {
+                    return false;
+                }
+                pos.p.x += dir.xOff;
+                pos.p.z += dir.zOff;
             }
-            pos.p.x += dir.xOff * setup.lengths[i];
-            pos.p.z += dir.zOff * setup.lengths[i];
-            dir = dir.getNext(false);
+
+            if (i % 2 == 1) {
+                pos.p.x -= dir.xOff;
+                pos.p.z -= dir.zOff;
+                dir = dir.getNext(false);
+                pos.p.x += dir.xOff;
+                pos.p.z += dir.zOff;
+            } else {
+                dir = dir.getNext(false);
+            }
         }
         return true;
     }

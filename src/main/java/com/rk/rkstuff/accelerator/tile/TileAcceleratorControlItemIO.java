@@ -1,20 +1,20 @@
 package com.rk.rkstuff.accelerator.tile;
 
-import cofh.api.inventory.IInventoryHandler;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.nbt.NBTTagCompound;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
-import java.util.List;
 
-public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockMasterListener, IInventoryHandler {
+public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockMasterListener, IInventory {
 
-    private TileAcceleratorMaster master;
-    private int mode;
+    private TileLHCMaster master;
+    private int slot;
 
     public boolean hasMaster() {
         return master != null;
@@ -22,7 +22,7 @@ public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockM
 
     @Override
     public void registerMaster(TileMultiBlockMaster tileMaster) {
-        master = (TileAcceleratorMaster) tileMaster;
+        master = (TileLHCMaster) tileMaster;
     }
 
     @Override
@@ -32,69 +32,131 @@ public class TileAcceleratorControlItemIO extends TileRK implements IMultiBlockM
 
     @Override
     public void readData(IOStream data) throws IOException {
-        mode = data.readFirst();
+        slot = data.readFirst();
         markBlockForUpdate();
     }
 
     @Override
     public void writeData(IOStream data) {
-        data.writeFirst(mode);
+        data.writeFirst(slot);
     }
 
     @Override
-    public ItemStack insertItem(ForgeDirection forgeDirection, ItemStack itemStack, boolean b) {
-        return null;
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+        slot = tag.getInteger("slot");
+
     }
 
     @Override
-    public ItemStack extractItem(ForgeDirection forgeDirection, ItemStack itemStack, boolean b) {
-        return null;
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+        tag.setInteger("slot", slot);
     }
 
-    @Override
-    public ItemStack extractItem(ForgeDirection forgeDirection, int i, boolean b) {
-        return null;
-    }
-
-    @Override
-    public List<ItemStack> getInventoryContents(ForgeDirection forgeDirection) {
-        return null;
-    }
-
-    @Override
-    public int getSizeInventory(ForgeDirection forgeDirection) {
-        return 0;
-    }
-
-    @Override
-    public boolean isEmpty(ForgeDirection forgeDirection) {
-        return false;
-    }
-
-    @Override
-    public boolean isFull(ForgeDirection forgeDirection) {
-        return false;
-    }
-
-    @Override
-    public ConnectionType canConnectInventory(ForgeDirection forgeDirection) {
-        return null;
-    }
-
-    public void toggleIOMode() {
+    public void incrementSlot() {
         if (!worldObj.isRemote) {
-            mode++;
-            mode %= 6;
+            slot++;
+            slot %= 6;
+            markDirty();
+            markBlockForUpdate();
+        }
+    }
+
+    public void decrementSlot() {
+        if (!worldObj.isRemote) {
+            slot--;
+            if (slot < 0) slot = 5;
             markDirty();
             markBlockForUpdate();
         }
     }
 
     public boolean isOutput() {
-        return mode == 0;
+        return slot == 0;
     }
 
-    public int getMode() {
-        return mode;
+    public int getSlot() {
+        return slot;
+    }
+
+    @Override
+    public int getSizeInventory() {
+        return 1;
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int s) {
+        if (hasMaster()) {
+            return master.getInventory().getStackInSlot(slot);
+        }
+        return null;
+    }
+
+    @Override
+    public ItemStack decrStackSize(int s, int amount) {
+        if (hasMaster()) {
+            master.getInventory().decrStackSize(slot, amount);
+        }
+        return null;
+    }
+
+    @Override
+    public ItemStack getStackInSlotOnClosing(int s) {
+        if (hasMaster()) {
+            master.getInventory().getStackInSlotOnClosing(slot);
+        }
+        return null;
+    }
+
+    @Override
+    public void setInventorySlotContents(int s, ItemStack stack) {
+        if (hasMaster() && !isOutput()) {
+            master.getInventory().setInventorySlotContents(slot, stack);
+        }
+    }
+
+    @Override
+    public String getInventoryName() {
+        if (hasMaster()) {
+            return master.getInventory().getInventoryName();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean hasCustomInventoryName() {
+        if (hasMaster()) {
+            return master.getInventory().hasCustomInventoryName();
+        }
+        return false;
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        if (hasMaster()) {
+            return master.getInventory().getInventoryStackLimit();
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer player) {
+        return false;
+    }
+
+    @Override
+    public void openInventory() {
+
+    }
+
+    @Override
+    public void closeInventory() {
+
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int s, ItemStack stack) {
+        return hasMaster() && !isOutput();
     }
 }

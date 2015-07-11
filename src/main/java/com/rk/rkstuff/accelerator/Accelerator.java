@@ -2,6 +2,9 @@ package com.rk.rkstuff.accelerator;
 
 import com.rk.rkstuff.coolant.CoolantStack;
 import net.minecraft.nbt.NBTTagCompound;
+import rk.com.core.io.IOStream;
+
+import java.io.IOException;
 
 public class Accelerator {
 
@@ -75,6 +78,7 @@ public class Accelerator {
         startSpeedLastRound = 0.0f;
         endSpeedLastRound = 0.0f;
         decelerationLastRound = 0.0f;
+        producedHeatLastTick = 0.0f;
         currentMass = 0;
         currentSpeed = 0.0f;
         setCenter();
@@ -144,7 +148,7 @@ public class Accelerator {
 
         endSpeedLastRound = currentSpeed;
         float energy = 0.5f * currentMass * currentSpeed * currentSpeed;
-        float maxInjectableEnergy = config.ENERGY_BASE * (float) Math.pow(config.ENERGY_MULTIPLIER, setup.coreUpgradeAcceleration) * (float) Math.pow(efficiency, 2);
+        float maxInjectableEnergy = config.ENERGY_BASE * (float) Math.pow(config.ENERGY_MULTIPLIER, setup.coreUpgradesEnergy) * (float) Math.pow(efficiency, 2);
         energy += Math.min(maxInjectableEnergy, accelerator.getAccelerationEnergy(maxInjectableEnergy));
         currentSpeed = (float) Math.sqrt(2.0f * energy / currentMass);
         startSpeedLastRound = currentSpeed;
@@ -207,7 +211,7 @@ public class Accelerator {
         return efficiency;
     }
 
-    public float getTotalLength() {
+    public int getTotalLength() {
         return totalLength;
     }
 
@@ -260,6 +264,7 @@ public class Accelerator {
 
     public void initialize(AcceleratorHelper.AcceleratorStructure setup) {
         if (!isInitialized) {
+            resetWork();
             this.setup = setup;
             if (setup.startDir.xOff != 0) {
                 controlLength = setup.controlBounds.getWidthX();
@@ -287,7 +292,7 @@ public class Accelerator {
 
             efficiency = 1.0f;
             if (avgDev != 0.0f) efficiency = 1.0f - 2.0f * (avgDev / avgLength);
-            efficiency += config.EFFICIENCY_PER_UPGRADE * setup.coreUpgradeEfficiency;
+            efficiency += config.EFFICIENCY_PER_UPGRADE * setup.coreUpgradesEfficiency;
             if (efficiency > 1.0f) efficiency = 1.0f;
 
             //max speed is MAX_ROUNDS_PER_TICK rounds per tick (if the setting is optimal!)
@@ -330,4 +335,32 @@ public class Accelerator {
         return coolant[side];
     }
 
+    public int getMaxCoolant(int side) {
+        return maxCoolantStorage[side];
+    }
+
+    public AcceleratorConfig getConfig() {
+        return config;
+    }
+
+    public void readData(IOStream data) throws IOException {
+        efficiency = data.readFirstFloat();
+        currentSpeed = data.readFirstFloat();
+        maxSpeed = data.readFirstFloat();
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
+            coolant[i].set(data.readFirstInt(), data.readFirstFloat());
+            maxCoolantStorage[i] = data.readFirstInt();
+        }
+    }
+
+    public void writeData(IOStream data) {
+        data.writeLast(efficiency);
+        data.writeLast(currentSpeed);
+        data.writeLast(maxSpeed);
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
+            data.writeLast(coolant[i].getAmount());
+            data.writeLast(coolant[i].getTemperature());
+            data.writeLast(maxCoolantStorage[i]);
+        }
+    }
 }

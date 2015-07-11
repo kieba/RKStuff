@@ -7,6 +7,7 @@ import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
 import com.rk.rkstuff.helper.FluidHelper;
 import com.rk.rkstuff.util.RKLog;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
@@ -38,6 +39,7 @@ public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMas
     @Override
     public void unregisterMaster() {
         master = null;
+        side = -1;
     }
 
     @Override
@@ -83,6 +85,18 @@ public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMas
 
     @Override
     public boolean canConnect(ForgeDirection from) {
-        return hasMaster();
+        return true;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+        isOutput = tag.getBoolean("isOutput");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+        tag.setBoolean("isOutput", isOutput);
     }
 }

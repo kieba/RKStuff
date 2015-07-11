@@ -1,6 +1,6 @@
 package com.rk.rkstuff.accelerator.block;
 
-import com.rk.rkstuff.accelerator.tile.TileAcceleratorMaster;
+import com.rk.rkstuff.RkStuff;
 import com.rk.rkstuff.accelerator.tile.TileLHCMaster;
 import com.rk.rkstuff.core.block.BlockRK;
 import com.rk.rkstuff.util.Reference;
@@ -43,9 +43,9 @@ public class BlockLHCMaster extends BlockRK implements ITileEntityProvider, IAcc
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ)) {
-            if (!world.isRemote) {
-                TileAcceleratorMaster tile = (TileAcceleratorMaster) world.getTileEntity(x, y, z);
-                tile.onBlockActivated(player.isSneaking());
+            TileEntity tile = world.getTileEntity(x, y, z);
+            if (!world.isRemote && tile instanceof TileLHCMaster) {
+                player.openGui(RkStuff.INSTANCE, Reference.GUI_ID_LHC_MASTER, world, x, y, z);
             }
         }
         return true;

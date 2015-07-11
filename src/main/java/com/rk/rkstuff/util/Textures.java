@@ -17,6 +17,7 @@ public class Textures {
     public static ResourceLocation DISTRIBUTION_GUI = new ResourceLocation(GUI_PATH + "DistributionGUI.png");
     public static ResourceLocation POWERED_FREEZER_GUI = new ResourceLocation(GUI_PATH + "PoweredFreezerGUI.png");
     public static ResourceLocation COOLANT_MIXER_GUI = new ResourceLocation(GUI_PATH + "CoolantMixerGUI.png");
+    public static ResourceLocation LHC_MASTER_GUI = new ResourceLocation(GUI_PATH + "LHCMasterGUI.png");
 
     @SideOnly(Side.CLIENT)
     public static void loadTexture(ResourceLocation location) {

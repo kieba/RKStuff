@@ -41,7 +41,7 @@ public class BlockAcceleratorControlItemIO extends BlockAcceleratorControlCase i
     public boolean onWrench(World world, int x, int y, int z, int side, EntityPlayer player) {
         TileEntity tile = world.getTileEntity(x, y, z);
         if (!world.isRemote && tile instanceof TileAcceleratorControlItemIO) {
-            ((TileAcceleratorControlItemIO) tile).toggleIOMode();
+            ((TileAcceleratorControlItemIO) tile).incrementSlot();
         }
         return true;
     }
@@ -53,6 +53,6 @@ public class BlockAcceleratorControlItemIO extends BlockAcceleratorControlCase i
 
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        return icons[((TileAcceleratorControlItemIO) world.getTileEntity(x, y, z)).getMode()];
+        return icons[((TileAcceleratorControlItemIO) world.getTileEntity(x, y, z)).getSlot()];
     }
 }

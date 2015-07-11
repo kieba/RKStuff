@@ -4,6 +4,7 @@ import cofh.api.energy.IEnergyHandler;
 import com.rk.rkstuff.core.tile.IMultiBlockMasterListener;
 import com.rk.rkstuff.core.tile.TileMultiBlockMaster;
 import com.rk.rkstuff.core.tile.TileRK;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
@@ -55,7 +56,7 @@ public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBloc
     @Override
     public int getEnergyStored(ForgeDirection from) {
         if (hasMaster()) {
-            return master.getStoredEnergy();
+            return master.getStoredEnergyRF();
         }
         return 0;
     }
@@ -63,7 +64,7 @@ public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBloc
     @Override
     public int getMaxEnergyStored(ForgeDirection from) {
         if (hasMaster()) {
-            return master.getMaxEnergyStorage();
+            return master.getMaxEnergyStorageRF();
         }
         return 0;
     }
@@ -83,5 +84,18 @@ public class TileAcceleratorControlEnergyIO extends TileRK implements IMultiBloc
 
     public boolean isOutput() {
         return isOutput;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+        isOutput = tag.getBoolean("isOutput");
+
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+        tag.setBoolean("isOutput", isOutput);
     }
 }

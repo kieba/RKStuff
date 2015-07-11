@@ -108,5 +108,6 @@ public class Reference {
     public static final int GUI_ID_TANK_INTERACTION = 5;
     public static final int GUI_ID_POWERED_FREEZER = 6;
     public static final int GUI_ID_COOLANT_MIXER = 7;
+    public static final int GUI_ID_LHC_MASTER = 8;
 
 }

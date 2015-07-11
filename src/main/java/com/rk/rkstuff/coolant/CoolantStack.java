@@ -124,6 +124,10 @@ public class CoolantStack {
         return kelvin - 273.15f;
     }
 
+    public static float celsiusToKelvin(float celsius) {
+        return celsius + 273.15f;
+    }
+
     public static float toFahrenheit(float kelvin) {
         return kelvin * 1.8f - 459.67f;
     }

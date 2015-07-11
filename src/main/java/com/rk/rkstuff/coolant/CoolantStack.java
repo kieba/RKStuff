@@ -1,5 +1,6 @@
 package com.rk.rkstuff.coolant;
 
+import com.rk.rkstuff.util.RKConfig;
 import net.minecraft.nbt.NBTTagCompound;
 import rk.com.core.io.IOStream;
 
@@ -132,7 +133,12 @@ public class CoolantStack {
     }
 
     public static String toFormattedString(float kelvin) {
-        return String.format("%.2f °C", toCelsius(kelvin));
+        if (RKConfig.useCelsius) {
+            return String.format("%.2f °C", toCelsius(kelvin));
+        } else {
+            return String.format("%.2f °F", toFahrenheit(kelvin));
+        }
+
     }
 
 }

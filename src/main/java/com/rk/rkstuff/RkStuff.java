@@ -39,6 +39,7 @@ import com.rk.rkstuff.tank.tile.TileTankInteraction;
 import com.rk.rkstuff.tank.tile.TileTankValve;
 import com.rk.rkstuff.teleporter.block.BlockTeleporter;
 import com.rk.rkstuff.teleporter.tile.TileTeleporter;
+import com.rk.rkstuff.util.RKConfig;
 import com.rk.rkstuff.util.RKLog;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.Loader;
@@ -64,6 +65,7 @@ import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -159,6 +161,8 @@ public class RkStuff {
         MinecraftForge.EVENT_BUS.register(this);
 
         PacketHandler.init();
+        RKConfig.init(new Configuration(event.getSuggestedConfigurationFile()));
+
 
         //Blocks
         GameRegistry.registerBlock(blockMachineBlock, Reference.BLOCK_MACHINE_BLOCK);
@@ -282,6 +286,7 @@ public class RkStuff {
         } catch (Exception e) {
             RKLog.error(e);
         }
+        RKConfig.save();
     }
 
     @EventHandler

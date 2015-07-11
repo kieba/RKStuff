@@ -1,5 +1,7 @@
 package com.rk.rkstuff.accelerator;
 
+import net.minecraftforge.common.config.Configuration;
+
 import java.io.Serializable;
 
 public class AcceleratorConfig implements Serializable {
@@ -43,4 +45,9 @@ public class AcceleratorConfig implements Serializable {
     //1 FluidIO Block has a capacity of 1000mB!
     public float HEAT_ENERGY_PER_SPEED = DEFAULT_HEAT_ENERGY_PER_SPEED;
 
+    public void loadFromConfig(Configuration config) {
+        final String CATEGORY = "Accelerator";
+        MAX_SIDE_LENGTH = config.getInt("maxSideLength", CATEGORY, DEFAULT_MAX_SIDE_LENGTH, MIN_SIDE_LENGTH, 50, "Defines max length of each side");
+        MAX_CONTROL_LENGTH = config.getInt("maxControlLength", CATEGORY, DEFAULT_MAX_CONTROL_LENGTH, MIN_CONTROL_LENGTH, 20, "Defines max length of control block");
+    }
 }

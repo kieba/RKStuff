@@ -52,23 +52,31 @@ public class LHCRecipeRegistry {
         return null;
     }
 
-    public static LHCRecipe getRecipeCrafting(float speed, ItemStack[] currentResources, int from, int to) {
-        recipe:
+    public static LHCRecipe getRecipeCrafting(float speed, ItemStack[] items, int from, int to) {
         for (LHCRecipe recipe : recipes) {
-            for (ItemStack reqIS : recipe.getRequirements()) {
-                boolean found = false;
-                for (int i = from; i <= to; i++) {
-                    if (currentResources[i] != null && reqIS.getItem() == currentResources[i].getItem() && reqIS.stackSize <= currentResources[i].stackSize) {
-                        found = true;
-                        break;
+            if (speed < recipe.getRequiredSpeed()) {
+                continue;
+            }
+            boolean success = true;
+            for (int i = 0; i < recipe.getRequirements().length; i++) {
+                ItemStack remove = recipe.getRequirements()[i].copy();
+                for (int j = from; j <= to; j++) {
+                    ItemStack available = items[j];
+                    if (available == null) continue;
+                    if (available.isItemEqual(remove)) {
+                        remove.stackSize -= Math.min(remove.stackSize, available.stackSize);
+                        if (remove.stackSize == 0) break;
                     }
                 }
-                if (!found) {
-                    continue recipe;
+                if (remove.stackSize > 0) {
+                    success = false;
+                    break;
                 }
             }
-            if (recipe.getRequiredSpeed() > speed) continue recipe;
-            return recipe;
+
+            if (success) {
+                return recipe;
+            }
         }
         return null;
     }

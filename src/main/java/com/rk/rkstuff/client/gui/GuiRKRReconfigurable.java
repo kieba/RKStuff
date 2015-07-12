@@ -14,7 +14,13 @@ public class GuiRKRReconfigurable<T extends TileRKReconfigurable, C extends Cont
     public GuiRKRReconfigurable(C container, ResourceLocation resourceLocation, T tile) {
         super(container, resourceLocation);
         this.tile = tile;
-        addTab(new TabConfiguration(this, tile));
+    }
+
+    @Override
+    public void initGui() {
+        super.initGui();
+        TabConfiguration conf = (TabConfiguration) addTab(new TabConfiguration(this, tile));
+        conf.setVisible(true);
     }
 
     public IIcon getIcon(String var1) {

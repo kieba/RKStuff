@@ -3,6 +3,7 @@ package com.rk.rkstuff.distribution.tile;
 import com.rk.rkstuff.core.tile.TileRK;
 import com.rk.rkstuff.helper.CCHelper;
 import com.rk.rkstuff.network.message.IGuiActionMessage;
+import com.rk.rkstuff.util.RKLog;
 import com.rk.rkstuff.util.Reference;
 import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
@@ -193,6 +194,7 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
 
     @Override
     public void receiveGuiAction(IOStream data) throws IOException {
+        RKLog.info("Gui action!!!!");
         int id = data.readFirstInt();
         if(id >= 0 && id < 6) {
             //SIDE BUTTONS
@@ -253,7 +255,6 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
     protected abstract void addOutputRel(int side, int mode);
     protected abstract void subtractOutputAbs(int side, int mode);
     protected abstract void subtractOutputRel(int side, int mode);
-
 
     @Override
     @Optional.Method(modid = "ComputerCraft")

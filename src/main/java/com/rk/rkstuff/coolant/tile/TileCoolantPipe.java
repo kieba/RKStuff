@@ -19,6 +19,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
     private static final int COOLANT_CAPACITY = 2000;
     private boolean[] isConnected = new boolean[6];
     private boolean[] hasAdapter = new boolean[6];
+    private int[] received = new int[6];
     //private int pressure = Integer.MAX_VALUE;
     private CoolantStack coolant = new CoolantStack();
 
@@ -34,12 +35,17 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
         int[] maxInput = new int[6];
         int totalInput = 0;
         for (int i = 0; i < 6; i++) {
-            ICoolantReceiver rcv = getICoolantReceiver(i);
-            if (rcv != null) {
-                maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), Integer.MAX_VALUE, 0.0f, true);
-                totalInput += maxInput[i];
-            } else {
+            if (received[i] > 0) {
+                received[i]--;
                 maxInput[i] = 0;
+            } else {
+                ICoolantReceiver rcv = getICoolantReceiver(i);
+                if (rcv != null) {
+                    maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), Integer.MAX_VALUE, 0.0f, true);
+                    totalInput += maxInput[i];
+                } else {
+                    maxInput[i] = 0;
+                }
             }
         }
 
@@ -202,8 +208,9 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
     @Override
     public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
         int amount = Math.min(maxAmount, COOLANT_CAPACITY - coolant.getAmount());
-        if (!simulate) {
+        if (!simulate && amount > 0) {
             coolant.add(amount, temperature);
+            received[from.ordinal()] = 10;
         }
         return amount;
     }

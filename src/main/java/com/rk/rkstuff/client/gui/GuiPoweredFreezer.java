@@ -34,7 +34,7 @@ public class GuiPoweredFreezer extends GuiRKRReconfigurable<TilePoweredFreezer, 
 
         elementTextFieldTemp = new ElementTextFieldTemp(this, 50, 35, 45, 10);
         addElement(elementTextFieldTemp);
-        elementTextFieldTemp.setText("" + (RKConfig.useCelsius ? CoolantStack.toCelsius(tile.getTargetTemp()) :
+        elementTextFieldTemp.setText(String.format("%.2f", RKConfig.useCelsius ? CoolantStack.toCelsius(tile.getTargetTemp()) :
                 CoolantStack.toFahrenheit(tile.getTargetTemp())));
         addElement(new ElementButtonManaged(this, 105, 34, 30, 12, "SET") {
             @Override

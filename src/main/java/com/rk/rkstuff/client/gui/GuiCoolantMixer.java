@@ -43,7 +43,7 @@ public class GuiCoolantMixer extends GuiRKRReconfigurable<TileCoolantMixer, Cont
 
         elementTextFieldTemp = new ElementTextFieldTemp(this, 75, 50, 45, 10);
         addElement(elementTextFieldTemp);
-        elementTextFieldTemp.setText("" + (RKConfig.useCelsius ? CoolantStack.toCelsius(tile.getTargetTemperature()) :
+        elementTextFieldTemp.setText(String.format("%.2f", RKConfig.useCelsius ? CoolantStack.toCelsius(tile.getTargetTemperature()) :
                 CoolantStack.toFahrenheit(tile.getTargetTemperature())));
         addElement(new ElementButtonManaged(this, 130, 49, 30, 12, "SET") {
             @Override

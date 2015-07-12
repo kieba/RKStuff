@@ -38,6 +38,11 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
     }
 
     @Override
+    protected boolean cacheNeighbours() {
+        return true;
+    }
+
+    @Override
     protected byte[] getDefaultSideConfig() {
         return defaultConfig;
     }
@@ -126,8 +131,8 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
         coolantStackRes1.extractEnergy(extractEnergy);
         coolantStackRes2.addEnergy(injectEnergy);
 
-        coolantStackRes1.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT1, MAX_COOLANT_IO, coolantStackRes1.getTemperature()));
-        coolantStackRes2.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT2, MAX_COOLANT_IO, coolantStackRes2.getTemperature()));
+        coolantStackRes1.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT1, Math.min(coolantStackRes1.getAmount(), MAX_COOLANT_IO), coolantStackRes1.getTemperature()));
+        coolantStackRes2.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT2, Math.min(coolantStackRes2.getAmount(), MAX_COOLANT_IO), coolantStackRes2.getTemperature()));
     }
 
 

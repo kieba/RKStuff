@@ -94,15 +94,16 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
 
             coolant1Usage = Math.max(coolant1Usage, 0);
             coolant2Usage = Math.max(coolant2Usage, 0);
+            
 
-            coolant1Usage = Math.min(coolant1Usage, MAX_PRODUCTION_IO);
-            coolant2Usage = Math.min(coolant2Usage, MAX_PRODUCTION_IO);
-
-            if (coolant1Usage < 0 || coolant2Usage < 0) {
+            if (coolant1Usage < 0 || coolant2Usage < 0 || coolant1Usage > productionVolume || coolant2Usage > productionVolume) {
                 productionVolume = Math.min(MAX_PRODUCTION_IO, MAX_COOLANT_PRODUCT_STORAGE - coolantStackProd.getAmount());
                 coolant1Usage = productionVolume / 2;
                 coolant2Usage = productionVolume / 2;
             }
+
+            coolant1Usage = Math.min(coolant1Usage, MAX_PRODUCTION_IO);
+            coolant2Usage = Math.min(coolant2Usage, MAX_PRODUCTION_IO);
 
             coolantStackProd.add(coolantStackRes1.remove(coolant1Usage));
             coolantStackProd.add(coolantStackRes2.remove(coolant2Usage));

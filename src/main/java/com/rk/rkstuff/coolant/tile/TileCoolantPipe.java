@@ -1,21 +1,30 @@
 package com.rk.rkstuff.coolant.tile;
 
 import com.rk.rkstuff.coolant.CoolantStack;
+import com.rk.rkstuff.core.modinteraction.IWailaBodyProvider;
 import com.rk.rkstuff.core.tile.TileRK;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import rk.com.core.io.IOStream;
 
 import java.io.IOException;
+import java.util.List;
 
-public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
+public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaBodyProvider {
 
     private static final int COOLANT_CAPACITY = 2000;
     private boolean[] isConnected = new boolean[6];
     private boolean[] hasAdapter = new boolean[6];
     private int pressure = Integer.MAX_VALUE;
     private CoolantStack coolant = new CoolantStack();
+
+    public TileCoolantPipe() {
+        this.setUpdateInterval(20);
+    }
 
     @Override
     public void updateEntity() {
@@ -137,6 +146,8 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
             isConnected[i] = data.readFirstBoolean();
             hasAdapter[i] = data.readFirstBoolean();
         }
+        coolant.readData(data);
+        pressure = data.readFirstInt();
     }
 
     @Override
@@ -145,6 +156,8 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
             data.writeLast(isConnected[i]);
             data.writeLast(hasAdapter[i]);
         }
+        coolant.writeData(data);
+        data.writeLast(pressure);
     }
 
     public boolean[] getConnectedSides() {
@@ -169,4 +182,10 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver {
         return true;
     }
 
+    @Override
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currentBody, IWailaDataAccessor accessor, IWailaConfigHandler configHandler) {
+        currentBody.add("Preasure " + pressure);
+        currentBody.add("Coolant " + coolant);
+        return currentBody;
+    }
 }

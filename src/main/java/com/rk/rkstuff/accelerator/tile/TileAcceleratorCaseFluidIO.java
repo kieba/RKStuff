@@ -33,6 +33,7 @@ public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMas
         side = master.getSideForFluidIO(this);
         if (side == -1) {
             RKLog.error("Invalid side for TileAcceleratorCaseFluidIO!");
+            master = null;
         }
     }
 

@@ -142,7 +142,13 @@ public class CoolantStack {
         } else {
             return String.format("%.2f °F", toFahrenheit(kelvin));
         }
-
     }
 
+    @Override
+    public String toString() {
+        return "CoolantStack{" +
+                "amount=" + amount +
+                ", temperature=" + toFormattedString(temperature) +
+                '}';
+    }
 }

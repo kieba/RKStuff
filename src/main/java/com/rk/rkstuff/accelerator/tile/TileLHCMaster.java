@@ -3,15 +3,17 @@ package com.rk.rkstuff.accelerator.tile;
 import com.rk.rkstuff.accelerator.AcceleratorHelper;
 import com.rk.rkstuff.accelerator.LHCRecipe;
 import com.rk.rkstuff.accelerator.LHCRecipeRegistry;
-import com.rk.rkstuff.util.RKLog;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import org.apache.logging.log4j.Level;
+import rk.com.core.io.IOStream;
+
+import java.io.IOException;
 
 public class TileLHCMaster extends TileAcceleratorMaster {
 
@@ -31,6 +33,18 @@ public class TileLHCMaster extends TileAcceleratorMaster {
     }
 
     @Override
+    public void readData(IOStream data) throws IOException {
+        super.readData(data);
+        inventory.readData(data);
+    }
+
+    @Override
+    public void writeData(IOStream data) {
+        super.writeData(data);
+        inventory.writeData(data);
+    }
+
+    @Override
     protected void updateMaster() {
         super.updateMaster();
 
@@ -42,9 +56,8 @@ public class TileLHCMaster extends TileAcceleratorMaster {
                         (inventory.stacks[0].stackSize + result.stackSize) > result.getMaxStackSize())) {
                     currentRecipe = null;
                 } else {
-
-                    RKLog.log(Level.INFO, "removed: " + LHCRecipeRegistry.removeRecipeFromStacks(inventory.stacks, 1, 5, currentRecipe));
-
+                    LHCRecipeRegistry.removeRecipeFromStacks(inventory.stacks, 1, 5, currentRecipe);
+                    markBlockForUpdate();
                 }
             }
         }
@@ -106,6 +119,7 @@ public class TileLHCMaster extends TileAcceleratorMaster {
             inventory.stacks[0].stackSize += currentRecipe.getResult().stackSize;
         }
         currentRecipe = null;
+        markBlockForUpdate();
     }
 
     @Override
@@ -222,6 +236,36 @@ public class TileLHCMaster extends TileAcceleratorMaster {
                     stacks[i] = new ItemStack(Blocks.air);
                     stacks[i].readFromNBT(tag.getCompoundTag(prefix + "item" + i));
                 }
+            }
+        }
+
+        public void readData(IOStream data) throws IOException {
+            for (int i = 0; i < 6; i++) {
+                int id = data.readFirstInt();
+                if (id == -1) {
+                    stacks[i] = null;
+                } else {
+                    ItemStack stack = new ItemStack(Blocks.air);
+                    stack.func_150996_a(Item.getItemById(id));
+                    stack.stackSize = data.readFirstInt();
+                    stack.setItemDamage(data.readFirstInt());
+                    stacks[i] = stack;
+                }
+
+            }
+        }
+
+        public void writeData(IOStream data) {
+            for (int i = 0; i < 6; i++) {
+                ItemStack stack = stacks[i];
+                if (stack == null) {
+                    data.writeLast(-1);
+                } else {
+                    data.writeLast(Item.getIdFromItem(stack.getItem()));
+                    data.writeLast(stack.stackSize);
+                    data.writeLast(stack.getItemDamage());
+                }
+
             }
         }
     }

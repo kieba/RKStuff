@@ -84,6 +84,7 @@ public class LHCRecipeRegistry {
                     int amount = Math.min(remove.stackSize, available.stackSize);
                     remove.stackSize -= amount;
                     available.stackSize -= amount;
+                    if (available.stackSize == 0) items[j] = null;
                     if (remove.stackSize == 0) break;
                 }
 

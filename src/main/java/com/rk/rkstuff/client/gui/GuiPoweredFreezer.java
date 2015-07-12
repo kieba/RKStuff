@@ -1,7 +1,7 @@
 package com.rk.rkstuff.client.gui;
 
 import cofh.lib.gui.element.ElementButtonManaged;
-import cofh.lib.gui.element.ElementEnergyStored;
+import com.rk.rkstuff.client.gui.elements.ElementEnergyStoredScaled;
 import com.rk.rkstuff.client.gui.elements.ElementMultiTank;
 import com.rk.rkstuff.client.gui.elements.ElementTextFieldTemp;
 import com.rk.rkstuff.coolant.ContainerPoweredFreezer;
@@ -30,7 +30,7 @@ public class GuiPoweredFreezer extends GuiRKRReconfigurable<TilePoweredFreezer, 
         elementMultiTank.setInformationStack(tile.getCoolantStack());
         addElement(elementMultiTank);
 
-        addElement(new ElementEnergyStored(this, 154, 9, tile.getEnergyStorage()));
+        addElement(new ElementEnergyStoredScaled(this, 154, 9, tile.getEnergyStorage()));
 
         elementTextFieldTemp = new ElementTextFieldTemp(this, 50, 35, 45, 10);
         addElement(elementTextFieldTemp);

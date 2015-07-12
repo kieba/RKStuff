@@ -29,6 +29,11 @@ public class TileHeatExchanger extends TileRKReconfigurable implements ICoolantR
     }
 
     @Override
+    public boolean hasFacing() {
+        return true;
+    }
+
+    @Override
     public void updateEntity() {
         super.updateEntity();
 

@@ -14,15 +14,21 @@ public class ElementMultiTank extends ElementFluidTank {
     private int maxCapacity;
     private CoolantStack coolantStack;
     private boolean isFluid = true;
+    private String description;
 
-    public ElementMultiTank(GuiBase guiBase, int i, int i1, int maxCapacity) {
-        super(guiBase, i, i1, null);
+    public ElementMultiTank(GuiBase guiBase, int posX, int posY, int maxCapacity) {
+        super(guiBase, posX, posY, null);
         tank = new FluidTank(maxCapacity);
         this.maxCapacity = maxCapacity;
     }
 
+    public ElementMultiTank(GuiBase guiBase, int posX, int posY, int maxCapacity, String description) {
+        this(guiBase, posX, posY, maxCapacity);
+        this.description = description;
+    }
+
     public void setInformationStack(CoolantStack coolantStack) {
-        tank = new FluidTank(new FluidStack(RkStuff.fluidCoolant, coolantStack.getAmount()), maxCapacity);
+        tank = new FluidTankCoolantAdapter(coolantStack, maxCapacity);
         this.coolantStack = coolantStack;
         isFluid = false;
     }
@@ -41,12 +47,31 @@ public class ElementMultiTank extends ElementFluidTank {
 
     @Override
     public void addTooltip(List<String> list) {
+        if (description != null) {
+            list.add(description);
+        }
         if (isFluid) {
             super.addTooltip(list);
         } else {
             list.add(StringHelper.getFluidName(this.tank.getFluid()) + " (" + coolantStack.getFormattedString() + ")");
-            list.add("" + this.tank.getFluidAmount() + " / " + this.tank.getCapacity() + " mb");
+            list.add("" + this.tank.getFluidAmount() + " / " + this.tank.getCapacity() + " mB");
+        }
+    }
+
+    private class FluidTankCoolantAdapter extends FluidTank {
+        CoolantStack coolantStack;
+
+        public FluidTankCoolantAdapter(CoolantStack stack, int capacity) {
+            super(capacity);
+            setFluid(new FluidStack(RkStuff.fluidCoolant, stack.getAmount()));
+            coolantStack = stack;
         }
 
+        @Override
+        public int getFluidAmount() {
+            return coolantStack.getAmount();
+        }
     }
+
+
 }

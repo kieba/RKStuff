@@ -21,11 +21,12 @@ public class BlockHeatPump extends BlockRKReconfigurable {
 
     @Override
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons = new IIcon[5];
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + 2);
-        icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + 3);
-        icons[3] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + 4);
-        icons[4] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + 5);
+        icons = new IIcon[6];
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + "Disabled");
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + "Input1");
+        icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + "Input2");
+        icons[3] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + "Output1");
+        icons[4] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + "Output2");
+        icons[5] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_PUMP + "Facing");
     }
 }

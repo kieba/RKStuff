@@ -5,6 +5,7 @@ import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.core.modinteraction.IWailaBodyProvider;
 import com.rk.rkstuff.core.tile.TileRKReconfigurable;
 import com.rk.rkstuff.helper.FluidHelper;
+import com.rk.rkstuff.network.message.IGuiActionMessage;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.item.ItemStack;
@@ -15,7 +16,7 @@ import rk.com.core.io.IOStream;
 import java.io.IOException;
 import java.util.List;
 
-public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantReceiver, IWailaBodyProvider {
+public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantReceiver, IWailaBodyProvider, IGuiActionMessage {
     public static byte[] defaultConfig = {0, 0, 0, 0, 0, 0};
 
     private static final byte SIDE_DISABLED = 0;
@@ -31,7 +32,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
     private CoolantStack coolantStackRes2 = new CoolantStack();
     private CoolantStack coolantStackProd = new CoolantStack();
 
-    private float targetTemperature = 24.5f;
+    private float targetTemperature = CoolantStack.celsiusToKelvin(20.0f);
 
     public TileCoolantMixer() {
         super(RkStuff.blockCoolantMixer);
@@ -46,6 +47,35 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
     @Override
     public int getNumConfig(int i) {
         return 4;
+    }
+
+    @Override
+    public boolean hasFacing() {
+        return true;
+    }
+
+    public CoolantStack getCoolantStackRes1() {
+        return coolantStackRes1;
+    }
+
+    public CoolantStack getCoolantStackRes2() {
+        return coolantStackRes2;
+    }
+
+    public CoolantStack getCoolantStackProd() {
+        return coolantStackProd;
+    }
+
+    public int getMaxStorageInput() {
+        return MAX_COOLANT_RESOURCE_STORAGE;
+    }
+
+    public int getMaxStorageOutput() {
+        return MAX_COOLANT_PRODUCT_STORAGE;
+    }
+
+    public float getTargetTemperature() {
+        return targetTemperature;
     }
 
     @Override
@@ -93,6 +123,8 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         coolantStackProd.writeData(data);
         coolantStackRes1.writeData(data);
         coolantStackRes2.writeData(data);
+
+        data.writeLast(targetTemperature);
     }
 
     @Override
@@ -102,6 +134,8 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         coolantStackProd.readData(data);
         coolantStackRes1.readData(data);
         coolantStackRes2.readData(data);
+
+        targetTemperature = data.readFirstFloat();
     }
 
     @Override
@@ -110,6 +144,8 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         coolantStackProd.writeToNBT("coolantProd", data);
         coolantStackRes1.writeToNBT("coolantRes1", data);
         coolantStackRes2.writeToNBT("coolantRes2", data);
+
+        data.setFloat("targetTemp", targetTemperature);
     }
 
     @Override
@@ -118,6 +154,8 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         coolantStackProd.readFromNBT("coolantProd", data);
         coolantStackRes1.readFromNBT("coolantRes1", data);
         coolantStackRes2.readFromNBT("coolantRes2", data);
+
+        targetTemperature = data.getFloat("targetTemp");
     }
 
     @Override
@@ -160,5 +198,14 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         currentBody.add(String.format("Temperature Prod: %s", coolantStackRes2.getFormattedString()));
 
         return currentBody;
+    }
+
+    @Override
+    public void receiveGuiAction(IOStream data) throws IOException {
+        int id = data.readFirstInt();
+        if (id == 0) {
+            targetTemperature = data.readFirstFloat();
+        }
+        markBlockForUpdate();
     }
 }

@@ -28,7 +28,7 @@ public class ElementMultiTank extends ElementFluidTank {
     }
 
     public void setInformationStack(CoolantStack coolantStack) {
-        tank = new FluidTank(new FluidStack(RkStuff.fluidCoolant, coolantStack.getAmount()), maxCapacity);
+        tank = new FluidTankCoolantAdapter(coolantStack, maxCapacity);
         this.coolantStack = coolantStack;
         isFluid = false;
     }
@@ -56,6 +56,22 @@ public class ElementMultiTank extends ElementFluidTank {
             list.add(StringHelper.getFluidName(this.tank.getFluid()) + " (" + coolantStack.getFormattedString() + ")");
             list.add("" + this.tank.getFluidAmount() + " / " + this.tank.getCapacity() + " mB");
         }
-
     }
+
+    private class FluidTankCoolantAdapter extends FluidTank {
+        CoolantStack coolantStack;
+
+        public FluidTankCoolantAdapter(CoolantStack stack, int capacity) {
+            super(capacity);
+            setFluid(new FluidStack(RkStuff.fluidCoolant, stack.getAmount()));
+            coolantStack = stack;
+        }
+
+        @Override
+        public int getFluidAmount() {
+            return coolantStack.getAmount();
+        }
+    }
+
+
 }

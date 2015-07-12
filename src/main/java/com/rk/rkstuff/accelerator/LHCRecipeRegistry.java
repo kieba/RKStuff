@@ -78,10 +78,12 @@ public class LHCRecipeRegistry {
         for (int i = 0; i < recipe.getRequirements().length; i++) {
             ItemStack remove = recipe.getRequirements()[i].copy();
             for (int j = from; j <= to; j++) {
-                ItemStack available = items[i];
+                ItemStack available = items[j];
                 if (available == null) continue;
                 if (available.isItemEqual(remove)) {
-                    remove.stackSize -= Math.min(remove.stackSize, available.stackSize);
+                    int amount = Math.min(remove.stackSize, available.stackSize);
+                    remove.stackSize -= amount;
+                    available.stackSize -= amount;
                     if (remove.stackSize == 0) break;
                 }
 

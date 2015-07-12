@@ -3,6 +3,7 @@ package com.rk.rkstuff.accelerator.tile;
 import com.rk.rkstuff.accelerator.AcceleratorHelper;
 import com.rk.rkstuff.accelerator.LHCRecipe;
 import com.rk.rkstuff.accelerator.LHCRecipeRegistry;
+import com.rk.rkstuff.util.RKLog;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -10,6 +11,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import org.apache.logging.log4j.Level;
 
 public class TileLHCMaster extends TileAcceleratorMaster {
 
@@ -40,7 +42,9 @@ public class TileLHCMaster extends TileAcceleratorMaster {
                         (inventory.stacks[0].stackSize + result.stackSize) > result.getMaxStackSize())) {
                     currentRecipe = null;
                 } else {
-                    LHCRecipeRegistry.removeRecipeFromStacks(inventory.stacks, 1, 5, currentRecipe);
+
+                    RKLog.log(Level.INFO, "removed: " + LHCRecipeRegistry.removeRecipeFromStacks(inventory.stacks, 1, 5, currentRecipe));
+
                 }
             }
         }

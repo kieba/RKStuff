@@ -1,34 +1,53 @@
 package com.rk.rkstuff.client.gui;
 
+import cofh.core.render.IconRegistry;
+import cofh.lib.gui.GuiBase;
+import com.rk.rkstuff.accelerator.AcceleratorConfig;
 import com.rk.rkstuff.accelerator.ContainerLHCMaster;
 import com.rk.rkstuff.accelerator.tile.TileLHCMaster;
+import com.rk.rkstuff.client.gui.tab.TabInfoDynamic;
 import com.rk.rkstuff.coolant.CoolantStack;
 import com.rk.rkstuff.helper.GuiHelper;
 import com.rk.rkstuff.util.Textures;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.IIcon;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiLHCMaster extends GuiContainer {
+public class GuiLHCMaster extends GuiBase {
 
     private static final int SIZE_X = 176;
     private static final int SIZE_Y = 166;
 
     private TileLHCMaster tile;
+    private TabInfoDynamic info;
 
     public GuiLHCMaster(EntityPlayer player, TileLHCMaster tile) {
-        super(new ContainerLHCMaster(player, tile));
+        super(new ContainerLHCMaster(player, tile), Textures.LHC_MASTER_GUI);
         this.tile = tile;
+        this.drawInventory = false;
+    }
+
+    public IIcon getIcon(String var1) {
+        return IconRegistry.getIcon(var1);
+    }
+
+    @Override
+    public void initGui() {
+        super.initGui();
+        info = new TabInfoDynamic(this, "");
+        this.addTab(info);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float tick, int mouseX, int mouseY) {
+        super.drawGuiContainerBackgroundLayer(tick, mouseX, mouseY);
+
         this.mc.getTextureManager().bindTexture(Textures.LHC_MASTER_GUI);
         int x = (this.width - SIZE_X) / 2;
         int y = (this.height - SIZE_Y) / 2;
-        drawTexturedModalRect(x, y, 0, 0, SIZE_X, SIZE_Y);
+        //drawTexturedModalRect(x, y, 0, 0, SIZE_X, SIZE_Y);
 
         int energyPx = Math.round(53 * (float) tile.getStoredEnergyRF() / (float) tile.getMaxEnergyStorageRF());
         int speedPx = Math.round(80 * tile.getSpeed() / tile.getMaxSpeed());
@@ -61,5 +80,21 @@ public class GuiLHCMaster extends GuiContainer {
             list.add("Temperature: " + CoolantStack.toFormattedString(tile.getAvgCoolantTemp()));
             this.func_146283_a(list, mouseX, mouseY);
         }
+
+        StringBuffer sb = new StringBuffer();
+        if (tile.isToSlow()) {
+            sb.append("To less energy!\n");
+        }
+        sb.append("Efficiency: ");
+        sb.append(String.format("%.2f%%\n", tile.getAccelerator().getEfficiency()));
+        sb.append("MaxSpeed: ");
+        sb.append(String.format("%.2f bps\n", tile.getMaxSpeed()));
+        for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
+            sb.append(String.format("Coolant %d: \n", i));
+            CoolantStack stack = tile.getCoolantStack(i);
+            sb.append(String.format("%d @ %s\n", stack.getAmount(), CoolantStack.toFormattedString(stack.getTemperature())));
+        }
+
+        info.setText(sb.toString());
     }
 }

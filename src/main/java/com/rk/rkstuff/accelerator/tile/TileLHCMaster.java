@@ -21,6 +21,7 @@ public class TileLHCMaster extends TileAcceleratorMaster {
 
     private LHCInventory inventory = new LHCInventory();
     private LHCRecipe currentRecipe;
+    private boolean toSlow = false;
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
@@ -38,12 +39,18 @@ public class TileLHCMaster extends TileAcceleratorMaster {
     public void readData(IOStream data) throws IOException {
         super.readData(data);
         inventory.readData(data);
+        toSlow = data.readFirstBoolean();
     }
 
     @Override
     public void writeData(IOStream data) {
         super.writeData(data);
         inventory.writeData(data);
+        data.writeLast(toSlow);
+    }
+
+    public boolean isToSlow() {
+        return toSlow;
     }
 
     @Override
@@ -59,6 +66,7 @@ public class TileLHCMaster extends TileAcceleratorMaster {
                     currentRecipe = null;
                 } else {
                     LHCRecipeRegistry.removeRecipeFromStacks(inventory.stacks, 1, 5, currentRecipe);
+                    toSlow = false;
                     markBlockForUpdate();
                 }
             }
@@ -104,6 +112,7 @@ public class TileLHCMaster extends TileAcceleratorMaster {
     @Override
     public void onToSlow() {
         currentRecipe = null;
+        toSlow = true;
     }
 
     @Override

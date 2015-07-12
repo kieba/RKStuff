@@ -19,7 +19,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
     private static final int COOLANT_CAPACITY = 2000;
     private boolean[] isConnected = new boolean[6];
     private boolean[] hasAdapter = new boolean[6];
-    private int pressure = Integer.MAX_VALUE;
+    //private int pressure = Integer.MAX_VALUE;
     private CoolantStack coolant = new CoolantStack();
 
     public TileCoolantPipe() {
@@ -31,6 +31,34 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
         super.updateEntity();
         if (worldObj.isRemote) return;
 
+        int[] maxInput = new int[6];
+        int totalInput = 0;
+        for (int i = 0; i < 6; i++) {
+            ICoolantReceiver rcv = getICoolantReceiver(i);
+            if (rcv != null) {
+                maxInput[i] = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), Integer.MAX_VALUE, 0.0f, true);
+                totalInput += maxInput[i];
+            } else {
+                maxInput[i] = 0;
+            }
+        }
+
+        if (totalInput > 0) {
+            float scale = coolant.getAmount() / (float) totalInput;
+            if (scale > 1.0f) scale = 1.0f;
+            for (int i = 0; i < 6; i++) {
+                ICoolantReceiver rcv = getICoolantReceiver(i);
+                if (rcv != null && maxInput[i] > 0) {
+                    int amount = (int) Math.floor(maxInput[i] * scale);
+                    int received = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), amount, coolant.getTemperature(), false);
+                    coolant.remove(received);
+                }
+            }
+        }
+
+
+
+        /*
         int[] maxInput = new int[6];
         int[] outputSides = new int[6];
         int index = 0;
@@ -79,6 +107,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
         } else {
             pressure = minPressure + 1;
         }
+        */
     }
 
     private ICoolantReceiver getICoolantReceiver(int side) {
@@ -86,9 +115,11 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
         return null;
     }
 
+    /*
     public int getPressure() {
         return pressure;
     }
+    */
 
     @Override
     public void onNeighborChange(ForgeDirection dir) {
@@ -147,7 +178,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
             hasAdapter[i] = data.readFirstBoolean();
         }
         coolant.readData(data);
-        pressure = data.readFirstInt();
+        //pressure = data.readFirstInt();
     }
 
     @Override
@@ -157,7 +188,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
             data.writeLast(hasAdapter[i]);
         }
         coolant.writeData(data);
-        data.writeLast(pressure);
+        //data.writeLast(pressure);
     }
 
     public boolean[] getConnectedSides() {
@@ -184,8 +215,8 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
 
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currentBody, IWailaDataAccessor accessor, IWailaConfigHandler configHandler) {
-        currentBody.add("Pressure " + pressure);
-        currentBody.add("Coolant " + coolant);
+        //currentBody.add("Pressure " + pressure);
+        //currentBody.add("Coolant " + coolant);
         return currentBody;
     }
 }

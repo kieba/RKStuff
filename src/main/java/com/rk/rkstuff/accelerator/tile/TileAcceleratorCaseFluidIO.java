@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMasterListener, ICoolantReceiver {
 
+    private static final int MAX_OUTPUT = 1000;
     private TileAcceleratorMaster master;
     private int side;
     private boolean isOutput;
@@ -57,7 +58,7 @@ public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMas
     public void handleOutput() {
         if (hasMaster() && isOutput) {
             CoolantStack stack = master.getCoolantStack(side);
-            stack.remove(FluidHelper.outputCoolantToNeighbours(neighbours, stack.getAmount(), stack.getTemperature()));
+            stack.remove(FluidHelper.outputCoolantToNeighbours(neighbours, Math.min(MAX_OUTPUT, stack.getAmount()), stack.getTemperature()));
         }
     }
 

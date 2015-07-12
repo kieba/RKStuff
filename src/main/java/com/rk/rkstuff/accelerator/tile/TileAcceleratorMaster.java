@@ -481,4 +481,8 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
         return amount;
     }
 
+    public Accelerator getAccelerator() {
+        return accelerator;
+    }
+
 }

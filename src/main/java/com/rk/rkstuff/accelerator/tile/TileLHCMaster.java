@@ -3,12 +3,14 @@ package com.rk.rkstuff.accelerator.tile;
 import com.rk.rkstuff.accelerator.AcceleratorHelper;
 import com.rk.rkstuff.accelerator.LHCRecipe;
 import com.rk.rkstuff.accelerator.LHCRecipeRegistry;
+import com.rk.rkstuff.util.RKLog;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import rk.com.core.io.IOStream;
@@ -249,9 +251,11 @@ public class TileLHCMaster extends TileAcceleratorMaster {
                     stack.func_150996_a(Item.getItemById(id));
                     stack.stackSize = data.readFirstInt();
                     stack.setItemDamage(data.readFirstInt());
+                    if (data.readFirstBoolean()) {
+                        stack.setTagCompound(CompressedStreamTools.readCompressed(data.getInputStreamFirst()));
+                    }
                     stacks[i] = stack;
                 }
-
             }
         }
 
@@ -264,8 +268,15 @@ public class TileLHCMaster extends TileAcceleratorMaster {
                     data.writeLast(Item.getIdFromItem(stack.getItem()));
                     data.writeLast(stack.stackSize);
                     data.writeLast(stack.getItemDamage());
+                    data.writeLast(stack.hasTagCompound());
+                    if (stack.hasTagCompound()) {
+                        try {
+                            CompressedStreamTools.writeCompressed(stack.getTagCompound(), data.getOutputStreamLast());
+                        } catch (IOException e) {
+                            RKLog.error(e);
+                        }
+                    }
                 }
-
             }
         }
     }

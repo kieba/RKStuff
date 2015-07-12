@@ -23,7 +23,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
     private CoolantStack coolant = new CoolantStack();
 
     public TileCoolantPipe() {
-        this.setUpdateInterval(20);
+        //this.setUpdateInterval(20);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
 
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currentBody, IWailaDataAccessor accessor, IWailaConfigHandler configHandler) {
-        currentBody.add("Preasure " + pressure);
+        currentBody.add("Pressure " + pressure);
         currentBody.add("Coolant " + coolant);
         return currentBody;
     }

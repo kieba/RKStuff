@@ -23,6 +23,7 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
     protected Accelerator accelerator = new Accelerator(this, Accelerator.DEFAULT_CONFIG);
     protected int storedEnergyRF;
     protected int maxEnergyStorageRF;
+    private int tick;
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
@@ -40,7 +41,11 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
 
     @Override
     protected void updateMaster() {
-        accelerator.update();
+        tick++;
+        tick %= 3;
+        if (tick == 0) {
+            accelerator.update();
+        }
 
         for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
             ArrayList<TileAcceleratorCaseFluidIO> fluidIOs = setup.fluidIOs.get(i);

@@ -55,10 +55,15 @@ public class LHCRecipeRegistry {
         recipe:
         for (LHCRecipe recipe : recipes) {
             for (ItemStack reqIS : recipe.getRequirements()) {
+                boolean found = false;
                 for (int i = from; i <= to; i++) {
-                    if (reqIS.getItem() != currentResources[i].getItem() || reqIS.stackSize > currentResources[i].stackSize) {
-                        continue recipe;
+                    if (currentResources[i] != null && reqIS.getItem() == currentResources[i].getItem() && reqIS.stackSize <= currentResources[i].stackSize) {
+                        found = true;
+                        break;
                     }
+                }
+                if (!found) {
+                    continue recipe;
                 }
             }
             if (recipe.getRequiredSpeed() > speed) continue recipe;

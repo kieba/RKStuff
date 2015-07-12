@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class TileAcceleratorCaseFluidIO extends TileRK implements IMultiBlockMasterListener, ICoolantReceiver {
 
-    private static final int MAX_OUTPUT = 1000;
+    private static final int MAX_OUTPUT = 200;
     private TileAcceleratorMaster master;
     private int side;
     private boolean isOutput;

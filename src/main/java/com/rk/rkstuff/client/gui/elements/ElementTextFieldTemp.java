@@ -20,10 +20,18 @@ public class ElementTextFieldTemp extends ElementTextField {
     }
 
     public float getKelvin() {
+        float temp = 0.0f;
         if (RKConfig.useCelsius) {
-            return CoolantStack.celsiusToKelvin(Float.parseFloat(getText()));
+            temp =  CoolantStack.celsiusToKelvin(Float.parseFloat(getText()));
         } else {
-            return CoolantStack.fahrenheitToCelsius(Float.parseFloat(getText()));
+            temp = CoolantStack.fahrenheitToCelsius(Float.parseFloat(getText()));
         }
+        if(temp < CoolantStack.MIN_TEMPERATURE){
+            temp = CoolantStack.MIN_TEMPERATURE;
+        }
+        if(temp > CoolantStack.MAX_TEMPERATURE){
+            temp = CoolantStack.MAX_TEMPERATURE;
+        }
+        return temp;
     }
 }

@@ -13,11 +13,11 @@ public class TileHeatExchanger extends TileRKReconfigurable implements ICoolantR
     public static byte[] defaultConfig = {2, 1, 0, 0, 0, 0};
 
     private static float SCALE = 0.05f;
-    private static float LAVA_TEMPERATURE = 500.0f;
-    private static float FIRE_TEMPERATURE = 200.0f;
-    private static float WATER_TEMPERATURE = 20.0f;
-    private static float SNOW_TEMPERATURE = -50.0f;
-    private static float ICE_TEMPERATURE = -270.0f;
+    private static float LAVA_TEMPERATURE = CoolantStack.celsiusToKelvin(500.0f);
+    private static float FIRE_TEMPERATURE = CoolantStack.celsiusToKelvin(200.0f);
+    private static float WATER_TEMPERATURE = CoolantStack.celsiusToKelvin(20.0f);
+    private static float SNOW_TEMPERATURE = CoolantStack.celsiusToKelvin(-50.0f);
+    private static float ICE_TEMPERATURE = 0.0f;
 
     private static int MAX_IO = 200; //mB
     private static int MAX_STORAGE = 1000;
@@ -56,7 +56,7 @@ public class TileHeatExchanger extends TileRKReconfigurable implements ICoolantR
             if (temperature != 0) {
                 float tempDiff = (temperature - coolantStack.getTemperature()) * SCALE;
                 tempDiff /= coolantStack.getAmount();
-                coolantStack.set(coolantStack.getAmount(), tempDiff);
+                coolantStack.set(coolantStack.getAmount(), coolantStack.getTemperature() + tempDiff);
             }
         }
 

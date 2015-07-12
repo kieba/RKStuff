@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public abstract class TileRK extends TileEntity implements ICustomMessage {
 
-    public static int GUI_UPDATE_RATE = 10;
+    public static int GUI_UPDATE_RATE = 2;
 
     private ArrayList<EntityPlayerMP> playerInGui = new ArrayList<EntityPlayerMP>(0);
     protected TileEntity[] neighbours = new TileEntity[6];

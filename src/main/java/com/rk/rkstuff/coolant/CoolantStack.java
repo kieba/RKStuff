@@ -43,7 +43,6 @@ public class CoolantStack {
         int a = Math.min(amount, this.amount);
         float oldTemp = this.temperature;
         this.amount -= a;
-        if (this.amount == 0) this.temperature = 0.0f;
         return new CoolantStack(a, oldTemp);
     }
 

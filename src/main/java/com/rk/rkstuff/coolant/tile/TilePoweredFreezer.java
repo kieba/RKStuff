@@ -185,12 +185,6 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
     public void receiveGuiAction(IOStream data) throws IOException {
         int id = data.readFirstInt();
         if (id == 0) {
-            if (targetTemp < CoolantStack.MIN_TEMPERATURE) {
-                targetTemp = CoolantStack.MIN_TEMPERATURE;
-            }
-            if (targetTemp > CoolantStack.MAX_TEMPERATURE) {
-                targetTemp = CoolantStack.MAX_TEMPERATURE;
-            }
             targetTemp = data.readFirstFloat();
         }
         markBlockForUpdate();

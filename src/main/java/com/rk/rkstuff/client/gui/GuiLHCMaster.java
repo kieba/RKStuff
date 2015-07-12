@@ -86,7 +86,7 @@ public class GuiLHCMaster extends GuiBase {
             sb.append("To less energy!\n");
         }
         sb.append("Efficiency: ");
-        sb.append(String.format("%.2f%%\n", tile.getAccelerator().getEfficiency()));
+        sb.append(String.format("%.2f%%\n", tile.getAccelerator().getEfficiency() * 100));
         sb.append("MaxSpeed: ");
         sb.append(String.format("%.2f bps\n", tile.getMaxSpeed()));
         for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {

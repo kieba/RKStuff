@@ -44,6 +44,7 @@ public class LHCRecipeRegistry {
             if (recipe.getRequirements().length != requirements.length) continue;
             if (recipe.getRequiredSpeed() != requiredSpeed) continue;
             for (int i = 0; i < recipe.getRequirements().length; i++) {
+                if (requirements[i] == null) continue;
                 if (!ItemStack.areItemStacksEqual(recipe.getRequirements()[i], requirements[i])) continue;
             }
             return recipe;
@@ -70,6 +71,28 @@ public class LHCRecipeRegistry {
             return recipe;
         }
         return null;
+    }
+
+    public static boolean removeRecipeFromStacks(ItemStack[] items, int from, int to, LHCRecipe recipe) {
+        boolean success = true;
+        for (int i = 0; i < recipe.getRequirements().length; i++) {
+            ItemStack remove = recipe.getRequirements()[i].copy();
+            for (int j = from; j <= to; j++) {
+                ItemStack available = items[i];
+                if (available == null) continue;
+                if (available.isItemEqual(remove)) {
+                    remove.stackSize -= Math.min(remove.stackSize, available.stackSize);
+                    if (remove.stackSize == 0) break;
+                }
+
+            }
+            if (remove.stackSize > 0) {
+                success = false;
+                break;
+            }
+        }
+
+        return success;
     }
 
 }

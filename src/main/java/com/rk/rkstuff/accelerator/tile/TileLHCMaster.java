@@ -34,16 +34,15 @@ public class TileLHCMaster extends TileAcceleratorMaster {
 
         if (currentRecipe == null) {
             currentRecipe = LHCRecipeRegistry.getRecipeCrafting(accelerator.getMaxSpeed(), inventory.stacks, 1, 5);
-            ItemStack result = currentRecipe.getResult();
-            if (inventory.stacks[0] != null && (!inventory.stacks[0].isItemEqual(result) ||
-                    (inventory.stacks[0].stackSize + result.stackSize) > result.getMaxStackSize())) {
-                currentRecipe = null;
-            } else {
-                for (ItemStack stack : currentRecipe.getRequirements()) {
-
+            if (currentRecipe != null) {
+                ItemStack result = currentRecipe.getResult();
+                if (inventory.stacks[0] != null && (!inventory.stacks[0].isItemEqual(result) ||
+                        (inventory.stacks[0].stackSize + result.stackSize) > result.getMaxStackSize())) {
+                    currentRecipe = null;
+                } else {
+                    LHCRecipeRegistry.removeRecipeFromStacks(inventory.stacks, 1, 5, currentRecipe);
                 }
             }
-
         }
     }
 
@@ -85,7 +84,7 @@ public class TileLHCMaster extends TileAcceleratorMaster {
 
     @Override
     public void onToSlow() {
-
+        currentRecipe = null;
     }
 
     @Override

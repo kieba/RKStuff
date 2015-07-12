@@ -37,7 +37,7 @@ public class GuiLHCMaster extends GuiContainer {
 
         drawTexturedModalRect(x + 12, y + 69 - energyPx, 176, 53 - energyPx, 12, energyPx);
 
-        drawTexturedModalRect(x + 116, y + 73, 176, 53, speedPx, 5);
+        drawTexturedModalRect(x + 47, y + 73, 176, 53, speedPx, 5);
 
         drawTexturedModalRect(x + 152, y + 69 - coolantPx, 188, 53 - coolantPx, 12, coolantPx);
 

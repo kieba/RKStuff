@@ -210,7 +210,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
         int amount = Math.min(maxAmount, COOLANT_CAPACITY - coolant.getAmount());
         if (!simulate && amount > 0) {
             coolant.add(amount, temperature);
-            received[from.ordinal()] = 10;
+            received[from.ordinal()] = 20;
         }
         return amount;
     }

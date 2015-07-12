@@ -173,7 +173,7 @@ public class Accelerator {
         if (!isControlSide()) {
             float temperature = coolant[currentRingSide].getTemperature();
             //the coolant does only work if there are more than 100 mB in the side
-            if (coolant[currentRingSide].getAmount() <= 100) temperature = 20.0f;
+            if (coolant[currentRingSide].getAmount() <= 100) temperature = CoolantStack.celsiusToKelvin(20.0f);
             float tempDiff = Math.abs(CoolantStack.MIN_TEMPERATURE - temperature);
             currentSpeed = currentSpeed * (1.0f - ((tempDiff * config.DECELERATION_PER_CENTIGRADE_IN_PERCENT * efficiency) / totalLength));
         }

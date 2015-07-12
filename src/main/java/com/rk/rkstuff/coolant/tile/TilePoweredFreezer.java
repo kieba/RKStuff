@@ -36,7 +36,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
 
     private CoolantStack coolantStack = new CoolantStack();
     private EnergyStorage energyStorage = new EnergyStorage(MAX_RK_STORAGE, MAX_RF_IO);
-    private float targetTemp = 20.0f;
+    private float targetTemp = 0.0f;
 
     public TilePoweredFreezer() {
         super(RkStuff.blockPoweredFreezer);
@@ -50,6 +50,11 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
 
     @Override
     protected boolean cacheNeighbours() {
+        return true;
+    }
+
+    @Override
+    public boolean hasFacing() {
         return true;
     }
 
@@ -180,6 +185,12 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
     public void receiveGuiAction(IOStream data) throws IOException {
         int id = data.readFirstInt();
         if (id == 0) {
+            if (targetTemp < CoolantStack.MIN_TEMPERATURE) {
+                targetTemp = CoolantStack.MIN_TEMPERATURE;
+            }
+            if (targetTemp > CoolantStack.MAX_TEMPERATURE) {
+                targetTemp = CoolantStack.MAX_TEMPERATURE;
+            }
             targetTemp = data.readFirstFloat();
         }
     }

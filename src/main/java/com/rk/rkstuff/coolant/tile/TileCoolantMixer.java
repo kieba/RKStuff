@@ -49,6 +49,11 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
     }
 
     @Override
+    public boolean hasFacing() {
+        return true;
+    }
+
+    @Override
     public void updateEntity() {
         super.updateEntity();
 

@@ -134,6 +134,9 @@ public abstract class TileRKReconfigurable extends TileRK implements ISidedTextu
             return false;
         }
         facing = (byte) newFacing;
+        if (hasFacing()) {
+            config[facing] = (byte) getNumConfig(0);
+        }
         markBlockForUpdate();
         return true;
     }

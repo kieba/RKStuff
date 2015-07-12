@@ -29,6 +29,7 @@ public class BlockCoolantMixer extends BlockRKReconfigurable {
         icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_COOLANT_MIXER + "Input1");
         icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_COOLANT_MIXER + "Input2");
         icons[3] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_COOLANT_MIXER + "Output");
+        icons[4] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_COOLANT_MIXER + "Facing");
     }
 
     @Override

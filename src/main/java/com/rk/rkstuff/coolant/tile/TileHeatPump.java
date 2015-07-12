@@ -48,6 +48,11 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
     }
 
     @Override
+    public boolean hasFacing() {
+        return true;
+    }
+
+    @Override
     public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
         if (!(config[from.ordinal()] == SIDE_COOLANT_INPUT1 || config[from.ordinal()] == SIDE_COOLANT_INPUT2))
             return 0;

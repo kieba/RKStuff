@@ -1,8 +1,6 @@
 package com.rk.rkstuff.core.block;
 
 import buildcraft.api.tools.IToolWrench;
-import cofh.api.tileentity.IReconfigurableFacing;
-import cofh.lib.util.helpers.MathHelper;
 import com.rk.rkstuff.core.tile.TileRK;
 import com.rk.rkstuff.util.CreativeTabRKStuff;
 import com.rk.rkstuff.util.Reference;
@@ -11,10 +9,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -53,40 +49,6 @@ public class BlockRK extends Block {
         }
     }
 
-
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-
-        if (tile instanceof IReconfigurableFacing) {
-            IReconfigurableFacing reconfig = (IReconfigurableFacing) tile;
-            int quadrant = MathHelper.floor(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-
-            if (reconfig.allowYAxisFacing()) {
-                quadrant = entity.rotationPitch > 60 ? 4 : entity.rotationPitch < -60 ? 5 : quadrant;
-            }
-            switch (quadrant) {
-                case 0:
-                    reconfig.setFacing(2);
-                    break;
-                case 1:
-                    reconfig.setFacing(5);
-                    break;
-                case 2:
-                    reconfig.setFacing(3);
-                    break;
-                case 3:
-                    reconfig.setFacing(4);
-                    break;
-                case 4:
-                    reconfig.setFacing(1);
-                    break;
-                case 5:
-                    reconfig.setFacing(0);
-                    break;
-            }
-        }
-    }
 
     /**
      * @return if Wrench was used

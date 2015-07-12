@@ -15,15 +15,16 @@ import net.minecraft.world.World;
 public class BlockPoweredFreezer extends BlockRKReconfigurable {
     public BlockPoweredFreezer() {
         super(Material.iron, Reference.BLOCK_POWERED_FREEZER);
-        icons = new IIcon[3];
+        icons = new IIcon[4];
     }
 
 
     @Override
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_POWERED_FREEZER + 1);
-        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_POWERED_FREEZER + 2);
-        icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_POWERED_FREEZER + 3);
+        icons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_POWERED_FREEZER + "Disabled");
+        icons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_POWERED_FREEZER + "Input");
+        icons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_POWERED_FREEZER + "Output");
+        icons[3] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_POWERED_FREEZER + "Facing");
     }
 
     @Override

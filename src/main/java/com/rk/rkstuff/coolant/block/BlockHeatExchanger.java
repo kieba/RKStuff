@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class BlockHeatExchanger extends BlockRKReconfigurable implements ITileEntityProvider {
 
-    public IIcon[] blockIcons = new IIcon[3];
+    public IIcon[] blockIcons = new IIcon[4];
 
     public BlockHeatExchanger() {
         super(Material.iron, Reference.BLOCK_HEAT_EXCHANGER);
@@ -44,6 +44,7 @@ public class BlockHeatExchanger extends BlockRKReconfigurable implements ITileEn
         blockIcons[0] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_EXCHANGER + "Disabled");
         blockIcons[1] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_EXCHANGER + "Input");
         blockIcons[2] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_EXCHANGER + "Output");
+        blockIcons[3] = iconRegister.registerIcon(Reference.MOD_ID + ":coolant/" + Reference.BLOCK_HEAT_EXCHANGER + "Facing");
     }
 
     @Override

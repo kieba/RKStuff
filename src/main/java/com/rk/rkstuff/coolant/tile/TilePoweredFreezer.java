@@ -193,5 +193,6 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
             }
             targetTemp = data.readFirstFloat();
         }
+        markBlockForUpdate();
     }
 }

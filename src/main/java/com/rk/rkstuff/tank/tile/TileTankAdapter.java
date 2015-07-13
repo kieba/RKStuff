@@ -312,7 +312,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
-        return AxisAlignedBB.getBoundingBox(xCoord - getInnerRadiusX(), yCoord, zCoord - getInnerRadiusX(), xCoord + getInnerRadiusX() + 1, yCoord + getInnerHeight() + 1, zCoord + getInnerRadiusX() + 1);
+        return AxisAlignedBB.getBoundingBox(xCoord - getInnerRadiusX(), yCoord, zCoord - getInnerRadiusZ(), xCoord + getInnerRadiusX() + 1, yCoord + getInnerHeight() + 1, zCoord + getInnerRadiusZ() + 1);
     }
 
     @Override

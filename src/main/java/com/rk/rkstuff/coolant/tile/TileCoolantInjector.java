@@ -46,7 +46,7 @@ public class TileCoolantInjector extends TileRK implements IFluidHandler, ICoola
             int received = rcv.receiveCoolant(ForgeDirection.values()[i].getOpposite(), amount, CoolantStack.celsiusToKelvin(20.0f), false);
             coolantStack.remove(received);
         }
-
+        markChunkDirty();
     }
 
     @Override
@@ -82,6 +82,7 @@ public class TileCoolantInjector extends TileRK implements IFluidHandler, ICoola
         int amount = Math.min(resource.amount, MAX_COOLANT_AMOUNT - coolantStack.getAmount());
         if (doFill) {
             coolantStack.add(amount, CoolantStack.celsiusToKelvin(20.0f));
+            markChunkDirty();
         }
         return amount;
     }

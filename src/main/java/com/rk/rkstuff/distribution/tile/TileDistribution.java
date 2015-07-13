@@ -65,6 +65,7 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
         super.updateEntity();
         if(!worldObj.isRemote) {
             updateHistory();
+            markChunkDirty();
         }
     }
 
@@ -227,6 +228,7 @@ public abstract class TileDistribution extends TileRK implements IGuiActionMessa
             }
         }
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        markChunkDirty();
     }
 
     private void setSide(int side, int type) {

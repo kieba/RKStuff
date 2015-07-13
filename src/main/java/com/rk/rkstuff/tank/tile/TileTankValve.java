@@ -129,6 +129,7 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
 
     public void toggleOutput() {
         isOutput = !isOutput;
+        markDirty();
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 

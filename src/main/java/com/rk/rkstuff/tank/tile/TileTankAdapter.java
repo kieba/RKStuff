@@ -33,7 +33,10 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
     private int maxStorage = 0;
     private FluidStack currentFluidStack;
     private CoolantStack currentCoolantStack;
-    private int tick = 0;
+
+    public TileTankAdapter() {
+        setUpdateInterval(20);
+    }
 
     @Override
     public boolean hasGui() {
@@ -258,12 +261,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
 
     @Override
     protected void updateMaster() {
-        if (tick == 20) {
-            tick = 0;
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        } else {
-            tick++;
-        }
+
     }
 
     @Override
@@ -404,6 +402,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
                 return 0;
             }
         }
+        markChunkDirty();
         return maxAmount;
     }
 
@@ -417,6 +416,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
                 currentFluidStack = null;
             }
         }
+        markChunkDirty();
         return new FluidStack(fluid, amount);
     }
 
@@ -431,6 +431,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
                 currentCoolantStack.add(maxAmount, temperature);
             }
         }
+        markChunkDirty();
         return maxAmount;
     }
 
@@ -439,6 +440,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
         if (currentCoolantStack.getAmount() <= 0) {
             currentCoolantStack = null;
         }
+        markChunkDirty();
     }
 
     @Override

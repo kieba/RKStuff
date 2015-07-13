@@ -61,7 +61,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
                 }
             }
         }
-
+        markChunkDirty();
 
 
         /*

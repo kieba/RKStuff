@@ -105,6 +105,10 @@ public abstract class TileRK extends TileEntity implements ICustomMessage {
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
+    protected void markChunkDirty() {
+        worldObj.markTileEntityChunkModified(xCoord, yCoord, zCoord, this);
+    }
+
     public void updateEntityByMaster() {
 
     }

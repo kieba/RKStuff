@@ -194,6 +194,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         if (tick % 20 == 0) {
             tick = 0;
         }
+        markChunkDirty();
     }
 
     @Override

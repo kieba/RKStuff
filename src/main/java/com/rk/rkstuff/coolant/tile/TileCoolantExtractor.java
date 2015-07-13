@@ -45,6 +45,7 @@ public class TileCoolantExtractor extends TileRK implements IFluidHandler, ICool
         int amount = Math.min(maxAmount, MAX_COOLANT_AMOUNT - coolantStack.getAmount());
         if (!simulate) {
             coolantStack.add(amount, coolantStack.getTemperature());
+            markChunkDirty();
         }
         return amount;
     }
@@ -70,6 +71,7 @@ public class TileCoolantExtractor extends TileRK implements IFluidHandler, ICool
         int amount = Math.min(coolantStack.getAmount(), maxDrain);
         if (doDrain) {
             coolantStack.remove(amount);
+            markChunkDirty();
         }
         return new FluidStack(RkStuff.fluidUsedCoolant, amount);
     }

@@ -71,6 +71,7 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
         maxAmount = Math.min(maxAmount, MAX_COOLANT_RESOURCE_STORAGE - stack.getAmount());
         if (!simulate) {
             stack.add(maxAmount, temperature);
+            markChunkDirty();
         }
         return maxAmount;
     }
@@ -133,6 +134,7 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
 
         coolantStackRes1.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT1, Math.min(coolantStackRes1.getAmount(), MAX_COOLANT_IO), coolantStackRes1.getTemperature()));
         coolantStackRes2.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT2, Math.min(coolantStackRes2.getAmount(), MAX_COOLANT_IO), coolantStackRes2.getTemperature()));
+        markChunkDirty();
     }
 
 

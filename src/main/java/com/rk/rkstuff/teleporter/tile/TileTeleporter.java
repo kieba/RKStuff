@@ -62,6 +62,7 @@ public class TileTeleporter extends TileRK implements IEnergyHandler {
             TeleportRegistry.register(this);
             return false;
         }
+        markChunkDirty();
         return true;
     }
 

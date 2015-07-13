@@ -64,6 +64,7 @@ public class TileHeatExchanger extends TileRKReconfigurable implements ICoolantR
         if (max > 0) {
             coolantStack.remove(FluidHelper.outputCoolantToNeighbours(neighbours, max, coolantStack.getTemperature()));
         }
+        markChunkDirty();
     }
 
     @Override

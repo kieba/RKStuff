@@ -110,6 +110,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         }
 
         coolantStackProd.remove(FluidHelper.outputCoolantToNeighbours(neighbours, config, SIDE_COOLANT_OUTPUT, coolantStackProd.getAmount(), coolantStackProd.getTemperature()));
+        markChunkDirty();
     }
 
     @Override
@@ -173,6 +174,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         maxAmount = Math.min(maxAmount, MAX_COOLANT_RESOURCE_STORAGE - stack.getAmount());
         if (!simulate) {
             stack.add(maxAmount, temperature);
+            markChunkDirty();
         }
         return maxAmount;
     }
@@ -208,5 +210,6 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
             targetTemperature = data.readFirstFloat();
         }
         markBlockForUpdate();
+        markChunkDirty();
     }
 }

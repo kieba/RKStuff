@@ -39,7 +39,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
     }
 
     private static float SCALE = 1.75f;
-    private static float MAX_SOLAR_TEMPERATURE = 773.15f;
+    private static double MAX_SOLAR_TEMPERATURE = 773.15;
     private static int MAX_MB_PER_PANEL = 100;
     private static int BUFFER_MB_PER_PANEL = 1000;
 
@@ -270,7 +270,7 @@ public class TileSolarMaster extends TileMultiBlockMaster implements IPeripheral
         return Reference.TILE_SOLAR_MASTER;
     }
 
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         maxAmount = Math.min(maxAmount, coolantBufferMax - coolantBuffer.getAmount());
         maxAmount = Math.min(maxAmount, MAX_MB_PER_PANEL * countSolarPanels);
         if (!simulate) {

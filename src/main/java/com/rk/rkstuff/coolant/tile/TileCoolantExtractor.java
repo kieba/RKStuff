@@ -41,7 +41,7 @@ public class TileCoolantExtractor extends TileRK implements IFluidHandler, ICool
     }
 
     @Override
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         int amount = Math.min(maxAmount, MAX_COOLANT_AMOUNT - coolantStack.getAmount());
         if (!simulate) {
             coolantStack.add(amount, coolantStack.getTemperature());

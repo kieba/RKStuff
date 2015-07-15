@@ -34,7 +34,7 @@ public class GuiBoiler extends GuiContainer {
         int hotCoolantPx = Math.round(MAX * (float) tile.getCoolantStorage() / (float) tile.getMaxCoolantStorage());
         int waterPx = Math.round(MAX * (float) tile.getWaterStorage() / (float) tile.getMaxWaterStorage());
         int steamPx = Math.round(MAX * (float) tile.getSteamStorage() / (float) tile.getMaxSteamStorage());
-        int heatPx = Math.round(MAX * tile.getTemperature() / tile.getMaxTemperature());
+        int heatPx = (int) Math.round(MAX * tile.getTemperature() / tile.getMaxTemperature());
 
         drawTexturedModalRect(x + 21, y + 71 - hotCoolantPx, 192, MAX - hotCoolantPx, 16, hotCoolantPx);
         //drawTexturedModalRect(x + 44, y + 71 - coolCoolantPx, 224, MAX - coolCoolantPx, 16, coolCoolantPx);

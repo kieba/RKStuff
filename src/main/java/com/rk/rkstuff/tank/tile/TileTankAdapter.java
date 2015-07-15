@@ -282,7 +282,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
         }
 
         if (data.readFirstBoolean()) {
-            currentCoolantStack = new CoolantStack(data.readFirstInt(), data.readFirstFloat());
+            currentCoolantStack = new CoolantStack(data.readFirstInt(), data.readFirstDouble());
         }
         maxStorage = data.readFirstInt();
     }
@@ -421,7 +421,7 @@ public class TileTankAdapter extends TileMultiBlockMaster implements IWailaBodyP
     }
 
 
-    public int receiveCoolant(int max, float temperature, boolean simulate) {
+    public int receiveCoolant(int max, double temperature, boolean simulate) {
         if (isFluidStack()) return 0;
         int maxAmount = Math.min(max, getMaxStorage() - getCurrentStorage());
         if (!simulate) {

@@ -171,11 +171,11 @@ public class Accelerator {
     private void deceleration() {
         //control side does not need to be cooled -> no deceleration
         if (!isControlSide()) {
-            float temperature = coolant[currentRingSide].getTemperature();
+            double temperature = coolant[currentRingSide].getTemperature();
             //the coolant does only work if there are more than 100 mB in the side
             if (coolant[currentRingSide].getAmount() <= 100) temperature = CoolantStack.celsiusToKelvin(20.0f);
-            float tempDiff = Math.abs(CoolantStack.MIN_TEMPERATURE - temperature);
-            currentSpeed = currentSpeed * (1.0f - ((tempDiff * config.DECELERATION_PER_CENTIGRADE_IN_PERCENT * efficiency) / totalLength));
+            double tempDiff = Math.abs(CoolantStack.MIN_TEMPERATURE - temperature);
+            currentSpeed = currentSpeed * (1.0f - ((((float) tempDiff) * config.DECELERATION_PER_CENTIGRADE_IN_PERCENT * efficiency) / totalLength));
         }
     }
 
@@ -321,7 +321,7 @@ public class Accelerator {
         }
     }
 
-    public int receiveCoolant(int side, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(int side, int maxAmount, double temperature, boolean simulate) {
         CoolantStack stack = coolant[side];
         maxAmount = Math.min(maxAmount, maxCoolantStorage[side] - stack.getAmount());
         if (!simulate) {
@@ -348,7 +348,7 @@ public class Accelerator {
         currentSpeed = data.readFirstFloat();
         maxSpeed = data.readFirstFloat();
         for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
-            coolant[i].set(data.readFirstInt(), data.readFirstFloat());
+            coolant[i].set(data.readFirstInt(), data.readFirstDouble());
             maxCoolantStorage[i] = data.readFirstInt();
         }
     }

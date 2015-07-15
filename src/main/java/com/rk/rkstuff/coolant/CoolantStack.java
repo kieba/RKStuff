@@ -8,22 +8,22 @@ import java.io.IOException;
 
 public class CoolantStack {
 
-    public static final float MIN_TEMPERATURE = 0.0f;
-    public static final float MAX_TEMPERATURE = 3000.0f;
+    public static final double MIN_TEMPERATURE = 0.0;
+    public static final double MAX_TEMPERATURE = 3000.0;
 
     private int amount;
-    private float temperature;
+    private double temperature;
 
-    public CoolantStack(int amount, float temperature) {
+    public CoolantStack(int amount, double temperature) {
         this.amount = amount;
         this.temperature = temperature;
     }
 
     public CoolantStack() {
-        this(0, 273.15f);
+        this(0, 273.15);
     }
 
-    public void add(int amount, float temperature) {
+    public void add(int amount, double temperature) {
         if (amount == 0) return;
         this.temperature = (this.amount * this.temperature + amount * temperature) / (this.amount + amount);
         this.amount += amount;
@@ -41,7 +41,7 @@ public class CoolantStack {
 
     public CoolantStack remove(int amount) {
         int a = Math.min(amount, this.amount);
-        float oldTemp = this.temperature;
+        double oldTemp = this.temperature;
         this.amount -= a;
         return new CoolantStack(a, oldTemp);
     }
@@ -50,29 +50,29 @@ public class CoolantStack {
         return amount;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public float getEnergy() {
+    public double getEnergy() {
         return this.amount * this.temperature;
     }
 
-    public void addEnergy(float energy) {
+    public void addEnergy(double energy) {
         if (amount > 0) {
             this.temperature = (getEnergy() + energy) / this.amount;
         }
         checkTemperatureBounds();
     }
 
-    public void extractEnergy(float energy) {
+    public void extractEnergy(double energy) {
         if (amount > 0) {
             this.temperature = (getEnergy() - energy) / this.amount;
         }
         checkTemperatureBounds();
     }
 
-    public void set(int amount, float temperature) {
+    public void set(int amount, double temperature) {
         this.amount = amount;
         this.temperature = temperature;
         checkTemperatureBounds();
@@ -85,12 +85,12 @@ public class CoolantStack {
 
     public void writeToNBT(String name, NBTTagCompound tag) {
         tag.setInteger(name + "Amount", amount);
-        tag.setFloat(name + "Temp", temperature);
+        tag.setDouble(name + "Temp", temperature);
     }
 
     public void readFromNBT(String name, NBTTagCompound tag) {
         amount = tag.getInteger(name + "Amount");
-        temperature = tag.getFloat(name + "Temp");
+        temperature = tag.getDouble(name + "Temp");
     }
 
     public void writeData(IOStream data) {
@@ -100,7 +100,7 @@ public class CoolantStack {
 
     public void readData(IOStream data) throws IOException {
         amount = data.readFirstInt();
-        temperature = data.readFirstFloat();
+        temperature = data.readFirstDouble();
     }
 
     public boolean hasMinTemperature() {
@@ -111,39 +111,39 @@ public class CoolantStack {
         return temperature >= MAX_TEMPERATURE;
     }
 
-    public float getTempCelsius() {
+    public double getTempCelsius() {
         return toCelsius(getTemperature());
     }
 
-    public float getTempFahrenheit() {
+    public double getTempFahrenheit() {
         return toFahrenheit(getTemperature());
     }
 
-    public static float toCelsius(float kelvin) {
-        return kelvin - 273.15f;
+    public static double toCelsius(double kelvin) {
+        return kelvin - 273.15;
     }
 
-    public static float celsiusToKelvin(float celsius) {
-        return celsius + 273.15f;
+    public static double celsiusToKelvin(double celsius) {
+        return celsius + 273.15;
     }
 
-    public static float fahrenheitToCelsius(float fahrenheit) {
-        return (fahrenheit + 459.67f) / 1.8f;
+    public static double fahrenheitToCelsius(double fahrenheit) {
+        return (fahrenheit + 459.67) / 1.8;
     }
 
-    public static float toFahrenheit(float kelvin) {
-        return kelvin * 1.8f - 459.67f;
+    public static double toFahrenheit(double kelvin) {
+        return kelvin * 1.8 - 459.67;
     }
 
     public String getFormattedString() {
         return toFormattedString(temperature);
     }
 
-    public static String toFormattedString(float kelvin) {
+    public static String toFormattedString(double kelvin) {
         if (RKConfig.useCelsius) {
-            return String.format("%.2f °C", toCelsius(kelvin));
+            return String.format("%.5f °C", toCelsius(kelvin));
         } else {
-            return String.format("%.2f °F", toFahrenheit(kelvin));
+            return String.format("%.5f °F", toFahrenheit(kelvin));
         }
     }
 

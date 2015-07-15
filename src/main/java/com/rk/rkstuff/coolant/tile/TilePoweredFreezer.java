@@ -36,7 +36,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
 
     private CoolantStack coolantStack = new CoolantStack();
     private EnergyStorage energyStorage = new EnergyStorage(MAX_RK_STORAGE, MAX_RF_IO);
-    private float targetTemp = 0.0f;
+    private double targetTemp = 0.0;
 
     public TilePoweredFreezer() {
         super(RkStuff.blockPoweredFreezer);
@@ -63,7 +63,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
         super.readData(data);
         coolantStack.readData(data);
         energyStorage.setEnergyStored(data.readFirstInt());
-        targetTemp = data.readFirstFloat();
+        targetTemp = data.readFirstDouble();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
     }
 
     @Override
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         if (config[from.ordinal()] != SIDE_COOLANT_INPUT) return 0;
         maxAmount = Math.min(maxAmount, MAX_COOLANT_IO + 50);
         maxAmount = Math.min(maxAmount, MAX_COOLANT_STORAGE - coolantStack.getAmount());
@@ -151,7 +151,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
         return energyStorage;
     }
 
-    public float getTargetTemp() {
+    public double getTargetTemp() {
         return targetTemp;
     }
 
@@ -169,7 +169,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
         super.writeToNBT(data);
         coolantStack.writeToNBT("coolant", data);
         data.setInteger("energy", energyStorage.getEnergyStored());
-        data.setFloat("targetTemp", targetTemp);
+        data.setDouble("targetTemp", targetTemp);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
         super.readFromNBT(data);
         coolantStack.readFromNBT("coolant", data);
         energyStorage.setEnergyStored(data.getInteger("energy"));
-        targetTemp = data.getFloat("targetTemp");
+        targetTemp = data.getDouble("targetTemp");
     }
 
 
@@ -185,7 +185,7 @@ public class TilePoweredFreezer extends TileRKReconfigurable implements ICoolant
     public void receiveGuiAction(IOStream data) throws IOException {
         int id = data.readFirstInt();
         if (id == 0) {
-            targetTemp = data.readFirstFloat();
+            targetTemp = data.readFirstDouble();
         }
         markBlockForUpdate();
     }

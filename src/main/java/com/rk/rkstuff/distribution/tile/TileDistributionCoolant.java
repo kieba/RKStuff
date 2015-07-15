@@ -19,8 +19,8 @@ public class TileDistributionCoolant extends TileDistribution implements ICoolan
     }
 
     private CoolantStack coolantOutputted = new CoolantStack();
-    private float[] temperatureHistory = new float[HISTORY_SIZE];
-    private float temperatureSum = 0.0f;
+    private double[] temperatureHistory = new double[HISTORY_SIZE];
+    private double temperatureSum = 0.0;
 
     private int[] maxOutput = new int[6];
     private int[] count = new int[5];
@@ -90,7 +90,7 @@ public class TileDistributionCoolant extends TileDistribution implements ICoolan
     @Override
     public void readData(IOStream data) throws IOException {
         super.readData(data);
-        temperatureSum = data.readFirstFloat();
+        temperatureSum = data.readFirstDouble();
     }
 
     protected void updateHistory() {
@@ -101,12 +101,12 @@ public class TileDistributionCoolant extends TileDistribution implements ICoolan
         super.updateHistory();
     }
 
-    public float getAvgTemperature() {
+    public double getAvgTemperature() {
         return temperatureSum / history.length;
     }
 
     @Override
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         if (!isInput(from.ordinal())) return 0;
 
         ICoolantReceiver[] receiver = new ICoolantReceiver[6];

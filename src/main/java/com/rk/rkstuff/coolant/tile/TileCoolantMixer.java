@@ -32,7 +32,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
     private CoolantStack coolantStackRes2 = new CoolantStack();
     private CoolantStack coolantStackProd = new CoolantStack();
 
-    private float targetTemperature = CoolantStack.celsiusToKelvin(20.0f);
+    private double targetTemperature = CoolantStack.celsiusToKelvin(20.0);
 
     public TileCoolantMixer() {
         super(RkStuff.blockCoolantMixer);
@@ -74,7 +74,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         return MAX_COOLANT_PRODUCT_STORAGE;
     }
 
-    public float getTargetTemperature() {
+    public double getTargetTemperature() {
         return targetTemperature;
     }
 
@@ -88,7 +88,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
             int productionVolume = Math.min(MAX_PRODUCTION_IO, MAX_COOLANT_PRODUCT_STORAGE - coolantStackProd.getAmount());
             productionVolume = Math.min(productionVolume, coolantStackRes1.getAmount() + coolantStackRes2.getAmount());
 
-            float targetHeat = targetTemperature * productionVolume;
+            double targetHeat = targetTemperature * productionVolume;
             int coolant2Usage = (int) ((targetHeat - coolantStackRes1.getTemperature() * productionVolume) / (-coolantStackRes1.getTemperature() + coolantStackRes2.getTemperature()));
             int coolant1Usage = productionVolume - coolant2Usage;
 
@@ -137,7 +137,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         coolantStackRes1.readData(data);
         coolantStackRes2.readData(data);
 
-        targetTemperature = data.readFirstFloat();
+        targetTemperature = data.readFirstDouble();
     }
 
     @Override
@@ -147,7 +147,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         coolantStackRes1.writeToNBT("coolantRes1", data);
         coolantStackRes2.writeToNBT("coolantRes2", data);
 
-        data.setFloat("targetTemp", targetTemperature);
+        data.setDouble("targetTemp", targetTemperature);
     }
 
     @Override
@@ -157,11 +157,11 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
         coolantStackRes1.readFromNBT("coolantRes1", data);
         coolantStackRes2.readFromNBT("coolantRes2", data);
 
-        targetTemperature = data.getFloat("targetTemp");
+        targetTemperature = data.getDouble("targetTemp");
     }
 
     @Override
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         if (!(config[from.ordinal()] == SIDE_COOLANT_INPUT1 || config[from.ordinal()] == SIDE_COOLANT_INPUT2))
             return 0;
         CoolantStack stack;
@@ -207,7 +207,7 @@ public class TileCoolantMixer extends TileRKReconfigurable implements ICoolantRe
     public void receiveGuiAction(IOStream data) throws IOException {
         int id = data.readFirstInt();
         if (id == 0) {
-            targetTemperature = data.readFirstFloat();
+            targetTemperature = data.readFirstDouble();
         }
         markBlockForUpdate();
         markChunkDirty();

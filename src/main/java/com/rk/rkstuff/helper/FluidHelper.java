@@ -39,7 +39,7 @@ public class FluidHelper {
         return insertFluidIntoNeighbourFluidHandler(source, ForgeDirection.VALID_DIRECTIONS[direction], fluidStack, doFill);
     }
 
-    public static int outputCoolantToNeighbours(TileEntity[] neighbours, int maxAmount, float temperature) {
+    public static int outputCoolantToNeighbours(TileEntity[] neighbours, int maxAmount, double temperature) {
         if (maxAmount == 0) return 0;
         int totalInput = 0;
         int[] maxInput = new int[6];
@@ -65,7 +65,7 @@ public class FluidHelper {
         return outputted;
     }
 
-    public static int outputCoolantToNeighbours(TileEntity[] neighbours, byte[] sideCache, byte outputSide, int maxAmount, float temperature) {
+    public static int outputCoolantToNeighbours(TileEntity[] neighbours, byte[] sideCache, byte outputSide, int maxAmount, double temperature) {
         if (maxAmount == 0) return 0;
         int totalInput = 0;
         int[] maxInput = new int[6];

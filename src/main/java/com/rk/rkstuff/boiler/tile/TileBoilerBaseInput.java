@@ -76,7 +76,7 @@ public class TileBoilerBaseInput extends TileRK implements IMultiBlockMasterList
     }
 
     @Override
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         if (hasMaster()) {
             return master.receiveCoolant(from, maxAmount, temperature, simulate);
         }

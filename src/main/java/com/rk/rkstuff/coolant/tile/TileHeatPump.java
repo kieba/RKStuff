@@ -58,7 +58,7 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
     }
 
     @Override
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         if (!(config[from.ordinal()] == SIDE_COOLANT_INPUT1 || config[from.ordinal()] == SIDE_COOLANT_INPUT2))
             return 0;
         CoolantStack stack;
@@ -124,10 +124,10 @@ public class TileHeatPump extends TileRKReconfigurable implements ICoolantReceiv
 
         if (worldObj.isRemote) return;
 
-        float extractEff = (coolantStackRes1.getTemperature()) / CoolantStack.MAX_TEMPERATURE;
-        float injectEff = (float) Math.pow(1 - ((coolantStackRes2.getTemperature()) / CoolantStack.MAX_TEMPERATURE), 2);
-        float extractEnergy = Math.abs(extractEff * coolantStackRes1.getEnergy()) * 0.001f;
-        float injectEnergy = extractEnergy * injectEff;
+        double extractEff = (coolantStackRes1.getTemperature()) / CoolantStack.MAX_TEMPERATURE;
+        double injectEff = (float) Math.pow(1 - ((coolantStackRes2.getTemperature()) / CoolantStack.MAX_TEMPERATURE), 2);
+        double extractEnergy = Math.abs(extractEff * coolantStackRes1.getEnergy()) * 0.001f;
+        double injectEnergy = extractEnergy * injectEff;
 
         coolantStackRes1.extractEnergy(extractEnergy);
         coolantStackRes2.addEnergy(injectEnergy);

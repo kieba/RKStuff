@@ -59,7 +59,7 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
         return accelerator.getCoolant(side);
     }
 
-    public int receiveCoolant(int side, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(int side, int maxAmount, double temperature, boolean simulate) {
         return accelerator.receiveCoolant(side, maxAmount, temperature, simulate);
     }
 
@@ -464,7 +464,7 @@ public abstract class TileAcceleratorMaster extends TileMultiBlockMaster impleme
         return accelerator.getCoolant(side);
     }
 
-    public float getAvgCoolantTemp() {
+    public double getAvgCoolantTemp() {
         CoolantStack c = new CoolantStack();
         for (int i = 0; i < AcceleratorConfig.ACCELERATOR_SIDE_COUNT; i++) {
             CoolantStack stack = accelerator.getCoolant(i);

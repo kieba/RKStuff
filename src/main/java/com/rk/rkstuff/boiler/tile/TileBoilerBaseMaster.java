@@ -79,11 +79,11 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
             steamStorage += (int) Math.floor(hotWater * WATER_TO_STEAM);
 
             //cool down coolant
-            float newTemp = (hotWater * WATER_TEMPERATURE + coolantStack.getAmount() * coolantStack.getTemperature()) / ((float) hotWater + coolantStack.getAmount());
+            double newTemp = (hotWater * WATER_TEMPERATURE + coolantStack.getAmount() * coolantStack.getTemperature()) / ((float) hotWater + coolantStack.getAmount());
             coolantStack.set(coolantStack.getAmount(), newTemp);
         }
 
-        float newTemp = coolantStack.getTemperature() - 0.00175f;
+        double newTemp = coolantStack.getTemperature() - 0.00175f;
         if (newTemp < 0.0f) newTemp = 0.0f;
         coolantStack.set(coolantStack.getAmount(), newTemp);
     }
@@ -176,11 +176,11 @@ public class TileBoilerBaseMaster extends TileMultiBlockMaster implements IPerip
         coolantStack.remove(amount);
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return coolantStack.getTemperature();
     }
 
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         int amount = Math.min(maxAmount, (maxCoolantStorage + maxCoolantOutput) - coolantStack.getAmount());
         if (!simulate) {
             coolantStack.add(amount, temperature);

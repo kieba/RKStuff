@@ -75,7 +75,7 @@ public class TileTankValve extends TileRK implements IMultiBlockMasterListener, 
     }
 
     @Override
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         if (master == null) return 0;
         if (isOutput()) return 0;
         return master.receiveCoolant(maxAmount, temperature, simulate);

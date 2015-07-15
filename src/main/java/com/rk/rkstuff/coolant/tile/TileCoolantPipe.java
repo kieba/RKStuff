@@ -206,7 +206,7 @@ public class TileCoolantPipe extends TileRK implements ICoolantReceiver, IWailaB
     }
 
     @Override
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         int amount = Math.min(maxAmount, COOLANT_CAPACITY - coolant.getAmount());
         if (!simulate && amount > 0) {
             coolant.add(amount, temperature);

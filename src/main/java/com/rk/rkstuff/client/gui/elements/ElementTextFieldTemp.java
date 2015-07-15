@@ -19,8 +19,8 @@ public class ElementTextFieldTemp extends ElementTextField {
         return Character.isDigit(c) || c == '.' || c == ',' || c == '-';
     }
 
-    public float getKelvin() {
-        float temp = 0.0f;
+    public double getKelvin() {
+        double temp = 0.0f;
         if (RKConfig.useCelsius) {
             temp =  CoolantStack.celsiusToKelvin(Float.parseFloat(getText()));
         } else {

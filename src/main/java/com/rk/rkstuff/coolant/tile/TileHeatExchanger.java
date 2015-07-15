@@ -13,10 +13,10 @@ public class TileHeatExchanger extends TileRKReconfigurable implements ICoolantR
     public static byte[] defaultConfig = {2, 1, 0, 0, 0, 0};
 
     private static float SCALE = 0.05f;
-    private static float LAVA_TEMPERATURE = CoolantStack.celsiusToKelvin(500.0f);
-    private static float FIRE_TEMPERATURE = CoolantStack.celsiusToKelvin(200.0f);
-    private static float WATER_TEMPERATURE = CoolantStack.celsiusToKelvin(20.0f);
-    private static float SNOW_TEMPERATURE = CoolantStack.celsiusToKelvin(-50.0f);
+    private static double LAVA_TEMPERATURE = CoolantStack.celsiusToKelvin(500.0);
+    private static double FIRE_TEMPERATURE = CoolantStack.celsiusToKelvin(200.0);
+    private static double WATER_TEMPERATURE = CoolantStack.celsiusToKelvin(20.0);
+    private static double SNOW_TEMPERATURE = CoolantStack.celsiusToKelvin(-50.0);
     private static float ICE_TEMPERATURE = 0.0f;
 
     private static int MAX_IO = 200; //mB
@@ -40,7 +40,7 @@ public class TileHeatExchanger extends TileRKReconfigurable implements ICoolantR
         for (int i = 0; i < 6; i++) {
             Block b = getBlock(i);
 
-            float temperature = 0;
+            double temperature = 0;
             if (isLava(b)) {
                 temperature = LAVA_TEMPERATURE;
             } else if (isFire(b)) {
@@ -54,7 +54,7 @@ public class TileHeatExchanger extends TileRKReconfigurable implements ICoolantR
             }
 
             if (temperature != 0) {
-                float tempDiff = (temperature - coolantStack.getTemperature()) * SCALE;
+                double tempDiff = (temperature - coolantStack.getTemperature()) * SCALE;
                 tempDiff /= coolantStack.getAmount();
                 coolantStack.set(coolantStack.getAmount(), coolantStack.getTemperature() + tempDiff);
             }
@@ -93,7 +93,7 @@ public class TileHeatExchanger extends TileRKReconfigurable implements ICoolantR
     }
 
     @Override
-    public int receiveCoolant(ForgeDirection from, int maxAmount, float temperature, boolean simulate) {
+    public int receiveCoolant(ForgeDirection from, int maxAmount, double temperature, boolean simulate) {
         if (config[from.ordinal()] != 1) return 0;
         maxAmount = Math.min(maxAmount, MAX_IO);
         maxAmount = Math.min(maxAmount, MAX_STORAGE - coolantStack.getAmount());

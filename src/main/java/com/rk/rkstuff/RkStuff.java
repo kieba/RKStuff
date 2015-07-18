@@ -416,9 +416,9 @@ public class RkStuff {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorCore, 2), true, new Object[]{"ici", "geg", "ici", 'i', "ingotGold", 'c', itemControlUnit, 'g', Blocks.glass, 'e', Items.ender_pearl}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorCase, 4), true, new Object[]{"igi", "gcg", "igi", 'i', "ingotIron", 'c', fluidCoolantBucket, 'g', Blocks.glass}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorCaseFluidIO, 1), true, new Object[]{"ivi", "vcv", "ivi", 'i', "ingotIron", 'c', fluidCoolantBucket, 'v', itemValve}));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlCase, 2, 0), true, new Object[]{"iri", "rxr", "iri", 'i', "ingotIron", 'c', Items.redstone, 'x', Blocks.glass}));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlEnergyIO, 2, 0), true, new Object[]{"ivi", "vxv", "ivi", 'i', "ingotIron", 'c', itemValve, 'x', Blocks.redstone_block}));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlItemIO, 2, 0), true, new Object[]{"ivi", "vxv", "ivi", 'i', "ingotIron", 'c', itemValve, 'x', Blocks.chest}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlCase, 2, 0), true, new Object[]{"iri", "rxr", "iri", 'i', "ingotIron", 'r', Items.redstone, 'x', Blocks.glass}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlEnergyIO, 2, 0), true, new Object[]{"ivi", "vxv", "ivi", 'i', "ingotIron", 'v', itemValve, 'x', Blocks.redstone_block}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlItemIO, 2, 0), true, new Object[]{"ivi", "vxv", "ivi", 'i', "ingotIron", 'v', itemValve, 'x', Blocks.chest}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlCore, 2, 0), true, new Object[]{"ici", "cxc", "ici", 'i', "ingotIron", 'c', itemControlUnit, 'x', Blocks.glass}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlCore, 2, 1), true, new Object[]{"ici", "cxc", "ici", 'i', "ingotIron", 'c', itemControlUnit, 'x', Blocks.redstone_block}));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlCore, 2, 2), true, new Object[]{"ici", "cxc", "ici", 'i', "ingotIron", 'c', itemControlUnit, 'x', Blocks.lapis_block}));
@@ -472,12 +472,10 @@ public class RkStuff {
         //~400k RF
         LHCRecipeRegistry.addRecipe(new ItemStack(Items.diamond, 2), 180.0f, 0.025f, new ItemStack(Items.diamond, 1));
 
+        //~800k RF
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.emerald, 2), 180.0f, 0.05f, new ItemStack(Items.emerald, 1));
+
         //most expensive recipe (atm.). Requires max LHC and about 8 Million RF @7.6k RF per Tick for ~1000 Ticks.
-        LHCRecipeRegistry.addRecipe(new ItemStack(Items.nether_star, 2), 300.0f, 0.175f,
-                new ItemStack(Items.nether_star),
-                new ItemStack(Blocks.diamond_block),
-                new ItemStack(Blocks.redstone_block),
-                new ItemStack(Blocks.gold_block),
-                new ItemStack(Blocks.lapis_block));
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.nether_star, 2), 300.0f, 0.175f, new ItemStack(Items.nether_star));
     }
 }

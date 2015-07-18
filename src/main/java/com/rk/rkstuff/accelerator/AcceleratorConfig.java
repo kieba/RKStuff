@@ -20,7 +20,7 @@ public class AcceleratorConfig implements Serializable {
     public static final float DEFAULT_ENERGY_MULTIPLIER = 1.015f;
     public static final int DEFAULT_COOLANT_PER_FLUID_IO = 1000;
     public static final float DEFAULT_MAX_ROUNDS_PER_TICK = 1.5f;
-    public static final float DEFAULT_ENERGY_TO_RF_FACTOR = 210.0f;
+    public static final float DEFAULT_ENERGY_TO_RF_FACTOR = 1000.0f;
     public static final float DEFAULT_EFFICIENCY_UPGRADE = 0.5f;
     public static final float DEFAULT_DECELERATION_PER_CENTIGRADE_IN_PERCENT = 0.00015f;
     public static final float DEFAULT_HEAT_ENERGY_PER_SPEED = 10.0f;

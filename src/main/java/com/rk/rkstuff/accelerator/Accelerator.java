@@ -188,7 +188,7 @@ public class Accelerator {
     }
 
     public boolean isCollideMode() {
-        return true;
+        return accelerator.isCollideMode();
     }
 
     public float getMass() {

@@ -412,8 +412,72 @@ public class RkStuff {
         cofh.api.modhelpers.ThermalExpansionHelper.addSmelterRecipe(1600, new ItemStack(itemPotassiumHydroxide), new ItemStack(Items.leather), new ItemStack(itemGlycerine));
         cofh.api.modhelpers.ThermalExpansionHelper.addCrucibleRecipe(1600, new ItemStack(itemGlycerine), new FluidStack(fluidCoolant, 1000));
 
+        /* =============== ACCELERATOR RECIPES =============== */
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorCore, 2), true, new Object[]{"ici", "geg", "ici", 'i', "ingotGold", 'c', itemControlUnit, 'g', Blocks.glass, 'e', Items.ender_pearl}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorCase, 4), true, new Object[]{"igi", "gcg", "igi", 'i', "ingotIron", 'c', fluidCoolantBucket, 'g', Blocks.glass}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorCaseFluidIO, 1), true, new Object[]{"ivi", "vcv", "ivi", 'i', "ingotIron", 'c', fluidCoolantBucket, 'v', itemValve}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlCase, 2, 0), true, new Object[]{"iri", "rxr", "iri", 'i', "ingotIron", 'c', Items.redstone, 'x', Blocks.glass}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlEnergyIO, 2, 0), true, new Object[]{"ivi", "vxv", "ivi", 'i', "ingotIron", 'c', itemValve, 'x', Blocks.redstone_block}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlItemIO, 2, 0), true, new Object[]{"ivi", "vxv", "ivi", 'i', "ingotIron", 'c', itemValve, 'x', Blocks.chest}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlCore, 2, 0), true, new Object[]{"ici", "cxc", "ici", 'i', "ingotIron", 'c', itemControlUnit, 'x', Blocks.glass}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlCore, 2, 1), true, new Object[]{"ici", "cxc", "ici", 'i', "ingotIron", 'c', itemControlUnit, 'x', Blocks.redstone_block}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockAcceleratorControlCore, 2, 2), true, new Object[]{"ici", "cxc", "ici", 'i', "ingotIron", 'c', itemControlUnit, 'x', Blocks.lapis_block}));
 
-        LHCRecipeRegistry.addRecipe(new ItemStack(Blocks.diamond_block), 40.0f, 0.1f, new ItemStack(Blocks.dirt), new ItemStack(Blocks.cobblestone));
+        /* =============== LHC RECIPES =============== */
+        // ~21k RF
+        if (OreDictionary.doesOreNameExist("ingotTin") && OreDictionary.doesOreNameExist("oreTin")) {
+            ItemStack ingot = OreDictionary.getOres("ingotTin").get(0);
+            ingot.stackSize = 4;
+            for (ItemStack ore : OreDictionary.getOres("oreTin")) {
+                LHCRecipeRegistry.addRecipe(ingot.copy(), 40.0f, 0.025f, ore);
+            }
+        }
 
+        // ~21k RF
+        if (OreDictionary.doesOreNameExist("ingotCopper") && OreDictionary.doesOreNameExist("oreCopper")) {
+            ItemStack ingot = OreDictionary.getOres("ingotCopper").get(0);
+            ingot.stackSize = 4;
+            for (ItemStack ore : OreDictionary.getOres("oreCopper")) {
+                LHCRecipeRegistry.addRecipe(ingot.copy(), 40.0f, 0.025f, ore);
+            }
+        }
+
+        // ~21k RF
+        if (OreDictionary.doesOreNameExist("ingotIron") && OreDictionary.doesOreNameExist("oreIron")) {
+            ItemStack ingot = OreDictionary.getOres("ingotIron").get(0);
+            ingot.stackSize = 4;
+            for (ItemStack ore : OreDictionary.getOres("oreIron")) {
+                LHCRecipeRegistry.addRecipe(ingot.copy(), 40.0f, 0.025f, ore);
+            }
+        }
+
+        // ~42k RF
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.redstone, 4), 40.0f, 0.05f, new ItemStack(Items.redstone, 16));
+
+        //~150k RF
+        if (OreDictionary.doesOreNameExist("ingotGold") && OreDictionary.doesOreNameExist("oreGold")) {
+            ItemStack ingot = OreDictionary.getOres("ingotGold").get(0);
+            ingot.stackSize = 4;
+            for (ItemStack ore : OreDictionary.getOres("oreGold")) {
+                LHCRecipeRegistry.addRecipe(ingot.copy(), 108.0f, 0.025f, ore);
+            }
+        }
+
+        //~150k RF
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.glowstone_dust, 12), 108.0f, 0.025f, new ItemStack(Items.glowstone_dust, 4));
+
+        //~150k RF
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.dye, 12, 4), 108.0f, 0.025f, new ItemStack(Items.dye, 4, 4));
+
+        //~400k RF
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.diamond, 2), 180.0f, 0.025f, new ItemStack(Items.diamond, 1));
+
+        //most expensive recipe (atm.). Requires max LHC and about 8 Million RF @7.6k RF per Tick for ~1000 Ticks.
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.nether_star, 2), 300.0f, 0.175f,
+                new ItemStack(Items.nether_star),
+                new ItemStack(Blocks.diamond_block),
+                new ItemStack(Blocks.redstone_block),
+                new ItemStack(Blocks.gold_block),
+                new ItemStack(Blocks.lapis_block));
     }
 }

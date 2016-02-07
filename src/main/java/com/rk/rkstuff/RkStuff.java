@@ -452,7 +452,7 @@ public class RkStuff {
         }
 
         // ~42k RF
-        LHCRecipeRegistry.addRecipe(new ItemStack(Items.redstone, 4), 40.0f, 0.05f, new ItemStack(Items.redstone, 16));
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.redstone, 16), 40.0f, 0.05f, new ItemStack(Items.redstone, 4));
 
         //~150k RF
         if (OreDictionary.doesOreNameExist("ingotGold") && OreDictionary.doesOreNameExist("oreGold")) {
@@ -464,18 +464,18 @@ public class RkStuff {
         }
 
         //~150k RF
-        LHCRecipeRegistry.addRecipe(new ItemStack(Items.glowstone_dust, 12), 108.0f, 0.025f, new ItemStack(Items.glowstone_dust, 4));
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.glowstone_dust, 4), 108.0f, 0.025f, new ItemStack(Items.glowstone_dust, 12));
 
         //~150k RF
-        LHCRecipeRegistry.addRecipe(new ItemStack(Items.dye, 12, 4), 108.0f, 0.025f, new ItemStack(Items.dye, 4, 4));
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.dye, 4, 4), 108.0f, 0.025f, new ItemStack(Items.dye, 12, 4));
 
         //~400k RF
-        LHCRecipeRegistry.addRecipe(new ItemStack(Items.diamond, 2), 180.0f, 0.025f, new ItemStack(Items.diamond, 1));
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.diamond, 1), 180.0f, 0.025f, new ItemStack(Items.diamond, 2));
 
         //~800k RF
-        LHCRecipeRegistry.addRecipe(new ItemStack(Items.emerald, 2), 180.0f, 0.05f, new ItemStack(Items.emerald, 1));
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.emerald, 1), 180.0f, 0.05f, new ItemStack(Items.emerald, 2));
 
         //most expensive recipe (atm.). Requires max LHC and about 8 Million RF @7.6k RF per Tick for ~1000 Ticks.
-        LHCRecipeRegistry.addRecipe(new ItemStack(Items.nether_star, 2), 300.0f, 0.175f, new ItemStack(Items.nether_star));
+        LHCRecipeRegistry.addRecipe(new ItemStack(Items.nether_star, 1), 300.0f, 0.175f, new ItemStack(Items.nether_star, 2));
     }
 }
